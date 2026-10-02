@@ -19,8 +19,10 @@ add_library(
     SHARED
     src/xykell.cpp
     src/xykell_core.cpp
+    src/xykell_event_bus.cpp
     src/xykell_hud.cpp
     src/xykell_menu.cpp
+    src/xykell_module_manager.cpp
     src/xykell_version_adapter.cpp
 )
 

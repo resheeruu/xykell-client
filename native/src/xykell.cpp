@@ -4,10 +4,16 @@
 #include "xykell/core.h"
 #include "xykell/hud.h"
 #include "xykell/menu.h"
+#include "xykell/module_manager.h"
 #include "xykell/version.h"
 #include "xykell/version_adapter.h"
 
 namespace {
+
+xykell::ModuleManager& runtimeModules() {
+    static xykell::ModuleManager mgr;
+    return mgr;
+}
 
 const char* currentArch() {
 #if defined(__aarch64__)
@@ -48,6 +54,12 @@ class XykellMod {
         const bool hudOk = xykell::registerHudModule(ctx.id());
         ctx.logger().info("{}: hud/input registration {}", XYKELL_NAME,
                            hudOk ? "ok" : "FAILED");
+        // Runtime registry mirrors the two M1 menu modules (behavior unchanged).
+        auto& mods = runtimeModules();
+        mods.registerModule({xykell::kMenuModuleId, "Xykell Core", "client"});
+        mods.registerModule({xykell::kHudModuleId, "Xykell HUD (M1 proof)", "hud"});
+        mods.setEnabled(xykell::kMenuModuleId, menuOk);
+        mods.setEnabled(xykell::kHudModuleId, hudOk);
         return menuOk && hudOk;
     }
 
@@ -63,6 +75,8 @@ class XykellMod {
 
     bool unload(pl::mod::ModContext& ctx) {
         ctx.logger().info("{}: unload (clean)", XYKELL_NAME);
+        runtimeModules().setEnabled(xykell::kHudModuleId, false);
+        runtimeModules().setEnabled(xykell::kMenuModuleId, false);
         xykell::unregisterHudModule();
         xykell::unregisterMenuModule();
         xykell::XykellCore::instance().shutdown();

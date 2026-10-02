@@ -1,0 +1,2788 @@
+{
+  "meta": {
+    "format": 1,
+    "product": "Xykell Client",
+    "generated_by": "scripts/registry/generate.py",
+    "count": 192
+  },
+  "features": [
+    {
+      "id": "combat.aim_assist",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_clicker",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "INPUT",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.afk_clicker",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.trigger_bot",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.kill_aura",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "needs targeting+attack sources"
+    },
+    {
+      "id": "combat.tp_aura",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.reach",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.hitbox",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.velocity",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "combat.knockback",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.knockback_delay",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.backtrack",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_crit",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_totem",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_potion",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_crystal",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.anti_crystal",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_cart",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_web",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.auto_switch",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.mace_swap",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "Bedrock mechanic mapping TBD"
+    },
+    {
+      "id": "combat.mace_damage",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "Bedrock mechanic mapping TBD"
+    },
+    {
+      "id": "combat.shield_disabler",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.anchor_aura",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.target_hud",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs target source"
+    },
+    {
+      "id": "combat.target_selector",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Flarial"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "combat.friend_filter",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "local list; needs target source"
+    },
+    {
+      "id": "combat.combat_settings",
+      "category": "combat",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "movement.sprint",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.auto_sprint",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Flarial"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.speed",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.no_slow",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.step",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.air_jump",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.fly",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "server-visible risk; locality TBD"
+    },
+    {
+      "id": "movement.motion_fly",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.jetpack",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.phase",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.glide",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.auto_elytra",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.auto_rocket",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.bunny_hop",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.jump_boost",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.levitate",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.slow_falling",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.water_walk",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.tap_tp",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.safe_walk",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.no_fall",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.movement_correction",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "movement.timer",
+      "category": "movement",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "player.auto_eat",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_fish",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_refill",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_steal",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "server rules risk"
+    },
+    {
+      "id": "player.inventory_manager",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_tool",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_equip",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_armor",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.fast_eat",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.fast_throw",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.fast_interact",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_sign",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.auto_sell",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "server rules risk"
+    },
+    {
+      "id": "player.haste",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.slow_mine",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.no_fall",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.no_blindness",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "player.no_nausea",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "player.no_fire",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "player.no_hurt_cam",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Atlas"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "player.anti_immobile",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.death_position",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Apollon",
+        "Flarial"
+      ],
+      "notes": "needs death source"
+    },
+    {
+      "id": "player.friend_alerts",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "player.nickname",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "BedrockTools"
+      ],
+      "notes": "local-only"
+    },
+    {
+      "id": "player.fake_stats",
+      "category": "player",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "local display only"
+    },
+    {
+      "id": "world.scaffold",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "server rules risk"
+    },
+    {
+      "id": "world.nuker",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "server rules risk; throttled by design"
+    },
+    {
+      "id": "world.auto_mine",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "world.auto_dig",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "world.fast_break",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "world.fast_place",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "world.spawner_protect",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "world.block_esp",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "world.block_tracer",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "world.xray",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "world.ore_esp",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "world.chunk_borders",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "BedrockTools"
+      ],
+      "notes": "needs world source"
+    },
+    {
+      "id": "world.chunk_finder",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs chunk data"
+    },
+    {
+      "id": "world.new_chunks",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs chunk data"
+    },
+    {
+      "id": "world.hole_esp",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "world.schematic",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "world.waypoints",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "notes": "needs position source"
+    },
+    {
+      "id": "world.minimap",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs world+position sources"
+    },
+    {
+      "id": "world.world_markers",
+      "category": "world",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "notes": "needs position source"
+    },
+    {
+      "id": "visual.esp",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.player_esp",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "needs entity source"
+    },
+    {
+      "id": "visual.entity_esp",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs entity source"
+    },
+    {
+      "id": "visual.item_esp",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs entity source"
+    },
+    {
+      "id": "visual.tracers",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.block_tracers",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.free_look",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs camera path"
+    },
+    {
+      "id": "visual.free_cam",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs camera path"
+    },
+    {
+      "id": "visual.xray",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "notes": "see world.xray"
+    },
+    {
+      "id": "visual.fullbright",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "Apollon",
+        "BedrockTools"
+      ],
+      "notes": "needs lighting path"
+    },
+    {
+      "id": "visual.no_invisible",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.no_fire",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.no_weather",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.no_blindness",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.no_nausea",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.chunk_borders",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "BedrockTools"
+      ],
+      "notes": "see world.chunk_borders"
+    },
+    {
+      "id": "visual.new_chunks",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "see world.new_chunks"
+    },
+    {
+      "id": "visual.hole_esp",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "see world.hole_esp"
+    },
+    {
+      "id": "visual.spawner_esp",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "visual.waypoints",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "notes": "see world.waypoints"
+    },
+    {
+      "id": "visual.minimap",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "see world.minimap"
+    },
+    {
+      "id": "visual.schematic",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "see world.schematic"
+    },
+    {
+      "id": "visual.view_model",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "BedrockTools"
+      ],
+      "notes": "needs viewmodel path"
+    },
+    {
+      "id": "visual.zoom",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial",
+        "BedrockTools"
+      ],
+      "notes": "needs camera/FOV path"
+    },
+    {
+      "id": "visual.motion_blur",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "BedrockTools"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.shader_loader",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "MaterialBin-style; needs material path"
+    },
+    {
+      "id": "visual.custom_crosshair",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "notes": "overlay-drawn first"
+    },
+    {
+      "id": "visual.hit_effects",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "visual.particle_controls",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs particle path"
+    },
+    {
+      "id": "visual.fog_controls",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "BedrockTools"
+      ],
+      "notes": "needs fog path"
+    },
+    {
+      "id": "visual.camera_controls",
+      "category": "visual",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs camera path"
+    },
+    {
+      "id": "hud.fps",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial",
+        "BedrockTools"
+      ],
+      "notes": "needs frame-tick source"
+    },
+    {
+      "id": "hud.cps",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "Nova"
+      ],
+      "notes": "needs input tap stream (have callback)"
+    },
+    {
+      "id": "hud.coordinates",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "BedrockTools"
+      ],
+      "notes": "needs player-position source"
+    },
+    {
+      "id": "hud.ping",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "UI",
+        "PACKET"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "BedrockTools"
+      ],
+      "notes": "needs latency source"
+    },
+    {
+      "id": "hud.tps",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "measurability TBD"
+    },
+    {
+      "id": "hud.armor",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs inventory source"
+    },
+    {
+      "id": "hud.health",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs player source"
+    },
+    {
+      "id": "hud.hunger",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs player source"
+    },
+    {
+      "id": "hud.position",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "see coordinates"
+    },
+    {
+      "id": "hud.direction",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs rotation source"
+    },
+    {
+      "id": "hud.biome",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs world source"
+    },
+    {
+      "id": "hud.clock",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "device clock available; game-time TBD"
+    },
+    {
+      "id": "hud.keystrokes",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "BedrockTools"
+      ],
+      "notes": "needs input stream (have callback)"
+    },
+    {
+      "id": "hud.touch_indicators",
+      "category": "hud",
+      "status": "PARTIAL",
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "have touch callback"
+    },
+    {
+      "id": "hud.target_info",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "needs target source"
+    },
+    {
+      "id": "hud.arraylist",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "notes": "module-list display"
+    },
+    {
+      "id": "hud.watermark",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "static text via draw commands"
+    },
+    {
+      "id": "hud.notifications",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "event-driven; needs EventBus"
+    },
+    {
+      "id": "hud.session_stats",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "local timers available"
+    },
+    {
+      "id": "hud.server_info",
+      "category": "hud",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs connection source"
+    },
+    {
+      "id": "utility.quick_perspective",
+      "category": "utility",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs camera path"
+    },
+    {
+      "id": "utility.quick_drop",
+      "category": "utility",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs input path"
+    },
+    {
+      "id": "utility.hide_hud",
+      "category": "utility",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "overlay clear available"
+    },
+    {
+      "id": "utility.toggle_sprint",
+      "category": "utility",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "utility.toggle_sneak",
+      "category": "utility",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "locality TBD"
+    },
+    {
+      "id": "utility.screenshot_tools",
+      "category": "utility",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs capture path"
+    },
+    {
+      "id": "network.ping",
+      "category": "network",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "WClient",
+        "Nova"
+      ],
+      "notes": "needs packet/latency source"
+    },
+    {
+      "id": "network.connection_status",
+      "category": "network",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "WClient"
+      ],
+      "notes": "needs connection source"
+    },
+    {
+      "id": "network.latency_graph",
+      "category": "network",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs latency source"
+    },
+    {
+      "id": "network.network_diagnostics",
+      "category": "network",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "WClient"
+      ],
+      "notes": "needs connection source"
+    },
+    {
+      "id": "network.packet_monitor",
+      "category": "network",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "WClient",
+        "Nova"
+      ],
+      "notes": "no verified packet API"
+    },
+    {
+      "id": "network.packet_logger",
+      "category": "network",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "WClient"
+      ],
+      "notes": "dev only; no verified packet API"
+    },
+    {
+      "id": "performance.fps_limiter",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "notes": "needs frame path"
+    },
+    {
+      "id": "performance.fps_unlocker",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "BedrockTools"
+      ],
+      "notes": "needs frame path; measure gains"
+    },
+    {
+      "id": "performance.dynamic_fps",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs frame path"
+    },
+    {
+      "id": "performance.background_fps",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "needs frame path"
+    },
+    {
+      "id": "performance.frame_graph",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs frame-tick source"
+    },
+    {
+      "id": "performance.entity_opt",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs entity path"
+    },
+    {
+      "id": "performance.render_opt",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "performance.particle_controls",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "see visual.particle_controls"
+    },
+    {
+      "id": "performance.animation_controls",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs animation path"
+    },
+    {
+      "id": "performance.cloud_controls",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs render path"
+    },
+    {
+      "id": "performance.weather_opt",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs weather path"
+    },
+    {
+      "id": "performance.fog_controls",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "BedrockTools"
+      ],
+      "notes": "see visual.fog_controls"
+    },
+    {
+      "id": "performance.memory_info",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "OS APIs available"
+    },
+    {
+      "id": "performance.cpu_info",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "OS APIs available"
+    },
+    {
+      "id": "performance.gpu_info",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "OS APIs available"
+    },
+    {
+      "id": "performance.perf_profiles",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs PerformanceManager"
+    },
+    {
+      "id": "performance.low_end_mode",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "notes": "needs perf paths"
+    },
+    {
+      "id": "performance.render_distance",
+      "category": "performance",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "notes": "needs settings path"
+    },
+    {
+      "id": "misc.streamer_mode",
+      "category": "misc",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "overlay redaction"
+    },
+    {
+      "id": "misc.privacy_mode",
+      "category": "misc",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "overlay redaction"
+    },
+    {
+      "id": "misc.chat_timestamps",
+      "category": "misc",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "BedrockTools"
+      ],
+      "notes": "needs chat source"
+    },
+    {
+      "id": "misc.chat_filter",
+      "category": "misc",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs chat source"
+    },
+    {
+      "id": "misc.custom_nicknames",
+      "category": "misc",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "BedrockTools"
+      ],
+      "notes": "local-only"
+    },
+    {
+      "id": "misc.screenshot_share",
+      "category": "misc",
+      "status": "RESEARCH_REQUIRED",
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs capture path"
+    },
+    {
+      "id": "scripting.script_runtime",
+      "category": "scripting",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "script",
+      "capabilities": [
+        "SCRIPT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "engine choice needs license/size review"
+    },
+    {
+      "id": "scripting.script_sandbox",
+      "category": "scripting",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "script",
+      "capabilities": [
+        "SCRIPT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "design in docs/SCRIPTING.md"
+    },
+    {
+      "id": "scripting.script_api",
+      "category": "scripting",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "script",
+      "capabilities": [
+        "SCRIPT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "notes": "design in docs/SCRIPTING.md"
+    },
+    {
+      "id": "scripting.script_manager",
+      "category": "scripting",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "script",
+      "capabilities": [
+        "SCRIPT",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "needs runtime first"
+    },
+    {
+      "id": "client.core",
+      "category": "client",
+      "status": "PARTIAL",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "M1 proven core"
+    },
+    {
+      "id": "client.version_adapter",
+      "category": "client",
+      "status": "PARTIAL",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "M1 table logic; runtime source pending"
+    },
+    {
+      "id": "client.config_store",
+      "category": "client",
+      "status": "PARTIAL",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell",
+        "WClient"
+      ],
+      "notes": "M1 menu proof; file store pending"
+    },
+    {
+      "id": "client.profile_manager",
+      "category": "client",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "Default only in M1.5 shell"
+    },
+    {
+      "id": "client.crash_guard",
+      "category": "client",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "quarantine design pending"
+    },
+    {
+      "id": "client.updater",
+      "category": "client",
+      "status": "NOT_IMPLEMENTED",
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "notes": "signed+checksum design pending"
+    }
+  ]
+}
