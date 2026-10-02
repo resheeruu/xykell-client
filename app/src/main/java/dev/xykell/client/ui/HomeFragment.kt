@@ -34,7 +34,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val diag = view.findViewById<TextView>(R.id.home_diag)
         diag.text = "Device: ${Build.MANUFACTURER} ${Build.MODEL}, " +
             "Android ${Build.VERSION.RELEASE}, " +
-            (Build.SUPPORTED_ABIS.firstOrNull() ?: "abi?")
+            (Build.SUPPORTED_ABIS.firstOrNull() ?: "abi?") +
+            "\n" + dev.xykell.client.runtime.RuntimeStatus.summary()
     }
 
     private fun installedLine(): String {

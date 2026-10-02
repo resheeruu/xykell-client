@@ -17,6 +17,9 @@ SCOPED = [
     ROOT / "native/include/xykell/runtime_provider.h",
     ROOT / "native/src/xykell_runtime_provider.cpp",
     ROOT / "tests/unit/test_runtime_provider.cpp",
+    # Stage-5 JNI/Kotlin boundary: status-only surface, same gate.
+    ROOT / "app/src/main/cpp/bridge.cpp",
+    ROOT / "app/src/main/java/dev/xykell/client/runtime/RuntimeStatus.kt",
 ]
 
 # Case-insensitive substrings that must never appear in scoped files.

@@ -39,6 +39,21 @@ and Stage-3B relay findings (in the analysis workspace, not this repo).
   Stage-5 work: the phone cannot compile Kotlin/Gradle here, so no
   unverifiable UI code was added. `xykellcore` launcher lib is untouched.
 
+## Android / JNI status bridge (Stage 5)
+
+- `app/src/main/cpp/bridge.cpp` (+ `xykell_runtime_provider.cpp` in
+  `app/.../cpp/CMakeLists.txt`): `RuntimeStatus_*` JNI — start/stop/
+  select/status/capabilities/endpoints as booleans/JSON strings. One
+  process-wide `Runtime`, exception-safe bodies, no pointers across.
+- `runtime/RuntimeStatus.kt`: thin facade (`summary()` for status
+  surfaces, honest "Synthetic" wording, `UnsatisfiedLinkError`-safe).
+- `ui/HomeFragment.kt`: appends `RuntimeStatus.summary()` to the existing
+  diagnostics line. Never claims Minecraft connectivity.
+- Kotlin/Gradle cannot compile on the phone (no SDK); CI
+  (`android-release.yml`) owns APK verification. JNI C++ itself is
+  host-syntax-checked here; the audit gate covers bridge.cpp +
+  RuntimeStatus.kt (5 scoped files).
+
 ## Config
 
 `Runtime::kConfigSection/kConfigKeyProvider` (`runtime/provider`,

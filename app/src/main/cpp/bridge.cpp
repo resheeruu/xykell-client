@@ -10,6 +10,7 @@
 #include "xykell/profile_manager.h"
 #include "xykell/detection.h"
 #include "xykell/version_adapter.h"
+#include "xykell/runtime_provider.h"
 
 namespace {
 
@@ -26,6 +27,26 @@ std::string toStd(JNIEnv* env, jstring s) {
 }
 
 jstring toJni(JNIEnv* env, const std::string& s) { return env->NewStringUTF(s.c_str()); }
+
+// Process-wide substrate instance for the status bridge. Kotlin never sees
+// a native pointer (strings/bools only cross the boundary).
+xykell::runtime::Runtime& sharedRuntime() {
+    static xykell::runtime::Runtime rt;
+    return rt;
+}
+
+std::string jsonEscape(const std::string& s) {
+    std::string out;
+    for (char c : s) {
+        switch (c) {
+            case '"': out += "\\\""; break;
+            case '\\': out += "\\\\"; break;
+            case '\n': out += "\\n"; break;
+            default: out += c; break;
+        }
+    }
+    return out;
+}
 
 } // namespace
 
@@ -116,6 +137,83 @@ Java_dev_xykell_client_NativeProfiles_checkInstall(JNIEnv* env, jclass, jboolean
     in.queriesGranted = (queriesGranted == JNI_TRUE);
     const auto v = xykell::detect::evaluateDetection(in);
     return toJni(env, xykell::detect::stateName(v.state) + "|" + v.reason);
+}
+
+// Runtime status bridge (READ-ONLY): launcher UI observes the shared native
+// substrate; no gameplay control crosses this boundary. Every body is
+// exception-safe so native failure surfaces as status, never a crash.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeStart(JNIEnv*, jclass) {
+    try {
+        return static_cast<jboolean>(sharedRuntime().start());
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeStop(JNIEnv*, jclass) {
+    try {
+        sharedRuntime().stop();
+    } catch (...) {
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeSelectProvider(JNIEnv* env, jclass,
+                                                                 jstring name) {
+    try {
+        return static_cast<jboolean>(sharedRuntime().selectProvider(toStd(env, name)));
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeStatus(JNIEnv* env, jclass) {
+    try {
+        const auto& rt = sharedRuntime();
+        const auto d = rt.diagnostics();
+        return toJni(env, std::string("{\"state\":\"") +
+                             xykell::runtime::toString(d.state) + "\",\"provider\":\"" +
+                             jsonEscape(d.provider) + "\",\"lastError\":\"" +
+                             jsonEscape(d.lastError) + "\"}");
+    } catch (...) {
+        return toJni(env, "{\"state\":\"FAILED\",\"provider\":\"\",\"lastError\":\"bridge\"}");
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeCapabilities(JNIEnv* env, jclass) {
+    try {
+        std::string out = "[";
+        bool first = true;
+        for (const auto& c : sharedRuntime().capabilities()) {
+            if (!first) out += ",";
+            first = false;
+            out += "\"" + jsonEscape(c.name) + "\"";
+        }
+        return toJni(env, out + "]");
+    } catch (...) {
+        return toJni(env, "[]");
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeEndpoints(JNIEnv* env, jclass) {
+    try {
+        std::string out = "[";
+        bool first = true;
+        for (const auto& e : sharedRuntime().discover()) {
+            if (!first) out += ",";
+            first = false;
+            out += "{\"id\":\"" + jsonEscape(e.id) + "\",\"displayName\":\"" +
+                   jsonEscape(e.displayName) + "\"}";
+        }
+        return toJni(env, out + "]");
+    } catch (...) {
+        return toJni(env, "[]");
+    }
 }
 
 } // extern "C"
