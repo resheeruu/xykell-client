@@ -9,12 +9,17 @@ are rejected natively. Stores remain per-sandbox (Android app vs Levi game
 process) — sync travels via export files. JNI runtime itself is
 DEVICE_PENDING (compiles in CI; first launch proves `loadLibrary`).
 
-## PLAY / Quick Launch verdict
-Levi Quick Launch = Minecraft URI actions (screens/servers/Realms/worlds).
-Those address the GAME, not a launcher+preloader configuration — no verified
-action launches a specific isolated version with Xykell's levipack. PLAY stays
-disabled + NOT WIRED. Missing prerequisite: exact Levi launch action for a
-configured version (needs device/Levi-source read of the action list).
+## PLAY: verified handoff (not a direct launch)
+Batch 8 source read (Levi v1.5.25 `IntentHandler.java`, Apache-2.0, mechanism
+only — nothing copied): Levi handles `minecraft://` URIs itself and forwards
+with extras (`MINECRAFT_URI`, `LAUNCH_WITH_URI`); no external action carries
+version + isolation + mods, so a bare URI would open the game WITHOUT Xykell
+(rejected as fake success).
+Implemented instead: `LaunchDecider` (pure) + `LaunchExecutor`
+(PackageManager state) — pre-checks (MC installed, shared-adapter verdict
+allows, Levi installed, bridge up), then an explicit intent to Levi's
+exported `MainActivity`. Success is reported as "Levi opened", never "game
+launched"; every failure names its prerequisite.
 
 ## Levi manifest census (runtime enablement batch, read-only APK evidence)
 Exported entry points found in v1.5.25 manifest strings: `MainActivity`

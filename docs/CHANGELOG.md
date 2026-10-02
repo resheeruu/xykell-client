@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+- PLAY handoff: Levi IntentHandler source read (no external launch action —
+  bare URIs rejected), LaunchDecider/Executor (pre-checks + verified
+  MainActivity intent, honest outcomes), launcher.play PARTIAL with evidence.
 - Runtime enablement: Levi manifest census (no external launch API — PLAY
   verdict stands), JNI version verdict (shared adapter) + real installed-MC
   display on Versions/Home, no fake launch path.
