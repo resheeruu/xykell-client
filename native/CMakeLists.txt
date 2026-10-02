@@ -29,7 +29,20 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/preloader-android/include
 )
 
-# __android_log_print + fmt::format (both verified present on this device).
+# fmt: preloader's Logger.hpp needs it. Prefer system package (phone already
+# has it: zero downloads); fetch pinned source only when absent (CI runners).
+find_package(fmt 11 QUIET)
+if(NOT fmt_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG 11.2.0
+    )
+    FetchContent_MakeAvailable(fmt)
+endif()
+
+# __android_log_print + fmt::format (system or fetched above).
 target_link_libraries(xykell PRIVATE log fmt)
 
 set_target_properties(xykell PROPERTIES OUTPUT_NAME xykell)
