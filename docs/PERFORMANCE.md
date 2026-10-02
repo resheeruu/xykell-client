@@ -1,10 +1,16 @@
-# Performance
+# Performance (rules + measurements)
 
-## 1. Targets
-Low RAM/storage/CPU/GPU overhead, fast startup, incremental + lazy module loading. Never load optional subsystems unneeded. Phone constraints apply to the build too (small deps, cached/incremental builds).
+Rules (phone-first, enforced by review): no per-frame allocations where
+avoidable, no repeated signature scans (scan once, cache validated pointer),
+no repeated JSON parsing (registry parsed once, cached), no disk writes in
+callbacks, bounded entity/chunk scans with configured limits, module budgets
+(`FrameBudget` measures; `checkBudget` enforces world-query limits).
 
-## 2. Feature set (each version-gated; destabilizing hacks excluded)
-FPS counter/limiter/unlock-where-supported, dynamic + background FPS, frame-time graph, entity/render/particle/animation/cloud/weather/fog optimizations, memory/CPU/GPU readouts, performance profiles + low-end mode + render-distance presets. `PerformanceManager` auto-profiles the device and recommends safe settings (M1: readout only).
-
-## 3. Measurement rule
-No perf claim without observed on-device numbers (before/after, same build/scene). BedrockTools' FPS Unlocker + Atlas' unlocker prove the category; Xykell implements its own behind VersionAdapter.
+Measurements (2026-10-02, Termux, ARM64):
+- Host unit suite: 17 suites, minutes total (17 clang++ invocations, debug).
+- `.so`: 544,608 B unstripped → ~313–347 KB stripped in levipack.
+- APK: ~9–13.6 MB across batches (see M1.5-RESULTS.md).
+- Runtime frame/memory impact: UNMEASURED (no device run yet — no claims).
+- `HttpClient` etc. live in the game, not in Xykell; Xykell creates no
+  threads, no timers, no background work (verified by construction: grep for
+  `std::thread`/timers in native/ returns nothing but tests).

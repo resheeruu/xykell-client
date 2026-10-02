@@ -1,6 +1,10 @@
 # Changelog
 
 ## [Unreleased]
+- Registry v2: `xykell.*` ids, 15 categories, 225 entries (deduped, full
+  universe incl. server/proxy/launcher/automation), generated
+  MODULE-CATALOG.md, new docs (PERFORMANCE, STORAGE, PRIVACY, MODULE-SDK).
+  17/17 suites PASS.
 - Batch 8: XYKELL_RUNTIME_ACTIVE marker (load-only, cleared on unload),
   proof banner overlay, host tests run in CI (g++, TMPDIR-portable), device
   test doc + result template. 17/17 suites PASS.

@@ -6,11 +6,11 @@ const std::map<std::string, std::string>& GuiController::implemented() {
     // ONLY entries with real backing behavior. Everything else is refused.
     // client.* -> core menu module state; hud.* -> proof overlay state.
     static const std::map<std::string, std::string> impl = {
-        {"client.core", "xykell-core"},
-        {"client.config_store", "xykell-core"},
-        {"client.version_adapter", "xykell-core"},
-        {"hud.watermark", "xykell-hud"},
-        {"hud.touch_indicators", "xykell-hud"},
+        {"xykell.client.core", "xykell-core"},
+        {"xykell.client.config_store", "xykell-core"},
+        {"xykell.client.version_adapter", "xykell-core"},
+        {"xykell.hud.watermark", "xykell-hud"},
+        {"xykell.hud.touch_indicators", "xykell-hud"},
     };
     return impl;
 }

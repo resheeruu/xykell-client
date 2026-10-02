@@ -26,12 +26,12 @@ int main() {
     assert(pm.load("Default", d, err) && d.name == "Default");
 
     // Save content + reload.
-    d.modules["hud.fps"] = true;
+    d.modules["xykell.hud.fps"] = true;
     d.theme = "Xykell Light";
     assert(pm.save(d, err));
     Profile d2;
     assert(pm.load("Default", d2, err));
-    assert(d2.modules["hud.fps"] && d2.theme == "Xykell Light");
+    assert(d2.modules["xykell.hud.fps"] && d2.theme == "Xykell Light");
 
     // Create/duplicate/rename/remove.
     assert(pm.create("PvP", err));
