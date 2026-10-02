@@ -10,7 +10,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-target aarch64-linux-android28)
 add_link_options(-target aarch64-linux-android28)
 
-add_compile_options(-Wall -Wextra -Werror -fPIC)
+# NOTE: strict warnings are target-scoped (below), never global: FetchContent
+# dependencies must not inherit our -Werror.
+add_compile_options(-fPIC)
 
 add_library(
     xykell
@@ -21,6 +23,8 @@ add_library(
     src/xykell_menu.cpp
     src/xykell_version_adapter.cpp
 )
+
+target_compile_options(xykell PRIVATE -Wall -Wextra -Werror)
 
 target_include_directories(
     xykell
