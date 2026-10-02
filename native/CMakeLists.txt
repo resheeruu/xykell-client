@@ -44,6 +44,7 @@ add_library(
     src/xykell_profile_manager.cpp
     src/xykell_runtime_active.cpp
     src/xykell_runtime_probe.cpp
+    src/xykell_runtime_provider.cpp
     src/xykell_server_profiles.cpp
     src/xykell_sigscan.cpp
     src/xykell_theme.cpp
