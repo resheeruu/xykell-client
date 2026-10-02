@@ -11,6 +11,7 @@
 - [x] Batch 5 — diagnostics module, 1.26.45 compat proof, hook-mechanism finding, Quick Launch lead, device runbook.
 - [x] Batch 6 — checkpoints, sigscan infra, PLAY verdict, SAF export/import, CI size audit.
 - [x] Batch 7 — symbol census (no game exports), JNI bridge, Levi-dup notes, device verification doc.
+- [x] Batch 8 — runtime-active marker, proof banner, CI host tests, device test doc.
 - [ ] **Next: human device run → signature derivation → first live data.**
 - [ ] M3 — profiles (all 11), touchbind/gesture system, settings sync.
 - [ ] M4 — visual QoL batch (Zoom/Fullbright/FOV/crosshair), each version-gated.

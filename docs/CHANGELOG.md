@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+- Batch 8: XYKELL_RUNTIME_ACTIVE marker (load-only, cleared on unload),
+  proof banner overlay, host tests run in CI (g++, TMPDIR-portable), device
+  test doc + result template. 17/17 suites PASS.
 - Batch 7: symbol census of 1.26.45.1 libminecraftpe (90,545 defined dynsyms,
   zero game-namespace exports — signature derivation is the only path), JNI
   bridge (shared ProfileManager in app, native-backed Profiles screen),
