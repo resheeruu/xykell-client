@@ -299,6 +299,18 @@ PROVEN = {
     ("CLIENT", "hud_editor"): PARTIAL,
     ("LAUNCHER", "diagnostics"): PARTIAL,
     ("LAUNCHER", "profiles"): PARTIAL,
+    ("LAUNCHER", "play"): PARTIAL,
+}
+
+EVIDENCE = {
+    ("CLIENT", "core"): "M1: PL_REGISTER_MOD lifecycle builds; host test_core",
+    ("CLIENT", "version_adapter"): "M1: table logic; host test_adapter",
+    ("CLIENT", "config_store"): "M1: menu toggles + file store; host test_config",
+    ("CLIENT", "hud_editor"): "Batch 2/3: editor state + serialization; host test_hud_theme",
+    ("HUD", "touch_indicators"): "M1: touch callback counter; host test_input_router",
+    ("LAUNCHER", "diagnostics"): "Batch 5: probe-report ModMenu module; host test_probe",
+    ("LAUNCHER", "profiles"): "Batch 7: JNI bridge + native-backed screen; CI builds",
+    ("LAUNCHER", "play"): "handoff: pre-checks + Levi MainActivity intent; device run pending",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -379,14 +391,14 @@ def main() -> None:
                 "capabilities": caps,
                 "versions": [],
                 "sourceReferences": sources,
-                "evidence": "",
+                "evidence": EVIDENCE.get((category, suffix), ""),
                 "notes": notes,
             })
     # scripting + client/launcher non-proven default to NOT_IMPLEMENTED
     proven_ids = {"xykell.client.core", "xykell.client.version_adapter",
                   "xykell.client.config_store", "xykell.hud.touch_indicators",
                   "xykell.client.hud_editor", "xykell.launcher.diagnostics",
-                  "xykell.launcher.profiles"}
+                  "xykell.launcher.profiles", "xykell.launcher.play"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI

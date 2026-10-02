@@ -7,11 +7,11 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 7
+- PARTIAL: 8
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 205
 - INCOMPATIBLE: 0
-- NOT_IMPLEMENTED: 13
+- NOT_IMPLEMENTED: 12
 
 ## By category
 
@@ -34,13 +34,13 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 
 ### CLIENT (7)
 
-- `xykell.client.core` — Core: **PARTIAL** (requires LIFECYCLE; evidence: no runtime evidence)
-- `xykell.client.version_adapter` — Version Adapter: **PARTIAL** (requires LIFECYCLE,VERSION_STRING; evidence: no runtime evidence)
-- `xykell.client.config_store` — Config Store: **PARTIAL** (requires LIFECYCLE,CONFIG_DIRS; evidence: no runtime evidence)
+- `xykell.client.core` — Core: **PARTIAL** (requires LIFECYCLE; evidence: M1: PL_REGISTER_MOD lifecycle builds; host test_core)
+- `xykell.client.version_adapter` — Version Adapter: **PARTIAL** (requires LIFECYCLE,VERSION_STRING; evidence: M1: table logic; host test_adapter)
+- `xykell.client.config_store` — Config Store: **PARTIAL** (requires LIFECYCLE,CONFIG_DIRS; evidence: M1: menu toggles + file store; host test_config)
 - `xykell.client.profile_manager` — Profile Manager: **NOT_IMPLEMENTED** (requires LIFECYCLE,CONFIG_DIRS; evidence: no runtime evidence)
 - `xykell.client.crash_guard` — Crash Guard: **NOT_IMPLEMENTED** (requires LIFECYCLE,CONFIG_DIRS; evidence: no runtime evidence)
 - `xykell.client.updater` — Updater: **NOT_IMPLEMENTED** (requires LIFECYCLE; evidence: no runtime evidence)
-- `xykell.client.hud_editor` — Hud Editor: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.client.hud_editor` — Hud Editor: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch 2/3: editor state + serialization; host test_hud_theme)
 
 ### COMBAT (31)
 
@@ -91,7 +91,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.hud.biome` — Biome: **RESEARCH_REQUIRED** (requires WORLD; evidence: no runtime evidence)
 - `xykell.hud.clock` — Clock: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.keystrokes` — Keystrokes: **RESEARCH_REQUIRED** (requires INPUT_SEMANTICS; evidence: no runtime evidence)
-- `xykell.hud.touch_indicators` — Touch Indicators: **PARTIAL** (requires INPUT_SEMANTICS; evidence: no runtime evidence)
+- `xykell.hud.touch_indicators` — Touch Indicators: **PARTIAL** (requires INPUT_SEMANTICS; evidence: M1: touch callback counter; host test_input_router)
 - `xykell.hud.target_info` — Target Info: **RESEARCH_REQUIRED** (requires ENTITY; evidence: no runtime evidence)
 - `xykell.hud.arraylist` — Arraylist: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.watermark` — Watermark: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
@@ -101,14 +101,14 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 
 ### LAUNCHER (8)
 
-- `xykell.launcher.play` — Play: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
+- `xykell.launcher.play` — Play: **PARTIAL** (requires -; evidence: handoff: pre-checks + Levi MainActivity intent; device run pending)
 - `xykell.launcher.versions` — Versions: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
-- `xykell.launcher.profiles` — Profiles: **PARTIAL** (requires LIFECYCLE,CONFIG_DIRS; evidence: no runtime evidence)
+- `xykell.launcher.profiles` — Profiles: **PARTIAL** (requires LIFECYCLE,CONFIG_DIRS; evidence: Batch 7: JNI bridge + native-backed screen; CI builds)
 - `xykell.launcher.worlds` — Worlds: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
 - `xykell.launcher.packs` — Packs: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
 - `xykell.launcher.servers` — Servers: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
 - `xykell.launcher.settings` — Settings: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
-- `xykell.launcher.diagnostics` — Diagnostics: **PARTIAL** (requires LIFECYCLE; evidence: no runtime evidence)
+- `xykell.launcher.diagnostics` — Diagnostics: **PARTIAL** (requires LIFECYCLE; evidence: Batch 5: probe-report ModMenu module; host test_probe)
 
 ### MISC (21)
 

@@ -28,7 +28,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "M1: PL_REGISTER_MOD lifecycle builds; host test_core",
       "notes": "M1 proven core"
     },
     {
@@ -54,7 +54,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "M1: table logic; host test_adapter",
       "notes": "M1 table logic; runtime source pending"
     },
     {
@@ -82,7 +82,7 @@
         "Xykell",
         "WClient"
       ],
-      "evidence": "",
+      "evidence": "M1: menu toggles + file store; host test_config",
       "notes": "M1 menu proof; file store pending"
     },
     {
@@ -186,7 +186,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch 2/3: editor state + serialization; host test_hud_theme",
       "notes": "editor state+serialization exist; overlay binding partial"
     },
     {
@@ -546,7 +546,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "M1: touch callback counter; host test_input_router",
       "notes": "have touch callback"
     },
     {
@@ -5671,7 +5671,7 @@
       "name": "Play",
       "category": "LAUNCHER",
       "description": "disabled until verified launch action",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [],
       "settings": [],
       "platforms": [
@@ -5686,7 +5686,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "handoff: pre-checks + Levi MainActivity intent; device run pending",
       "notes": "disabled until verified launch action"
     },
     {
@@ -5736,7 +5736,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch 7: JNI bridge + native-backed screen; CI builds",
       "notes": "JNI bridge build-verified; runtime pending"
     },
     {
@@ -5855,7 +5855,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch 5: probe-report ModMenu module; host test_probe",
       "notes": "probe report module exists; build-verified"
     }
   ]
