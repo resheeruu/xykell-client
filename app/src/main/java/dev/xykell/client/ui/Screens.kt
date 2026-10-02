@@ -1,0 +1,69 @@
+package dev.xykell.client.ui
+
+import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import dev.xykell.client.R
+
+/** Generic title + body screen for Versions/Modules/Profiles/Settings/About. */
+open class InfoFragment : Fragment(R.layout.fragment_info) {
+    var title: String = ""
+    var body: String = ""
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<TextView>(R.id.info_title).text = title
+        view.findViewById<TextView>(R.id.info_body).text = body
+    }
+}
+
+class VersionsFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Versions"
+        body = dev.xykell.client.runtime.VersionManager.statusText() +
+            "\n\nInstalled versions will list here once wired."
+    }
+}
+
+class ModulesFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Modules"
+        body = "NOT WIRED — module manager pending runtime integration.\n\n" +
+            "Future home of the Xykell Module Engine UI."
+    }
+}
+
+class ProfilesFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Profiles"
+        val pm = dev.xykell.client.runtime.ProfileManager
+        body = "Current: ${pm.currentProfile}\nAvailable: ${pm.profiles.joinToString()}\n\n" +
+            "Switching arrives with the profile system (M2)."
+    }
+}
+
+class SettingsFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Settings"
+        body = "NOT WIRED — launcher settings pending.\n\nSafe mode: available after " +
+            "runtime wiring. Diagnostics below are real device values."
+    }
+}
+
+class AboutFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val i = dev.xykell.client.runtime.XykellInfo
+        title = "About"
+        body = "Xykell Client ${i.XYKELL_VERSION} (shell)\n" +
+            "Native core ${i.NATIVE_VERSION}\n" +
+            "Levi target ${i.LEVI_TARGET}, preloader ${i.PRELOADER_PIN}\n\n" +
+            "Original implementation. Not affiliated with Mojang/Microsoft.\n" +
+            "See docs/LICENSES.md in the repository."
+    }
+}

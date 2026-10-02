@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="xykell_bg">#0D1526</color>
+    <color name="xykell_accent">#4FD8C7</color>
+    <color name="xykell_text">#E8EEF7</color>
+    <color name="xykell_muted">#8A97AD</color>
+</resources>

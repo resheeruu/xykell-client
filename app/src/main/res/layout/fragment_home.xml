@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/home_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/home_versions"
+        style="@style/XykellStatus" />
+
+    <TextView
+        android:id="@+id/home_xykell"
+        style="@style/XykellStatus" />
+
+    <TextView
+        android:id="@+id/home_profile"
+        style="@style/XykellStatus" />
+
+    <Button
+        android:id="@+id/home_play"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginTop="24dp"
+        android:text="PLAY"
+        android:textSize="20sp"
+        android:minHeight="64dp" />
+
+    <TextView
+        android:id="@+id/home_play_status"
+        style="@style/XykellStatus" />
+
+    <TextView
+        android:id="@+id/home_diag"
+        style="@style/XykellStatus" />
+
+</LinearLayout>

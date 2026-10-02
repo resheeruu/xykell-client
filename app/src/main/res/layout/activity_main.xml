@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xykell_bg"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <FrameLayout
+            android:id="@+id/screen_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/nav_home"
+            style="@style/XykellNavButton"
+            android:text="Home" />
+        <Button
+            android:id="@+id/nav_versions"
+            style="@style/XykellNavButton"
+            android:text="Versions" />
+        <Button
+            android:id="@+id/nav_modules"
+            style="@style/XykellNavButton"
+            android:text="Modules" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/nav_profiles"
+            style="@style/XykellNavButton"
+            android:text="Profiles" />
+        <Button
+            android:id="@+id/nav_settings"
+            style="@style/XykellNavButton"
+            android:text="Settings" />
+        <Button
+            android:id="@+id/nav_about"
+            style="@style/XykellNavButton"
+            android:text="About" />
+    </LinearLayout>
+
+</LinearLayout>
