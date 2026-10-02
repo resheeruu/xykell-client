@@ -6,6 +6,8 @@
 #include "xykell/crash_guard.h"
 #include "xykell/file_util.h"
 #include "xykell/load_stages.h"
+#include "xykell/portal.h"
+#include "xykell/portal_preloader.h"
 #include "xykell/runtime_active.h"
 #include "xykell/runtime_probe.h"
 #include "xykell/hud.h"
@@ -56,6 +58,9 @@ class XykellMod {
         stages.mark(xykell::LoadStage::ProcessStarted, "preloader");
         stages.mark(xykell::LoadStage::NativeLibraryLoaded, "libxykell.so");
         stages.mark(xykell::LoadStage::ModRegistered, "PLGetModRegistration");
+        // Portal backend: LEGACY COMPATIBILITY MODE (preloader). The only
+        // pl/ touchpoint left in the load path; everything else uses portal/.
+        xykell::portal::setBackend(xykell::portal::preloaderBackend(ctx.logger()));
         auto& core = xykell::XykellCore::instance();
         if (!core.init(XYKELL_VERSION, XYKELL_PRELOADER_PIN)) {
             ctx.logger().error("{}: core init failed", XYKELL_NAME);

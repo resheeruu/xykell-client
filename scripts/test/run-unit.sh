@@ -65,5 +65,20 @@ run_case test_local_systems "$ROOT/tests/unit/test_local_systems.cpp" \
     "$SRC/xykell_json_min.cpp" "$SRC/xykell_friends.cpp" \
     "$SRC/xykell_notifications.cpp" "$SRC/xykell_server_profiles.cpp" \
     "$SRC/xykell_waypoints.cpp" "$SRC/xykell_theme.cpp"
-echo "UNIT: $pass/18 suites PASS"
+run_case test_portal "$ROOT/tests/unit/test_portal.cpp" \
+    "$SRC/xykell_core.cpp" "$SRC/xykell_menu.cpp" "$SRC/xykell_hud.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_hud_model.cpp" \
+    "$SRC/xykell_hud_renderer.cpp" "$SRC/xykell_theme.cpp" \
+    "$SRC/xykell_profile_manager.cpp" "$SRC/xykell_module_manager.cpp" \
+    "$SRC/xykell_gui_controller.cpp" "$SRC/xykell_input_router.cpp" \
+    "$SRC/xykell_clickgui_model.cpp" "$SRC/xykell_file_util.cpp" \
+    "$SRC/xykell_runtime_active.cpp" "$SRC/xykell_portal.cpp" "$SRC/xykell_runtime_probe.cpp"
+run_case test_detection "$ROOT/tests/unit/test_detection.cpp" \
+    "$SRC/xykell_detection.cpp"
+run_case test_planner "$ROOT/tests/unit/test_planner.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_file_util.cpp" \
+    "$SRC/xykell_clickgui_model.cpp" "$SRC/xykell_module_manager.cpp" \
+    "$SRC/xykell_gui_controller.cpp" "$SRC/xykell_runtime_probe.cpp" \
+    "$SRC/xykell_planner.cpp"
+echo "UNIT: $pass/21 suites PASS"
 rm -rf "$WORK"
