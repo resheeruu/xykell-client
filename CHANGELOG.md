@@ -1,5 +1,10 @@
 # Changelog
 
+Maintained in `docs/CHANGELOG.md`. Summary:
+
 ## [Unreleased]
-- Phase 0 research baseline (2026-10-02): ecosystem survey (Lunar/W/Nova/Atlas/Flarial/LeviLamina/Apollon), Android constraints, 3-way architecture decision.
-- Repo skeleton (Phase 1, docs-only): README/LICENSE/CONTRIBUTING/SECURITY/AGENTS/docs (.no source modules yet — no fake code).
+- Master-spec alignment: Levi-first foundation, capability classes, module API, M1 proof UI, expanded doc set.
+- M1 implementation plan saved (`docs/superpowers/plans/2026-10-02-milestone-1-core.md`).
+
+## 2026-10-02
+- Approved Approach-A native spec + Phase 0 research baseline + repo skeleton (docs only, no modules).

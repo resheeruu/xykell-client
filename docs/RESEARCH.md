@@ -68,7 +68,24 @@ Method: web research 2026-10-02. No proprietary code copied.
 - **C (always-safe): packs + scripting + overlay companion** — 100% TOS-safe QoL, survives version churn, limited depth.
 - Xykell v1: A for core+perf+FPS/CPS/coords/keystrokes+ClickGUI; B isolated under Advanced>Network experiments; C as graceful-degraded mode. Details in docs/ARCHITECTURE.md.
 
-## 4. Open items
+## 4. Depth pass 2026-10-02 (master-spec sources)
+
+### Lunar Proxy (lunarproxy.net) — closed commercial proxy, Bedrock yes, Android yes
+Proxy (not a mod): runs on phone/PC, consoles join through it. 101 modules incl. KillAura, Reach, HitBox, TriggerBot, AutoCrystal, AnchorAura, Fly, Xray, ChunkFinder, FreeCam + in-game ClickGUI + per-module pages. Mobile free w/ ads, PC subscription. Proves PACKET-class depth without native hooks. Reuse: catalog inspiration only.
+
+### WClient (RetrivedMods/WClient) — GPL-3.0, legacy archive, Bedrock yes, Android primary
+Modular packet-level client (no direct game-memory modification), MITM-style cross-platform reach; categories Combat/Motion/Visual/Misc; JSON runtime config. Public dev now closed, repo is an archive. Reuse: behavior ideas only, GPL boundary.
+
+### BedrockTools (QYCottage) — primary native reference, Bedrock yes, Android yes
+Open-source LeviLauncher native mod: C++20, xmake, NDK r28c, 36 modules (Visual/HUD/Player/Misc incl. FPS Unlocker, Zoom, Fullbright, Ping/Reach/Combo HUDs), public SDK headers, typed runtime event system, mod-menu integration, persistent config, version-specific sigs/offsets, `.levipack` distribution. License: README says GPL-3.0 (badge says MIT — discrepancy, treat as GPL-3.0). Reuse: shape reference only, no code pasted.
+
+### Apollon Client — closed cheat APK, Bedrock yes, Android yes
+Standalone wrapped client (movement/combat/position tools, pinnable touch UI). No authoritative public source; third-party mirrors only. Status: [REQUIRES-RESEARCH] for source; inspiration limited to touch-UI pinning concepts. Never its binaries.
+
+### Bonus references found
+Xelo-Client (GPL-3.0, launcher-based modules, Material You UI, shader support), ModdedBE (NMod launcher), Selaura (scripting + multiversion). Same GPL/behavior-only boundaries.
+
+## 5. Open items
 - W Client + Apollon Client verification [REQUIRES-RESEARCH].
 - Confirm current Bedrock protocol/latest version at build time (churns monthly; re-check before native work).
 - Confirm preloader-android latest tag + LeviLaunchroid Gradle/NDK baseline on this machine before writing C++.

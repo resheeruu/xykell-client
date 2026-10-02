@@ -4,6 +4,25 @@ Legend: [IMPLEMENTED] [PLANNED] [EXPERIMENTAL] [PLATFORM-LIMITED] [NOT-FEASIBLE]
 
 > Nothing below is [IMPLEMENTED] yet — repo is at Phase 0/1. This table is the tracking baseline.
 
+## Cross-source capability map (master spec §32 + capability classes)
+
+| Feature | Source Inspiration | Implementation | Capability | Android | Version | Status |
+|---|---|---|---|---|---|---|
+| Zoom | Atlas/Flarial | Native | RENDER+INPUT | Yes | Adapter | Planned |
+| FPS HUD | Atlas/Flarial/BedrockTools | Native | UI(HUD) | Yes | Stable | Planned (M1 proof: ON) |
+| Coordinates HUD | Flarial/BedrockTools | Native | UI(HUD) | Yes | Stable | Planned (M1 proof: ON) |
+| Waypoints | Atlas/Flarial | Native | WORLD+RENDER+UI | Yes | Adapter | Planned |
+| Packet Monitor | WClient/Lunar Proxy | Packet | PACKET+UI | TBD | Adapter | Research |
+| KillAura-class combat | Lunar Proxy/Apollon | TBD (ADVANCED-gated) | HYBRID | TBD | Adapter | Research (never silent, OFF default) |
+| Fly/Speed movement | Lunar Proxy/Apollon/WClient | TBD (EXPERIMENTAL) | NATIVE or PACKET | TBD | Adapter | Research |
+| X-Ray/ore viz | Lunar Proxy/Apollon/Flarial | TBD (EXPERIMENTAL) | RENDER+WORLD | TBD | Adapter | Research |
+| Scripts | Flarial/BedrockTools | Script (sandboxed) | SCRIPT | Planned | N/A | Planned (post-M1) |
+| CPS/Keystrokes | Flarial/Lunar/Nova | Native | INPUT+UI | Yes | Stable | Planned (M2) |
+| FPS Unlocker | Atlas/BedrockTools | Native hook | NATIVE+RENDER | Yes | Adapter | Planned (M4, measured) |
+| Native loading | LeviLaunchroid/BedrockTools | Levi Preloader | NATIVE | Yes | Levi | Foundation (M1) |
+| ClickGUI | Lunar Proxy/Flarial/Atlas | Native overlay | UI+INPUT | Yes | Stable | Planned (M2 skeleton; M1 minimal list UI) |
+| Config/profiles JSON | WClient/BedrockTools | Native | UI | Yes | N/A | Planned (M1: Default only) |
+
 ## Performance
 | Feature | Source inspiration | Category | Platform | Implementation | Status | Deps | Version limits | Notes |
 |---|---|---|---|---|---|---|---|---|
