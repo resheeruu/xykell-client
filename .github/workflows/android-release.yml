@@ -17,12 +17,16 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install SDK packages
+      # Runner ships a full SDK; the setup-android action is broken against
+      # current cmdline-tools (it demands the retired "tools" package).
+      - name: Use preinstalled Android SDK
         run: |
           set -e
+          test -n "$ANDROID_HOME"
+          ls "$ANDROID_HOME/cmdline-tools"
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+          command -v sdkmanager
+          yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up NDK r28c
