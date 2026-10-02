@@ -3,8 +3,26 @@
 
 #include "xykell/core.h"
 #include "xykell/version.h"
+#include "xykell/version_adapter.h"
 
 namespace {
+
+const char* currentArch() {
+#if defined(__aarch64__)
+    return "arm64-v8a";
+#else
+    return "unknown-arch";
+#endif
+}
+
+const char* stateName(xykell::SupportState s) {
+    switch (s) {
+        case xykell::SupportState::Supported: return "SUPPORTED";
+        case xykell::SupportState::Partial: return "PARTIAL";
+        case xykell::SupportState::Unsupported: return "UNSUPPORTED";
+    }
+    return "?";
+}
 
 class XykellMod {
   public:
@@ -14,10 +32,14 @@ class XykellMod {
             ctx.logger().error("{}: core init failed", XYKELL_NAME);
             return false;
         }
+        const auto support =
+            xykell::VersionAdapter::check("unknown", currentArch());
+        core.setMinecraftVersion(support.display);
+        core.addCapability(xykell::Capability::VersionDetect);
         const auto& info = core.info();
-        ctx.logger().info("{} {} ({}): load, preloader SDK {}, mc={}", XYKELL_NAME,
+        ctx.logger().info("{} {} ({}): load, preloader SDK {}, mc={} [{}: {}]", XYKELL_NAME,
                            info.xykellVersion, info.buildType, info.leviPreloaderPin,
-                           info.minecraftVersion);
+                           info.minecraftVersion, stateName(support.state), support.reason);
         return true;
     }
 
