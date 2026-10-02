@@ -47,6 +47,7 @@ class XykellCore {
 
     const CoreInfo& info() const { return info_; }
     bool initialized() const { return info_.initialized; }
+    bool modEnabled() const { return info_.modEnabled; }
 
   private:
     XykellCore() = default;

@@ -35,7 +35,7 @@ pl::modmenu::DrawCommand textLine(float y, const std::string& s) {
 } // namespace
 
 void refreshHud() {
-    if (!gHudEnabled.load() || !XykellCore::instance().modEnabled) {
+    if (!gHudEnabled.load() || !XykellCore::instance().modEnabled()) {
         // Clearing = submitting an empty command list (verified API).
         pl::modmenu::submitDrawCommands(kHudModuleId, {});
         return;
@@ -56,7 +56,7 @@ bool registerHudModule(const std::string& modId) {
     // enable/disable is enforced inside the callback via the Core flag.
     pl::input::registerTouchCallback([](const pl::input::TouchEvent& ev) {
         (void)ev;
-        if (!XykellCore::instance().modEnabled || !gHudEnabled.load()) {
+        if (!XykellCore::instance().modEnabled() || !gHudEnabled.load()) {
             return false;
         }
         ++gTaps;
