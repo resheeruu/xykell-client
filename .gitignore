@@ -1,0 +1,21 @@
+# Android / C++ / Kotlin
+/build/
+/dist/
+*.apk
+*.aab
+*.levipack
+local.properties
+.gradle/
+build/
+app/build/
+*.so
+*.o
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+.idea/
+*.iml
+.DS_Store
+.env
+*.jks
+*.keystore

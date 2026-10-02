@@ -1,0 +1,9 @@
+name: docs-check
+on: [push, pull_request]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required files present
+        run: test -f README.md -a -f LICENSE -a -f docs/RESEARCH.md -a -f docs/FEATURE-MATRIX.md -a -f docs/ARCHITECTURE.md -a -f docs/LEGAL-LICENSE.md
