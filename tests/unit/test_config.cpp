@@ -1,15 +1,18 @@
 // Host unit test: config save/load, corruption recovery, malformed values.
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
 
 #include "xykell/config_store.h"
 #include "xykell/file_util.h"
 
 namespace {
-std::string tmp(const char* n) {
-    return "/data/data/com.termux/files/usr/tmp/opencode/xcfg-" + std::string(n);
+std::string tmpBase() {
+    const char* e = std::getenv("XYKELL_TEST_TMP");
+    return e != nullptr ? e : "/data/data/com.termux/files/usr/tmp/opencode";
 }
+std::string tmp(const char* n) { return tmpBase() + "/xcfg-" + std::string(n); }
 } // namespace
 
 int main() {

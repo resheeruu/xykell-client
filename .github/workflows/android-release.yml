@@ -19,6 +19,12 @@ jobs:
           tail -3 /tmp/audit.txt
           grep -q "No fake SUPPORTED entries." /tmp/audit.txt
 
+      - name: Host unit tests
+        env:
+          CXX: g++
+          XYKELL_WORK: /tmp/xykell-unit
+        run: bash scripts/test/run-unit.sh
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:

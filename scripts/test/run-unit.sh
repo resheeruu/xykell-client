@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# Host unit tests: pure-C++ core compiled with Termux clang++ (host target).
-# No Android toolchain, no device, no downloads. CWD is forced to repo root
-# because test_gui_model reads registry/features.json relatively.
+# Host unit tests: pure-C++ core. Compiler override for CI (g++), temp dir
+# override so the same suites run on any host. CWD forced to repo root.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
-WORK=/data/data/com.termux/files/usr/tmp/opencode/xykell-unit
+CXX_BIN="${CXX:-clang++}"
+WORK="${XYKELL_WORK:-/data/data/com.termux/files/usr/tmp/opencode/xykell-unit}"
 rm -rf "$WORK" && mkdir -p "$WORK"
-# Test file-state dirs must start clean: earlier aborted runs may leave
-# corrupt fixtures behind that would fail the "missing file" assertions.
-rm -rf /data/data/com.termux/files/usr/tmp/opencode/xcfg-1 \
-       /data/data/com.termux/files/usr/tmp/opencode/xprof-1 \
-       /data/data/com.termux/files/usr/tmp/opencode/xcrash-1
+export XYKELL_TEST_TMP="$WORK/files"
+mkdir -p "$XYKELL_TEST_TMP"
+# File-state fixtures start clean (aborted runs must not pollute assertions).
+rm -rf "$XYKELL_TEST_TMP/xcfg-1" "$XYKELL_TEST_TMP/xprof-1" \
+       "$XYKELL_TEST_TMP/xcrash-1" "$XYKELL_TEST_TMP/xactive-1"
 pass=0
 run_case() { # name, sources...
     local name="$1"; shift
-    clang++ -std=c++20 -Wall -Wextra -Werror -I "$ROOT/native/include" "$@" \
+    "$CXX_BIN" -std=c++20 -Wall -Wextra -Werror -I "$ROOT/native/include" "$@" \
         -o "$WORK/$name"
     "$WORK/$name"
     pass=$((pass + 1))
@@ -56,5 +56,10 @@ run_case test_engines "$ROOT/tests/unit/test_engines.cpp" \
     "$SRC/xykell_runtime_probe.cpp" "$SRC/xykell_engines.cpp"
 run_case test_stages_sigscan "$ROOT/tests/unit/test_stages_sigscan.cpp" \
     "$SRC/xykell_load_stages.cpp" "$SRC/xykell_sigscan.cpp"
-echo "UNIT: $pass/16 suites PASS"
+run_case test_runtime_proof "$ROOT/tests/unit/test_runtime_proof.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_file_util.cpp" \
+    "$SRC/xykell_runtime_active.cpp" "$SRC/xykell_hud_renderer.cpp" \
+    "$SRC/xykell_hud_model.cpp" "$SRC/xykell_theme.cpp" \
+    "$SRC/xykell_profile_manager.cpp" "$SRC/xykell_module_manager.cpp"
+echo "UNIT: $pass/17 suites PASS"
 rm -rf "$WORK"

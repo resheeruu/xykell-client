@@ -1,13 +1,21 @@
 // Host unit test: CrashGuard counts, auto-quarantine, persistence, safe mode.
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 
 #include "xykell/crash_guard.h"
 #include "xykell/file_util.h"
 
+namespace {
+std::string tmpBase() {
+    const char* e = std::getenv("XYKELL_TEST_TMP");
+    return e != nullptr ? e : "/data/data/com.termux/files/usr/tmp/opencode";
+}
+} // namespace
+
 int main() {
     using namespace xykell;
-    const std::string root = "/data/data/com.termux/files/usr/tmp/opencode/xcrash-1";
+    const std::string root = tmpBase() + "/xcrash-1";
     std::string err;
     CrashGuard g(root);
 

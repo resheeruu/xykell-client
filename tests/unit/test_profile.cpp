@@ -1,13 +1,21 @@
 // Host unit test: profiles CRUD, persistence, import/export, active tracking.
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 
 #include "xykell/file_util.h"
 #include "xykell/profile_manager.h"
 
+namespace {
+std::string tmpBase() {
+    const char* e = std::getenv("XYKELL_TEST_TMP");
+    return e != nullptr ? e : "/data/data/com.termux/files/usr/tmp/opencode";
+}
+} // namespace
+
 int main() {
     using namespace xykell;
-    const std::string root = "/data/data/com.termux/files/usr/tmp/opencode/xprof-1";
+    const std::string root = tmpBase() + "/xprof-1";
     std::string err;
     ProfileManager pm(root);
 
