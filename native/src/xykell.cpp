@@ -6,6 +6,7 @@
 #include "xykell/crash_guard.h"
 #include "xykell/file_util.h"
 #include "xykell/load_stages.h"
+#include "xykell/runtime_active.h"
 #include "xykell/runtime_probe.h"
 #include "xykell/hud.h"
 #include "xykell/menu.h"
@@ -136,6 +137,15 @@ class XykellMod {
                 XYKELL_VERSION, XYKELL_LEVI_PIN, XYKELL_PRELOADER_PIN);
             stages.mark(xykell::LoadStage::RuntimeProbeCompleted, "21 capabilities");
             (void)probe;
+            // XYKELL_RUNTIME_ACTIVE is marked ONLY here: native code executing
+            // in-process after a full load chain. Never for builds/packages.
+            std::string activeErr;
+            xykell::setHudDataDir(ctx.dataDir().string());
+            if (!xykell::markRuntimeActive(ctx.dataDir().string(), XYKELL_VERSION,
+                                           activeErr)) {
+                ctx.logger().info("{}: runtime-active marker FAILED ({})", XYKELL_NAME,
+                                 activeErr);
+            }
             stages.mark(xykell::LoadStage::Ready, "load chain complete");
             ctx.logger().info("{}", stages.report());
         }
@@ -160,6 +170,7 @@ class XykellMod {
 
     bool unload(pl::mod::ModContext& ctx) {
         ctx.logger().info("{}: unload (clean)", XYKELL_NAME);
+        xykell::clearRuntimeActive(ctx.dataDir().string());
         auto& cfg = runtimeConfig();
         cfg.setModuleEnabled("xykell-core", xykell::XykellCore::instance().modEnabled());
         std::string cfgErr = ctx.configDir().string() + "/xykell.json";

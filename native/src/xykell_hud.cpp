@@ -14,6 +14,7 @@
 #include "xykell/hud_renderer.h"
 #include "xykell/input_router.h"
 #include "xykell/module_manager.h"
+#include "xykell/runtime_active.h"
 #include "xykell/theme.h"
 #include "xykell/version.h"
 
@@ -28,6 +29,7 @@ gui::GuiController gGui;
 hud::HudManager gHudMgr;
 ui::Theme gTheme;
 ModuleManager* gMods = nullptr;
+std::string gDataDir;
 
 pl::modmenu::DrawCommand toCmd(const hud::HudLine& l) {
     pl::modmenu::DrawCommand c;
@@ -54,6 +56,12 @@ void refreshHud() {
     const auto& info = XykellCore::instance().info();
     ctx.versionLine = std::string("XYKELL ") + XYKELL_VERSION + " | mc=" + info.minecraftVersion;
     std::vector<pl::modmenu::DrawCommand> cmds;
+    // Proof banner first: only present when code runs in-process.
+    if (!gDataDir.empty() && isRuntimeActive(gDataDir)) {
+        for (const auto& line : hud::proofBanner(ctx.versionLine)) {
+            cmds.push_back(toCmd(line));
+        }
+    }
     for (const auto& line : hud::renderHud(gHudMgr, ctx)) {
         cmds.push_back(toCmd(line));
     }
@@ -124,5 +132,6 @@ gui::GuiController& clickGui() { return gGui; }
 input::InputRouter& inputRouter() { return gRouter; }
 hud::HudManager& hudManager() { return gHudMgr; }
 void setRuntimeModules(ModuleManager* mods) { gMods = mods; }
+void setHudDataDir(const std::string& dataDir) { gDataDir = dataDir; }
 
 } // namespace xykell

@@ -38,6 +38,7 @@ gui::GuiController& clickGui();
 input::InputRouter& inputRouter();
 hud::HudManager& hudManager();
 void setRuntimeModules(ModuleManager* mods);
+void setHudDataDir(const std::string& dataDir);
 
 class CrashGuard;
 void setRecoveryContext(CrashGuard* guard, ModuleManager* mods);

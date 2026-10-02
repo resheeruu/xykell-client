@@ -36,6 +36,7 @@ add_library(
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp
     src/xykell_profile_manager.cpp
+    src/xykell_runtime_active.cpp
     src/xykell_runtime_probe.cpp
     src/xykell_sigscan.cpp
     src/xykell_theme.cpp

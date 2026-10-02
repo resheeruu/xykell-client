@@ -127,6 +127,31 @@ void saveHudToProfile(Profile& profile, const HudManager& mgr) {
     profile.hudLayout = mgr.saveLayout();
 }
 
+std::vector<HudLine> proofBanner(const std::string& versionLine) {
+    const std::string bar(32, '-');
+    std::vector<HudLine> out;
+    HudLine l0;
+    l0.text = "+------------------------------+";
+    l0.x = 16.0f;
+    l0.y = 16.0f;
+    l0.color = 0xFF4FD8C7;
+    out.push_back(l0);
+    HudLine l1 = l0;
+    l1.text = "| XYKELL CLIENT RUNTIME ACTIVE |";
+    l1.y = 40.0f;
+    out.push_back(l1);
+    HudLine l2 = l0;
+    l2.text = "+" + bar + "+";
+    l2.y = 64.0f;
+    out.push_back(l2);
+    HudLine l3 = l0;
+    l3.text = versionLine;
+    l3.y = 88.0f;
+    l3.color = 0xFFFFFFFF;
+    out.push_back(l3);
+    return out;
+}
+
 bool loadHudFromProfile(const Profile& profile, HudManager& mgr, std::string& error) {
     return mgr.loadLayout(profile.hudLayout, error);
 }

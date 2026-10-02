@@ -38,6 +38,10 @@ std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx);
 // Clamp all elements into [0,w]x[0,h] when a viewport is known (w,h > 0).
 void clampToViewport(HudLayout& layout, float w, float h);
 
+// Unmistakable load proof banner (ASCII only — game fonts vary). Submitted
+// only when XYKELL_RUNTIME_ACTIVE is marked, i.e. code running in-process.
+std::vector<HudLine> proofBanner(const std::string& versionLine);
+
 // Profile layout persistence (native store stays authoritative).
 void saveHudToProfile(Profile& profile, const HudManager& mgr);
 bool loadHudFromProfile(const Profile& profile, HudManager& mgr, std::string& error);
