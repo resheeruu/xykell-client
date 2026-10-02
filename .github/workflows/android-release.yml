@@ -67,17 +67,24 @@ jobs:
           set -e
           APK=app/build/outputs/apk/debug/app-debug.apk
           test -f "$APK"
+          test -s "$APK"
           unzip -l "$APK" | grep "lib/arm64-v8a/libxykell.so"
-          mkdir -p /tmp/apkcheck && cd /tmp/apkcheck
+          rm -rf /tmp/apkcheck && mkdir -p /tmp/apkcheck && cd /tmp/apkcheck
           unzip -o "$GITHUB_WORKSPACE/$APK" lib/arm64-v8a/libxykell.so
           file lib/arm64-v8a/libxykell.so | grep -q "ARM aarch64"
           NM="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
           "$NM" -D lib/arm64-v8a/libxykell.so | grep -q "T PLGetModRegistration"
-          echo "APK_SIZE=$(stat -c%s "$GITHUB_WORKSPACE/$APK")"
-          sha256sum "$GITHUB_WORKSPACE/$APK"
+          echo "Xykell APK:"
+          echo "Path: $APK"
+          echo "Size: $(stat -c%s "$GITHUB_WORKSPACE/$APK")"
+          echo "SHA256: $(sha256sum "$GITHUB_WORKSPACE/$APK" | cut -d' ' -f1)"
+          echo "ABI: arm64-v8a"
+          echo "Native library: lib/arm64-v8a/libxykell.so"
+          echo "PLGetModRegistration: exported"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: XykellClient-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
