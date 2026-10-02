@@ -48,3 +48,26 @@ class ServersFragment : InfoFragment() {
             "profiles, connection history. No credentials collected."
     }
 }
+
+class SettingsFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Settings"
+        body = "NOT WIRED — launcher settings pending.\n\nSafe mode lives in " +
+            "native CrashGuard (game process). When active the launcher will " +
+            "show: SAFE MODE / Reason / Disabled modules. Bridge: NOT WIRED."
+    }
+}
+
+class AboutFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val i = dev.xykell.client.runtime.XykellInfo
+        title = "About"
+        body = "Xykell Client ${i.XYKELL_VERSION} (shell)\n" +
+            "Native core ${i.NATIVE_VERSION}\n" +
+            "Levi target ${i.LEVI_TARGET}, preloader ${i.PRELOADER_PIN}\n\n" +
+            "Original implementation. Not affiliated with Mojang/Microsoft.\n" +
+            "See docs/LICENSES.md in the repository."
+    }
+}
