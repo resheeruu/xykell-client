@@ -3,6 +3,7 @@ package dev.xykell.client.runtime
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import dev.xykell.client.NativeProfiles
 
 /** Executes the staged PLAY pipeline using real device state. Contains NO
  *  Levi references: the final architecture never opens another launcher.
