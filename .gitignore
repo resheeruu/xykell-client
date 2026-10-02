@@ -1,3 +1,4 @@
+# Build outputs (repo-root only; scripts/build/*.sh are source)
 # Android / C++ / Kotlin
 /build/
 /dist/
@@ -6,7 +7,6 @@
 *.levipack
 local.properties
 .gradle/
-build/
 app/build/
 *.so
 *.o

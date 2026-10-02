@@ -4,5 +4,7 @@
   "author": "Xykell Contributors",
   "version": "0.1.0-m1",
   "entry": "libxykell.so",
-  "minecraft_versions": []
+  "minecraft_versions": [],
+  "overwrite_files": [],
+  "overwrite_folders": []
 }
