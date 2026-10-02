@@ -9,6 +9,7 @@ object RuntimeManager {
     /** Human-readable status for the PLAY button area. Never claims more. */
     fun playStatusText(): String = when (launchState) {
         LaunchState.NOT_WIRED ->
-            "PLAY — Status: NOT WIRED (runtime integration pending)"
+            "PLAY = verified handoff: pre-checks, then opens LeviLauncher. " +
+            "Tap PLAY to run the checks."
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dev.xykell.client.R
+import dev.xykell.client.runtime.LaunchExecutor
 import dev.xykell.client.runtime.ProfileManager
 import dev.xykell.client.runtime.RuntimeManager
 import dev.xykell.client.runtime.XykellInfo
@@ -23,9 +24,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             "Profile: ${ProfileManager.currentProfile}"
         val play = view.findViewById<Button>(R.id.home_play)
         val status = view.findViewById<TextView>(R.id.home_play_status)
-        // Backend unavailable: visibly disabled + persistent reason. No fake launch.
-        play.isEnabled = false
+        // PLAY = verified handoff only: pre-checks, then Levi's own activity.
+        // Never claims the game launched. See LaunchDecider/LaunchExecutor.
+        play.isEnabled = true
         status.text = RuntimeManager.playStatusText()
+        play.setOnClickListener {
+            status.text = LaunchExecutor.execute(requireContext())
+        }
         val diag = view.findViewById<TextView>(R.id.home_diag)
         diag.text = "Device: ${Build.MANUFACTURER} ${Build.MODEL}, " +
             "Android ${Build.VERSION.RELEASE}, " +
