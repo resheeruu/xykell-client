@@ -54,10 +54,27 @@ No runtime, no API, no sandbox, no manager. DESIGN ONLY (docs/SCRIPTING.md).
 Lua 5.4.x is a stated preference, not a decision — engine choice needs a
 license/size review before any code.
 
-## 9. Missing version support
-Runtime MC version string source unknown (adapter defaults PARTIAL);
-no per-version capability tables; no signature/offset derivation pipeline;
-floor policy (≥1.21.80) inherited from Levi, not independently verified.
+## 9. Missing version support (Batch 4 update)
+Device baseline RESOLVED: MC 1.26.45.1 on this phone (APK evidence).
+Still missing: in-process version string, per-version capability tables,
+signature/offset pipeline. Floor policy (≥1.21.80) inherited from Levi.
+
+## 11. License/research gaps (Batch 4 update)
+- Apollon: still no authoritative public source → APOLLON_SOURCE_UNVERIFIED.
+- BedrockTools license discrepancy stands (treated as GPL-3.0).
+- New: `docs/THIRD-PARTY-LICENSE-MATRIX.md` is now the per-file ledger.
+- Reference→capability mapping added below (§12b):
+
+| Reference feature | Xykell equivalent | Required capability | Status | Evidence |
+|---|---|---|---|---|
+| Lunar KillAura/AutoCrystal | combat.* (registry) | FRAME+PLAYER+ENTITY | RESEARCH_REQUIRED | no sources in SDK |
+| Lunar Fly/Speed | movement.* | FRAME+PLAYER | RESEARCH_REQUIRED | same |
+| Lunar Xray/ESP | world.*/visual.* | FRAME+WORLD(+ENTITY) | RESEARCH_REQUIRED | same |
+| Lunar ClickGUI | Xykell ClickGUI model | OVERLAY_DELIVERY | PARTIAL | ModMenu API builds |
+| Atlas FPS unlock/Zoom/waypoints | performance/visual/world | FRAME/WORLD/PLAYER | RESEARCH_REQUIRED | no frame/player/world sources |
+| Flarial scripts | scripting.* | SCRIPTING | NOT_IMPLEMENTED | design only |
+| WClient/Nova relay | network/packet, proxy | PACKET | BLOCKED | no packet API in headers |
+| Apollon movement/combat | movement/combat.* | FRAME+PLAYER | RESEARCH_REQUIRED | source unverified |
 
 ## 10. Missing tests
 Zero unit tests. No CI coverage of native logic. Device runbooks exist

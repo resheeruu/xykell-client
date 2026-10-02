@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased]
+- Batch 4: XykellRuntimeProbe (21 caps) + capability gate, registry
+  `requires[]` + schema keys (name/description/settings/platforms/
+  version_constraints/evidence), engines (target/move/budget/perf, gated),
+  audit script (fake-SUPPORTED gate), CI registry checks, launcher
+  Worlds/Packs/Servers screens, MC 1.26.45.1 device baseline, new docs
+  (INVENTORY, CAPABILITIES, SECURITY, SCRIPTING/PROXY-DESIGN, LICENSE-MATRIX).
+  15/15 host suites PASS.
 - Batch 3: ClickGUI runtime binding (GuiController toggle honesty, ModMenu
   open/close), InputRouter (closed=M1 path, open=GUI consume), HudRenderer
   (theme colors, real taps/module states, `--` rule), editor clamp/cancel,

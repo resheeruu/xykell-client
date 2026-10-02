@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment
 import dev.xykell.client.ui.AboutFragment
 import dev.xykell.client.ui.HomeFragment
 import dev.xykell.client.ui.ModulesFragment
+import dev.xykell.client.ui.PacksFragment
 import dev.xykell.client.ui.ProfilesFragment
+import dev.xykell.client.ui.ServersFragment
 import dev.xykell.client.ui.SettingsFragment
 import dev.xykell.client.ui.VersionsFragment
+import dev.xykell.client.ui.WorldsFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         wire(R.id.nav_profiles, ProfilesFragment())
         wire(R.id.nav_settings, SettingsFragment())
         wire(R.id.nav_about, AboutFragment())
+        wire(R.id.nav_worlds, WorldsFragment())
+        wire(R.id.nav_packs, PacksFragment())
+        wire(R.id.nav_servers, ServersFragment())
         if (savedInstanceState == null) show(HomeFragment())
     }
 

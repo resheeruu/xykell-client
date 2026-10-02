@@ -11,6 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Validate registry and audit features
+        run: |
+          set -e
+          python3 scripts/registry/validate.py
+          python3 scripts/audit/full-feature-audit.py > /tmp/audit.txt
+          tail -3 /tmp/audit.txt
+          grep -q "No fake SUPPORTED entries." /tmp/audit.txt
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:

@@ -57,4 +57,23 @@
             android:text="About" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/nav_worlds"
+            style="@style/XykellNavButton"
+            android:text="Worlds" />
+        <Button
+            android:id="@+id/nav_packs"
+            style="@style/XykellNavButton"
+            android:text="Packs" />
+        <Button
+            android:id="@+id/nav_servers"
+            style="@style/XykellNavButton"
+            android:text="Servers" />
+    </LinearLayout>
+
 </LinearLayout>

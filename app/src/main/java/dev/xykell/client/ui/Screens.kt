@@ -48,7 +48,6 @@ class SettingsFragment : InfoFragment() {
             "show: SAFE MODE / Reason / Disabled modules. Bridge: NOT WIRED."
     }
 }
-
 class AboutFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,5 +58,36 @@ class AboutFragment : InfoFragment() {
             "Levi target ${i.LEVI_TARGET}, preloader ${i.PRELOADER_PIN}\n\n" +
             "Original implementation. Not affiliated with Mojang/Microsoft.\n" +
             "See docs/LICENSES.md in the repository."
+    }
+}
+
+class WorldsFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Worlds"
+        body = "NOT WIRED — world browser pending Levi runtime integration.\n\n" +
+            "Planned: browse, backup, restore, import, export, profile " +
+            "association, version compatibility. Uses official/local " +
+            "Minecraft data pathways only."
+    }
+}
+
+class PacksFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Packs"
+        body = "NOT WIRED — resource-pack browser pending Levi runtime integration.\n\n" +
+            "Planned: browse, import, export, enable, disable, compatibility, " +
+            "backup, rollback. Never loads native executables as content."
+    }
+}
+
+class ServersFragment : InfoFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Servers"
+        body = "NOT WIRED — server browser pending network layer.\n\n" +
+            "Planned: saved servers, status, latency where measurable, " +
+            "profiles, connection history. No credentials collected."
     }
 }
