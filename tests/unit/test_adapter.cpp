@@ -14,8 +14,10 @@ int main() {
     r = VersionAdapter::check("", "arm64-v8a");
     assert(r.state == SupportState::Partial);
 
-    // Verified line.
+    // Verified lines.
     r = VersionAdapter::check("1.26.50", "arm64-v8a");
+    assert(r.state == SupportState::Supported);
+    r = VersionAdapter::check("1.26.45", "arm64-v8a");
     assert(r.state == SupportState::Supported);
 
     // Below Levi floor.

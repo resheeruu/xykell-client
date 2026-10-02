@@ -18,6 +18,15 @@ zipfile inspection (no modification, no credentials touched; `libminecraftpe`
 itself lives in the installed lib dir, unreadable from Termux). This is the
 test target — not a claim the adapter can yet detect it in-process.
 
+## Levi line coverage (Batch 5, release-notes evidence)
+- v1.5.17 (2026-08-31): **"Added Minecraft 1.26.45 support to built-in mods"**
+  → the device's 1.26.45.1 sits on a Levi-supported line. No mismatch.
+- v1.5.24: adds 1.26.50 inbuilt-mod support. v1.5.25 (pinned): touch + mod-menu
+  integration improvements. Newer Levi keeps older MC lines working via
+  version isolation; `minecraft_versions: []` (Xykell manifest) means no
+  launcher-side gate — preloader loads us on any launched build.
+- Adapter `knownGood`: `1.26.45`, `1.26.50` (exact-match, changelog-sourced).
+
 ## Per-version data (when the pipeline exists)
 `client/compatibility/<build>/`: version, signatures, offsets, patterns,
 source, confidence, feature, status. Provenance mandatory; never pasted from

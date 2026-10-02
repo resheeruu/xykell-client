@@ -5,7 +5,9 @@
 namespace xykell {
 
 const std::vector<std::string>& VersionAdapter::knownGood() {
-    static const std::vector<std::string> goods = {"1.26.50"};
+    // Lines Levi's changelog confirms inbuilt-mod support for:
+    // v1.5.17 -> 1.26.45; v1.5.24 -> 1.26.50.
+    static const std::vector<std::string> goods = {"1.26.45", "1.26.50"};
     return goods;
 }
 
