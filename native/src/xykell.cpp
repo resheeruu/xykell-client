@@ -5,6 +5,8 @@
 #include "xykell/core.h"
 #include "xykell/crash_guard.h"
 #include "xykell/file_util.h"
+#include "xykell/load_stages.h"
+#include "xykell/runtime_probe.h"
 #include "xykell/hud.h"
 #include "xykell/menu.h"
 #include "xykell/module_manager.h"
@@ -49,11 +51,19 @@ const char* stateName(xykell::SupportState s) {
 class XykellMod {
   public:
     bool load(pl::mod::ModContext& ctx) {
+        xykell::LoadTracker stages;
+        stages.mark(xykell::LoadStage::ProcessStarted, "preloader");
+        stages.mark(xykell::LoadStage::NativeLibraryLoaded, "libxykell.so");
+        stages.mark(xykell::LoadStage::ModRegistered, "PLGetModRegistration");
         auto& core = xykell::XykellCore::instance();
         if (!core.init(XYKELL_VERSION, XYKELL_PRELOADER_PIN)) {
             ctx.logger().error("{}: core init failed", XYKELL_NAME);
+            stages.fail(xykell::LoadStage::CoreInitialized, "XykellCore::init",
+                        "initialized core", "init returned false", "see log");
+            ctx.logger().error("{}", stages.report());
             return false;
         }
+        stages.mark(xykell::LoadStage::CoreInitialized, "XykellCore");
         const auto support =
             xykell::VersionAdapter::check("unknown", currentArch());
         core.setMinecraftVersion(support.display);
@@ -74,6 +84,7 @@ class XykellMod {
                            cfgOk ? "ok" : "defaults", cfg.recovered(),
                            cfg.migratedFrom());
         core.setModEnabled(cfg.moduleEnabled("xykell-core", core.modEnabled()));
+        stages.mark(xykell::LoadStage::ConfigInitialized, "xykell.json");
         auto& guard = runtimeGuard(ctx.dataDir().string());
         std::string guardErr;
         if (!guard.load(guardErr)) {
@@ -97,6 +108,7 @@ class XykellMod {
                                  read.error);
             }
         }
+        stages.mark(xykell::LoadStage::RegistryInitialized, "features.json");
         bool hudOk = false;
         if (guard.isSafeMode()) {
             std::size_t disabled = 0;
@@ -116,6 +128,16 @@ class XykellMod {
             const bool diagOk = xykell::registerDiagnosticsModule(ctx.id());
             ctx.logger().info("{}: diagnostics registration {}", XYKELL_NAME,
                                diagOk ? "ok" : "FAILED");
+            stages.mark(xykell::LoadStage::DiagnosticsInitialized, "xykell-diagnostics");
+            stages.mark(xykell::LoadStage::HudInitialized, "xykell-hud");
+            stages.mark(xykell::LoadStage::InputInitialized, "touch-callback");
+            stages.mark(xykell::LoadStage::RuntimeProbeStarted, "RuntimeProbe::collect");
+            const auto probe = xykell::runtime::RuntimeProbe::collect(
+                XYKELL_VERSION, XYKELL_LEVI_PIN, XYKELL_PRELOADER_PIN);
+            stages.mark(xykell::LoadStage::RuntimeProbeCompleted, "21 capabilities");
+            (void)probe;
+            stages.mark(xykell::LoadStage::Ready, "load chain complete");
+            ctx.logger().info("{}", stages.report());
         }
         // Runtime registry mirrors the two M1 menu modules (behavior unchanged).
         auto& mods = runtimeModules();
