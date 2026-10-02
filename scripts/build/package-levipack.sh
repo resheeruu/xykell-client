@@ -9,7 +9,11 @@ test -f "$BUILD/libxykell.so" || { echo "missing $BUILD/libxykell.so (run build-
 rm -rf "$STAGE" "$DIST/xykell.levipack"
 mkdir -p "$STAGE"
 cp "$ROOT/native/manifest.json" "$STAGE/manifest.json"
-cp "$BUILD/libxykell.so" "$STAGE/libxykell.so"
+# Registry catalog for the ClickGUI model (loaded from verified resourceDir).
+mkdir -p "$STAGE/resources"
+cp "$ROOT/registry/features.json" "$STAGE/resources/features.json"
+# Strip the packaged copy only (build/ keeps symbols for diagnostics).
+llvm-strip "$BUILD/libxykell.so" -o "$STAGE/libxykell.so"
 (cd "$DIST" && zip -qr xykell.levipack xykell)
 ls -la "$DIST/xykell.levipack"
 unzip -l "$DIST/xykell.levipack"

@@ -6,8 +6,8 @@
 - [x] M1.5 — launcher shell (6 screens, NOT WIRED) + CI APK green (`XykellClient-debug`, sha256 recorded). **Device PENDING.**
 - [x] Registry (192 modules, honest statuses) + EventBus + ModuleManager + host unit tests (4/4 PASS).
 - [x] Batch 2 — Config/Profile/CrashGuard/ClickGUI-model/HUD-model/themes + 10/10 tests.
-- [ ] **Next: ClickGUI render binding → HUD engine draw → runtime version source → QoL**
-  (dependency graph in `docs/GAP-ANALYSIS.md` §12).
+- [x] Batch 3 — ClickGUI/InputRouter/HudRenderer/recovery/launcher browser + 13/13 tests + size audit.
+- [ ] **Next: runtime version source → QoL modules (graph §12).**
 - [ ] M3 — profiles (all 11), touchbind/gesture system, settings sync.
 - [ ] M4 — visual QoL batch (Zoom/Fullbright/FOV/crosshair), each version-gated.
 - [ ] M5 — network engine (diagnostics set) + packet-event monitoring.

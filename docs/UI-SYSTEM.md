@@ -25,3 +25,21 @@ Original Xykell design (no copied artwork/branding). Large touch targets (min 48
 - ClickGUI model (`clickgui_model`): entries parsed ONLY from `registry/features.json` (test-enforced, 192 entries); category filter, case-insensitive search, `operable()` == SUPPORTED|PARTIAL — RESEARCH_REQUIRED modules are display-only, never togglable into fake operation.
 - HUD framework (`hud_model`): typed elements, layouts, touch editor state (select/drag/scale/visibility/reset), JSON serialization into profiles. Unverified sources render `--` by contract (`provider` empty or throwing → placeholder).
 - Themes (`theme.h`): Xykell Dark (matches `app/` `#0D1526`/`#4FD8C7`) + Xykell Light; `#`-color validated serialization.
+
+## 5. Runtime binding (Batch 3)
+- `GuiController`: registry cached once; `requestToggle()` returns Performed
+  only for operable entries WITH implementations (`client.core`,
+  `client.config_store`, `client.version_adapter`, `hud.watermark`,
+  `hud.touch_indicators`); RR/NI/quarantined/unknown refused with reasons.
+  GUI opens via the `xykell-clickgui` ModMenu toggle; header-tap closes.
+- `InputRouter`: closed GUI → ToGame (M1 counter path unchanged); open GUI →
+  taps/scroll consumed (96px rows, clamped scroll, drag≠tap). No new input API.
+- `HudRenderer`: layout + theme + live state (taps, module on/total, version)
+  → draw lines; theme accent/muted applied; `#`-hex fallback white.
+  Editor clamps to viewport when known; cancel keeps prior layout.
+- Recovery: safe-mode registers `xykell-recovery` (report as description +
+  explicit `clear_quarantine` toggle; cleared modules return to Loaded, never
+  auto-enabled).
+- Launcher `Modules` screen reads the same `registry/features.json` (build-time
+  asset copy, org.json parsing, search + status counts). Profiles/Settings show
+  the native-store bridge as NOT WIRED — no duplicate Kotlin store.

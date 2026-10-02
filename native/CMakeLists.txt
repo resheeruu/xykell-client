@@ -24,8 +24,12 @@ add_library(
     src/xykell_crash_guard.cpp
     src/xykell_event_bus.cpp
     src/xykell_file_util.cpp
+    src/xykell_gui_controller.cpp
+    src/xykell_gui_host.cpp
     src/xykell_hud.cpp
     src/xykell_hud_model.cpp
+    src/xykell_hud_renderer.cpp
+    src/xykell_input_router.cpp
     src/xykell_json_min.cpp
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp

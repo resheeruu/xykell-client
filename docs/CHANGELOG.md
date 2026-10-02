@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased]
+- Batch 3: ClickGUI runtime binding (GuiController toggle honesty, ModMenu
+  open/close), InputRouter (closed=M1 path, open=GUI consume), HudRenderer
+  (theme colors, real taps/module states, `--` rule), editor clamp/cancel,
+  profile layout IO, recovery module + safe-mode flow, launcher registry
+  browser (build-time asset, search + statuses), size audit + strip at
+  package time. 13/13 host suites PASS.
 - Batch 2: real Config (atomic/corrupt-recovery/migrate), Profiles (6 builtins,
   full CRUD + import/export), CrashGuard (threshold quarantine, safe mode,
   persistent), ClickGUI model from registry JSON, HUD framework (`--` rule),

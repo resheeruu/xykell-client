@@ -33,7 +33,20 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    // Single-catalog rule: the launcher reads the same registry/features.json
+    // as native (copied at build time, never duplicated in source).
+    sourceSets {
+        getByName("main").assets.srcDir(
+            "${layout.buildDirectory.get().asFile}/generated/registry")
+    }
 }
+
+val copyRegistry = tasks.register<Copy>("copyRegistry") {
+    from(rootProject.file("registry/features.json"))
+    into(layout.buildDirectory.dir("generated/registry"))
+}
+tasks.named("preBuild") { dependsOn(copyRegistry) }
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")

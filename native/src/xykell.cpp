@@ -4,6 +4,7 @@
 #include "xykell/config_store.h"
 #include "xykell/core.h"
 #include "xykell/crash_guard.h"
+#include "xykell/file_util.h"
 #include "xykell/hud.h"
 #include "xykell/menu.h"
 #include "xykell/module_manager.h"
@@ -81,15 +82,37 @@ class XykellMod {
         for (const auto& q : guard.quarantined()) {
             runtimeModules().quarantine(q, guard.quarantineReason(q));
         }
+        setRuntimeModules(&runtimeModules());
+        setRecoveryContext(&guard, &runtimeModules());
+        // Registry catalog from the verified mod resources dir; missing file
+        // means no ClickGUI (menu + HUD proof still work) — never invented.
+        std::string registryJson;
+        {
+            const auto read =
+                xykell::fs::readFile(ctx.resourceDir().string() + "/features.json");
+            if (read.ok) {
+                registryJson = read.content;
+            } else {
+                ctx.logger().info("{}: registry unavailable ({}), ClickGUI off", XYKELL_NAME,
+                                 read.error);
+            }
+        }
         bool hudOk = false;
         if (guard.isSafeMode()) {
             std::size_t disabled = 0;
-            ctx.logger().info("{}: {}", XYKELL_NAME, guard.safeModeReport(disabled));
+            const std::string report = guard.safeModeReport(disabled);
+            ctx.logger().info("{}: {}", XYKELL_NAME, report);
             core.setSafeMode(true);
+            const bool recOk = xykell::registerRecoveryModule(ctx.id(), report);
+            ctx.logger().info("{}: recovery registration {}", XYKELL_NAME,
+                               recOk ? "ok" : "FAILED");
         } else {
             hudOk = xykell::registerHudModule(ctx.id());
             ctx.logger().info("{}: hud/input registration {}", XYKELL_NAME,
                                hudOk ? "ok" : "FAILED");
+            const bool guiOk = xykell::registerClickGuiModule(ctx.id(), registryJson);
+            ctx.logger().info("{}: clickgui registration {}", XYKELL_NAME,
+                               guiOk ? "ok" : "OFF (no catalog)");
         }
         // Runtime registry mirrors the two M1 menu modules (behavior unchanged).
         auto& mods = runtimeModules();
@@ -120,6 +143,8 @@ class XykellMod {
         }
         runtimeModules().setEnabled(xykell::kHudModuleId, false);
         runtimeModules().setEnabled(xykell::kMenuModuleId, false);
+        xykell::unregisterClickGuiModule();
+        xykell::unregisterRecoveryModule();
         xykell::unregisterHudModule();
         xykell::unregisterMenuModule();
         xykell::XykellCore::instance().shutdown();

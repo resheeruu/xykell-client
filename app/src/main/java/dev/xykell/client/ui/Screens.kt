@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dev.xykell.client.R
 
-/** Generic title + body screen for Versions/Modules/Profiles/Settings/About. */
+/** Generic title + body screen for Versions/Profiles/Settings/About. */
 open class InfoFragment : Fragment(R.layout.fragment_info) {
     var title: String = ""
     var body: String = ""
@@ -27,22 +27,15 @@ class VersionsFragment : InfoFragment() {
     }
 }
 
-class ModulesFragment : InfoFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        title = "Modules"
-        body = "NOT WIRED — module manager pending runtime integration.\n\n" +
-            "Future home of the Xykell Module Engine UI."
-    }
-}
-
 class ProfilesFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Profiles"
         val pm = dev.xykell.client.runtime.ProfileManager
         body = "Current: ${pm.currentProfile}\nAvailable: ${pm.profiles.joinToString()}\n\n" +
-            "Switching arrives with the profile system (M2)."
+            "Native profiles (Config/ProfileManager) live in the game-process " +
+            "store — no shared-storage bridge yet (RESEARCH_REQUIRED, no " +
+            "duplicate store here). This screen mirrors them once wired."
     }
 }
 
@@ -50,8 +43,9 @@ class SettingsFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Settings"
-        body = "NOT WIRED — launcher settings pending.\n\nSafe mode: available after " +
-            "runtime wiring. Diagnostics below are real device values."
+        body = "NOT WIRED — launcher settings pending.\n\nSafe mode lives in " +
+            "native CrashGuard (game process). When active the launcher will " +
+            "show: SAFE MODE / Reason / Disabled modules. Bridge: NOT WIRED."
     }
 }
 
