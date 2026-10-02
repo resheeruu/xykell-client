@@ -19,4 +19,7 @@ object NativeProfiles {
     external fun setActive(root: String, name: String): Boolean
     external fun getProfileJson(root: String, name: String): String?
     external fun importProfileJson(root: String, name: String, json: String): Boolean
+
+    /** Shared version verdict ("STATE|reason") from native VersionAdapter. */
+    external fun checkVersion(version: String, abi: String): String
 }

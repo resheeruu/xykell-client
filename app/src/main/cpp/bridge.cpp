@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "xykell/profile_manager.h"
+#include "xykell/version_adapter.h"
 
 namespace {
 
@@ -69,8 +70,7 @@ Java_dev_xykell_client_NativeProfiles_getProfileJson(JNIEnv* env, jclass, jstrin
 
 JNIEXPORT jboolean JNICALL
 Java_dev_xykell_client_NativeProfiles_importProfileJson(JNIEnv* env, jclass, jstring root,
-                                                        jstring name, jstring jsonText) {
-    const std::string jsonStr = toStd(env, jsonText);
+                                                        jstring name, jstring jsonText) {    const std::string jsonStr = toStd(env, jsonText);
     const auto parsed = xykell::json::parse(jsonStr);
     if (!parsed.ok) {
         return JNI_FALSE;
@@ -83,6 +83,21 @@ Java_dev_xykell_client_NativeProfiles_importProfileJson(JNIEnv* env, jclass, jst
     p.name = toStd(env, name);
     xykell::ProfileManager pm(toStd(env, root));
     return static_cast<jboolean>(pm.save(p, err));
+}
+
+// Shared version verdict: the SAME VersionAdapter the game module uses.
+// Returns "STATE|reason", e.g. "SUPPORTED|matches Levi-verified line".
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeProfiles_checkVersion(JNIEnv* env, jclass, jstring version,
+                                                   jstring abi) {
+    const auto r = xykell::VersionAdapter::check(toStd(env, version), toStd(env, abi));
+    std::string state;
+    switch (r.state) {
+        case xykell::SupportState::Supported: state = "SUPPORTED"; break;
+        case xykell::SupportState::Partial: state = "PARTIAL"; break;
+        case xykell::SupportState::Unsupported: state = "UNSUPPORTED"; break;
+    }
+    return toJni(env, state + "|" + r.reason);
 }
 
 } // extern "C"

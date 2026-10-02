@@ -16,7 +16,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<TextView>(R.id.home_title).text = "XYKELL CLIENT"
         view.findViewById<TextView>(R.id.home_versions).text =
-            "Minecraft: NOT WIRED (version scan pending)"
+            "Minecraft: " + installedLine()
         view.findViewById<TextView>(R.id.home_xykell).text =
             "Xykell ${XykellInfo.XYKELL_VERSION} (native ${XykellInfo.NATIVE_VERSION})"
         view.findViewById<TextView>(R.id.home_profile).text =
@@ -30,5 +30,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         diag.text = "Device: ${Build.MANUFACTURER} ${Build.MODEL}, " +
             "Android ${Build.VERSION.RELEASE}, " +
             (Build.SUPPORTED_ABIS.firstOrNull() ?: "abi?")
+    }
+
+    private fun installedLine(): String {
+        return try {
+            @Suppress("DEPRECATION")
+            val info = requireContext().packageManager
+                .getPackageInfo("com.mojang.minecraftpe", 0)
+            "${info.versionName} (installed)"
+        } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+            "not installed"
+        }
     }
 }
