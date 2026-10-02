@@ -7,9 +7,7 @@ object RuntimeManager {
     val launchState: LaunchState = LaunchState.NOT_WIRED
 
     /** Human-readable status for the PLAY button area. Never claims more. */
-    fun playStatusText(): String = when (launchState) {
-        LaunchState.NOT_WIRED ->
-            "PLAY = verified handoff: pre-checks, then opens LeviLauncher. " +
-            "Tap PLAY to run the checks."
-    }
+    fun playStatusText(): String =
+        "PLAY runs staged checks and stops at the missing loader stage. " +
+        "Tap PLAY to see the exact pipeline result."
 }

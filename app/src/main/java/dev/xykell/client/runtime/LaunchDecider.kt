@@ -1,48 +1,63 @@
 package dev.xykell.client.runtime
 
-/** Pure launch decision (no Android APIs — reviewable, mirrors native policy).
- *  Full in-Levi configured launch is NOT available: Levi exposes no external
- *  action carrying version+isolation+mods, so Xykell hands off to Levi's own
- *  MainActivity after passing pre-checks. Firing a bare minecraft:// URI
- *  would open the game WITHOUT Xykell — explicitly rejected. */
-enum class LaunchDecision {
-    /** MC verdict allows + Levi present: open Levi MainActivity. */
-    HANDOFF_TO_LEVI,
-    MISSING_MINECRAFT,
-    MISSING_LEVI,
-    UNSUPPORTED_VERSION,
-    NATIVE_BRIDGE_DOWN,
+/** Staged PLAY pipeline. Every stage must pass; the loader stage has no
+ *  verified mechanism, so PLAY always stops there with STANDALONE RUNTIME
+ *  NOT READY — never a fake "launched". Pure logic (no Android APIs). */
+enum class PlayStage {
+    MINECRAFT_DETECTED,
+    VERSION_COMPATIBLE,
+    PROFILE_READY,
+    RUNTIME_VALIDATED,
+    LOADER,
 }
 
-object LaunchDecider {
-    fun decide(
+data class StageResult(val stage: PlayStage, val passed: Boolean, val detail: String)
+
+object PlayPipeline {
+    fun run(
         mcInstalled: Boolean,
-        leviInstalled: Boolean,
-        verdictState: String,
-        bridgeUp: Boolean
-    ): LaunchDecision {
-        if (!bridgeUp) return LaunchDecision.NATIVE_BRIDGE_DOWN
-        if (!mcInstalled) return LaunchDecision.MISSING_MINECRAFT
-        if (verdictState != "SUPPORTED" && verdictState != "PARTIAL") {
-            return LaunchDecision.UNSUPPORTED_VERSION
+        compatState: String,
+        profileReady: Boolean,
+        safeMode: Boolean
+    ): List<StageResult> {
+        val out = ArrayList<StageResult>()
+        out.add(if (mcInstalled) {
+            StageResult(PlayStage.MINECRAFT_DETECTED, true, "official package present")
+        } else {
+            return out + StageResult(
+                PlayStage.MINECRAFT_DETECTED, false,
+                "official Minecraft Bedrock is not installed")
+        })
+        if (compatState != "SUPPORTED" && compatState != "PARTIAL") {
+            return out + StageResult(
+                PlayStage.VERSION_COMPATIBLE, false,
+                "installed build is not Xykell-compatible ($compatState)")
         }
-        if (!leviInstalled) return LaunchDecision.MISSING_LEVI
-        return LaunchDecision.HANDOFF_TO_LEVI
+        out.add(StageResult(
+            PlayStage.VERSION_COMPATIBLE, true, "build $compatState"))
+        if (!profileReady) {
+            return out + StageResult(
+                PlayStage.PROFILE_READY, false, "no active profile")
+        }
+        out.add(StageResult(PlayStage.PROFILE_READY, true, "profile active"))
+        if (safeMode) {
+            return out + StageResult(
+                PlayStage.RUNTIME_VALIDATED, false,
+                "safe mode is on — resolve CrashGuard first")
+        }
+        out.add(StageResult(PlayStage.RUNTIME_VALIDATED, true, "config valid"))
+        return out + StageResult(
+            PlayStage.LOADER, false,
+            "STANDALONE RUNTIME NOT READY: no verified standalone loader " +
+            "(signature-derived attach unavailable for this build)")
     }
 
-    fun describe(d: LaunchDecision): String = when (d) {
-        LaunchDecision.HANDOFF_TO_LEVI ->
-            "Pre-checks passed. Opening LeviLauncher — complete the launch " +
-            "inside Levi (isolated version + Xykell mod enabled). " +
-            "Xykell does NOT launch the game directly."
-        LaunchDecision.MISSING_MINECRAFT ->
-            "PLAY blocked: official Minecraft Bedrock is not installed."
-        LaunchDecision.MISSING_LEVI ->
-            "PLAY blocked: LeviLauncher v1.5.25+ is not installed. " +
-            "Install it from github.com/LiteLDev/LeviLaunchroid/releases first."
-        LaunchDecision.UNSUPPORTED_VERSION ->
-            "PLAY blocked: installed Minecraft build is not Xykell-compatible."
-        LaunchDecision.NATIVE_BRIDGE_DOWN ->
-            "PLAY blocked: native bridge unavailable."
+    fun report(results: List<StageResult>): String {
+        val sb = StringBuilder("PLAY pipeline:\n")
+        for (r in results) {
+            sb.append(if (r.passed) "[OK] " else "[STOP] ")
+                .append(r.stage.name).append(": ").append(r.detail).append('\n')
+        }
+        return sb.toString().trimEnd()
     }
 }
