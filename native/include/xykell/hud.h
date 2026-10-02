@@ -27,6 +27,9 @@ void refreshHud(); // (re)submits current overlay text; no-op when disabled
 bool registerClickGuiModule(const std::string& modId, const std::string& registryJson);
 void unregisterClickGuiModule();
 
+bool registerDiagnosticsModule(const std::string& modId);
+void unregisterDiagnosticsModule();
+
 bool registerRecoveryModule(const std::string& modId, const std::string& report);
 void unregisterRecoveryModule();
 

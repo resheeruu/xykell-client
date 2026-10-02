@@ -70,6 +70,13 @@ int main() {
     mods.quarantine("xykell-core", "boom");
     assert(gui.availability(*core, probe, mods) == "QUARANTINED");
 
+    // Diagnostic text: header + one line per capability.
+    const std::string rep = runtime::formatProbeReport(probe);
+    assert(rep.find("XYKELL t") != std::string::npos);
+    assert(rep.find("FRAME=RESEARCH_REQUIRED") != std::string::npos);
+    assert(rep.find("PACKET=BLOCKED") != std::string::npos);
+    assert(rep.find("LIFECYCLE=VERIFIED") != std::string::npos);
+
     std::cout << "test_probe: PASS (" << probe.caps.size() << " caps)\n";
     return 0;
 }

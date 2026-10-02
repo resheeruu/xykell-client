@@ -113,6 +113,9 @@ class XykellMod {
             const bool guiOk = xykell::registerClickGuiModule(ctx.id(), registryJson);
             ctx.logger().info("{}: clickgui registration {}", XYKELL_NAME,
                                guiOk ? "ok" : "OFF (no catalog)");
+            const bool diagOk = xykell::registerDiagnosticsModule(ctx.id());
+            ctx.logger().info("{}: diagnostics registration {}", XYKELL_NAME,
+                               diagOk ? "ok" : "FAILED");
         }
         // Runtime registry mirrors the two M1 menu modules (behavior unchanged).
         auto& mods = runtimeModules();
@@ -144,6 +147,7 @@ class XykellMod {
         runtimeModules().setEnabled(xykell::kHudModuleId, false);
         runtimeModules().setEnabled(xykell::kMenuModuleId, false);
         xykell::unregisterClickGuiModule();
+        xykell::unregisterDiagnosticsModule();
         xykell::unregisterRecoveryModule();
         xykell::unregisterHudModule();
         xykell::unregisterMenuModule();

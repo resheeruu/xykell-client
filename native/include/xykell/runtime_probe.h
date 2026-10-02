@@ -58,4 +58,8 @@ struct GateResult {
 GateResult canEnable(const std::vector<std::string>& needed,
                      const ProbeReport& probe, bool quarantined);
 
+// One-line-per-capability diagnostic text for the ModMenu diagnostics module
+// and logs. Pure formatting (host-testable).
+std::string formatProbeReport(const ProbeReport& probe);
+
 } // namespace xykell::runtime

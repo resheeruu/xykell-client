@@ -77,8 +77,7 @@ ProbeReport RuntimeProbe::collect(const std::string& xykellVersion,
 }
 
 GateResult canEnable(const std::vector<std::string>& needed,
-                     const ProbeReport& probe, bool quarantined) {
-    if (quarantined) {
+                     const ProbeReport& probe, bool quarantined) {    if (quarantined) {
         return {false, "quarantined (explicit clear required)"};
     }
     for (const auto& id : needed) {
@@ -88,6 +87,16 @@ GateResult canEnable(const std::vector<std::string>& needed,
         }
     }
     return {true, "all requirements Verified/Partial"};
+}
+
+std::string formatProbeReport(const ProbeReport& probe) {
+    std::string out = "XYKELL " + probe.xykellVersion + " | Levi " + probe.leviPin
+                    + " | preloader " + probe.preloaderPin + " | mc="
+                    + probe.minecraftVersion + " | " + probe.arch + "\n";
+    for (const auto& c : probe.caps) {
+        out += c.id + "=" + stateName(c.state) + "\n";
+    }
+    return out;
 }
 
 } // namespace xykell::runtime

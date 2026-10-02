@@ -6,6 +6,8 @@
 #include "xykell/crash_guard.h"
 #include "xykell/file_util.h"
 #include "xykell/module_manager.h"
+#include "xykell/runtime_probe.h"
+#include "xykell/version.h"
 
 namespace xykell {
 
@@ -74,5 +76,19 @@ bool registerRecoveryModule(const std::string& modId, const std::string& report)
 }
 
 void unregisterRecoveryModule() { pl::modmenu::unregisterModule(kRecoveryModuleId); }
+
+bool registerDiagnosticsModule(const std::string& modId) {
+    const auto probe = runtime::RuntimeProbe::collect(XYKELL_VERSION,
+                                                      XYKELL_LEVI_PIN, XYKELL_PRELOADER_PIN);
+    return pl::modmenu::ModuleBuilder("xykell-diagnostics", "Xykell Runtime Diagnostics")
+        .description(runtime::formatProbeReport(probe))
+        .modId(modId)
+        .defaultEnabled(true)
+        .registerModule();
+}
+
+void unregisterDiagnosticsModule() {
+    pl::modmenu::unregisterModule("xykell-diagnostics");
+}
 
 } // namespace xykell
