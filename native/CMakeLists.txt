@@ -42,6 +42,21 @@ if(NOT fmt_FOUND)
     FetchContent_MakeAvailable(fmt)
 endif()
 
+# Preloader runtime lib: the NDK linker forbids undefined symbols, while the
+# phone (Termux clang) permits them for runtime resolution. Default OFF keeps
+# the proven phone path; CI passes -DXYKELL_LINK_PRELOADER=ON (documented Levi
+# path: link the `preloader` target from pinned preloader-android 0.2.3).
+option(XYKELL_LINK_PRELOADER "Link preloader runtime lib (NDK ld needs it)" OFF)
+if(XYKELL_LINK_PRELOADER)
+    FetchContent_Declare(
+        preloader_android
+        GIT_REPOSITORY https://github.com/LiteLDev/preloader-android.git
+        GIT_TAG 0.2.3
+    )
+    FetchContent_MakeAvailable(preloader_android)
+    target_link_libraries(xykell PRIVATE preloader)
+endif()
+
 # __android_log_print + fmt::format (system or fetched above).
 target_link_libraries(xykell PRIVATE log fmt)
 
