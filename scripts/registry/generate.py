@@ -256,19 +256,78 @@ PROVEN = {
     ("hud", "touch_indicators"): PARTIAL,
 }
 
+# Capability requirements per entry (Batch 4). Everything here currently
+# fails the runtime gate (no verified sources) except LIFECYCLE-backed infra.
+# Format: (category, suffix) -> [caps]; CATEGORY_DEFAULTS applies otherwise.
+REQUIRES = {
+    ("hud", "fps"): ["FRAME"],
+    ("hud", "coordinates"): ["PLAYER"],
+    ("hud", "position"): ["PLAYER"],
+    ("hud", "ping"): ["PACKET"],
+    ("hud", "tps"): ["FRAME"],
+    ("hud", "armor"): ["PLAYER"],
+    ("hud", "health"): ["PLAYER"],
+    ("hud", "hunger"): ["PLAYER"],
+    ("hud", "direction"): ["PLAYER"],
+    ("hud", "biome"): ["WORLD"],
+    ("hud", "clock"): ["OVERLAY_DELIVERY"],
+    ("hud", "cps"): ["INPUT_SEMANTICS"],
+    ("hud", "keystrokes"): ["INPUT_SEMANTICS"],
+    ("hud", "touch_indicators"): ["INPUT_SEMANTICS"],
+    ("hud", "target_info"): ["ENTITY"],
+    ("hud", "arraylist"): ["OVERLAY_DELIVERY"],
+    ("hud", "watermark"): ["OVERLAY_DELIVERY"],
+    ("hud", "notifications"): ["OVERLAY_DELIVERY"],
+    ("hud", "session_stats"): ["OVERLAY_DELIVERY"],
+    ("hud", "server_info"): ["PACKET"],
+    ("client", "core"): ["LIFECYCLE"],
+    ("client", "version_adapter"): ["LIFECYCLE", "VERSION_STRING"],
+    ("client", "config_store"): ["LIFECYCLE", "CONFIG_DIRS"],
+    ("client", "profile_manager"): ["LIFECYCLE", "CONFIG_DIRS"],
+    ("client", "crash_guard"): ["LIFECYCLE", "CONFIG_DIRS"],
+    ("client", "updater"): ["LIFECYCLE"],
+}
+CATEGORY_DEFAULTS = {
+    "combat": ["FRAME", "PLAYER"],
+    "movement": ["FRAME", "PLAYER"],
+    "player": ["FRAME", "PLAYER"],
+    "world": ["FRAME", "WORLD"],
+    "visual": ["FRAME", "WORLD"],
+    "utility": ["FRAME"],
+    "network": ["PACKET"],
+    "performance": ["FRAME"],
+    "misc": ["OVERLAY_DELIVERY"],
+    "scripting": ["SCRIPTING"],
+    "hud": ["OVERLAY_DELIVERY"],
+    "client": ["LIFECYCLE"],
+}
+
+
+def humanize(suffix):
+    return " ".join(w.capitalize() for w in suffix.replace("_", " ").split())
+
 
 def main() -> None:
     entries = []
     for category, mods in CATEGORIES.items():
         for suffix, caps, impl, sources, notes in mods:
+            req = REQUIRES.get((category, suffix),
+                               CATEGORY_DEFAULTS.get(category, []))
             entries.append({
                 "id": f"{category}.{suffix}",
+                "name": humanize(suffix),
                 "category": category,
+                "description": notes or f"{humanize(suffix)} ({category}).",
                 "status": PROVEN.get((category, suffix), RR if category != "scripting" else NI),
+                "requires": req,
+                "settings": [],
+                "platforms": ["android"],
+                "version_constraints": [],
                 "implementation": impl,
                 "capabilities": caps,
                 "versions": [],
                 "sourceReferences": sources,
+                "evidence": "",
                 "notes": notes,
             })
     # scripting + client non-proven default to NOT_IMPLEMENTED

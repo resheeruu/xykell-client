@@ -30,7 +30,7 @@
 | .levipack packaged per Levi layout | VERIFIED (above) |
 | Levi APK authentic (size + sha256) | VERIFIED (above) |
 | Levi loads Xykell / init / menu / HUD / taps / toggles / restart | PENDING DEVICE (runbook above) |
-| Exact Bedrock version string | [RESEARCH REQUIRED] (read at step 9) |
+| Exact Bedrock version string | **1.26.45.1** (Batch 4: read-only APK string-pool evidence; in-process source still RR) |
 | FPS live value / real coordinates | Honestly deferred: no verified frame-tick or player-position source (see hud.h); overlay shows `--`/`n/a` by design |
 
 ## Known deviations from Levi checklist

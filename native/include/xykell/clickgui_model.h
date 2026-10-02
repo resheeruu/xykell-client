@@ -17,6 +17,7 @@ struct GuiModuleEntry {
     std::string category;
     std::string status; // SUPPORTED/PARTIAL/... as written in the registry
     std::vector<std::string> capabilities;
+    std::vector<std::string> requiresCaps; // runtime capabilities (Batch 4)
     std::string notes;
     bool favorite = false;
 

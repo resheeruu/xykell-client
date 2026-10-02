@@ -8,8 +8,14 @@ STATUSES = {"SUPPORTED", "PARTIAL", "UNSUPPORTED", "BLOCKED",
             "RESEARCH_REQUIRED", "NOT_IMPLEMENTED"}
 CAPS = {"NATIVE", "PACKET", "RENDER", "INPUT", "UI", "WORLD", "SCRIPT", "HYBRID"}
 IMPLS = {"native", "packet", "script", "hybrid"}
-REQUIRED = {"id", "category", "status", "implementation", "capabilities",
-            "versions", "sourceReferences", "notes"}
+KNOWN_CAPS = {"LIFECYCLE", "SHUTDOWN", "CONFIG_DIRS", "INPUT_TRANSPORT",
+              "INPUT_SEMANTICS", "MODMENU", "OVERLAY_DELIVERY", "FRAME",
+              "PLAYER", "ENTITY", "WORLD", "CAMERA", "RENDER", "PACKET",
+              "VERSION_STRING", "VERSION_POLICY", "CONFIG_STORE",
+              "PROFILE_STORE", "CRASHGUARD", "SCRIPTING", "PROXY"}
+REQUIRED = {"id", "name", "category", "description", "status", "requires",
+            "settings", "platforms", "version_constraints", "implementation",
+            "capabilities", "versions", "sourceReferences", "evidence", "notes"}
 
 
 def main() -> int:
@@ -34,6 +40,16 @@ def main() -> int:
             errors.append(f"[{i}] bad implementation {f.get('implementation')}")
         if not set(f.get("capabilities", [])) <= CAPS or not f.get("capabilities"):
             errors.append(f"[{i}] bad capabilities {f.get('capabilities')}")
+        req = f.get("requires", None)
+        if not isinstance(req, list) or not set(req) <= KNOWN_CAPS:
+            errors.append(f"[{i}] bad requires {req}")
+        for lk in ("name", "description", "implementation", "evidence", "notes"):
+            if not isinstance(f.get(lk), str):
+                errors.append(f"[{i}] {lk} must be a string")
+        if not isinstance(f.get("settings"), list) or not isinstance(
+                f.get("platforms"), list) or not isinstance(
+                f.get("version_constraints"), list):
+            errors.append(f"[{i}] settings/platforms/version_constraints must be lists")
         if not isinstance(f.get("versions"), list) or not isinstance(f.get("sourceReferences"), list):
             errors.append(f"[{i}] versions/sourceReferences must be lists")
     if errors:

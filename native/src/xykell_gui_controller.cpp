@@ -77,11 +77,43 @@ ToggleOutcome GuiController::requestToggle(const std::string& registryId,
     mods.setEnabled(it->second, target);
     return ToggleOutcome::Performed;
 }
-
 void GuiController::toggleFavorite(const std::string& id) {
     if (!favorites.erase(id)) {
         favorites.insert(id);
     }
+}
+
+std::string GuiController::availability(const GuiModuleEntry& e,
+                                        const runtime::ProbeReport& probe,
+                                        const ModuleManager& mods) const {
+    // Quarantine lives in runtime-id namespace; translate first.
+    const auto impl = implemented().find(e.id);
+    if (impl != implemented().end()) {
+        const auto* desc = mods.get(impl->second);
+        if (desc != nullptr && desc->state == ModuleState::Quarantined) {
+            return "QUARANTINED";
+        }
+    }
+    if (e.status == "RESEARCH_REQUIRED") {
+        return "RESEARCH_REQUIRED";
+    }
+    if (e.status == "NOT_IMPLEMENTED") {
+        return "UNAVAILABLE";
+    }
+    if (e.status == "BLOCKED") {
+        return "BLOCKED";
+    }
+    const auto gate = runtime::canEnable(e.requiresCaps, probe, false);
+    if (!gate.allowed) {
+        // Distinguish hard blocks (no API surface) from missing research.
+        for (const auto& r : e.requiresCaps) {
+            if (probe.stateOf(r) == runtime::CapState::Blocked) {
+                return "BLOCKED";
+            }
+        }
+        return "RESEARCH_REQUIRED";
+    }
+    return e.operable() ? "AVAILABLE" : "UNAVAILABLE";
 }
 
 bool GuiController::isFavorite(const std::string& id) const {

@@ -11,6 +11,13 @@ No verified on-device MC version string yet — `VersionAdapter::check` runs on
 in `registry/features.json` via client.version_adapter notes). Levi's
 `manifest.json → minecraft_versions` remains the enforcement point.
 
+## Device baseline (Batch 4, read-only evidence)
+Installed game on this phone: **Minecraft Bedrock 1.26.45.1** (arm64-v8a split
+present), extracted 2026-10-02 from `base.apk`'s string pool via read-only
+zipfile inspection (no modification, no credentials touched; `libminecraftpe`
+itself lives in the installed lib dir, unreadable from Termux). This is the
+test target — not a claim the adapter can yet detect it in-process.
+
 ## Per-version data (when the pipeline exists)
 `client/compatibility/<build>/`: version, signatures, offsets, patterns,
 source, confidence, feature, status. Provenance mandatory; never pasted from

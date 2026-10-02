@@ -8,8 +8,19 @@
   "features": [
     {
       "id": "combat.aim_assist",
+      "name": "Aim Assist",
       "category": "combat",
+      "description": "Aim Assist (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -18,12 +29,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_clicker",
+      "name": "Auto Clicker",
       "category": "combat",
+      "description": "Auto Clicker (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "INPUT",
@@ -34,12 +57,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.afk_clicker",
+      "name": "Afk Clicker",
       "category": "combat",
+      "description": "Afk Clicker (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -48,12 +83,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.trigger_bot",
+      "name": "Trigger Bot",
       "category": "combat",
+      "description": "Trigger Bot (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -62,12 +109,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.kill_aura",
+      "name": "Kill Aura",
       "category": "combat",
+      "description": "needs targeting+attack sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -77,12 +136,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "needs targeting+attack sources"
     },
     {
       "id": "combat.tp_aura",
+      "name": "Tp Aura",
       "category": "combat",
+      "description": "Tp Aura (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -91,12 +162,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.reach",
+      "name": "Reach",
       "category": "combat",
+      "description": "Reach (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -106,12 +189,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.hitbox",
+      "name": "Hitbox",
       "category": "combat",
+      "description": "Hitbox (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -120,12 +215,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.velocity",
+      "name": "Velocity",
       "category": "combat",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -135,12 +242,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "combat.knockback",
+      "name": "Knockback",
       "category": "combat",
+      "description": "Knockback (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -149,12 +268,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.knockback_delay",
+      "name": "Knockback Delay",
       "category": "combat",
+      "description": "Knockback Delay (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -163,12 +294,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.backtrack",
+      "name": "Backtrack",
       "category": "combat",
+      "description": "Backtrack (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -178,12 +321,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_crit",
+      "name": "Auto Crit",
       "category": "combat",
+      "description": "Auto Crit (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -192,12 +347,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_totem",
+      "name": "Auto Totem",
       "category": "combat",
+      "description": "Auto Totem (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -206,12 +373,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_potion",
+      "name": "Auto Potion",
       "category": "combat",
+      "description": "Auto Potion (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -220,12 +399,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_crystal",
+      "name": "Auto Crystal",
       "category": "combat",
+      "description": "Auto Crystal (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -234,12 +425,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.anti_crystal",
+      "name": "Anti Crystal",
       "category": "combat",
+      "description": "Anti Crystal (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -248,12 +451,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_cart",
+      "name": "Auto Cart",
       "category": "combat",
+      "description": "Auto Cart (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -262,12 +477,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_web",
+      "name": "Auto Web",
       "category": "combat",
+      "description": "Auto Web (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -276,12 +503,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.auto_switch",
+      "name": "Auto Switch",
       "category": "combat",
+      "description": "Auto Switch (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -290,12 +529,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.mace_swap",
+      "name": "Mace Swap",
       "category": "combat",
+      "description": "Bedrock mechanic mapping TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -304,12 +555,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "Bedrock mechanic mapping TBD"
     },
     {
       "id": "combat.mace_damage",
+      "name": "Mace Damage",
       "category": "combat",
+      "description": "Bedrock mechanic mapping TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -318,12 +581,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "Bedrock mechanic mapping TBD"
     },
     {
       "id": "combat.shield_disabler",
+      "name": "Shield Disabler",
       "category": "combat",
+      "description": "Shield Disabler (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -332,12 +607,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.anchor_aura",
+      "name": "Anchor Aura",
       "category": "combat",
+      "description": "Anchor Aura (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -346,12 +633,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.target_hud",
+      "name": "Target Hud",
       "category": "combat",
+      "description": "needs target source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI",
@@ -361,12 +660,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs target source"
     },
     {
       "id": "combat.target_selector",
+      "name": "Target Selector",
       "category": "combat",
+      "description": "Target Selector (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -376,12 +687,24 @@
         "Lunar Proxy",
         "Flarial"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "combat.friend_filter",
+      "name": "Friend Filter",
       "category": "combat",
+      "description": "local list; needs target source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -390,12 +713,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "local list; needs target source"
     },
     {
       "id": "combat.combat_settings",
+      "name": "Combat Settings",
       "category": "combat",
+      "description": "Combat Settings (combat).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -404,12 +739,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "movement.sprint",
+      "name": "Sprint",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "INPUT"
@@ -419,12 +766,24 @@
         "Flarial",
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.auto_sprint",
+      "name": "Auto Sprint",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "INPUT"
@@ -434,12 +793,24 @@
         "Lunar Proxy",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.speed",
+      "name": "Speed",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -449,12 +820,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.no_slow",
+      "name": "No Slow",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -463,12 +846,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.step",
+      "name": "Step",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -477,12 +872,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.air_jump",
+      "name": "Air Jump",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -491,12 +898,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.fly",
+      "name": "Fly",
       "category": "movement",
+      "description": "server-visible risk; locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -506,12 +925,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "server-visible risk; locality TBD"
     },
     {
       "id": "movement.motion_fly",
+      "name": "Motion Fly",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -520,12 +951,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.jetpack",
+      "name": "Jetpack",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -534,12 +977,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.phase",
+      "name": "Phase",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -548,12 +1003,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.glide",
+      "name": "Glide",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -562,12 +1029,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.auto_elytra",
+      "name": "Auto Elytra",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -576,12 +1055,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.auto_rocket",
+      "name": "Auto Rocket",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -590,12 +1081,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.bunny_hop",
+      "name": "Bunny Hop",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -605,12 +1108,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.jump_boost",
+      "name": "Jump Boost",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -619,12 +1134,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.levitate",
+      "name": "Levitate",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -633,12 +1160,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.slow_falling",
+      "name": "Slow Falling",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -647,12 +1186,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.water_walk",
+      "name": "Water Walk",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -661,12 +1212,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.tap_tp",
+      "name": "Tap Tp",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -675,12 +1238,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.safe_walk",
+      "name": "Safe Walk",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -689,12 +1264,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.no_fall",
+      "name": "No Fall",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -703,12 +1290,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.movement_correction",
+      "name": "Movement Correction",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -718,12 +1317,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "movement.timer",
+      "name": "Timer",
       "category": "movement",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -732,12 +1343,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "player.auto_eat",
+      "name": "Auto Eat",
       "category": "player",
+      "description": "Auto Eat (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -746,12 +1369,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_fish",
+      "name": "Auto Fish",
       "category": "player",
+      "description": "Auto Fish (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -761,12 +1396,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_refill",
+      "name": "Auto Refill",
       "category": "player",
+      "description": "Auto Refill (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -775,12 +1422,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_steal",
+      "name": "Auto Steal",
       "category": "player",
+      "description": "server rules risk",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -789,12 +1448,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "server rules risk"
     },
     {
       "id": "player.inventory_manager",
+      "name": "Inventory Manager",
       "category": "player",
+      "description": "Inventory Manager (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI",
@@ -804,12 +1475,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_tool",
+      "name": "Auto Tool",
       "category": "player",
+      "description": "Auto Tool (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -818,12 +1501,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_equip",
+      "name": "Auto Equip",
       "category": "player",
+      "description": "Auto Equip (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -832,12 +1527,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_armor",
+      "name": "Auto Armor",
       "category": "player",
+      "description": "Auto Armor (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -846,12 +1553,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.fast_eat",
+      "name": "Fast Eat",
       "category": "player",
+      "description": "Fast Eat (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -860,12 +1579,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.fast_throw",
+      "name": "Fast Throw",
       "category": "player",
+      "description": "Fast Throw (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -874,12 +1605,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.fast_interact",
+      "name": "Fast Interact",
       "category": "player",
+      "description": "Fast Interact (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -888,12 +1631,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_sign",
+      "name": "Auto Sign",
       "category": "player",
+      "description": "Auto Sign (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -902,12 +1657,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.auto_sell",
+      "name": "Auto Sell",
       "category": "player",
+      "description": "server rules risk",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -916,12 +1683,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "server rules risk"
     },
     {
       "id": "player.haste",
+      "name": "Haste",
       "category": "player",
+      "description": "Haste (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -930,12 +1709,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.slow_mine",
+      "name": "Slow Mine",
       "category": "player",
+      "description": "Slow Mine (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -944,12 +1735,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.no_fall",
+      "name": "No Fall",
       "category": "player",
+      "description": "No Fall (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -958,12 +1761,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.no_blindness",
+      "name": "No Blindness",
       "category": "player",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -972,12 +1787,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "player.no_nausea",
+      "name": "No Nausea",
       "category": "player",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -986,12 +1813,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "player.no_fire",
+      "name": "No Fire",
       "category": "player",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1000,12 +1839,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "player.no_hurt_cam",
+      "name": "No Hurt Cam",
       "category": "player",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1015,12 +1866,24 @@
         "Lunar Proxy",
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "player.anti_immobile",
+      "name": "Anti Immobile",
       "category": "player",
+      "description": "Anti Immobile (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1029,12 +1892,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.death_position",
+      "name": "Death Position",
       "category": "player",
+      "description": "needs death source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1045,12 +1920,24 @@
         "Apollon",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs death source"
     },
     {
       "id": "player.friend_alerts",
+      "name": "Friend Alerts",
       "category": "player",
+      "description": "Friend Alerts (player).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1059,12 +1946,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "player.nickname",
+      "name": "Nickname",
       "category": "player",
+      "description": "local-only",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1073,12 +1972,24 @@
       "sourceReferences": [
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "local-only"
     },
     {
       "id": "player.fake_stats",
+      "name": "Fake Stats",
       "category": "player",
+      "description": "local display only",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1087,12 +1998,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "local display only"
     },
     {
       "id": "world.scaffold",
+      "name": "Scaffold",
       "category": "world",
+      "description": "server rules risk",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1102,12 +2025,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "server rules risk"
     },
     {
       "id": "world.nuker",
+      "name": "Nuker",
       "category": "world",
+      "description": "server rules risk; throttled by design",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1116,12 +2051,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "server rules risk; throttled by design"
     },
     {
       "id": "world.auto_mine",
+      "name": "Auto Mine",
       "category": "world",
+      "description": "Auto Mine (world).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1130,12 +2077,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "world.auto_dig",
+      "name": "Auto Dig",
       "category": "world",
+      "description": "Auto Dig (world).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1144,12 +2103,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "world.fast_break",
+      "name": "Fast Break",
       "category": "world",
+      "description": "Fast Break (world).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1158,12 +2129,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "world.fast_place",
+      "name": "Fast Place",
       "category": "world",
+      "description": "Fast Place (world).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1172,12 +2155,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "world.spawner_protect",
+      "name": "Spawner Protect",
       "category": "world",
+      "description": "Spawner Protect (world).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "HYBRID"
@@ -1186,12 +2181,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "world.block_esp",
+      "name": "Block Esp",
       "category": "world",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1201,12 +2208,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs world+render sources"
     },
     {
       "id": "world.block_tracer",
+      "name": "Block Tracer",
       "category": "world",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1216,12 +2235,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs world+render sources"
     },
     {
       "id": "world.xray",
+      "name": "Xray",
       "category": "world",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1232,12 +2263,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "needs world+render sources"
     },
     {
       "id": "world.ore_esp",
+      "name": "Ore Esp",
       "category": "world",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1247,12 +2290,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs world+render sources"
     },
     {
       "id": "world.chunk_borders",
+      "name": "Chunk Borders",
       "category": "world",
+      "description": "needs world source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1263,12 +2318,24 @@
         "Lunar Proxy",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs world source"
     },
     {
       "id": "world.chunk_finder",
+      "name": "Chunk Finder",
       "category": "world",
+      "description": "needs chunk data",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1278,12 +2345,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs chunk data"
     },
     {
       "id": "world.new_chunks",
+      "name": "New Chunks",
       "category": "world",
+      "description": "needs chunk data",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1293,12 +2372,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs chunk data"
     },
     {
       "id": "world.hole_esp",
+      "name": "Hole Esp",
       "category": "world",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1308,12 +2399,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs world+render sources"
     },
     {
       "id": "world.schematic",
+      "name": "Schematic",
       "category": "world",
+      "description": "Schematic (world).",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1323,12 +2426,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": ""
     },
     {
       "id": "world.waypoints",
+      "name": "Waypoints",
       "category": "world",
+      "description": "needs position source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1339,12 +2454,24 @@
         "Atlas",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs position source"
     },
     {
       "id": "world.minimap",
+      "name": "Minimap",
       "category": "world",
+      "description": "needs world+position sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1354,12 +2481,24 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs world+position sources"
     },
     {
       "id": "world.world_markers",
+      "name": "World Markers",
       "category": "world",
+      "description": "needs position source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1370,12 +2509,24 @@
         "Atlas",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs position source"
     },
     {
       "id": "visual.esp",
+      "name": "Esp",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1384,12 +2535,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.player_esp",
+      "name": "Player Esp",
       "category": "visual",
+      "description": "needs entity source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1399,12 +2562,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "needs entity source"
     },
     {
       "id": "visual.entity_esp",
+      "name": "Entity Esp",
       "category": "visual",
+      "description": "needs entity source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1413,12 +2588,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs entity source"
     },
     {
       "id": "visual.item_esp",
+      "name": "Item Esp",
       "category": "visual",
+      "description": "needs entity source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1427,12 +2614,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs entity source"
     },
     {
       "id": "visual.tracers",
+      "name": "Tracers",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1441,12 +2640,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.block_tracers",
+      "name": "Block Tracers",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1455,12 +2666,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.free_look",
+      "name": "Free Look",
       "category": "visual",
+      "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1470,12 +2693,24 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs camera path"
     },
     {
       "id": "visual.free_cam",
+      "name": "Free Cam",
       "category": "visual",
+      "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1485,12 +2720,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs camera path"
     },
     {
       "id": "visual.xray",
+      "name": "Xray",
       "category": "visual",
+      "description": "see world.xray",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1501,12 +2748,24 @@
         "Lunar Proxy",
         "Apollon"
       ],
+      "evidence": "",
       "notes": "see world.xray"
     },
     {
       "id": "visual.fullbright",
+      "name": "Fullbright",
       "category": "visual",
+      "description": "needs lighting path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1517,12 +2776,24 @@
         "Apollon",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs lighting path"
     },
     {
       "id": "visual.no_invisible",
+      "name": "No Invisible",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1531,12 +2802,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.no_fire",
+      "name": "No Fire",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1545,12 +2828,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.no_weather",
+      "name": "No Weather",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1559,12 +2854,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.no_blindness",
+      "name": "No Blindness",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1573,12 +2880,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.no_nausea",
+      "name": "No Nausea",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1587,12 +2906,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.chunk_borders",
+      "name": "Chunk Borders",
       "category": "visual",
+      "description": "see world.chunk_borders",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1603,12 +2934,24 @@
         "Lunar Proxy",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "see world.chunk_borders"
     },
     {
       "id": "visual.new_chunks",
+      "name": "New Chunks",
       "category": "visual",
+      "description": "see world.new_chunks",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1618,12 +2961,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "see world.new_chunks"
     },
     {
       "id": "visual.hole_esp",
+      "name": "Hole Esp",
       "category": "visual",
+      "description": "see world.hole_esp",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1633,12 +2988,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "see world.hole_esp"
     },
     {
       "id": "visual.spawner_esp",
+      "name": "Spawner Esp",
       "category": "visual",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1648,12 +3015,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs world+render sources"
     },
     {
       "id": "visual.waypoints",
+      "name": "Waypoints",
       "category": "visual",
+      "description": "see world.waypoints",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1664,12 +3043,24 @@
         "Atlas",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "see world.waypoints"
     },
     {
       "id": "visual.minimap",
+      "name": "Minimap",
       "category": "visual",
+      "description": "see world.minimap",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1679,12 +3070,24 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "see world.minimap"
     },
     {
       "id": "visual.schematic",
+      "name": "Schematic",
       "category": "visual",
+      "description": "see world.schematic",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "WORLD",
@@ -1694,12 +3097,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "see world.schematic"
     },
     {
       "id": "visual.view_model",
+      "name": "View Model",
       "category": "visual",
+      "description": "needs viewmodel path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1709,12 +3124,24 @@
         "Atlas",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs viewmodel path"
     },
     {
       "id": "visual.zoom",
+      "name": "Zoom",
       "category": "visual",
+      "description": "needs camera/FOV path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -1726,12 +3153,24 @@
         "Flarial",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs camera/FOV path"
     },
     {
       "id": "visual.motion_blur",
+      "name": "Motion Blur",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1740,12 +3179,24 @@
       "sourceReferences": [
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.shader_loader",
+      "name": "Shader Loader",
       "category": "visual",
+      "description": "MaterialBin-style; needs material path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1754,12 +3205,24 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "MaterialBin-style; needs material path"
     },
     {
       "id": "visual.custom_crosshair",
+      "name": "Custom Crosshair",
       "category": "visual",
+      "description": "overlay-drawn first",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI",
@@ -1770,12 +3233,24 @@
         "Atlas",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "overlay-drawn first"
     },
     {
       "id": "visual.hit_effects",
+      "name": "Hit Effects",
       "category": "visual",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1784,12 +3259,24 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "visual.particle_controls",
+      "name": "Particle Controls",
       "category": "visual",
+      "description": "needs particle path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1798,12 +3285,24 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs particle path"
     },
     {
       "id": "visual.fog_controls",
+      "name": "Fog Controls",
       "category": "visual",
+      "description": "needs fog path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1813,12 +3312,24 @@
         "Atlas",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs fog path"
     },
     {
       "id": "visual.camera_controls",
+      "name": "Camera Controls",
       "category": "visual",
+      "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -1827,12 +3338,23 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs camera path"
     },
     {
       "id": "hud.fps",
+      "name": "Fps",
       "category": "hud",
+      "description": "needs frame-tick source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1843,12 +3365,23 @@
         "Flarial",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs frame-tick source"
     },
     {
       "id": "hud.cps",
+      "name": "Cps",
       "category": "hud",
+      "description": "needs input tap stream (have callback)",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "INPUT_SEMANTICS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI",
@@ -1859,12 +3392,23 @@
         "Flarial",
         "Nova"
       ],
+      "evidence": "",
       "notes": "needs input tap stream (have callback)"
     },
     {
       "id": "hud.coordinates",
+      "name": "Coordinates",
       "category": "hud",
+      "description": "needs player-position source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1874,12 +3418,23 @@
         "Flarial",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs player-position source"
     },
     {
       "id": "hud.ping",
+      "name": "Ping",
       "category": "hud",
+      "description": "needs latency source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "UI",
@@ -1890,12 +3445,23 @@
         "Flarial",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs latency source"
     },
     {
       "id": "hud.tps",
+      "name": "Tps",
       "category": "hud",
+      "description": "measurability TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1904,12 +3470,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "measurability TBD"
     },
     {
       "id": "hud.armor",
+      "name": "Armor",
       "category": "hud",
+      "description": "needs inventory source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1918,12 +3495,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs inventory source"
     },
     {
       "id": "hud.health",
+      "name": "Health",
       "category": "hud",
+      "description": "needs player source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1932,12 +3520,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs player source"
     },
     {
       "id": "hud.hunger",
+      "name": "Hunger",
       "category": "hud",
+      "description": "needs player source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1946,12 +3545,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs player source"
     },
     {
       "id": "hud.position",
+      "name": "Position",
       "category": "hud",
+      "description": "see coordinates",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1960,12 +3570,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "see coordinates"
     },
     {
       "id": "hud.direction",
+      "name": "Direction",
       "category": "hud",
+      "description": "needs rotation source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1974,12 +3595,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs rotation source"
     },
     {
       "id": "hud.biome",
+      "name": "Biome",
       "category": "hud",
+      "description": "needs world source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -1988,12 +3620,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs world source"
     },
     {
       "id": "hud.clock",
+      "name": "Clock",
       "category": "hud",
+      "description": "device clock available; game-time TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2002,12 +3645,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "device clock available; game-time TBD"
     },
     {
       "id": "hud.keystrokes",
+      "name": "Keystrokes",
       "category": "hud",
+      "description": "needs input stream (have callback)",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "INPUT_SEMANTICS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI",
@@ -2018,12 +3672,23 @@
         "Flarial",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs input stream (have callback)"
     },
     {
       "id": "hud.touch_indicators",
+      "name": "Touch Indicators",
       "category": "hud",
+      "description": "have touch callback",
       "status": "PARTIAL",
+      "requires": [
+        "INPUT_SEMANTICS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI",
@@ -2033,12 +3698,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "have touch callback"
     },
     {
       "id": "hud.target_info",
+      "name": "Target Info",
       "category": "hud",
+      "description": "needs target source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "ENTITY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2047,12 +3723,23 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "needs target source"
     },
     {
       "id": "hud.arraylist",
+      "name": "Arraylist",
       "category": "hud",
+      "description": "module-list display",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2061,12 +3748,23 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
+      "evidence": "",
       "notes": "module-list display"
     },
     {
       "id": "hud.watermark",
+      "name": "Watermark",
       "category": "hud",
+      "description": "static text via draw commands",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2075,12 +3773,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "static text via draw commands"
     },
     {
       "id": "hud.notifications",
+      "name": "Notifications",
       "category": "hud",
+      "description": "event-driven; needs EventBus",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2089,12 +3798,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "event-driven; needs EventBus"
     },
     {
       "id": "hud.session_stats",
+      "name": "Session Stats",
       "category": "hud",
+      "description": "local timers available",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2103,12 +3823,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "local timers available"
     },
     {
       "id": "hud.server_info",
+      "name": "Server Info",
       "category": "hud",
+      "description": "needs connection source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2117,12 +3848,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs connection source"
     },
     {
       "id": "utility.quick_perspective",
+      "name": "Quick Perspective",
       "category": "utility",
+      "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER",
@@ -2132,12 +3874,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs camera path"
     },
     {
       "id": "utility.quick_drop",
+      "name": "Quick Drop",
       "category": "utility",
+      "description": "needs input path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "INPUT"
@@ -2146,12 +3899,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs input path"
     },
     {
       "id": "utility.hide_hud",
+      "name": "Hide Hud",
       "category": "utility",
+      "description": "overlay clear available",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2160,12 +3924,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "overlay clear available"
     },
     {
       "id": "utility.toggle_sprint",
+      "name": "Toggle Sprint",
       "category": "utility",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "INPUT"
@@ -2174,12 +3949,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "utility.toggle_sneak",
+      "name": "Toggle Sneak",
       "category": "utility",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "INPUT"
@@ -2188,12 +3974,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "locality TBD"
     },
     {
       "id": "utility.screenshot_tools",
+      "name": "Screenshot Tools",
       "category": "utility",
+      "description": "needs capture path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2202,12 +3999,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs capture path"
     },
     {
       "id": "network.ping",
+      "name": "Ping",
       "category": "network",
+      "description": "needs packet/latency source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -2218,12 +4026,23 @@
         "WClient",
         "Nova"
       ],
+      "evidence": "",
       "notes": "needs packet/latency source"
     },
     {
       "id": "network.connection_status",
+      "name": "Connection Status",
       "category": "network",
+      "description": "needs connection source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -2233,12 +4052,23 @@
       "sourceReferences": [
         "WClient"
       ],
+      "evidence": "",
       "notes": "needs connection source"
     },
     {
       "id": "network.latency_graph",
+      "name": "Latency Graph",
       "category": "network",
+      "description": "needs latency source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -2248,12 +4078,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs latency source"
     },
     {
       "id": "network.network_diagnostics",
+      "name": "Network Diagnostics",
       "category": "network",
+      "description": "needs connection source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -2263,12 +4104,23 @@
       "sourceReferences": [
         "WClient"
       ],
+      "evidence": "",
       "notes": "needs connection source"
     },
     {
       "id": "network.packet_monitor",
+      "name": "Packet Monitor",
       "category": "network",
+      "description": "no verified packet API",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -2279,12 +4131,23 @@
         "WClient",
         "Nova"
       ],
+      "evidence": "",
       "notes": "no verified packet API"
     },
     {
       "id": "network.packet_logger",
+      "name": "Packet Logger",
       "category": "network",
+      "description": "dev only; no verified packet API",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
         "PACKET",
@@ -2294,12 +4157,23 @@
       "sourceReferences": [
         "WClient"
       ],
+      "evidence": "",
       "notes": "dev only; no verified packet API"
     },
     {
       "id": "performance.fps_limiter",
+      "name": "Fps Limiter",
       "category": "performance",
+      "description": "needs frame path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE",
@@ -2310,12 +4184,23 @@
         "Atlas",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs frame path"
     },
     {
       "id": "performance.fps_unlocker",
+      "name": "Fps Unlocker",
       "category": "performance",
+      "description": "needs frame path; measure gains",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE",
@@ -2326,12 +4211,23 @@
         "Atlas",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs frame path; measure gains"
     },
     {
       "id": "performance.dynamic_fps",
+      "name": "Dynamic Fps",
       "category": "performance",
+      "description": "needs frame path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2340,12 +4236,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs frame path"
     },
     {
       "id": "performance.background_fps",
+      "name": "Background Fps",
       "category": "performance",
+      "description": "needs frame path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2354,12 +4261,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs frame path"
     },
     {
       "id": "performance.frame_graph",
+      "name": "Frame Graph",
       "category": "performance",
+      "description": "needs frame-tick source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2368,12 +4286,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs frame-tick source"
     },
     {
       "id": "performance.entity_opt",
+      "name": "Entity Opt",
       "category": "performance",
+      "description": "needs entity path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2382,12 +4311,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs entity path"
     },
     {
       "id": "performance.render_opt",
+      "name": "Render Opt",
       "category": "performance",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE",
@@ -2397,12 +4337,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "performance.particle_controls",
+      "name": "Particle Controls",
       "category": "performance",
+      "description": "see visual.particle_controls",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -2411,12 +4362,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "see visual.particle_controls"
     },
     {
       "id": "performance.animation_controls",
+      "name": "Animation Controls",
       "category": "performance",
+      "description": "needs animation path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -2425,12 +4387,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs animation path"
     },
     {
       "id": "performance.cloud_controls",
+      "name": "Cloud Controls",
       "category": "performance",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -2439,12 +4412,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs render path"
     },
     {
       "id": "performance.weather_opt",
+      "name": "Weather Opt",
       "category": "performance",
+      "description": "needs weather path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -2453,12 +4437,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs weather path"
     },
     {
       "id": "performance.fog_controls",
+      "name": "Fog Controls",
       "category": "performance",
+      "description": "see visual.fog_controls",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "RENDER"
@@ -2468,12 +4463,23 @@
         "Atlas",
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "see visual.fog_controls"
     },
     {
       "id": "performance.memory_info",
+      "name": "Memory Info",
       "category": "performance",
+      "description": "OS APIs available",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2482,12 +4488,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "OS APIs available"
     },
     {
       "id": "performance.cpu_info",
+      "name": "Cpu Info",
       "category": "performance",
+      "description": "OS APIs available",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2496,12 +4513,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "OS APIs available"
     },
     {
       "id": "performance.gpu_info",
+      "name": "Gpu Info",
       "category": "performance",
+      "description": "OS APIs available",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2510,12 +4538,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "OS APIs available"
     },
     {
       "id": "performance.perf_profiles",
+      "name": "Perf Profiles",
       "category": "performance",
+      "description": "needs PerformanceManager",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2524,12 +4563,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs PerformanceManager"
     },
     {
       "id": "performance.low_end_mode",
+      "name": "Low End Mode",
       "category": "performance",
+      "description": "needs perf paths",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2538,12 +4588,23 @@
       "sourceReferences": [
         "Atlas"
       ],
+      "evidence": "",
       "notes": "needs perf paths"
     },
     {
       "id": "performance.render_distance",
+      "name": "Render Distance",
       "category": "performance",
+      "description": "needs settings path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2553,12 +4614,23 @@
         "Atlas",
         "Flarial"
       ],
+      "evidence": "",
       "notes": "needs settings path"
     },
     {
       "id": "misc.streamer_mode",
+      "name": "Streamer Mode",
       "category": "misc",
+      "description": "overlay redaction",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2567,12 +4639,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "overlay redaction"
     },
     {
       "id": "misc.privacy_mode",
+      "name": "Privacy Mode",
       "category": "misc",
+      "description": "overlay redaction",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2581,12 +4664,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "overlay redaction"
     },
     {
       "id": "misc.chat_timestamps",
+      "name": "Chat Timestamps",
       "category": "misc",
+      "description": "needs chat source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2595,12 +4689,23 @@
       "sourceReferences": [
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "needs chat source"
     },
     {
       "id": "misc.chat_filter",
+      "name": "Chat Filter",
       "category": "misc",
+      "description": "needs chat source",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2609,12 +4714,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs chat source"
     },
     {
       "id": "misc.custom_nicknames",
+      "name": "Custom Nicknames",
       "category": "misc",
+      "description": "local-only",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2623,12 +4739,23 @@
       "sourceReferences": [
         "BedrockTools"
       ],
+      "evidence": "",
       "notes": "local-only"
     },
     {
       "id": "misc.screenshot_share",
+      "name": "Screenshot Share",
       "category": "misc",
+      "description": "needs capture path",
       "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "UI"
@@ -2637,12 +4764,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs capture path"
     },
     {
       "id": "scripting.script_runtime",
+      "name": "Script Runtime",
       "category": "scripting",
+      "description": "engine choice needs license/size review",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "SCRIPTING"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "script",
       "capabilities": [
         "SCRIPT"
@@ -2651,12 +4789,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "engine choice needs license/size review"
     },
     {
       "id": "scripting.script_sandbox",
+      "name": "Script Sandbox",
       "category": "scripting",
+      "description": "design in docs/SCRIPTING.md",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "SCRIPTING"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "script",
       "capabilities": [
         "SCRIPT"
@@ -2665,12 +4814,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "design in docs/SCRIPTING.md"
     },
     {
       "id": "scripting.script_api",
+      "name": "Script Api",
       "category": "scripting",
+      "description": "design in docs/SCRIPTING.md",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "SCRIPTING"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "script",
       "capabilities": [
         "SCRIPT"
@@ -2679,12 +4839,23 @@
       "sourceReferences": [
         "Flarial"
       ],
+      "evidence": "",
       "notes": "design in docs/SCRIPTING.md"
     },
     {
       "id": "scripting.script_manager",
+      "name": "Script Manager",
       "category": "scripting",
+      "description": "needs runtime first",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "SCRIPTING"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "script",
       "capabilities": [
         "SCRIPT",
@@ -2694,12 +4865,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "needs runtime first"
     },
     {
       "id": "client.core",
+      "name": "Core",
       "category": "client",
+      "description": "M1 proven core",
       "status": "PARTIAL",
+      "requires": [
+        "LIFECYCLE"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2708,12 +4890,24 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "M1 proven core"
     },
     {
       "id": "client.version_adapter",
+      "name": "Version Adapter",
       "category": "client",
+      "description": "M1 table logic; runtime source pending",
       "status": "PARTIAL",
+      "requires": [
+        "LIFECYCLE",
+        "VERSION_STRING"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2722,12 +4916,24 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "M1 table logic; runtime source pending"
     },
     {
       "id": "client.config_store",
+      "name": "Config Store",
       "category": "client",
+      "description": "M1 menu proof; file store pending",
       "status": "PARTIAL",
+      "requires": [
+        "LIFECYCLE",
+        "CONFIG_DIRS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE",
@@ -2738,12 +4944,24 @@
         "Xykell",
         "WClient"
       ],
+      "evidence": "",
       "notes": "M1 menu proof; file store pending"
     },
     {
       "id": "client.profile_manager",
+      "name": "Profile Manager",
       "category": "client",
+      "description": "Default only in M1.5 shell",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "LIFECYCLE",
+        "CONFIG_DIRS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE",
@@ -2753,12 +4971,24 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "Default only in M1.5 shell"
     },
     {
       "id": "client.crash_guard",
+      "name": "Crash Guard",
       "category": "client",
+      "description": "quarantine design pending",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "LIFECYCLE",
+        "CONFIG_DIRS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE"
@@ -2767,12 +4997,23 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "quarantine design pending"
     },
     {
       "id": "client.updater",
+      "name": "Updater",
       "category": "client",
+      "description": "signed+checksum design pending",
       "status": "NOT_IMPLEMENTED",
+      "requires": [
+        "LIFECYCLE"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
       "implementation": "native",
       "capabilities": [
         "NATIVE",
@@ -2782,6 +5023,7 @@
       "sourceReferences": [
         "Xykell"
       ],
+      "evidence": "",
       "notes": "signed+checksum design pending"
     }
   ]

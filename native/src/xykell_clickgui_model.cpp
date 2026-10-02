@@ -48,6 +48,18 @@ ParseReport buildFromRegistryJson(const std::string& jsonText) {
                 }
             }
         }
+        const auto rit = o.find("requires");
+        if (rit != o.end()) {
+            if (!rit->second.isArray()) {
+                rep.error = "registry: requires is not an array";
+                return rep;
+            }
+            for (const auto& c : rit->second.asArray(json::Value::emptyArray())) {
+                if (c.isString()) {
+                    e.requiresCaps.push_back(c.asString(""));
+                }
+            }
+        }
         rep.entries.push_back(std::move(e));
     }
     rep.ok = true;

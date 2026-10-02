@@ -11,6 +11,7 @@
 
 #include "xykell/clickgui_model.h"
 #include "xykell/module_manager.h"
+#include "xykell/runtime_probe.h"
 
 namespace xykell::gui {
 
@@ -36,6 +37,12 @@ class GuiController {
 
     std::vector<GuiModuleEntry> visible() const;
     ToggleOutcome requestToggle(const std::string& registryId, ModuleManager& mods);
+
+    // Runtime availability view (Batch 4). Registry `status` semantics are
+    // unchanged; this maps status + gate + quarantine to a display state.
+    // AVAILABLE only when operable AND gate-allowed AND not quarantined.
+    std::string availability(const GuiModuleEntry& e, const runtime::ProbeReport& probe,
+                             const ModuleManager& mods) const;
 
     void toggleFavorite(const std::string& id);
     bool isFavorite(const std::string& id) const;
