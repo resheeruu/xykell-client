@@ -1,7 +1,9 @@
 // Xykell M1: lifecycle entry + Core init/shutdown. No hooks, no game access.
 #include <pl/Mod.hpp>
 
+#include "xykell/config_store.h"
 #include "xykell/core.h"
+#include "xykell/crash_guard.h"
 #include "xykell/hud.h"
 #include "xykell/menu.h"
 #include "xykell/module_manager.h"
@@ -13,6 +15,17 @@ namespace {
 xykell::ModuleManager& runtimeModules() {
     static xykell::ModuleManager mgr;
     return mgr;
+}
+
+xykell::XykellConfig& runtimeConfig() {
+    static xykell::XykellConfig cfg;
+    return cfg;
+}
+
+xykell::CrashGuard& runtimeGuard(const std::string& dataDir) {
+    // First call wins; load() runs once per process with a stable dir.
+    static xykell::CrashGuard guard(dataDir);
+    return guard;
 }
 
 const char* currentArch() {
@@ -51,9 +64,33 @@ class XykellMod {
         const bool menuOk = xykell::registerMenuModule(ctx.id());
         ctx.logger().info("{}: mod-menu registration {}", XYKELL_NAME,
                            menuOk ? "ok" : "FAILED");
-        const bool hudOk = xykell::registerHudModule(ctx.id());
-        ctx.logger().info("{}: hud/input registration {}", XYKELL_NAME,
-                           hudOk ? "ok" : "FAILED");
+        // Storage roots come ONLY from the verified preloader context.
+        // (Writability is device-verified; failures degrade to defaults.)
+        const std::string cfgPath = ctx.configDir().string() + "/xykell.json";
+        auto& cfg = runtimeConfig();
+        const bool cfgOk = cfg.load(cfgPath);
+        ctx.logger().info("{}: config {} (recovered={}, migratedFrom={})", XYKELL_NAME,
+                           cfgOk ? "ok" : "defaults", cfg.recovered(),
+                           cfg.migratedFrom());
+        core.setModEnabled(cfg.moduleEnabled("xykell-core", core.modEnabled()));
+        auto& guard = runtimeGuard(ctx.dataDir().string());
+        std::string guardErr;
+        if (!guard.load(guardErr)) {
+            guard.enterSafeMode("crash state unreadable: " + guardErr);
+        }
+        for (const auto& q : guard.quarantined()) {
+            runtimeModules().quarantine(q, guard.quarantineReason(q));
+        }
+        bool hudOk = false;
+        if (guard.isSafeMode()) {
+            std::size_t disabled = 0;
+            ctx.logger().info("{}: {}", XYKELL_NAME, guard.safeModeReport(disabled));
+            core.setSafeMode(true);
+        } else {
+            hudOk = xykell::registerHudModule(ctx.id());
+            ctx.logger().info("{}: hud/input registration {}", XYKELL_NAME,
+                               hudOk ? "ok" : "FAILED");
+        }
         // Runtime registry mirrors the two M1 menu modules (behavior unchanged).
         auto& mods = runtimeModules();
         mods.registerModule({xykell::kMenuModuleId, "Xykell Core", "client"});
@@ -75,6 +112,12 @@ class XykellMod {
 
     bool unload(pl::mod::ModContext& ctx) {
         ctx.logger().info("{}: unload (clean)", XYKELL_NAME);
+        auto& cfg = runtimeConfig();
+        cfg.setModuleEnabled("xykell-core", xykell::XykellCore::instance().modEnabled());
+        std::string cfgErr = ctx.configDir().string() + "/xykell.json";
+        if (!cfg.save(cfgErr)) {
+            ctx.logger().info("{}: config save FAILED", XYKELL_NAME);
+        }
         runtimeModules().setEnabled(xykell::kHudModuleId, false);
         runtimeModules().setEnabled(xykell::kMenuModuleId, false);
         xykell::unregisterHudModule();
