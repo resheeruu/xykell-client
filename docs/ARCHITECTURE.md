@@ -4,8 +4,8 @@ Status: APPROVED 2026-10-02. Native Android ARM64 + C++ preloader core on LeviLa
 
 ## 1. Layer map (§7)
 ```
-Xykell Android/UI Layer
-Xykell Native Core
+Xykell Android/UI Layer  (app/: launcher shell, M1.5 — screens, NOT WIRED backends)
+Xykell Native Core       (native/: registry, lifecycle, event bus, config — M1 proven)
 Xykell Module Engine
 Xykell Event Engine + Render Engine + Input Engine
 Version Adapter + Configuration + Profile Manager + Compatibility Manager
@@ -15,11 +15,16 @@ LeviLaunchroid Preloader
       ↓
 Minecraft Bedrock Android
 ```
+Build split: phone compiles `native/` (Termux clang) and authors `app/`;
+GitHub Actions assembles `XykellClient.apk` (stock `aapt2` is x86-64-only —
+see docs/M1.5-RESULTS.md, docs/RELEASE.md). `app/src/main/jniLibs/` is
+CI-generated from `native/` — never committed, never a second copy.
+
 Details per layer: LEVI-INTEGRATION.md (foundation), MODULE-SYSTEM.md (engine+API), UI-SYSTEM.md, NETWORK-ARCHITECTURE.md, SCRIPTING.md, PERFORMANCE.md, BEDROCK-COMPATIBILITY.md.
 
 ## 2. Process model
-- `launcher/android` (Kotlin/Java, Gradle): owns the Play-copy license check, version isolation, launch flow, native-module loading, touch UI shell, Mod Menu host. Never touches game memory directly.
-- `client/` (C++ `.so`, arm64-v8a, `preload-native` layout): loaded into the game process by the launcher's preloader. Owns: module registry, lifecycle, event bus, JSON config + profiles, keybind/touchbind, theme, VersionAdapter, redacted logging, crash handling, diagnostics, signed update check, render/input/network abstractions.
+- `app/` (Kotlin, Gradle, CI-assembled): Xykell launcher shell — Home/Versions/Modules/Profiles/Settings/About. Backends NOT WIRED in M1.5; it never touches game memory directly.
+- `native/` (C++ `.so`, arm64-v8a, `preload-native` layout): loaded into the game process by Levi's preloader. Owns: module registry, lifecycle, event bus, JSON config + profiles, keybind/touchbind, theme, VersionAdapter, redacted logging, crash handling, diagnostics, signed update check, render/input/network abstractions.
 - `modules/<category>/`: each module = manifest (id, category, capabilities, deps, settings, default state, binds, compat) + implementation. Independently toggleable. A faulting module is quarantined (per-module exception boundary + watchdog) and must never crash the client.
 - Fallbacks B/C live behind feature flags, off by default, in their own directories. No shared mutable state with the native core.
 

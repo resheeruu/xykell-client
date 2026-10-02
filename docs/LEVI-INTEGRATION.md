@@ -3,7 +3,11 @@
 Xykell runs **on top of LeviLaunchroid**, not beside it. Do not reimplement launcher, version management, preloader, or Mod Menu hosting unless research proves a required capability is missing.
 
 ## 1. Stack
-Xykell Android/UI Layer → Xykell Native Core → Xykell Module Engine → **LeviLaunchroid Preloader** → Minecraft Bedrock Android (arm64-v8a, Android 9+, legitimate Play copy).
+Xykell Android/UI Layer (`app/` launcher shell, M1.5) → Xykell Native Core (`native/`) → Xykell Module Engine → **LeviLaunchroid Preloader** → Minecraft Bedrock Android (arm64-v8a, Android 9+, legitimate Play copy).
+
+Boundary: Xykell never reimplements Levi's launch/version/isolation machinery.
+M1.5's PLAY button stays NOT WIRED until the real Levi launch path (intents,
+package, file locations) is researched and verified — nothing invented.
 
 ## 2. What Levi provides (verified from LeviLaunchroid docs, 2026-10-02)
 - APK import + installation-free launch, multi-version management with full data isolation.

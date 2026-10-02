@@ -10,6 +10,8 @@ local.properties
 app/build/
 *.so
 *.o
+# CI-generated native staging inside app/ (built from native/, never committed)
+app/src/main/jniLibs/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

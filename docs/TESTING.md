@@ -1,0 +1,18 @@
+# Testing
+
+## What runs where
+- **Phone (Termux)**: native CMake build (`scripts/build/build-native.sh`,
+  pipefail-verified), symbol checks (`nm -D`), levipack packaging check.
+- **CI (GitHub Actions)**: `android-release.yml` rebuilds native with NDK r28c
+  and asserts: aarch64 `.so`, `PLGetModRegistration` exported, APK exists,
+  APK contains `lib/arm64-v8a/libxykell.so` with the symbol. Any failed
+  assertion fails the run.
+- **Device (human)**: M1 runbook in `docs/M1-RESULTS.md` (overlay, taps,
+  toggles, restart). Nothing runtime is claimed without this.
+
+## Minimum per subsystem (from here on)
+Core init/shutdown, module register/enable/disable, event dispatch,
+config serialize/recover, version detection, profile load, HUD state,
+safe mode, launcher lifecycle — host or CI tests where possible, device
+checklist where a runtime is required. Device-only claims stay marked
+until observed.
