@@ -34,6 +34,20 @@ android {
         jvmTarget = "17"
     }
 
+    // Shared native core (same ProfileManager sources as the game module).
+    // Built by CI's NDK; phone never builds APKs (aapt2 is x86-64).
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+    defaultConfig {
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
+    }
+
     // Single-catalog rule: the launcher reads the same registry/features.json
     // as native (copied at build time, never duplicated in source).
     sourceSets {

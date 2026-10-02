@@ -7,22 +7,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import dev.xykell.client.NativeProfiles
 import dev.xykell.client.R
-import dev.xykell.client.runtime.ProfileManager
-import org.json.JSONObject
 import java.io.File
 
-/** Real export/import over app-visible files. Scope is honest: this moves the
- *  launcher's own profile view (Default + active name). The native
- *  game-process store is a separate sandbox — no shared bridge exists yet, so
- *  nothing here claims to touch it. Corrupt imports are rejected, never applied. */
+/** Profiles backed by the SHARED native ProfileManager (same C++ as the game
+ *  module) through JNI. Store root is this app's sandbox; the game-process
+ *  store is separate — export files bridge them. Corrupt imports are rejected
+ *  by native validation, never applied. */
 class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
 
     private val importCode = 4101
 
+    private fun root(): String = NativeProfiles.root(requireContext())
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        refreshBody(view, null)
+        refresh(view, null)
         view.findViewById<Button>(R.id.profiles_export).setOnClickListener {
             exportActive(view)
         }
@@ -36,65 +37,77 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
         }
     }
 
-    private fun profileJson(): JSONObject {
-        return JSONObject()
-            .put("schemaVersion", 1)
-            .put("name", ProfileManager.currentProfile)
-            .put("modules", JSONObject())
-            .put("note", "Xykell launcher profile view (native store is separate)")
+    private fun refresh(view: View, status: String?) {
+        val names: List<String>
+        val active: String
+        try {
+            // Ensure the Default builtin exists on first open (auto-created).
+            val root = root()
+            NativeProfiles.setActive(root, NativeProfiles.getActive(root))
+            names = NativeProfiles.listProfiles(root).toList()
+            active = NativeProfiles.getActive(root)
+        } catch (e: UnsatisfiedLinkError) {
+            view.findViewById<TextView>(R.id.profiles_body).text =
+                "Native bridge unavailable: ${e.message}"
+            return
+        }
+        view.findViewById<TextView>(R.id.profiles_body).text =
+            "Active: $active\nAvailable: ${if (names.isEmpty()) "(none yet)" else names.joinToString()}\n\n" +
+            "Native-backed (shared ProfileManager). Game-process store is " +
+            "separate — sync via export files."
+        if (status != null) {
+            view.findViewById<TextView>(R.id.profiles_status).text = status
+        }
     }
 
     private fun exportActive(view: View) {
-        val status = view.findViewById<TextView>(R.id.profiles_status)
+        val statusView = view.findViewById<TextView>(R.id.profiles_status)
         try {
-            val dir = File(requireContext().getExternalFilesDir(null), "Xykell")
-            if (!dir.exists() && !dir.mkdirs()) {
-                status.text = "Export failed: cannot create Xykell dir"
+            val active = NativeProfiles.getActive(root())
+            val json = NativeProfiles.getProfileJson(root(), active)
+            if (json == null) {
+                statusView.text = "Export failed: no readable active profile"
                 return
             }
-            val file = File(dir, "profile-${ProfileManager.currentProfile}.json")
-            file.writeText(profileJson().toString(2))
-            status.text = "Exported to ${file.absolutePath}"
+            val dir = File(requireContext().getExternalFilesDir(null), "Xykell")
+            if (!dir.exists() && !dir.mkdirs()) {
+                statusView.text = "Export failed: cannot create Xykell dir"
+                return
+            }
+            val file = File(dir, "profile-$active.json")
+            file.writeText(json)
+            refresh(view, "Exported to ${file.absolutePath}")
         } catch (e: Exception) {
-            status.text = "Export failed: ${e.message}"
+            refresh(view, "Export failed: ${e.message}")
         }
-        refreshBody(view, null)
     }
 
     @Deprecated("Framework picker without new deps; result handled below")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
-        val status = view?.findViewById<TextView>(R.id.profiles_status) ?: return
         if (requestCode != importCode || resultCode != Activity.RESULT_OK) return
         val uri = data?.data
+        val statusTarget: (String) -> Unit = { msg ->
+            view?.findViewById<TextView>(R.id.profiles_status)?.text = msg
+        }
         if (uri == null) {
-            status.text = "Import cancelled"
+            statusTarget("Import cancelled")
             return
         }
         try {
             val text = requireContext().contentResolver.openInputStream(uri)
                 ?.bufferedReader()?.use { it.readText() }
                 ?: throw IllegalArgumentException("empty file")
-            val obj = JSONObject(text)
-            if (obj.optInt("schemaVersion", -1) != 1 || obj.optString("name").isEmpty()) {
-                status.text = "Import rejected: bad schemaVersion/name"
+            val name = "Imported"
+            val ok = NativeProfiles.importProfileJson(root(), name, text)
+            if (!ok) {
+                view?.let { refresh(it, "Import rejected: native validation failed") }
                 return
             }
-            status.text = "Imported '${obj.getString("name")}' (launcher view only; " +
-                "native store untouched — bridge pending)"
+            view?.let { refresh(it, "Imported as '$name' (launcher store; sync to game via files)") }
         } catch (e: Exception) {
-            status.text = "Import rejected: ${e.message}"
+            view?.let { refresh(it, "Import failed: ${e.message}") }
         }
-        view?.let { refreshBody(it, null) }
-    }
-
-    private fun refreshBody(view: View, ignored: Nothing?) {
-        val pm = ProfileManager
-        view.findViewById<TextView>(R.id.profiles_body).text =
-            "Current: ${pm.currentProfile}\nAvailable: ${pm.profiles.joinToString()}\n\n" +
-            "Export/import moves the launcher's own profile files. " +
-            "Native profiles live in the game-process store — no shared " +
-            "bridge yet (RESEARCH_REQUIRED, no duplicate store here)."
     }
 }
