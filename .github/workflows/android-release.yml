@@ -74,17 +74,22 @@ jobs:
 
       - name: Assemble debug APK
         run: gradle :app:assembleDebug --stacktrace
-
       - name: Verify APK
         run: |
           set -e
-          APK=app/build/outputs/apk/debug/app-debug.apk          test -f "$APK"
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          test -f "$APK"
           test -s "$APK"
-          unzip -l "$APK" | grep "lib/arm64-v8a/libxykell.so"
+          echo "--- apk contents (native libs) ---"
+          unzip -l "$APK" | grep -E "lib/.*\.so" || true
+          unzip -l "$APK" | grep -q "lib/arm64-v8a/libxykell.so"
+          echo "libxykell.so present in APK"
           rm -rf /tmp/apkcheck && mkdir -p /tmp/apkcheck && cd /tmp/apkcheck
           unzip -o "$GITHUB_WORKSPACE/$APK" lib/arm64-v8a/libxykell.so
+          file lib/arm64-v8a/libxykell.so
           file lib/arm64-v8a/libxykell.so | grep -q "ARM aarch64"
           NM="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
+          "$NM" -D lib/arm64-v8a/libxykell.so | grep "PLGetModRegistration" || true
           "$NM" -D lib/arm64-v8a/libxykell.so | grep -q "T PLGetModRegistration"
           echo "Xykell APK:"
           echo "Path: $APK"
