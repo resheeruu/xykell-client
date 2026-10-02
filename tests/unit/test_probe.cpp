@@ -49,10 +49,13 @@ int main() {
     assert(read.ok && gui.loadRegistry(read.content, err));
     ModuleManager mods;
     mods.registerModule({"xykell-core", "Xykell Core", "client"});
+    // Bind the returned vector first: pointers into a temporary dangle
+    // (ASan caught it; CI g++ crashed). See test lesson in docs/TESTING.md.
+    const auto all = gui.visible();
     const GuiModuleEntry* aura = nullptr;
     const GuiModuleEntry* core = nullptr;
     const GuiModuleEntry* fps = nullptr;
-    for (const auto& e : gui.visible()) {
+    for (const auto& e : all) {
         if (e.id == "combat.kill_aura") {
             aura = &e;
         }

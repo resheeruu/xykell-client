@@ -16,3 +16,11 @@ config serialize/recover, version detection, profile load, HUD state,
 safe mode, launcher lifecycle — host or CI tests where possible, device
 checklist where a runtime is required. Device-only claims stay marked
 until observed.
+
+## Test lessons (real bugs caught)
+- `GuiController::visible()` returns by value: never hold pointers into the
+  result across statements (use-after-free; phone libc++ tolerated it, CI
+  g++ threw `length_error`). Bind to a local first.
+- File-state fixtures start clean every run (`run-unit.sh` wipes them):
+  aborted runs used to pollute "missing file" assertions.
+- `-Werror` is target-scoped in CMake: third-party deps must not inherit it.
