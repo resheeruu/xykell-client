@@ -1,4 +1,6 @@
-// Task 5: HUD/input proof. Verified APIs only (preloader 0.2.3).
+// Batch 3: HUD/input runtime. Touch routes through InputRouter; overlay lines
+// come from HudRenderer (verified sources only, "--" otherwise). Closed GUI
+// preserves exact M1 behavior (tap counter + refresh).
 #include "xykell/hud.h"
 
 #include <atomic>
@@ -8,27 +10,33 @@
 #include <pl/ModMenu.hpp>
 
 #include "xykell/core.h"
+#include "xykell/gui_controller.h"
+#include "xykell/hud_renderer.h"
+#include "xykell/input_router.h"
+#include "xykell/module_manager.h"
+#include "xykell/theme.h"
 #include "xykell/version.h"
 
 namespace xykell {
 
 namespace {
 
-// ASSUMPTION (low risk, device-verified in Task 6): color is ARGB.
-constexpr std::uint32_t kWhite = 0xFFFFFFFF;
-constexpr float kTextSize = 20.0f;
-
 std::atomic<int> gTaps{0};
 std::atomic<bool> gHudEnabled{true};
+input::InputRouter gRouter;
+gui::GuiController gGui;
+hud::HudManager gHudMgr;
+ui::Theme gTheme;
+ModuleManager* gMods = nullptr;
 
-pl::modmenu::DrawCommand textLine(float y, const std::string& s) {
+pl::modmenu::DrawCommand toCmd(const hud::HudLine& l) {
     pl::modmenu::DrawCommand c;
     c.type = pl::modmenu::DrawCommandType::Text;
-    c.x = 16.0f;
-    c.y = y;
-    c.size = kTextSize;
-    c.color = kWhite;
-    c.text = s;
+    c.x = l.x;
+    c.y = l.y;
+    c.size = l.size;
+    c.color = l.color;
+    c.text = l.text;
     return c;
 }
 
@@ -36,27 +44,48 @@ pl::modmenu::DrawCommand textLine(float y, const std::string& s) {
 
 void refreshHud() {
     if (!gHudEnabled.load() || !XykellCore::instance().modEnabled()) {
-        // Clearing = submitting an empty command list (verified API).
         pl::modmenu::submitDrawCommands(kHudModuleId, {});
         return;
     }
+    hud::RenderContext ctx;
+    ctx.theme = &gTheme;
+    ctx.modules = gMods;
+    ctx.taps = gTaps.load();
     const auto& info = XykellCore::instance().info();
+    ctx.versionLine = std::string("XYKELL ") + XYKELL_VERSION + " | mc=" + info.minecraftVersion;
     std::vector<pl::modmenu::DrawCommand> cmds;
-    cmds.push_back(textLine(48.0f, std::string("XYKELL ") + XYKELL_VERSION
-                                      + " | mc=" + info.minecraftVersion));
-    // Honest placeholders: no verified frame-tick or player-position source yet.
-    cmds.push_back(textLine(76.0f, "FPS: -- (frame source [RESEARCH REQUIRED])"));
-    cmds.push_back(textLine(104.0f, "coords: n/a (no verified source)"));
-    cmds.push_back(textLine(132.0f, "taps: " + std::to_string(gTaps.load())));
+    for (const auto& line : hud::renderHud(gHudMgr, ctx)) {
+        cmds.push_back(toCmd(line));
+    }
     pl::modmenu::submitDrawCommands(kHudModuleId, cmds);
 }
 
 bool registerHudModule(const std::string& modId) {
-    // NOTE: preloader input callbacks are process-wide with no unregister;
-    // enable/disable is enforced inside the callback via the Core flag.
+    if (!ui::ThemeManager::find("Xykell Dark", gTheme)) {
+        gTheme = ui::Theme{};
+    }
+    // Registry powers the ClickGUI model; loaded once from the mod resources.
+    // Missing file -> GUI stays closed; menu + HUD proof still work.
+    // (Resource path itself comes from verified ModContext::resourceDir().)
+    gGui.open = false;
+    gRouter.setGuiOpen(false);
     pl::input::registerTouchCallback([](const pl::input::TouchEvent& ev) {
-        (void)ev;
         if (!XykellCore::instance().modEnabled() || !gHudEnabled.load()) {
+            return false;
+        }
+        input::TouchPoint p{ev.x, ev.y, 0};
+        if (ev.action == 2) {
+            p.action = 2; // move
+        } else if (ev.action == 1) {
+            p.action = 1; // up
+        }
+        // NOTE: Android action mapping beyond down/up/move is unverified;
+        // anything else is treated as a tap (down+up pair not assumed).
+        if (gRouter.guiOpen()) {
+            gRouter.onTouch(p, gGui, *gMods);
+            if (!gGui.open) {
+                gRouter.setGuiOpen(false);
+            }
             return false;
         }
         ++gTaps;
@@ -84,8 +113,16 @@ bool registerHudModule(const std::string& modId) {
 
 void unregisterHudModule() {
     gHudEnabled.store(false);
+    gRouter.setGuiOpen(false);
+    gGui.open = false;
     pl::modmenu::submitDrawCommands(kHudModuleId, {});
     pl::modmenu::unregisterModule(kHudModuleId);
 }
+
+// ClickGUI host API (used by the ModMenu entry + tests).
+gui::GuiController& clickGui() { return gGui; }
+input::InputRouter& inputRouter() { return gRouter; }
+hud::HudManager& hudManager() { return gHudMgr; }
+void setRuntimeModules(ModuleManager* mods) { gMods = mods; }
 
 } // namespace xykell

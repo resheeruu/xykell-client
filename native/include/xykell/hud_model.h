@@ -76,6 +76,7 @@ class HudManager {
     HudManager() : layout_(HudLayout::m1Default()) {}
 
     HudLayout& layout() { return layout_; }
+    const HudLayout& layout() const { return layout_; }
     HudEditor& editor() { return editor_; }
     bool loadLayout(const json::Value& v, std::string& error);
     json::Value saveLayout() const { return layout_.serialize(); }
