@@ -9,17 +9,13 @@ are rejected natively. Stores remain per-sandbox (Android app vs Levi game
 process) — sync travels via export files. JNI runtime itself is
 DEVICE_PENDING (compiles in CI; first launch proves `loadLibrary`).
 
-## PLAY: verified handoff (not a direct launch)
-Batch 8 source read (Levi v1.5.25 `IntentHandler.java`, Apache-2.0, mechanism
-only — nothing copied): Levi handles `minecraft://` URIs itself and forwards
-with extras (`MINECRAFT_URI`, `LAUNCH_WITH_URI`); no external action carries
-version + isolation + mods, so a bare URI would open the game WITHOUT Xykell
-(rejected as fake success).
-Implemented instead: `LaunchDecider` (pure) + `LaunchExecutor`
-(PackageManager state) — pre-checks (MC installed, shared-adapter verdict
-allows, Levi installed, bridge up), then an explicit intent to Levi's
-exported `MainActivity`. Success is reported as "Levi opened", never "game
-launched"; every failure names its prerequisite.
+## PLAY: staged pipeline, fail-closed loader (standalone migration)
+`PlayPipeline` stages: MINECRAFT_DETECTED → VERSION_COMPATIBLE →
+PROFILE_READY → RUNTIME_VALIDATED → LOADER. The loader stage has no verified
+mechanism, so PLAY always ends `STANDALONE RUNTIME NOT READY` with the exact
+blocker — never "Launching...". No Levi references remain in the PLAY path;
+the legacy handoff is deleted (migration rule: replacement first — here the
+replacement is the honest staged pipeline itself).
 
 ## Levi manifest census (runtime enablement batch, read-only APK evidence)
 Exported entry points found in v1.5.25 manifest strings: `MainActivity`
@@ -30,7 +26,9 @@ Exported entry points found in v1.5.25 manifest strings: `MainActivity`
 VIEW patterns, FileProvider). No custom `levilauncher://` or `minecraft://`
 data scheme and no documented extras for launching a configured
 version+mods — direct `VIEW` would open the game WITHOUT Xykell, which is
-explicitly rejected as fake success. PLAY verdict stands.
+explicitly rejected as fake success. (Source read of `IntentHandler.java`
+confirmed: URIs route internally with `MINECRAFT_URI`/`LAUNCH_WITH_URI`
+extras — no external launch contract.)
 
 ## Safe mode surfacing
 Native CrashGuard owns the flag; launcher shows the static contract

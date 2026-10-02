@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Standalone migration: LEVI-REMOVAL-AUDIT, portal seams (menu/overlay/
+  input/log) with labeled preloader backend, detection states, staged PLAY.
 - Full universe: 255-entry registry (settings schemas + risk levels for all),
   generated MODULE-CATALOG, real local systems (friends, notifications,
   server profiles, waypoints, +2 themes), Lunar-101 + Flarial-52 coverage

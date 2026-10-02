@@ -1,6 +1,11 @@
-# Xykell — Architecture (approved spec, Approach A)
+# Xykell — Architecture (standalone migration in progress)
 
-Status: APPROVED 2026-10-02. Native Android ARM64 + C++ preloader core on LeviLaunchroid, per-version compat layer. MITM (B) and packs/scripting (C) stay isolated optional fallbacks. No auth/DRM/anti-cheat/platform-security bypasses — ever.
+Status: migration. Target: `Xykell Launcher → Xykell Runtime → Minecraft
+Bedrock` with zero Levi/Preloader in final production. Current: Xykell code
+runs on the Levi preloader path, isolated behind Xykell-owned `portal/`
+seams and labeled LEGACY COMPATIBILITY MODE (see
+`docs/STANDALONE-MIGRATION-AUDIT.md`, `docs/LEVI-REMOVAL-AUDIT.md`).
+No auth/DRM/anti-cheat/platform-security bypasses — ever.
 
 ## 1. Layer map (§7)
 ```
