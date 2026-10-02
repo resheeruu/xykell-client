@@ -38,14 +38,21 @@ run_case test_hud_theme "$ROOT/tests/unit/test_hud_theme.cpp" "$SRC/xykell_json_
     "$SRC/xykell_hud_model.cpp" "$SRC/xykell_theme.cpp"
 run_case test_gui_controller "$ROOT/tests/unit/test_gui_controller.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_clickgui_model.cpp" \
-    "$SRC/xykell_module_manager.cpp" "$SRC/xykell_gui_controller.cpp"
+    "$SRC/xykell_module_manager.cpp" "$SRC/xykell_gui_controller.cpp" \
+    "$SRC/xykell_runtime_probe.cpp"
 run_case test_input_router "$ROOT/tests/unit/test_input_router.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_clickgui_model.cpp" \
     "$SRC/xykell_module_manager.cpp" "$SRC/xykell_gui_controller.cpp" \
-    "$SRC/xykell_input_router.cpp"
+    "$SRC/xykell_input_router.cpp" "$SRC/xykell_runtime_probe.cpp"
 run_case test_hud_render "$ROOT/tests/unit/test_hud_render.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_profile_manager.cpp" \
     "$SRC/xykell_hud_model.cpp" "$SRC/xykell_theme.cpp" "$SRC/xykell_module_manager.cpp" \
     "$SRC/xykell_hud_renderer.cpp"
-echo "UNIT: $pass/13 suites PASS"
+run_case test_probe "$ROOT/tests/unit/test_probe.cpp" "$SRC/xykell_json_min.cpp" \
+    "$SRC/xykell_file_util.cpp" "$SRC/xykell_clickgui_model.cpp" \
+    "$SRC/xykell_module_manager.cpp" "$SRC/xykell_gui_controller.cpp" \
+    "$SRC/xykell_runtime_probe.cpp"
+run_case test_engines "$ROOT/tests/unit/test_engines.cpp" \
+    "$SRC/xykell_runtime_probe.cpp" "$SRC/xykell_engines.cpp"
+echo "UNIT: $pass/15 suites PASS"
 rm -rf "$WORK"

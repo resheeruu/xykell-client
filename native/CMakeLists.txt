@@ -22,6 +22,7 @@ add_library(
     src/xykell_config_store.cpp
     src/xykell_core.cpp
     src/xykell_crash_guard.cpp
+    src/xykell_engines.cpp
     src/xykell_event_bus.cpp
     src/xykell_file_util.cpp
     src/xykell_gui_controller.cpp
@@ -34,6 +35,7 @@ add_library(
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp
     src/xykell_profile_manager.cpp
+    src/xykell_runtime_probe.cpp
     src/xykell_theme.cpp
     src/xykell_version_adapter.cpp
     src/xykell_version_adapter.cpp
