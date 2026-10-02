@@ -27,3 +27,13 @@ pass; RR/Blocked/NI/absent/quarantined refuse with reasons. GUI
 `availability()` maps registry status + gate + quarantine to
 AVAILABLE / UNAVAILABLE / BLOCKED / RESEARCH_REQUIRED / QUARANTINED
 (registry `status` semantics unchanged — documented migration).
+
+## Batch 5 mechanism finding (public-source research, nothing copied)
+BedrockTools (GPL, mechanism only — its 30KB `Signatures.cpp` deliberately
+NOT fetched) drives frame/player/entity via **game hooks**: `pl::memory::hook`
+on functions located by **per-version byte signatures** through
+`pl::memory::resolveSignature(s)`, with a `clientInstance()` accessor.
+Implication for Xykell: there is no free frame/player API — each capability
+needs our own signature-derivation pipeline per Bedrock build. RENDER/PACKET
+stay BLOCKED; FRAME/PLAYER/ENTITY/WORLD stay RR with this exact reason.
+Xykell will never paste their signatures (GPL + provenance rules).

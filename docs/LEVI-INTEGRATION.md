@@ -35,3 +35,11 @@ Open-source LeviLauncher native mod (C++20, xmake, NDK r28c, 36 modules: Visual/
 - Prefer Levi APIs over custom hooks for lifecycle/input/config/menu.
 - Custom hooks only where Levi offers no path, documented with reason + version scope.
 - Never bypass auth/DRM/anti-cheat/platform security; never redistribute game binaries.
+
+## 7. Batch 5 findings (release-notes + docs evidence)
+- Version lines: v1.5.17 → MC 1.26.45; v1.5.24 → MC 1.26.50 (device 1.26.45.1 covered).
+- Quick Launch = Minecraft URI actions (open screens/connect/Realms/worlds/commands) —
+  the verified lead for Xykell's future PLAY wiring (exact action list TBD via device/Levi source).
+- External mods catalog V2 (mod downloads), HUD Editor with snapping, inbuilt
+  AutoSprint/QuickDrop, foreground service, gyro controls — Levi-side features
+  Xykell must NOT duplicate (integrate, don't reimplement).

@@ -1,6 +1,11 @@
 # Changelog
 
 ## [Unreleased]
+- Batch 5: runtime diagnostics ModMenu module (probe report text), 1.26.45
+  known-good (Levi v1.5.17 evidence — no version mismatch), tick-mechanism
+  finding (game hooks + per-version signatures; nothing copied), Quick Launch
+  URI lead for PLAY, device runbook, version/capability/Levi doc updates.
+  15/15 suites PASS (probe covers 21 caps + report format).
 - Batch 4: XykellRuntimeProbe (21 caps) + capability gate, registry
   `requires[]` + schema keys (name/description/settings/platforms/
   version_constraints/evidence), engines (target/move/budget/perf, gated),
