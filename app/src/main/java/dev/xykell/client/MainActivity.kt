@@ -5,6 +5,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dev.xykell.client.ui.AboutFragment
+import dev.xykell.client.ui.AccountsFragment
 import dev.xykell.client.ui.HomeFragment
 import dev.xykell.client.ui.ModulesFragment
 import dev.xykell.client.ui.PacksFragment
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         wire(R.id.nav_worlds, WorldsFragment())
         wire(R.id.nav_packs, PacksFragment())
         wire(R.id.nav_servers, ServersFragment())
+        wire(R.id.nav_accounts, AccountsFragment())
         if (savedInstanceState == null) show(HomeFragment())
     }
 

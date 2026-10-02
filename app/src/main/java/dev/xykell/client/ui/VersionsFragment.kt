@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import dev.xykell.client.NativeProfiles
 import dev.xykell.client.R
 
-/** Real installed-version detection (PackageManager, no guessing) + verdict
- *  from the SHARED native VersionAdapter via JNI. PLAY decisions must use
- *  this verdict — currently nothing installed here can be launched WITH
- *  Xykell config, so PLAY stays NOT WIRED regardless. */
+/** Real installed-version detection (PackageManager, no guessing) + verdicts
+ *  from the SHARED native logic via JNI. States never collapse a visibility
+ *  failure into "not installed" — see native detection.h. */
 class VersionsFragment : Fragment(R.layout.fragment_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -21,37 +20,56 @@ class VersionsFragment : Fragment(R.layout.fragment_info) {
         view.findViewById<TextView>(R.id.info_body).text = describe()
     }
 
-    private fun installedVersion(): String? {
-        return try {
-            val pm = requireContext().packageManager
+    private fun describe(): String {
+        val pm = requireContext().packageManager
+        val pkg = "com.mojang.minecraftpe"
+        val info = try {
             @Suppress("DEPRECATION")
-            val info = pm.getPackageInfo("com.mojang.minecraftpe", 0)
-            info.versionName
+            pm.getPackageInfo(pkg, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }
-    }
-
-    private fun describe(): String {
-        val v = installedVersion()
-        if (v == null) {
-            return "Minecraft Bedrock: NOT INSTALLED\n\n" +
-                "Install the official Google Play copy first. " +
-                "Xykell requires a legitimate installation."
+        if (info == null) {
+            return "Minecraft\nNot detected\n\n" +
+                "Package: $pkg\n" +
+                "Detection: PackageManager lookup failed\n" +
+                "Note: this build declares <queries> for $pkg, so a miss " +
+                "means genuinely absent (or a work-profile/private-space " +
+                "install invisible to this app)."
         }
         val abi = Build.SUPPORTED_ABIS.firstOrNull() ?: "unknown-arch"
-        val verdict = try {
-            NativeProfiles.checkVersion(v, abi)
-        } catch (e: UnsatisfiedLinkError) {
-            "UNKNOWN|native bridge unavailable: ${e.message}"
+        @Suppress("DEPRECATION")
+        val appInfo = info.applicationInfo
+        val enabled = appInfo?.enabled == true
+        @Suppress("DEPRECATION")
+        val installer = try {
+            pm.getInstallerPackageName(pkg) ?: "(unknown)"
+        } catch (e: Exception) {
+            "(unavailable)"
         }
-        val parts = verdict.split("|", limit = 2)
-        val state = parts.getOrElse(0) { "UNKNOWN" }
-        val reason = parts.getOrElse(1) { "" }
-        return "Minecraft Bedrock: $v ($abi)\n" +
-            "Xykell verdict: $state\nReason: $reason\n\n" +
-            "Verdict comes from the shared native VersionAdapter " +
-            "(Levi floor >=1.21.80; verified lines 1.26.45/1.26.50). " +
-            "Launching WITH Xykell config still needs Levi — PLAY NOT WIRED."
+        val splits = appInfo?.splitNames?.size ?: 0
+        val version = info.versionName ?: ""
+        @Suppress("DEPRECATION")
+        val versionCode = info.versionCode
+        val installVerdict = try {
+            NativeProfiles.checkInstall(true, version, abi, enabled, true)
+        } catch (e: UnsatisfiedLinkError) {
+            "UNKNOWN|native bridge unavailable"
+        }
+        val compatVerdict = try {
+            NativeProfiles.checkVersion(version, abi)
+        } catch (e: UnsatisfiedLinkError) {
+            "UNKNOWN|native bridge unavailable"
+        }
+        return "Minecraft\nInstalled — $version ($versionCode)\n\n" +
+            "Package: $pkg\n" +
+            "Detection: PackageManager (install verdict: $installVerdict)\n" +
+            "Compatibility: $compatVerdict\n" +
+            "Enabled: $enabled\n" +
+            "Installer: $installer\n" +
+            "ABI: $abi\n" +
+            "Splits: $splits\n" +
+            "Launching WITH Xykell config needs the standalone loader — " +
+            "PLAY reports its exact stage."
     }
 }

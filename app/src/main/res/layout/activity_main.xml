@@ -74,6 +74,10 @@
             android:id="@+id/nav_servers"
             style="@style/XykellNavButton"
             android:text="Servers" />
+        <Button
+            android:id="@+id/nav_accounts"
+            style="@style/XykellNavButton"
+            android:text="Accounts" />
     </LinearLayout>
 
 </LinearLayout>

@@ -22,7 +22,7 @@ class WorldsFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Worlds"
-        body = "NOT WIRED — world browser pending Levi runtime integration.\n\n" +
+        body = "NOT WIRED — world browser pending Xykell content manager.\n\n" +
             "Planned: browse, backup, restore, import, export, profile " +
             "association, version compatibility. Uses official/local " +
             "Minecraft data pathways only."
@@ -33,14 +33,24 @@ class PacksFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Packs"
-        body = "NOT WIRED — resource-pack browser pending Levi runtime integration.\n\n" +
+        body = "NOT WIRED — pack browser pending Xykell content manager.\n\n" +
             "Planned: browse, import, export, enable, disable, compatibility, " +
             "backup, rollback. Never loads native executables as content."
     }
 }
 
-class ServersFragment : InfoFragment() {
+class AccountsFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        title = "Accounts"
+        body = "NOT WIRED — official flows only.\n\nXykell will use official " +
+            "Microsoft/Xbox sign-in flows. Never enters passwords, never " +
+            "extracts tokens, never bypasses authentication. Until an " +
+            "official integration exists, manage accounts in Minecraft itself."
+    }
+}
+
+class ServersFragment : InfoFragment() {    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Servers"
         body = "NOT WIRED — server browser pending network layer.\n\n" +
