@@ -25,6 +25,10 @@ struct CoreInfo {
     std::uint32_t capabilities = 0;
     bool initialized = false;
     bool safeMode = false;
+    // Mod Menu proof state (Task 4). Persistence owner: Levi Mod Menu
+    // (device-verified in Task 6); mirrored here for runtime behavior.
+    bool modEnabled = true;
+    bool debugLogging = false;
 };
 
 class XykellCore {
@@ -36,6 +40,8 @@ class XykellCore {
     void shutdown();
 
     void setSafeMode(bool on) { info_.safeMode = on; }
+    void setModEnabled(bool on) { info_.modEnabled = on; }
+    void setDebugLogging(bool on) { info_.debugLogging = on; }
     void setMinecraftVersion(const std::string& v) { info_.minecraftVersion = v; }
     void addCapability(Capability c);
 
