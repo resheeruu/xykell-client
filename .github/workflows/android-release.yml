@@ -78,8 +78,7 @@ jobs:
       - name: Verify APK
         run: |
           set -e
-          APK=app/build/outputs/apk/debug/app-debug.apk
-          test -f "$APK"
+          APK=app/build/outputs/apk/debug/app-debug.apk          test -f "$APK"
           test -s "$APK"
           unzip -l "$APK" | grep "lib/arm64-v8a/libxykell.so"
           rm -rf /tmp/apkcheck && mkdir -p /tmp/apkcheck && cd /tmp/apkcheck
@@ -94,6 +93,13 @@ jobs:
           echo "ABI: arm64-v8a"
           echo "Native library: lib/arm64-v8a/libxykell.so"
           echo "PLGetModRegistration: exported"
+
+      - name: Size audit
+        run: |
+          set -e
+          echo "repo: $(du -sh . | cut -f1)"
+          echo "native-so: $(stat -c%s build/ci-native/libxykell.so)"
+          echo "apk: $(stat -c%s app/build/outputs/apk/debug/app-debug.apk)"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4

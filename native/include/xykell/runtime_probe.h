@@ -16,6 +16,7 @@ enum class CapState {
     ResearchRequired,  // no verified source yet
     Blocked,           // no API surface exists in the pinned SDK
     NotImplemented,    // designed, not built
+    Incompatible,      // known not to work with the detected runtime/version
 };
 
 std::string stateName(CapState s);

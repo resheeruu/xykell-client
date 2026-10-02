@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased]
+- Batch 6: load checkpoints (12 stages, exact failure reports), signature
+  pipeline infra (pattern/scan/validate/database, empty by design), Quick
+  Launch verdict (URIs address the game, not launcher config — PLAY stays
+  disabled), launcher SAF export/import, CI size audit, INCOMPATIBLE state.
+  16/16 suites PASS. New docs: SIGNATURE-PIPELINE, SERVICES,
+  LAUNCHER-INTEGRATION, MODULE-IMPLEMENTATION-STATUS.
 - Batch 5: runtime diagnostics ModMenu module (probe report text), 1.26.45
   known-good (Levi v1.5.17 evidence — no version mismatch), tick-mechanism
   finding (game hooks + per-version signatures; nothing copied), Quick Launch

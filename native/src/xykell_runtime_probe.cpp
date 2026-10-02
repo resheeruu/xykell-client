@@ -9,6 +9,7 @@ std::string stateName(CapState s) {
         case CapState::ResearchRequired: return "RESEARCH_REQUIRED";
         case CapState::Blocked: return "BLOCKED";
         case CapState::NotImplemented: return "NOT_IMPLEMENTED";
+        case CapState::Incompatible: return "INCOMPATIBLE";
     }
     return "?";
 }

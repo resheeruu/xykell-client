@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/profiles_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent"
+        android:layout_marginTop="16dp"
+        android:text="Profiles" />
+
+    <TextView
+        android:id="@+id/profiles_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/xykell_text"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/profiles_export"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:minHeight="56dp"
+        android:text="Export active profile" />
+
+    <Button
+        android:id="@+id/profiles_import"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:minHeight="56dp"
+        android:text="Import profile file" />
+
+    <TextView
+        android:id="@+id/profiles_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/xykell_muted"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

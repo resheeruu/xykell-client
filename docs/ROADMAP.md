@@ -9,7 +9,8 @@
 - [x] Batch 3 — ClickGUI/InputRouter/HudRenderer/recovery/launcher browser + 13/13 tests + size audit.
 - [x] Batch 4 — runtime discovery: SDK inventory, probe+gate (21 caps), `requires[]`, engines, MC 1.26.45.1 baseline, audit script, scripting/proxy designs, security audit.
 - [x] Batch 5 — diagnostics module, 1.26.45 compat proof, hook-mechanism finding, Quick Launch lead, device runbook.
-- [ ] **Next: human device run → signature pipeline → first live data (graph §12).**
+- [x] Batch 6 — checkpoints, sigscan infra, PLAY verdict, SAF export/import, CI size audit.
+- [ ] **Next: human device run → signature derivation → first live data.**
 - [ ] M3 — profiles (all 11), touchbind/gesture system, settings sync.
 - [ ] M4 — visual QoL batch (Zoom/Fullbright/FOV/crosshair), each version-gated.
 - [ ] M5 — network engine (diagnostics set) + packet-event monitoring.

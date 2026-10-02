@@ -27,18 +27,6 @@ class VersionsFragment : InfoFragment() {
     }
 }
 
-class ProfilesFragment : InfoFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        title = "Profiles"
-        val pm = dev.xykell.client.runtime.ProfileManager
-        body = "Current: ${pm.currentProfile}\nAvailable: ${pm.profiles.joinToString()}\n\n" +
-            "Native profiles (Config/ProfileManager) live in the game-process " +
-            "store — no shared-storage bridge yet (RESEARCH_REQUIRED, no " +
-            "duplicate store here). This screen mirrors them once wired."
-    }
-}
-
 class SettingsFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
