@@ -13,6 +13,7 @@
 - [x] Batch 7 — symbol census (no game exports), JNI bridge, Levi-dup notes, device verification doc.
 - [x] Batch 8 — runtime-active marker, proof banner, CI host tests, device test doc.
 - [x] Registry v2 + catalog + coverage docs (this batch).
+- [x] Full universe: 255 registry entries, settings, local systems, coverage.
 - [ ] **Next: human device run → signature derivation → first live data.**
 - [ ] M3 — profiles (all 11), touchbind/gesture system, settings sync.
 - [ ] M4 — visual QoL batch (Zoom/Fullbright/FOV/crosshair), each version-gated.

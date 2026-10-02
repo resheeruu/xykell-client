@@ -1,6 +1,11 @@
 # Changelog
 
 ## [Unreleased]
+- Full universe: 255-entry registry (settings schemas + risk levels for all),
+  generated MODULE-CATALOG, real local systems (friends, notifications,
+  server profiles, waypoints, +2 themes), Lunar-101 + Flarial-52 coverage
+  research, new docs (FEATURES/MODULES map, PERFORMANCE, STORAGE, PRIVACY,
+  MODULE-SDK, REFERENCE-COVERAGE). 18/18 suites PASS.
 - PLAY handoff: Levi IntentHandler source read (no external launch action —
   bare URIs rejected), LaunchDecider/Executor (pre-checks + verified
   MainActivity intent, honest outcomes), launcher.play PARTIAL with evidence.
