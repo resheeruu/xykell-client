@@ -54,5 +54,7 @@ run_case test_probe "$ROOT/tests/unit/test_probe.cpp" "$SRC/xykell_json_min.cpp"
     "$SRC/xykell_runtime_probe.cpp"
 run_case test_engines "$ROOT/tests/unit/test_engines.cpp" \
     "$SRC/xykell_runtime_probe.cpp" "$SRC/xykell_engines.cpp"
-echo "UNIT: $pass/15 suites PASS"
+run_case test_stages_sigscan "$ROOT/tests/unit/test_stages_sigscan.cpp" \
+    "$SRC/xykell_load_stages.cpp" "$SRC/xykell_sigscan.cpp"
+echo "UNIT: $pass/16 suites PASS"
 rm -rf "$WORK"

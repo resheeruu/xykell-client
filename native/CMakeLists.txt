@@ -32,10 +32,12 @@ add_library(
     src/xykell_hud_renderer.cpp
     src/xykell_input_router.cpp
     src/xykell_json_min.cpp
+    src/xykell_load_stages.cpp
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp
     src/xykell_profile_manager.cpp
     src/xykell_runtime_probe.cpp
+    src/xykell_sigscan.cpp
     src/xykell_theme.cpp
     src/xykell_version_adapter.cpp
     src/xykell_version_adapter.cpp
