@@ -20,3 +20,8 @@ Xykell: <version>
 
 ## 3. Rules
 Original Xykell design (no copied artwork/branding). Large touch targets (min 48dp). Every destructive action (reset profile, clear layout) confirms first. UI never blocks the game thread — overlay renders off the critical path.
+
+## 4. Foundations (Batch 2, data layer; render binding later)
+- ClickGUI model (`clickgui_model`): entries parsed ONLY from `registry/features.json` (test-enforced, 192 entries); category filter, case-insensitive search, `operable()` == SUPPORTED|PARTIAL — RESEARCH_REQUIRED modules are display-only, never togglable into fake operation.
+- HUD framework (`hud_model`): typed elements, layouts, touch editor state (select/drag/scale/visibility/reset), JSON serialization into profiles. Unverified sources render `--` by contract (`provider` empty or throwing → placeholder).
+- Themes (`theme.h`): Xykell Dark (matches `app/` `#0D1526`/`#4FD8C7`) + Xykell Light; `#`-color validated serialization.
