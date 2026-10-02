@@ -1,0 +1,8 @@
+{
+  "type": "preload-native",
+  "name": "Xykell Client",
+  "author": "Xykell Contributors",
+  "version": "0.1.0-m1",
+  "entry": "libxykell.so",
+  "minecraft_versions": []
+}
