@@ -2,6 +2,7 @@
 #include <pl/Mod.hpp>
 
 #include "xykell/core.h"
+#include "xykell/hud.h"
 #include "xykell/menu.h"
 #include "xykell/version.h"
 #include "xykell/version_adapter.h"
@@ -44,7 +45,10 @@ class XykellMod {
         const bool menuOk = xykell::registerMenuModule(ctx.id());
         ctx.logger().info("{}: mod-menu registration {}", XYKELL_NAME,
                            menuOk ? "ok" : "FAILED");
-        return menuOk;
+        const bool hudOk = xykell::registerHudModule(ctx.id());
+        ctx.logger().info("{}: hud/input registration {}", XYKELL_NAME,
+                           hudOk ? "ok" : "FAILED");
+        return menuOk && hudOk;
     }
 
     bool enable(pl::mod::ModContext& ctx) {
@@ -59,6 +63,7 @@ class XykellMod {
 
     bool unload(pl::mod::ModContext& ctx) {
         ctx.logger().info("{}: unload (clean)", XYKELL_NAME);
+        xykell::unregisterHudModule();
         xykell::unregisterMenuModule();
         xykell::XykellCore::instance().shutdown();
         return true;
