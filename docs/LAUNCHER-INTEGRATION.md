@@ -16,6 +16,17 @@ action launches a specific isolated version with Xykell's levipack. PLAY stays
 disabled + NOT WIRED. Missing prerequisite: exact Levi launch action for a
 configured version (needs device/Levi-source read of the action list).
 
+## Levi manifest census (runtime enablement batch, read-only APK evidence)
+Exported entry points found in v1.5.25 manifest strings: `MainActivity`
+(LAUNCHER), `SplashActivity`, `IntentHandler`, `InstancesActivity`,
+`QuickLaunchActivity`, `MinecraftActivity`, `MinecraftLoadingActivity`,
+`ModConfig/ModDetail`, `Accounts/Settings/News/About/Crash/MsftLogin`,
+`CurseForge/ExternalMods/ContentManagement` (+ `.levipack`/`.levibackup`
+VIEW patterns, FileProvider). No custom `levilauncher://` or `minecraft://`
+data scheme and no documented extras for launching a configured
+version+mods — direct `VIEW` would open the game WITHOUT Xykell, which is
+explicitly rejected as fake success. PLAY verdict stands.
+
 ## Safe mode surfacing
 Native CrashGuard owns the flag; launcher shows the static contract
 (SAFE MODE / Reason / Disabled modules) until a bridge carries live state.

@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+- Runtime enablement: Levi manifest census (no external launch API — PLAY
+  verdict stands), JNI version verdict (shared adapter) + real installed-MC
+  display on Versions/Home, no fake launch path.
 - Registry v2: `xykell.*` ids, 15 categories, 225 entries (deduped, full
   universe incl. server/proxy/launcher/automation), generated
   MODULE-CATALOG.md, new docs (PERFORMANCE, STORAGE, PRIVACY, MODULE-SDK).
