@@ -8,6 +8,9 @@ STATUSES = {"SUPPORTED", "PARTIAL", "UNSUPPORTED", "BLOCKED",
             "RESEARCH_REQUIRED", "NOT_IMPLEMENTED"}
 CAPS = {"NATIVE", "PACKET", "RENDER", "INPUT", "UI", "WORLD", "SCRIPT", "HYBRID"}
 IMPLS = {"native", "packet", "script", "hybrid"}
+CATEGORIES = {"CLIENT", "HUD", "PERFORMANCE", "VISUAL", "PLAYER", "MOVEMENT",
+              "COMBAT", "WORLD", "AUTOMATION", "NETWORK", "PROXY",
+              "SCRIPTING", "SERVER", "MISC", "LAUNCHER"}
 KNOWN_CAPS = {"LIFECYCLE", "SHUTDOWN", "CONFIG_DIRS", "INPUT_TRANSPORT",
               "INPUT_SEMANTICS", "MODMENU", "OVERLAY_DELIVERY", "FRAME",
               "PLAYER", "ENTITY", "WORLD", "CAMERA", "RENDER", "PACKET",
@@ -32,8 +35,15 @@ def main() -> int:
         if f.get("id") in seen:
             errors.append(f"[{i}] duplicate id {f.get('id')}")
         seen.add(f.get("id"))
-        if f.get("id") != f"{f.get('category')}.{f.get('id', '.').split('.', 1)[-1]}":
-            errors.append(f"[{i}] id/category mismatch {f.get('id')}")
+        import re
+        if not re.fullmatch(r"xykell\.[a-z]+\.[a-z0-9_]+", f.get("id", "")):
+            errors.append(f"[{i}] bad id format {f.get('id')}")
+        if f.get("category") not in CATEGORIES:
+            errors.append(f"[{i}] bad category {f.get('category')}")
+        else:
+            want = "xykell." + f["category"].lower() + "."
+            if not f.get("id", "").startswith(want):
+                errors.append(f"[{i}] id/category mismatch {f.get('id')}")
         if f.get("status") not in STATUSES:
             errors.append(f"[{i}] bad status {f.get('status')}")
         if f.get("implementation") not in IMPLS:

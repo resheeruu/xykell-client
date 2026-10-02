@@ -3,18 +3,17 @@
     "format": 1,
     "product": "Xykell Client",
     "generated_by": "scripts/registry/generate.py",
-    "count": 192
+    "count": 225
   },
   "features": [
     {
-      "id": "combat.aim_assist",
-      "name": "Aim Assist",
-      "category": "combat",
-      "description": "Aim Assist (combat).",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.core",
+      "name": "Core",
+      "category": "CLIENT",
+      "description": "M1 proven core",
+      "status": "PARTIAL",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "LIFECYCLE"
       ],
       "settings": [],
       "platforms": [
@@ -23,24 +22,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "NATIVE"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
+        "Xykell"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "M1 proven core"
     },
     {
-      "id": "combat.auto_clicker",
-      "name": "Auto Clicker",
-      "category": "combat",
-      "description": "Auto Clicker (combat).",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.version_adapter",
+      "name": "Version Adapter",
+      "category": "CLIENT",
+      "description": "M1 table logic; runtime source pending",
+      "status": "PARTIAL",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "LIFECYCLE",
+        "VERSION_STRING"
       ],
       "settings": [],
       "platforms": [
@@ -49,26 +48,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "INPUT",
-        "HYBRID"
+        "NATIVE"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
+        "Xykell"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "M1 table logic; runtime source pending"
     },
     {
-      "id": "combat.afk_clicker",
-      "name": "Afk Clicker",
-      "category": "combat",
-      "description": "Afk Clicker (combat).",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.config_store",
+      "name": "Config Store",
+      "category": "CLIENT",
+      "description": "M1 menu proof; file store pending",
+      "status": "PARTIAL",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "LIFECYCLE",
+        "CONFIG_DIRS"
       ],
       "settings": [],
       "platforms": [
@@ -77,24 +74,26 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "NATIVE",
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
+        "Xykell",
+        "WClient"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "M1 menu proof; file store pending"
     },
     {
-      "id": "combat.trigger_bot",
-      "name": "Trigger Bot",
-      "category": "combat",
-      "description": "Trigger Bot (combat).",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.profile_manager",
+      "name": "Profile Manager",
+      "category": "CLIENT",
+      "description": "Default only in M1.5 shell",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "LIFECYCLE",
+        "CONFIG_DIRS"
       ],
       "settings": [],
       "platforms": [
@@ -103,24 +102,25 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "NATIVE",
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
+        "Xykell"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "Default only in M1.5 shell"
     },
     {
-      "id": "combat.kill_aura",
-      "name": "Kill Aura",
-      "category": "combat",
-      "description": "needs targeting+attack sources",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.crash_guard",
+      "name": "Crash Guard",
+      "category": "CLIENT",
+      "description": "quarantine design pending",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "LIFECYCLE",
+        "CONFIG_DIRS"
       ],
       "settings": [],
       "platforms": [
@@ -129,25 +129,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "NATIVE"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
+        "Xykell"
       ],
       "evidence": "",
-      "notes": "needs targeting+attack sources"
+      "notes": "quarantine design pending"
     },
     {
-      "id": "combat.tp_aura",
-      "name": "Tp Aura",
-      "category": "combat",
-      "description": "Tp Aura (combat).",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.updater",
+      "name": "Updater",
+      "category": "CLIENT",
+      "description": "signed+checksum design pending",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "LIFECYCLE"
       ],
       "settings": [],
       "platforms": [
@@ -156,24 +154,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "NATIVE",
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
+        "Xykell"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "signed+checksum design pending"
     },
     {
-      "id": "combat.reach",
-      "name": "Reach",
-      "category": "combat",
-      "description": "Reach (combat).",
-      "status": "RESEARCH_REQUIRED",
+      "id": "xykell.client.hud_editor",
+      "name": "Hud Editor",
+      "category": "CLIENT",
+      "description": "editor state+serialization exist; overlay binding partial",
+      "status": "PARTIAL",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "OVERLAY_DELIVERY"
       ],
       "settings": [],
       "platforms": [
@@ -182,25 +180,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
+        "Xykell"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "editor state+serialization exist; overlay binding partial"
     },
     {
-      "id": "combat.hitbox",
-      "name": "Hitbox",
-      "category": "combat",
-      "description": "Hitbox (combat).",
+      "id": "xykell.hud.fps",
+      "name": "Fps",
+      "category": "HUD",
+      "description": "needs frame-tick source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "FRAME"
       ],
       "settings": [],
       "platforms": [
@@ -209,442 +205,25 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
+        "Atlas",
+        "Flarial",
+        "BedrockTools"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "needs frame-tick source"
     },
     {
-      "id": "combat.velocity",
-      "name": "Velocity",
-      "category": "combat",
-      "description": "locality TBD",
+      "id": "xykell.hud.cps",
+      "name": "Cps",
+      "category": "HUD",
+      "description": "needs input tap stream (have callback)",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "packet",
-      "capabilities": [
-        "PACKET",
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "combat.knockback",
-      "name": "Knockback",
-      "category": "combat",
-      "description": "Knockback (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.knockback_delay",
-      "name": "Knockback Delay",
-      "category": "combat",
-      "description": "Knockback Delay (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.backtrack",
-      "name": "Backtrack",
-      "category": "combat",
-      "description": "Backtrack (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "packet",
-      "capabilities": [
-        "PACKET",
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_crit",
-      "name": "Auto Crit",
-      "category": "combat",
-      "description": "Auto Crit (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_totem",
-      "name": "Auto Totem",
-      "category": "combat",
-      "description": "Auto Totem (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_potion",
-      "name": "Auto Potion",
-      "category": "combat",
-      "description": "Auto Potion (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_crystal",
-      "name": "Auto Crystal",
-      "category": "combat",
-      "description": "Auto Crystal (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.anti_crystal",
-      "name": "Anti Crystal",
-      "category": "combat",
-      "description": "Anti Crystal (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_cart",
-      "name": "Auto Cart",
-      "category": "combat",
-      "description": "Auto Cart (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_web",
-      "name": "Auto Web",
-      "category": "combat",
-      "description": "Auto Web (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.auto_switch",
-      "name": "Auto Switch",
-      "category": "combat",
-      "description": "Auto Switch (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.mace_swap",
-      "name": "Mace Swap",
-      "category": "combat",
-      "description": "Bedrock mechanic mapping TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "Bedrock mechanic mapping TBD"
-    },
-    {
-      "id": "combat.mace_damage",
-      "name": "Mace Damage",
-      "category": "combat",
-      "description": "Bedrock mechanic mapping TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "Bedrock mechanic mapping TBD"
-    },
-    {
-      "id": "combat.shield_disabler",
-      "name": "Shield Disabler",
-      "category": "combat",
-      "description": "Shield Disabler (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.anchor_aura",
-      "name": "Anchor Aura",
-      "category": "combat",
-      "description": "Anchor Aura (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "combat.target_hud",
-      "name": "Target Hud",
-      "category": "combat",
-      "description": "needs target source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
+        "INPUT_SEMANTICS"
       ],
       "settings": [],
       "platforms": [
@@ -654,7 +233,339 @@
       "implementation": "native",
       "capabilities": [
         "UI",
-        "HYBRID"
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "Nova"
+      ],
+      "evidence": "",
+      "notes": "needs input tap stream (have callback)"
+    },
+    {
+      "id": "xykell.hud.coordinates",
+      "name": "Coordinates",
+      "category": "HUD",
+      "description": "needs player-position source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "needs player-position source"
+    },
+    {
+      "id": "xykell.hud.ping",
+      "name": "Ping",
+      "category": "HUD",
+      "description": "needs latency source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PACKET"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "packet",
+      "capabilities": [
+        "UI",
+        "PACKET"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "needs latency source"
+    },
+    {
+      "id": "xykell.hud.tps",
+      "name": "Tps",
+      "category": "HUD",
+      "description": "measurability TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "measurability TBD"
+    },
+    {
+      "id": "xykell.hud.armor",
+      "name": "Armor",
+      "category": "HUD",
+      "description": "needs inventory source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs inventory source"
+    },
+    {
+      "id": "xykell.hud.health",
+      "name": "Health",
+      "category": "HUD",
+      "description": "needs player source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs player source"
+    },
+    {
+      "id": "xykell.hud.hunger",
+      "name": "Hunger",
+      "category": "HUD",
+      "description": "needs player source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs player source"
+    },
+    {
+      "id": "xykell.hud.position",
+      "name": "Position",
+      "category": "HUD",
+      "description": "see coordinates",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "see coordinates"
+    },
+    {
+      "id": "xykell.hud.direction",
+      "name": "Direction",
+      "category": "HUD",
+      "description": "needs rotation source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs rotation source"
+    },
+    {
+      "id": "xykell.hud.biome",
+      "name": "Biome",
+      "category": "HUD",
+      "description": "needs world source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs world source"
+    },
+    {
+      "id": "xykell.hud.clock",
+      "name": "Clock",
+      "category": "HUD",
+      "description": "device clock available; game-time TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "device clock available; game-time TBD"
+    },
+    {
+      "id": "xykell.hud.keystrokes",
+      "name": "Keystrokes",
+      "category": "HUD",
+      "description": "needs input stream (have callback)",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "INPUT_SEMANTICS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "needs input stream (have callback)"
+    },
+    {
+      "id": "xykell.hud.touch_indicators",
+      "name": "Touch Indicators",
+      "category": "HUD",
+      "description": "have touch callback",
+      "status": "PARTIAL",
+      "requires": [
+        "INPUT_SEMANTICS"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "have touch callback"
+    },
+    {
+      "id": "xykell.hud.target_info",
+      "name": "Target Info",
+      "category": "HUD",
+      "description": "needs target source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "ENTITY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
@@ -664,14 +575,13 @@
       "notes": "needs target source"
     },
     {
-      "id": "combat.target_selector",
-      "name": "Target Selector",
-      "category": "combat",
-      "description": "Target Selector (combat).",
+      "id": "xykell.hud.arraylist",
+      "name": "Arraylist",
+      "category": "HUD",
+      "description": "module-list display",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "OVERLAY_DELIVERY"
       ],
       "settings": [],
       "platforms": [
@@ -680,25 +590,48 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy",
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "module-list display"
+    },
+    {
+      "id": "xykell.hud.watermark",
+      "name": "Watermark",
+      "category": "HUD",
+      "description": "static text via draw commands",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
         "Flarial"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "static text via draw commands"
     },
     {
-      "id": "combat.friend_filter",
-      "name": "Friend Filter",
-      "category": "combat",
-      "description": "local list; needs target source",
+      "id": "xykell.hud.notifications",
+      "name": "Notifications",
+      "category": "HUD",
+      "description": "event-driven; needs EventBus",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "OVERLAY_DELIVERY"
       ],
       "settings": [],
       "platforms": [
@@ -711,100 +644,19 @@
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "local list; needs target source"
-    },
-    {
-      "id": "combat.combat_settings",
-      "name": "Combat Settings",
-      "category": "combat",
-      "description": "Combat Settings (combat).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "movement.sprint",
-      "name": "Sprint",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "INPUT"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Flarial",
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.auto_sprint",
-      "name": "Auto Sprint",
-      "category": "movement",
-      "description": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "INPUT"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
         "Flarial"
       ],
       "evidence": "",
-      "notes": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate"
+      "notes": "event-driven; needs EventBus"
     },
     {
-      "id": "movement.speed",
-      "name": "Speed",
-      "category": "movement",
-      "description": "locality TBD",
+      "id": "xykell.hud.session_stats",
+      "name": "Session Stats",
+      "category": "HUD",
+      "description": "local timers available",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "OVERLAY_DELIVERY"
       ],
       "settings": [],
       "platforms": [
@@ -813,1125 +665,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.no_slow",
-      "name": "No Slow",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.step",
-      "name": "Step",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.air_jump",
-      "name": "Air Jump",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.fly",
-      "name": "Fly",
-      "category": "movement",
-      "description": "server-visible risk; locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
-      ],
-      "evidence": "",
-      "notes": "server-visible risk; locality TBD"
-    },
-    {
-      "id": "movement.motion_fly",
-      "name": "Motion Fly",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.jetpack",
-      "name": "Jetpack",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.phase",
-      "name": "Phase",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.glide",
-      "name": "Glide",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.auto_elytra",
-      "name": "Auto Elytra",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.auto_rocket",
-      "name": "Auto Rocket",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.bunny_hop",
-      "name": "Bunny Hop",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.jump_boost",
-      "name": "Jump Boost",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.levitate",
-      "name": "Levitate",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.slow_falling",
-      "name": "Slow Falling",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.water_walk",
-      "name": "Water Walk",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.tap_tp",
-      "name": "Tap Tp",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.safe_walk",
-      "name": "Safe Walk",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.no_fall",
-      "name": "No Fall",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.movement_correction",
-      "name": "Movement Correction",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "packet",
-      "capabilities": [
-        "PACKET",
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "movement.timer",
-      "name": "Timer",
-      "category": "movement",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "player.auto_eat",
-      "name": "Auto Eat",
-      "category": "player",
-      "description": "Auto Eat (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_fish",
-      "name": "Auto Fish",
-      "category": "player",
-      "description": "Auto Fish (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_refill",
-      "name": "Auto Refill",
-      "category": "player",
-      "description": "Auto Refill (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_steal",
-      "name": "Auto Steal",
-      "category": "player",
-      "description": "server rules risk",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "server rules risk"
-    },
-    {
-      "id": "player.inventory_manager",
-      "name": "Inventory Manager",
-      "category": "player",
-      "description": "Inventory Manager (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI",
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_tool",
-      "name": "Auto Tool",
-      "category": "player",
-      "description": "Auto Tool (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_equip",
-      "name": "Auto Equip",
-      "category": "player",
-      "description": "Auto Equip (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_armor",
-      "name": "Auto Armor",
-      "category": "player",
-      "description": "Auto Armor (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.fast_eat",
-      "name": "Fast Eat",
-      "category": "player",
-      "description": "Fast Eat (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.fast_throw",
-      "name": "Fast Throw",
-      "category": "player",
-      "description": "Fast Throw (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.fast_interact",
-      "name": "Fast Interact",
-      "category": "player",
-      "description": "Fast Interact (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_sign",
-      "name": "Auto Sign",
-      "category": "player",
-      "description": "Auto Sign (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.auto_sell",
-      "name": "Auto Sell",
-      "category": "player",
-      "description": "server rules risk",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "server rules risk"
-    },
-    {
-      "id": "player.haste",
-      "name": "Haste",
-      "category": "player",
-      "description": "Haste (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.slow_mine",
-      "name": "Slow Mine",
-      "category": "player",
-      "description": "Slow Mine (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.no_fall",
-      "name": "No Fall",
-      "category": "player",
-      "description": "No Fall (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.no_blindness",
-      "name": "No Blindness",
-      "category": "player",
-      "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs render path"
-    },
-    {
-      "id": "player.no_nausea",
-      "name": "No Nausea",
-      "category": "player",
-      "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs render path"
-    },
-    {
-      "id": "player.no_fire",
-      "name": "No Fire",
-      "category": "player",
-      "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs render path"
-    },
-    {
-      "id": "player.no_hurt_cam",
-      "name": "No Hurt Cam",
-      "category": "player",
-      "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "needs render path"
-    },
-    {
-      "id": "player.anti_immobile",
-      "name": "Anti Immobile",
-      "category": "player",
-      "description": "Anti Immobile (player).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "player.death_position",
-      "name": "Death Position",
-      "category": "player",
-      "description": "needs death source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "WORLD",
         "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Apollon",
         "Flarial"
       ],
       "evidence": "",
-      "notes": "needs death source"
+      "notes": "local timers available"
     },
     {
-      "id": "player.friend_alerts",
-      "name": "Friend Alerts",
-      "category": "player",
-      "description": "Friend Alerts (player).",
+      "id": "xykell.hud.server_info",
+      "name": "Server Info",
+      "category": "HUD",
+      "description": "needs connection source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "PACKET"
       ],
       "settings": [],
       "platforms": [
@@ -1944,20 +694,19 @@
       ],
       "versions": [],
       "sourceReferences": [
-        "Lunar Proxy"
+        "Flarial"
       ],
       "evidence": "",
-      "notes": ""
+      "notes": "needs connection source"
     },
     {
-      "id": "player.nickname",
-      "name": "Nickname",
-      "category": "player",
-      "description": "local-only",
+      "id": "xykell.performance.fps_limiter",
+      "name": "Fps Limiter",
+      "category": "PERFORMANCE",
+      "description": "needs frame path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "PLAYER"
+        "FRAME"
       ],
       "settings": [],
       "platforms": [
@@ -1966,488 +715,8 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "local-only"
-    },
-    {
-      "id": "player.fake_stats",
-      "name": "Fake Stats",
-      "category": "player",
-      "description": "local display only",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "PLAYER"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "local display only"
-    },
-    {
-      "id": "world.scaffold",
-      "name": "Scaffold",
-      "category": "world",
-      "description": "server rules risk",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
-      ],
-      "evidence": "",
-      "notes": "server rules risk"
-    },
-    {
-      "id": "world.nuker",
-      "name": "Nuker",
-      "category": "world",
-      "description": "server rules risk; throttled by design",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "server rules risk; throttled by design"
-    },
-    {
-      "id": "world.auto_mine",
-      "name": "Auto Mine",
-      "category": "world",
-      "description": "Auto Mine (world).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "world.auto_dig",
-      "name": "Auto Dig",
-      "category": "world",
-      "description": "Auto Dig (world).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "world.fast_break",
-      "name": "Fast Break",
-      "category": "world",
-      "description": "Fast Break (world).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "world.fast_place",
-      "name": "Fast Place",
-      "category": "world",
-      "description": "Fast Place (world).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "world.spawner_protect",
-      "name": "Spawner Protect",
-      "category": "world",
-      "description": "Spawner Protect (world).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "HYBRID"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "world.block_esp",
-      "name": "Block Esp",
-      "category": "world",
-      "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER",
-        "WORLD"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs world+render sources"
-    },
-    {
-      "id": "world.block_tracer",
-      "name": "Block Tracer",
-      "category": "world",
-      "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER",
-        "WORLD"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs world+render sources"
-    },
-    {
-      "id": "world.xray",
-      "name": "Xray",
-      "category": "world",
-      "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER",
-        "WORLD"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "Apollon"
-      ],
-      "evidence": "",
-      "notes": "needs world+render sources"
-    },
-    {
-      "id": "world.ore_esp",
-      "name": "Ore Esp",
-      "category": "world",
-      "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER",
-        "WORLD"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs world+render sources"
-    },
-    {
-      "id": "world.chunk_borders",
-      "name": "Chunk Borders",
-      "category": "world",
-      "description": "needs world source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER",
-        "WORLD"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy",
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "needs world source"
-    },
-    {
-      "id": "world.chunk_finder",
-      "name": "Chunk Finder",
-      "category": "world",
-      "description": "needs chunk data",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "WORLD",
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs chunk data"
-    },
-    {
-      "id": "world.new_chunks",
-      "name": "New Chunks",
-      "category": "world",
-      "description": "needs chunk data",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "WORLD",
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs chunk data"
-    },
-    {
-      "id": "world.hole_esp",
-      "name": "Hole Esp",
-      "category": "world",
-      "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER",
-        "WORLD"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": "needs world+render sources"
-    },
-    {
-      "id": "world.schematic",
-      "name": "Schematic",
-      "category": "world",
-      "description": "Schematic (world).",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "WORLD",
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Lunar Proxy"
-      ],
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "world.waypoints",
-      "name": "Waypoints",
-      "category": "world",
-      "description": "needs position source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME",
-        "WORLD"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "WORLD",
-        "UI"
+        "NATIVE",
+        "RENDER"
       ],
       "versions": [],
       "sourceReferences": [
@@ -2455,17 +724,16 @@
         "Flarial"
       ],
       "evidence": "",
-      "notes": "needs position source"
+      "notes": "needs frame path"
     },
     {
-      "id": "world.minimap",
-      "name": "Minimap",
-      "category": "world",
-      "description": "needs world+position sources",
+      "id": "xykell.performance.fps_unlocker",
+      "name": "Fps Unlocker",
+      "category": "PERFORMANCE",
+      "description": "needs frame path; measure gains",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "WORLD"
+        "FRAME"
       ],
       "settings": [],
       "platforms": [
@@ -2474,25 +742,125 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "WORLD",
+        "NATIVE",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "needs frame path; measure gains"
+    },
+    {
+      "id": "xykell.performance.dynamic_fps",
+      "name": "Dynamic Fps",
+      "category": "PERFORMANCE",
+      "description": "needs frame path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs frame path"
+    },
+    {
+      "id": "xykell.performance.background_fps",
+      "name": "Background Fps",
+      "category": "PERFORMANCE",
+      "description": "needs frame path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs frame path"
+    },
+    {
+      "id": "xykell.performance.frame_graph",
+      "name": "Frame Graph",
+      "category": "PERFORMANCE",
+      "description": "needs frame-tick source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
         "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "needs frame-tick source"
+    },
+    {
+      "id": "xykell.performance.entity_opt",
+      "name": "Entity Opt",
+      "category": "PERFORMANCE",
+      "description": "needs entity path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
       ],
       "versions": [],
       "sourceReferences": [
         "Atlas"
       ],
       "evidence": "",
-      "notes": "needs world+position sources"
+      "notes": "needs entity path"
     },
     {
-      "id": "world.world_markers",
-      "name": "World Markers",
-      "category": "world",
-      "description": "needs position source",
+      "id": "xykell.performance.render_opt",
+      "name": "Render Opt",
+      "category": "PERFORMANCE",
+      "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME",
-        "WORLD"
+        "FRAME"
       ],
       "settings": [],
       "platforms": [
@@ -2501,8 +869,284 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "WORLD",
+        "NATIVE",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs render path"
+    },
+    {
+      "id": "xykell.performance.particle_controls",
+      "name": "Particle Controls",
+      "category": "PERFORMANCE",
+      "description": "see visual.particle_controls",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "see visual.particle_controls"
+    },
+    {
+      "id": "xykell.performance.animation_controls",
+      "name": "Animation Controls",
+      "category": "PERFORMANCE",
+      "description": "needs animation path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs animation path"
+    },
+    {
+      "id": "xykell.performance.cloud_controls",
+      "name": "Cloud Controls",
+      "category": "PERFORMANCE",
+      "description": "needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs render path"
+    },
+    {
+      "id": "xykell.performance.weather_opt",
+      "name": "Weather Opt",
+      "category": "PERFORMANCE",
+      "description": "needs weather path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs weather path"
+    },
+    {
+      "id": "xykell.performance.fog_controls",
+      "name": "Fog Controls",
+      "category": "PERFORMANCE",
+      "description": "see visual.fog_controls",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "see visual.fog_controls"
+    },
+    {
+      "id": "xykell.performance.memory_info",
+      "name": "Memory Info",
+      "category": "PERFORMANCE",
+      "description": "OS APIs available",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
         "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "OS APIs available"
+    },
+    {
+      "id": "xykell.performance.cpu_info",
+      "name": "Cpu Info",
+      "category": "PERFORMANCE",
+      "description": "OS APIs available",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "OS APIs available"
+    },
+    {
+      "id": "xykell.performance.gpu_info",
+      "name": "Gpu Info",
+      "category": "PERFORMANCE",
+      "description": "OS APIs available",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "OS APIs available"
+    },
+    {
+      "id": "xykell.performance.perf_profiles",
+      "name": "Perf Profiles",
+      "category": "PERFORMANCE",
+      "description": "needs PerformanceManager",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "needs PerformanceManager"
+    },
+    {
+      "id": "xykell.performance.low_end_mode",
+      "name": "Low End Mode",
+      "category": "PERFORMANCE",
+      "description": "needs perf paths",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs perf paths"
+    },
+    {
+      "id": "xykell.performance.render_distance",
+      "name": "Render Distance",
+      "category": "PERFORMANCE",
+      "description": "needs settings path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "NATIVE"
       ],
       "versions": [],
       "sourceReferences": [
@@ -2510,12 +1154,12 @@
         "Flarial"
       ],
       "evidence": "",
-      "notes": "needs position source"
+      "notes": "needs settings path"
     },
     {
-      "id": "visual.esp",
+      "id": "xykell.visual.esp",
       "name": "Esp",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2539,9 +1183,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.player_esp",
+      "id": "xykell.visual.player_esp",
       "name": "Player Esp",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs entity source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2566,9 +1210,9 @@
       "notes": "needs entity source"
     },
     {
-      "id": "visual.entity_esp",
+      "id": "xykell.visual.entity_esp",
       "name": "Entity Esp",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs entity source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2592,9 +1236,9 @@
       "notes": "needs entity source"
     },
     {
-      "id": "visual.item_esp",
+      "id": "xykell.visual.item_esp",
       "name": "Item Esp",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs entity source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2618,9 +1262,9 @@
       "notes": "needs entity source"
     },
     {
-      "id": "visual.tracers",
+      "id": "xykell.visual.tracers",
       "name": "Tracers",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2644,9 +1288,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.block_tracers",
+      "id": "xykell.visual.block_tracers",
       "name": "Block Tracers",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2670,9 +1314,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.free_look",
+      "id": "xykell.visual.free_look",
       "name": "Free Look",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2697,9 +1341,9 @@
       "notes": "needs camera path"
     },
     {
-      "id": "visual.free_cam",
+      "id": "xykell.visual.free_cam",
       "name": "Free Cam",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2724,9 +1368,9 @@
       "notes": "needs camera path"
     },
     {
-      "id": "visual.xray",
+      "id": "xykell.visual.xray",
       "name": "Xray",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.xray",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2752,9 +1396,9 @@
       "notes": "see world.xray"
     },
     {
-      "id": "visual.fullbright",
+      "id": "xykell.visual.fullbright",
       "name": "Fullbright",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs lighting path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2780,9 +1424,9 @@
       "notes": "needs lighting path"
     },
     {
-      "id": "visual.no_invisible",
+      "id": "xykell.visual.no_invisible",
       "name": "No Invisible",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2806,9 +1450,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.no_fire",
+      "id": "xykell.visual.no_fire",
       "name": "No Fire",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2832,9 +1476,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.no_weather",
+      "id": "xykell.visual.no_weather",
       "name": "No Weather",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2858,9 +1502,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.no_blindness",
+      "id": "xykell.visual.no_blindness",
       "name": "No Blindness",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2884,9 +1528,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.no_nausea",
+      "id": "xykell.visual.no_nausea",
       "name": "No Nausea",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2910,9 +1554,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.chunk_borders",
+      "id": "xykell.visual.chunk_borders",
       "name": "Chunk Borders",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.chunk_borders",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2938,9 +1582,9 @@
       "notes": "see world.chunk_borders"
     },
     {
-      "id": "visual.new_chunks",
+      "id": "xykell.visual.new_chunks",
       "name": "New Chunks",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.new_chunks",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2965,9 +1609,9 @@
       "notes": "see world.new_chunks"
     },
     {
-      "id": "visual.hole_esp",
+      "id": "xykell.visual.hole_esp",
       "name": "Hole Esp",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.hole_esp",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -2992,9 +1636,9 @@
       "notes": "see world.hole_esp"
     },
     {
-      "id": "visual.spawner_esp",
+      "id": "xykell.visual.spawner_esp",
       "name": "Spawner Esp",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3019,9 +1663,63 @@
       "notes": "needs world+render sources"
     },
     {
-      "id": "visual.waypoints",
+      "id": "xykell.visual.sus_chunk_finder",
+      "name": "Sus Chunk Finder",
+      "category": "VISUAL",
+      "description": "suspicious-chunk heuristics TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "suspicious-chunk heuristics TBD"
+    },
+    {
+      "id": "xykell.visual.bed_esp",
+      "name": "Bed Esp",
+      "category": "VISUAL",
+      "description": "needs world+render sources",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "xykell.visual.waypoints",
       "name": "Waypoints",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.waypoints",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3047,9 +1745,9 @@
       "notes": "see world.waypoints"
     },
     {
-      "id": "visual.minimap",
+      "id": "xykell.visual.minimap",
       "name": "Minimap",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.minimap",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3074,9 +1772,9 @@
       "notes": "see world.minimap"
     },
     {
-      "id": "visual.schematic",
+      "id": "xykell.visual.schematic",
       "name": "Schematic",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "see world.schematic",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3101,9 +1799,9 @@
       "notes": "see world.schematic"
     },
     {
-      "id": "visual.view_model",
+      "id": "xykell.visual.view_model",
       "name": "View Model",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs viewmodel path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3128,9 +1826,9 @@
       "notes": "needs viewmodel path"
     },
     {
-      "id": "visual.zoom",
+      "id": "xykell.visual.zoom",
       "name": "Zoom",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs camera/FOV path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3157,9 +1855,9 @@
       "notes": "needs camera/FOV path"
     },
     {
-      "id": "visual.motion_blur",
+      "id": "xykell.visual.motion_blur",
       "name": "Motion Blur",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3183,9 +1881,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.shader_loader",
+      "id": "xykell.visual.shader_loader",
       "name": "Shader Loader",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "MaterialBin-style; needs material path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3209,9 +1907,9 @@
       "notes": "MaterialBin-style; needs material path"
     },
     {
-      "id": "visual.custom_crosshair",
+      "id": "xykell.visual.custom_crosshair",
       "name": "Custom Crosshair",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "overlay-drawn first",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3237,9 +1935,9 @@
       "notes": "overlay-drawn first"
     },
     {
-      "id": "visual.hit_effects",
+      "id": "xykell.visual.hit_effects",
       "name": "Hit Effects",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs render path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3263,9 +1961,9 @@
       "notes": "needs render path"
     },
     {
-      "id": "visual.particle_controls",
+      "id": "xykell.visual.particle_controls",
       "name": "Particle Controls",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs particle path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3289,9 +1987,9 @@
       "notes": "needs particle path"
     },
     {
-      "id": "visual.fog_controls",
+      "id": "xykell.visual.fog_controls",
       "name": "Fog Controls",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs fog path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3316,9 +2014,9 @@
       "notes": "needs fog path"
     },
     {
-      "id": "visual.camera_controls",
+      "id": "xykell.visual.camera_controls",
       "name": "Camera Controls",
-      "category": "visual",
+      "category": "VISUAL",
       "description": "needs camera path",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -3342,40 +2040,14 @@
       "notes": "needs camera path"
     },
     {
-      "id": "hud.fps",
-      "name": "Fps",
-      "category": "hud",
-      "description": "needs frame-tick source",
+      "id": "xykell.player.inventory_manager",
+      "name": "Inventory Manager",
+      "category": "PLAYER",
+      "description": "Inventory Manager (PLAYER).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas",
-        "Flarial",
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "needs frame-tick source"
-    },
-    {
-      "id": "hud.cps",
-      "name": "Cps",
-      "category": "hud",
-      "description": "needs input tap stream (have callback)",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "INPUT_SEMANTICS"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3385,23 +2057,312 @@
       "implementation": "native",
       "capabilities": [
         "UI",
-        "INPUT"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial",
-        "Nova"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "needs input tap stream (have callback)"
+      "notes": ""
     },
     {
-      "id": "hud.coordinates",
-      "name": "Coordinates",
-      "category": "hud",
-      "description": "needs player-position source",
+      "id": "xykell.player.fast_eat",
+      "name": "Fast Eat",
+      "category": "PLAYER",
+      "description": "Fast Eat (PLAYER).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.fast_interact",
+      "name": "Fast Interact",
+      "category": "PLAYER",
+      "description": "Fast Interact (PLAYER).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.haste",
+      "name": "Haste",
+      "category": "PLAYER",
+      "description": "Haste (PLAYER).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.slow_mine",
+      "name": "Slow Mine",
+      "category": "PLAYER",
+      "description": "Slow Mine (PLAYER).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.no_fall",
+      "name": "No Fall",
+      "category": "PLAYER",
+      "description": "No Fall (PLAYER).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.no_blindness",
+      "name": "No Blindness",
+      "category": "PLAYER",
+      "description": "needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs render path"
+    },
+    {
+      "id": "xykell.player.no_nausea",
+      "name": "No Nausea",
+      "category": "PLAYER",
+      "description": "needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs render path"
+    },
+    {
+      "id": "xykell.player.no_fire",
+      "name": "No Fire",
+      "category": "PLAYER",
+      "description": "needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs render path"
+    },
+    {
+      "id": "xykell.player.no_hurt_cam",
+      "name": "No Hurt Cam",
+      "category": "PLAYER",
+      "description": "needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs render path"
+    },
+    {
+      "id": "xykell.player.anti_immobile",
+      "name": "Anti Immobile",
+      "category": "PLAYER",
+      "description": "Anti Immobile (PLAYER).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.death_position",
+      "name": "Death Position",
+      "category": "PLAYER",
+      "description": "needs death source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Apollon",
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs death source"
+    },
+    {
+      "id": "xykell.player.friend_alerts",
+      "name": "Friend Alerts",
+      "category": "PLAYER",
+      "description": "Friend Alerts (PLAYER).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
         "PLAYER"
       ],
       "settings": [],
@@ -3415,20 +2376,649 @@
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial",
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.player.nickname",
+      "name": "Nickname",
+      "category": "PLAYER",
+      "description": "local-only",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
         "BedrockTools"
       ],
       "evidence": "",
-      "notes": "needs player-position source"
+      "notes": "local-only"
     },
     {
-      "id": "hud.ping",
-      "name": "Ping",
-      "category": "hud",
-      "description": "needs latency source",
+      "id": "xykell.player.fake_stats",
+      "name": "Fake Stats",
+      "category": "PLAYER",
+      "description": "local display only",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "PACKET"
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "local display only"
+    },
+    {
+      "id": "xykell.player.spam",
+      "name": "Spam",
+      "category": "PLAYER",
+      "description": "rate-limited; server rules risk",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "rate-limited; server rules risk"
+    },
+    {
+      "id": "xykell.movement.sprint",
+      "name": "Sprint",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial",
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.auto_sprint",
+      "name": "Auto Sprint",
+      "category": "MOVEMENT",
+      "description": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate"
+    },
+    {
+      "id": "xykell.movement.speed",
+      "name": "Speed",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.no_slow",
+      "name": "No Slow",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.step",
+      "name": "Step",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.air_jump",
+      "name": "Air Jump",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.fly",
+      "name": "Fly",
+      "category": "MOVEMENT",
+      "description": "server-visible risk; locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "server-visible risk; locality TBD"
+    },
+    {
+      "id": "xykell.movement.motion_fly",
+      "name": "Motion Fly",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.jetpack",
+      "name": "Jetpack",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.phase",
+      "name": "Phase",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.glide",
+      "name": "Glide",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.auto_elytra",
+      "name": "Auto Elytra",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.auto_rocket",
+      "name": "Auto Rocket",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.bunny_hop",
+      "name": "Bunny Hop",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.jump_boost",
+      "name": "Jump Boost",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.levitate",
+      "name": "Levitate",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.slow_falling",
+      "name": "Slow Falling",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.water_walk",
+      "name": "Water Walk",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.tap_tp",
+      "name": "Tap Tp",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.safe_walk",
+      "name": "Safe Walk",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.no_fall",
+      "name": "No Fall",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.movement.movement_correction",
+      "name": "Movement Correction",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3437,49 +3027,24 @@
       "version_constraints": [],
       "implementation": "packet",
       "capabilities": [
-        "UI",
-        "PACKET"
+        "PACKET",
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial",
-        "BedrockTools"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "needs latency source"
+      "notes": "locality TBD"
     },
     {
-      "id": "hud.tps",
-      "name": "Tps",
-      "category": "hud",
-      "description": "measurability TBD",
+      "id": "xykell.movement.timer",
+      "name": "Timer",
+      "category": "MOVEMENT",
+      "description": "locality TBD",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "measurability TBD"
-    },
-    {
-      "id": "hud.armor",
-      "name": "Armor",
-      "category": "hud",
-      "description": "needs inventory source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
+        "FRAME",
         "PLAYER"
       ],
       "settings": [],
@@ -3489,22 +3054,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "needs inventory source"
+      "notes": "locality TBD"
     },
     {
-      "id": "hud.health",
-      "name": "Health",
-      "category": "hud",
-      "description": "needs player source",
+      "id": "xykell.movement.ladder_fly",
+      "name": "Ladder Fly",
+      "category": "MOVEMENT",
+      "description": "locality TBD; ladder detection TBD",
       "status": "RESEARCH_REQUIRED",
       "requires": [
+        "FRAME",
         "PLAYER"
       ],
       "settings": [],
@@ -3514,22 +3080,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Apollon"
       ],
       "evidence": "",
-      "notes": "needs player source"
+      "notes": "locality TBD; ladder detection TBD"
     },
     {
-      "id": "hud.hunger",
-      "name": "Hunger",
-      "category": "hud",
-      "description": "needs player source",
+      "id": "xykell.movement.block_fly",
+      "name": "Block Fly",
+      "category": "MOVEMENT",
+      "description": "locality TBD; placement source TBD",
       "status": "RESEARCH_REQUIRED",
       "requires": [
+        "FRAME",
         "PLAYER"
       ],
       "settings": [],
@@ -3539,22 +3106,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Apollon"
       ],
       "evidence": "",
-      "notes": "needs player source"
+      "notes": "locality TBD; placement source TBD"
     },
     {
-      "id": "hud.position",
-      "name": "Position",
-      "category": "hud",
-      "description": "see coordinates",
+      "id": "xykell.combat.aim_assist",
+      "name": "Aim Assist",
+      "category": "COMBAT",
+      "description": "Aim Assist (COMBAT).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
+        "FRAME",
         "PLAYER"
       ],
       "settings": [],
@@ -3564,22 +3132,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "see coordinates"
+      "notes": ""
     },
     {
-      "id": "hud.direction",
-      "name": "Direction",
-      "category": "hud",
-      "description": "needs rotation source",
+      "id": "xykell.combat.auto_clicker",
+      "name": "Auto Clicker",
+      "category": "COMBAT",
+      "description": "Auto Clicker (COMBAT).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
+        "FRAME",
         "PLAYER"
       ],
       "settings": [],
@@ -3589,23 +3158,26 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "INPUT",
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy",
+        "Apollon"
       ],
       "evidence": "",
-      "notes": "needs rotation source"
+      "notes": ""
     },
     {
-      "id": "hud.biome",
-      "name": "Biome",
-      "category": "hud",
-      "description": "needs world source",
+      "id": "xykell.combat.afk_clicker",
+      "name": "Afk Clicker",
+      "category": "COMBAT",
+      "description": "Afk Clicker (COMBAT).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "WORLD"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3614,23 +3186,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "needs world source"
+      "notes": ""
     },
     {
-      "id": "hud.clock",
-      "name": "Clock",
-      "category": "hud",
-      "description": "device clock available; game-time TBD",
+      "id": "xykell.combat.trigger_bot",
+      "name": "Trigger Bot",
+      "category": "COMBAT",
+      "description": "Trigger Bot (COMBAT).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "OVERLAY_DELIVERY"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3639,23 +3212,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "device clock available; game-time TBD"
+      "notes": ""
     },
     {
-      "id": "hud.keystrokes",
-      "name": "Keystrokes",
-      "category": "hud",
-      "description": "needs input stream (have callback)",
+      "id": "xykell.combat.kill_aura",
+      "name": "Kill Aura",
+      "category": "COMBAT",
+      "description": "needs targeting+attack sources",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "INPUT_SEMANTICS"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3664,25 +3238,25 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI",
-        "INPUT"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial",
-        "BedrockTools"
+        "Lunar Proxy",
+        "Apollon"
       ],
       "evidence": "",
-      "notes": "needs input stream (have callback)"
+      "notes": "needs targeting+attack sources"
     },
     {
-      "id": "hud.touch_indicators",
-      "name": "Touch Indicators",
-      "category": "hud",
-      "description": "have touch callback",
-      "status": "PARTIAL",
+      "id": "xykell.combat.tp_aura",
+      "name": "Tp Aura",
+      "category": "COMBAT",
+      "description": "Tp Aura (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
       "requires": [
-        "INPUT_SEMANTICS"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3691,24 +3265,495 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI",
-        "INPUT"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Xykell"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "have touch callback"
+      "notes": ""
     },
     {
-      "id": "hud.target_info",
-      "name": "Target Info",
-      "category": "hud",
+      "id": "xykell.combat.reach",
+      "name": "Reach",
+      "category": "COMBAT",
+      "description": "Reach (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.hitbox",
+      "name": "Hitbox",
+      "category": "COMBAT",
+      "description": "Hitbox (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.velocity",
+      "name": "Velocity",
+      "category": "COMBAT",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.combat.knockback",
+      "name": "Knockback",
+      "category": "COMBAT",
+      "description": "Knockback (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.knockback_delay",
+      "name": "Knockback Delay",
+      "category": "COMBAT",
+      "description": "Knockback Delay (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.backtrack",
+      "name": "Backtrack",
+      "category": "COMBAT",
+      "description": "Backtrack (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET",
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_crit",
+      "name": "Auto Crit",
+      "category": "COMBAT",
+      "description": "Auto Crit (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_totem",
+      "name": "Auto Totem",
+      "category": "COMBAT",
+      "description": "Auto Totem (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_potion",
+      "name": "Auto Potion",
+      "category": "COMBAT",
+      "description": "Auto Potion (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_crystal",
+      "name": "Auto Crystal",
+      "category": "COMBAT",
+      "description": "Auto Crystal (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.anti_crystal",
+      "name": "Anti Crystal",
+      "category": "COMBAT",
+      "description": "Anti Crystal (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_cart",
+      "name": "Auto Cart",
+      "category": "COMBAT",
+      "description": "Auto Cart (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_web",
+      "name": "Auto Web",
+      "category": "COMBAT",
+      "description": "Auto Web (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.auto_switch",
+      "name": "Auto Switch",
+      "category": "COMBAT",
+      "description": "Auto Switch (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.mace_swap",
+      "name": "Mace Swap",
+      "category": "COMBAT",
+      "description": "Bedrock mechanic mapping TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "Bedrock mechanic mapping TBD"
+    },
+    {
+      "id": "xykell.combat.mace_damage",
+      "name": "Mace Damage",
+      "category": "COMBAT",
+      "description": "Bedrock mechanic mapping TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "Bedrock mechanic mapping TBD"
+    },
+    {
+      "id": "xykell.combat.shield_disabler",
+      "name": "Shield Disabler",
+      "category": "COMBAT",
+      "description": "Shield Disabler (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.anchor_aura",
+      "name": "Anchor Aura",
+      "category": "COMBAT",
+      "description": "Anchor Aura (COMBAT).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.target_hud",
+      "name": "Target Hud",
+      "category": "COMBAT",
       "description": "needs target source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "ENTITY"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3717,7 +3762,8 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "UI",
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
@@ -3727,13 +3773,41 @@
       "notes": "needs target source"
     },
     {
-      "id": "hud.arraylist",
-      "name": "Arraylist",
-      "category": "hud",
-      "description": "module-list display",
+      "id": "xykell.combat.target_selector",
+      "name": "Target Selector",
+      "category": "COMBAT",
+      "description": "Target Selector (COMBAT).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "OVERLAY_DELIVERY"
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.combat.friend_filter",
+      "name": "Friend Filter",
+      "category": "COMBAT",
+      "description": "local list; needs target source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3749,16 +3823,17 @@
         "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "module-list display"
+      "notes": "local list; needs target source"
     },
     {
-      "id": "hud.watermark",
-      "name": "Watermark",
-      "category": "hud",
-      "description": "static text via draw commands",
+      "id": "xykell.combat.combat_settings",
+      "name": "Combat Settings",
+      "category": "COMBAT",
+      "description": "Combat Settings (COMBAT).",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "OVERLAY_DELIVERY"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3771,19 +3846,20 @@
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "static text via draw commands"
+      "notes": ""
     },
     {
-      "id": "hud.notifications",
-      "name": "Notifications",
-      "category": "hud",
-      "description": "event-driven; needs EventBus",
+      "id": "xykell.combat.double_click",
+      "name": "Double Click",
+      "category": "COMBAT",
+      "description": "attack timing source TBD",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "OVERLAY_DELIVERY"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3792,23 +3868,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "event-driven; needs EventBus"
+      "notes": "attack timing source TBD"
     },
     {
-      "id": "hud.session_stats",
-      "name": "Session Stats",
-      "category": "hud",
-      "description": "local timers available",
+      "id": "xykell.combat.auto_log",
+      "name": "Auto Log",
+      "category": "COMBAT",
+      "description": "safe-disconnect rules TBD",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "OVERLAY_DELIVERY"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3817,23 +3894,24 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "local timers available"
+      "notes": "safe-disconnect rules TBD"
     },
     {
-      "id": "hud.server_info",
-      "name": "Server Info",
-      "category": "hud",
-      "description": "needs connection source",
+      "id": "xykell.combat.mob_aura",
+      "name": "Mob Aura",
+      "category": "COMBAT",
+      "description": "mob targeting; needs entity source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "PACKET"
+        "FRAME",
+        "PLAYER"
       ],
       "settings": [],
       "platforms": [
@@ -3842,23 +3920,155 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "UI"
+        "HYBRID"
       ],
       "versions": [],
       "sourceReferences": [
-        "Flarial"
+        "Apollon"
       ],
       "evidence": "",
-      "notes": "needs connection source"
+      "notes": "mob targeting; needs entity source"
     },
     {
-      "id": "utility.quick_perspective",
-      "name": "Quick Perspective",
-      "category": "utility",
-      "description": "needs camera path",
+      "id": "xykell.world.scaffold",
+      "name": "Scaffold",
+      "category": "WORLD",
+      "description": "server rules risk",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "server rules risk"
+    },
+    {
+      "id": "xykell.world.nuker",
+      "name": "Nuker",
+      "category": "WORLD",
+      "description": "server rules risk; throttled by design",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "server rules risk; throttled by design"
+    },
+    {
+      "id": "xykell.world.fast_break",
+      "name": "Fast Break",
+      "category": "WORLD",
+      "description": "Fast Break (WORLD).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.world.fast_place",
+      "name": "Fast Place",
+      "category": "WORLD",
+      "description": "Fast Place (WORLD).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.world.spawner_protect",
+      "name": "Spawner Protect",
+      "category": "WORLD",
+      "description": "Spawner Protect (WORLD).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.world.block_esp",
+      "name": "Block Esp",
+      "category": "WORLD",
+      "description": "needs world+render sources",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
       ],
       "settings": [],
       "platforms": [
@@ -3868,23 +4078,24 @@
       "implementation": "native",
       "capabilities": [
         "RENDER",
-        "INPUT"
+        "WORLD"
       ],
       "versions": [],
       "sourceReferences": [
-        "Atlas"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "needs camera path"
+      "notes": "needs world+render sources"
     },
     {
-      "id": "utility.quick_drop",
-      "name": "Quick Drop",
-      "category": "utility",
-      "description": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate",
+      "id": "xykell.world.block_tracer",
+      "name": "Block Tracer",
+      "category": "WORLD",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
+        "FRAME",
+        "WORLD"
       ],
       "settings": [],
       "platforms": [
@@ -3893,23 +4104,25 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "INPUT"
+        "RENDER",
+        "WORLD"
       ],
       "versions": [],
       "sourceReferences": [
-        "Atlas"
+        "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate"
+      "notes": "needs world+render sources"
     },
     {
-      "id": "utility.hide_hud",
-      "name": "Hide Hud",
-      "category": "utility",
-      "description": "overlay clear available",
+      "id": "xykell.world.xray",
+      "name": "Xray",
+      "category": "WORLD",
+      "description": "needs world+render sources",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
+        "FRAME",
+        "WORLD"
       ],
       "settings": [],
       "platforms": [
@@ -3918,6 +4131,226 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "xykell.world.ore_esp",
+      "name": "Ore Esp",
+      "category": "WORLD",
+      "description": "needs world+render sources",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "xykell.world.chunk_borders",
+      "name": "Chunk Borders",
+      "category": "WORLD",
+      "description": "needs world source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "needs world source"
+    },
+    {
+      "id": "xykell.world.chunk_finder",
+      "name": "Chunk Finder",
+      "category": "WORLD",
+      "description": "needs chunk data",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs chunk data"
+    },
+    {
+      "id": "xykell.world.new_chunks",
+      "name": "New Chunks",
+      "category": "WORLD",
+      "description": "needs chunk data",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs chunk data"
+    },
+    {
+      "id": "xykell.world.hole_esp",
+      "name": "Hole Esp",
+      "category": "WORLD",
+      "description": "needs world+render sources",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "WORLD"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs world+render sources"
+    },
+    {
+      "id": "xykell.world.schematic",
+      "name": "Schematic",
+      "category": "WORLD",
+      "description": "Schematic (WORLD).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.world.waypoints",
+      "name": "Waypoints",
+      "category": "WORLD",
+      "description": "needs position source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas",
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs position source"
+    },
+    {
+      "id": "xykell.world.minimap",
+      "name": "Minimap",
+      "category": "WORLD",
+      "description": "needs world+position sources",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
         "UI"
       ],
       "versions": [],
@@ -3925,16 +4358,17 @@
         "Atlas"
       ],
       "evidence": "",
-      "notes": "overlay clear available"
+      "notes": "needs world+position sources"
     },
     {
-      "id": "utility.toggle_sprint",
-      "name": "Toggle Sprint",
-      "category": "utility",
-      "description": "locality TBD",
+      "id": "xykell.world.world_markers",
+      "name": "World Markers",
+      "category": "WORLD",
+      "description": "needs position source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
+        "FRAME",
+        "WORLD"
       ],
       "settings": [],
       "platforms": [
@@ -3943,69 +4377,386 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "INPUT"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "utility.toggle_sneak",
-      "name": "Toggle Sneak",
-      "category": "utility",
-      "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "INPUT"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "locality TBD"
-    },
-    {
-      "id": "utility.screenshot_tools",
-      "name": "Screenshot Tools",
-      "category": "utility",
-      "description": "needs capture path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
+        "WORLD",
         "UI"
       ],
       "versions": [],
       "sourceReferences": [
-        "Xykell"
+        "Atlas",
+        "Flarial"
       ],
       "evidence": "",
-      "notes": "needs capture path"
+      "notes": "needs position source"
     },
     {
-      "id": "network.ping",
+      "id": "xykell.automation.auto_eat",
+      "name": "Auto Eat",
+      "category": "AUTOMATION",
+      "description": "interruptible; cooldowns required",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "interruptible; cooldowns required"
+    },
+    {
+      "id": "xykell.automation.auto_fish",
+      "name": "Auto Fish",
+      "category": "AUTOMATION",
+      "description": "interruptible",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy",
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "interruptible"
+    },
+    {
+      "id": "xykell.automation.auto_refill",
+      "name": "Auto Refill",
+      "category": "AUTOMATION",
+      "description": "Auto Refill (AUTOMATION).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.automation.auto_steal",
+      "name": "Auto Steal",
+      "category": "AUTOMATION",
+      "description": "server rules risk",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "server rules risk"
+    },
+    {
+      "id": "xykell.automation.auto_tool",
+      "name": "Auto Tool",
+      "category": "AUTOMATION",
+      "description": "Auto Tool (AUTOMATION).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.automation.auto_equip",
+      "name": "Auto Equip",
+      "category": "AUTOMATION",
+      "description": "Auto Equip (AUTOMATION).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.automation.auto_armor",
+      "name": "Auto Armor",
+      "category": "AUTOMATION",
+      "description": "Auto Armor (AUTOMATION).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.automation.auto_sign",
+      "name": "Auto Sign",
+      "category": "AUTOMATION",
+      "description": "Auto Sign (AUTOMATION).",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": ""
+    },
+    {
+      "id": "xykell.automation.auto_sell",
+      "name": "Auto Sell",
+      "category": "AUTOMATION",
+      "description": "server rules risk",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "server rules risk"
+    },
+    {
+      "id": "xykell.automation.auto_mine",
+      "name": "Auto Mine",
+      "category": "AUTOMATION",
+      "description": "throttled; cancellable",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "throttled; cancellable"
+    },
+    {
+      "id": "xykell.automation.auto_dig",
+      "name": "Auto Dig",
+      "category": "AUTOMATION",
+      "description": "throttled; cancellable",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "throttled; cancellable"
+    },
+    {
+      "id": "xykell.automation.inventory_cleaner",
+      "name": "Inventory Cleaner",
+      "category": "AUTOMATION",
+      "description": "rules for protected items TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "rules for protected items TBD"
+    },
+    {
+      "id": "xykell.automation.no_break_delay",
+      "name": "No Break Delay",
+      "category": "AUTOMATION",
+      "description": "mechanism TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Apollon"
+      ],
+      "evidence": "",
+      "notes": "mechanism TBD"
+    },
+    {
+      "id": "xykell.automation.ghost",
+      "name": "Ghost",
+      "category": "AUTOMATION",
+      "description": "interaction semantics TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "interaction semantics TBD"
+    },
+    {
+      "id": "xykell.network.ping",
       "name": "Ping",
-      "category": "network",
+      "category": "NETWORK",
       "description": "needs packet/latency source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -4030,9 +4781,9 @@
       "notes": "needs packet/latency source"
     },
     {
-      "id": "network.connection_status",
+      "id": "xykell.network.connection_status",
       "name": "Connection Status",
-      "category": "network",
+      "category": "NETWORK",
       "description": "needs connection source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -4056,9 +4807,9 @@
       "notes": "needs connection source"
     },
     {
-      "id": "network.latency_graph",
+      "id": "xykell.network.latency_graph",
       "name": "Latency Graph",
-      "category": "network",
+      "category": "NETWORK",
       "description": "needs latency source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -4082,9 +4833,9 @@
       "notes": "needs latency source"
     },
     {
-      "id": "network.network_diagnostics",
+      "id": "xykell.network.network_diagnostics",
       "name": "Network Diagnostics",
-      "category": "network",
+      "category": "NETWORK",
       "description": "needs connection source",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -4108,9 +4859,9 @@
       "notes": "needs connection source"
     },
     {
-      "id": "network.packet_monitor",
+      "id": "xykell.network.packet_monitor",
       "name": "Packet Monitor",
-      "category": "network",
+      "category": "NETWORK",
       "description": "no verified packet API",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -4135,9 +4886,9 @@
       "notes": "no verified packet API"
     },
     {
-      "id": "network.packet_logger",
+      "id": "xykell.network.packet_logger",
       "name": "Packet Logger",
-      "category": "network",
+      "category": "NETWORK",
       "description": "dev only; no verified packet API",
       "status": "RESEARCH_REQUIRED",
       "requires": [
@@ -4161,616 +4912,61 @@
       "notes": "dev only; no verified packet API"
     },
     {
-      "id": "performance.fps_limiter",
-      "name": "Fps Limiter",
-      "category": "performance",
-      "description": "needs frame path",
+      "id": "xykell.proxy.mode",
+      "name": "Mode",
+      "category": "PROXY",
+      "description": "design only; separate subsystem",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
+        "PACKET"
       ],
       "settings": [],
       "platforms": [
         "android"
       ],
       "version_constraints": [],
-      "implementation": "native",
+      "implementation": "packet",
       "capabilities": [
-        "NATIVE",
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas",
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "needs frame path"
-    },
-    {
-      "id": "performance.fps_unlocker",
-      "name": "Fps Unlocker",
-      "category": "performance",
-      "description": "needs frame path; measure gains",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "NATIVE",
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas",
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "needs frame path; measure gains"
-    },
-    {
-      "id": "performance.dynamic_fps",
-      "name": "Dynamic Fps",
-      "category": "performance",
-      "description": "needs frame path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "NATIVE"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "needs frame path"
-    },
-    {
-      "id": "performance.background_fps",
-      "name": "Background Fps",
-      "category": "performance",
-      "description": "needs frame path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "NATIVE"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "needs frame path"
-    },
-    {
-      "id": "performance.frame_graph",
-      "name": "Frame Graph",
-      "category": "performance",
-      "description": "needs frame-tick source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
+        "PACKET"
       ],
       "versions": [],
       "sourceReferences": [
         "Xykell"
       ],
       "evidence": "",
-      "notes": "needs frame-tick source"
+      "notes": "design only; separate subsystem"
     },
     {
-      "id": "performance.entity_opt",
-      "name": "Entity Opt",
-      "category": "performance",
-      "description": "needs entity path",
+      "id": "xykell.proxy.relay",
+      "name": "Relay",
+      "category": "PROXY",
+      "description": "console/remote concept; protocol work required",
       "status": "RESEARCH_REQUIRED",
       "requires": [
-        "FRAME"
+        "PACKET"
       ],
       "settings": [],
       "platforms": [
         "android"
       ],
       "version_constraints": [],
-      "implementation": "native",
+      "implementation": "packet",
       "capabilities": [
-        "NATIVE"
+        "PACKET"
       ],
       "versions": [],
       "sourceReferences": [
-        "Atlas"
+        "Xykell",
+        "Nova",
+        "WClient"
       ],
       "evidence": "",
-      "notes": "needs entity path"
+      "notes": "console/remote concept; protocol work required"
     },
     {
-      "id": "performance.render_opt",
-      "name": "Render Opt",
-      "category": "performance",
-      "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "NATIVE",
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "needs render path"
-    },
-    {
-      "id": "performance.particle_controls",
-      "name": "Particle Controls",
-      "category": "performance",
-      "description": "see visual.particle_controls",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "see visual.particle_controls"
-    },
-    {
-      "id": "performance.animation_controls",
-      "name": "Animation Controls",
-      "category": "performance",
-      "description": "needs animation path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "needs animation path"
-    },
-    {
-      "id": "performance.cloud_controls",
-      "name": "Cloud Controls",
-      "category": "performance",
-      "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "needs render path"
-    },
-    {
-      "id": "performance.weather_opt",
-      "name": "Weather Opt",
-      "category": "performance",
-      "description": "needs weather path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "needs weather path"
-    },
-    {
-      "id": "performance.fog_controls",
-      "name": "Fog Controls",
-      "category": "performance",
-      "description": "see visual.fog_controls",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "RENDER"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas",
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "see visual.fog_controls"
-    },
-    {
-      "id": "performance.memory_info",
-      "name": "Memory Info",
-      "category": "performance",
-      "description": "OS APIs available",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "OS APIs available"
-    },
-    {
-      "id": "performance.cpu_info",
-      "name": "Cpu Info",
-      "category": "performance",
-      "description": "OS APIs available",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "OS APIs available"
-    },
-    {
-      "id": "performance.gpu_info",
-      "name": "Gpu Info",
-      "category": "performance",
-      "description": "OS APIs available",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "OS APIs available"
-    },
-    {
-      "id": "performance.perf_profiles",
-      "name": "Perf Profiles",
-      "category": "performance",
-      "description": "needs PerformanceManager",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "needs PerformanceManager"
-    },
-    {
-      "id": "performance.low_end_mode",
-      "name": "Low End Mode",
-      "category": "performance",
-      "description": "needs perf paths",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "NATIVE"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas"
-      ],
-      "evidence": "",
-      "notes": "needs perf paths"
-    },
-    {
-      "id": "performance.render_distance",
-      "name": "Render Distance",
-      "category": "performance",
-      "description": "needs settings path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "FRAME"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "NATIVE"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Atlas",
-        "Flarial"
-      ],
-      "evidence": "",
-      "notes": "needs settings path"
-    },
-    {
-      "id": "misc.streamer_mode",
-      "name": "Streamer Mode",
-      "category": "misc",
-      "description": "overlay redaction",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "OVERLAY_DELIVERY"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "overlay redaction"
-    },
-    {
-      "id": "misc.privacy_mode",
-      "name": "Privacy Mode",
-      "category": "misc",
-      "description": "overlay redaction",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "OVERLAY_DELIVERY"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "overlay redaction"
-    },
-    {
-      "id": "misc.chat_timestamps",
-      "name": "Chat Timestamps",
-      "category": "misc",
-      "description": "needs chat source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "OVERLAY_DELIVERY"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "needs chat source"
-    },
-    {
-      "id": "misc.chat_filter",
-      "name": "Chat Filter",
-      "category": "misc",
-      "description": "needs chat source",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "OVERLAY_DELIVERY"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "needs chat source"
-    },
-    {
-      "id": "misc.custom_nicknames",
-      "name": "Custom Nicknames",
-      "category": "misc",
-      "description": "local-only",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "OVERLAY_DELIVERY"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "BedrockTools"
-      ],
-      "evidence": "",
-      "notes": "local-only"
-    },
-    {
-      "id": "misc.screenshot_share",
-      "name": "Screenshot Share",
-      "category": "misc",
-      "description": "needs capture path",
-      "status": "RESEARCH_REQUIRED",
-      "requires": [
-        "OVERLAY_DELIVERY"
-      ],
-      "settings": [],
-      "platforms": [
-        "android"
-      ],
-      "version_constraints": [],
-      "implementation": "native",
-      "capabilities": [
-        "UI"
-      ],
-      "versions": [],
-      "sourceReferences": [
-        "Xykell"
-      ],
-      "evidence": "",
-      "notes": "needs capture path"
-    },
-    {
-      "id": "scripting.script_runtime",
+      "id": "xykell.scripting.script_runtime",
       "name": "Script Runtime",
-      "category": "scripting",
+      "category": "SCRIPTING",
       "description": "engine choice needs license/size review",
       "status": "NOT_IMPLEMENTED",
       "requires": [
@@ -4793,9 +4989,9 @@
       "notes": "engine choice needs license/size review"
     },
     {
-      "id": "scripting.script_sandbox",
+      "id": "xykell.scripting.script_sandbox",
       "name": "Script Sandbox",
-      "category": "scripting",
+      "category": "SCRIPTING",
       "description": "design in docs/SCRIPTING.md",
       "status": "NOT_IMPLEMENTED",
       "requires": [
@@ -4818,9 +5014,9 @@
       "notes": "design in docs/SCRIPTING.md"
     },
     {
-      "id": "scripting.script_api",
+      "id": "xykell.scripting.script_api",
       "name": "Script Api",
-      "category": "scripting",
+      "category": "SCRIPTING",
       "description": "design in docs/SCRIPTING.md",
       "status": "NOT_IMPLEMENTED",
       "requires": [
@@ -4843,9 +5039,9 @@
       "notes": "design in docs/SCRIPTING.md"
     },
     {
-      "id": "scripting.script_manager",
+      "id": "xykell.scripting.script_manager",
       "name": "Script Manager",
-      "category": "scripting",
+      "category": "SCRIPTING",
       "description": "needs runtime first",
       "status": "NOT_IMPLEMENTED",
       "requires": [
@@ -4869,13 +5065,13 @@
       "notes": "needs runtime first"
     },
     {
-      "id": "client.core",
-      "name": "Core",
-      "category": "client",
-      "description": "M1 proven core",
-      "status": "PARTIAL",
+      "id": "xykell.server.browser",
+      "name": "Browser",
+      "category": "SERVER",
+      "description": "user-supplied servers only",
+      "status": "RESEARCH_REQUIRED",
       "requires": [
-        "LIFECYCLE"
+        "PACKET"
       ],
       "settings": [],
       "platforms": [
@@ -4884,24 +5080,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "NATIVE"
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
         "Xykell"
       ],
       "evidence": "",
-      "notes": "M1 proven core"
+      "notes": "user-supplied servers only"
     },
     {
-      "id": "client.version_adapter",
-      "name": "Version Adapter",
-      "category": "client",
-      "description": "M1 table logic; runtime source pending",
-      "status": "PARTIAL",
+      "id": "xykell.server.saved",
+      "name": "Saved",
+      "category": "SERVER",
+      "description": "address/port/notes/favorites",
+      "status": "RESEARCH_REQUIRED",
       "requires": [
-        "LIFECYCLE",
-        "VERSION_STRING"
+        "PACKET"
       ],
       "settings": [],
       "platforms": [
@@ -4910,24 +5105,23 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "NATIVE"
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
         "Xykell"
       ],
       "evidence": "",
-      "notes": "M1 table logic; runtime source pending"
+      "notes": "address/port/notes/favorites"
     },
     {
-      "id": "client.config_store",
-      "name": "Config Store",
-      "category": "client",
-      "description": "M1 menu proof; file store pending",
-      "status": "PARTIAL",
+      "id": "xykell.server.profile",
+      "name": "Profile",
+      "category": "SERVER",
+      "description": "per-server modules/settings/HUD",
+      "status": "RESEARCH_REQUIRED",
       "requires": [
-        "LIFECYCLE",
-        "CONFIG_DIRS"
+        "PACKET"
       ],
       "settings": [],
       "platforms": [
@@ -4936,23 +5130,595 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "NATIVE",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "per-server modules/settings/HUD"
+    },
+    {
+      "id": "xykell.misc.streamer_mode",
+      "name": "Streamer Mode",
+      "category": "MISC",
+      "description": "overlay redaction",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "overlay redaction"
+    },
+    {
+      "id": "xykell.misc.privacy_mode",
+      "name": "Privacy Mode",
+      "category": "MISC",
+      "description": "overlay redaction",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "overlay redaction"
+    },
+    {
+      "id": "xykell.misc.chat_timestamps",
+      "name": "Chat Timestamps",
+      "category": "MISC",
+      "description": "needs chat source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "needs chat source"
+    },
+    {
+      "id": "xykell.misc.chat_filter",
+      "name": "Chat Filter",
+      "category": "MISC",
+      "description": "needs chat source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "needs chat source"
+    },
+    {
+      "id": "xykell.misc.custom_nicknames",
+      "name": "Custom Nicknames",
+      "category": "MISC",
+      "description": "local-only",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "BedrockTools"
+      ],
+      "evidence": "",
+      "notes": "local-only"
+    },
+    {
+      "id": "xykell.misc.screenshot_share",
+      "name": "Screenshot Share",
+      "category": "MISC",
+      "description": "needs capture path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "needs capture path"
+    },
+    {
+      "id": "xykell.misc.quick_perspective",
+      "name": "Quick Perspective",
+      "category": "MISC",
+      "description": "needs camera path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs camera path"
+    },
+    {
+      "id": "xykell.misc.quick_drop",
+      "name": "Quick Drop",
+      "category": "MISC",
+      "description": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate"
+    },
+    {
+      "id": "xykell.misc.hide_hud",
+      "name": "Hide Hud",
+      "category": "MISC",
+      "description": "overlay clear available",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "",
+      "notes": "overlay clear available"
+    },
+    {
+      "id": "xykell.misc.toggle_sprint",
+      "name": "Toggle Sprint",
+      "category": "MISC",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.misc.toggle_sneak",
+      "name": "Toggle Sneak",
+      "category": "MISC",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.misc.screenshot_tools",
+      "name": "Screenshot Tools",
+      "category": "MISC",
+      "description": "needs capture path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "needs capture path"
+    },
+    {
+      "id": "xykell.misc.fake_op",
+      "name": "Fake Op",
+      "category": "MISC",
+      "description": "client-side display only; never server authority",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "client-side display only; never server authority"
+    },
+    {
+      "id": "xykell.misc.shulker_tooltip",
+      "name": "Shulker Tooltip",
+      "category": "MISC",
+      "description": "needs container source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "needs container source"
+    },
+    {
+      "id": "xykell.misc.death_lightning",
+      "name": "Death Lightning",
+      "category": "MISC",
+      "description": "client-side effect only",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI",
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "client-side effect only"
+    },
+    {
+      "id": "xykell.misc.java_mode",
+      "name": "Java Mode",
+      "category": "MISC",
+      "description": "client-side timings; Bedrock mapping TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "client-side timings; Bedrock mapping TBD"
+    },
+    {
+      "id": "xykell.misc.timer",
+      "name": "Timer",
+      "category": "MISC",
+      "description": "locality TBD",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "locality TBD"
+    },
+    {
+      "id": "xykell.misc.disabler",
+      "name": "Disabler",
+      "category": "MISC",
+      "description": "no verified packet API; server rules risk",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "packet",
+      "capabilities": [
+        "PACKET"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "no verified packet API; server rules risk"
+    },
+    {
+      "id": "xykell.misc.skin_stealer",
+      "name": "Skin Stealer",
+      "category": "MISC",
+      "description": "local display only; no account data",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "local display only; no account data"
+    },
+    {
+      "id": "xykell.misc.fast_throw",
+      "name": "Fast Throw",
+      "category": "MISC",
+      "description": "moved from player QoL set",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "moved from player QoL set"
+    },
+    {
+      "id": "xykell.misc.friends",
+      "name": "Friends",
+      "category": "MISC",
+      "description": "local list; never inferred from private data",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "local list; never inferred from private data"
+    },
+    {
+      "id": "xykell.launcher.play",
+      "name": "Play",
+      "category": "LAUNCHER",
+      "description": "disabled until verified launch action",
+      "status": "NOT_IMPLEMENTED",
+      "requires": [],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "disabled until verified launch action"
+    },
+    {
+      "id": "xykell.launcher.versions",
+      "name": "Versions",
+      "category": "LAUNCHER",
+      "description": "integrate Levi version management",
+      "status": "NOT_IMPLEMENTED",
+      "requires": [],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
         "UI"
       ],
       "versions": [],
       "sourceReferences": [
         "Xykell",
-        "WClient"
+        "LeviLaunchroid"
       ],
       "evidence": "",
-      "notes": "M1 menu proof; file store pending"
+      "notes": "integrate Levi version management"
     },
     {
-      "id": "client.profile_manager",
-      "name": "Profile Manager",
-      "category": "client",
-      "description": "Default only in M1.5 shell",
-      "status": "NOT_IMPLEMENTED",
+      "id": "xykell.launcher.profiles",
+      "name": "Profiles",
+      "category": "LAUNCHER",
+      "description": "JNI bridge build-verified; runtime pending",
+      "status": "PARTIAL",
       "requires": [
         "LIFECYCLE",
         "CONFIG_DIRS"
@@ -4964,7 +5730,6 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "NATIVE",
         "UI"
       ],
       "versions": [],
@@ -4972,18 +5737,15 @@
         "Xykell"
       ],
       "evidence": "",
-      "notes": "Default only in M1.5 shell"
+      "notes": "JNI bridge build-verified; runtime pending"
     },
     {
-      "id": "client.crash_guard",
-      "name": "Crash Guard",
-      "category": "client",
-      "description": "quarantine design pending",
+      "id": "xykell.launcher.worlds",
+      "name": "Worlds",
+      "category": "LAUNCHER",
+      "description": "integrate Levi content management",
       "status": "NOT_IMPLEMENTED",
-      "requires": [
-        "LIFECYCLE",
-        "CONFIG_DIRS"
-      ],
+      "requires": [],
       "settings": [],
       "platforms": [
         "android"
@@ -4991,21 +5753,92 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "NATIVE"
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell",
+        "LeviLaunchroid"
+      ],
+      "evidence": "",
+      "notes": "integrate Levi content management"
+    },
+    {
+      "id": "xykell.launcher.packs",
+      "name": "Packs",
+      "category": "LAUNCHER",
+      "description": "integrate Levi content management",
+      "status": "NOT_IMPLEMENTED",
+      "requires": [],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell",
+        "LeviLaunchroid"
+      ],
+      "evidence": "",
+      "notes": "integrate Levi content management"
+    },
+    {
+      "id": "xykell.launcher.servers",
+      "name": "Servers",
+      "category": "LAUNCHER",
+      "description": "user configuration only",
+      "status": "NOT_IMPLEMENTED",
+      "requires": [],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
       ],
       "versions": [],
       "sourceReferences": [
         "Xykell"
       ],
       "evidence": "",
-      "notes": "quarantine design pending"
+      "notes": "user configuration only"
     },
     {
-      "id": "client.updater",
-      "name": "Updater",
-      "category": "client",
-      "description": "signed+checksum design pending",
+      "id": "xykell.launcher.settings",
+      "name": "Settings",
+      "category": "LAUNCHER",
+      "description": "native-backed settings pending",
       "status": "NOT_IMPLEMENTED",
+      "requires": [],
+      "settings": [],
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "",
+      "notes": "native-backed settings pending"
+    },
+    {
+      "id": "xykell.launcher.diagnostics",
+      "name": "Diagnostics",
+      "category": "LAUNCHER",
+      "description": "probe report module exists; build-verified",
+      "status": "PARTIAL",
       "requires": [
         "LIFECYCLE"
       ],
@@ -5016,7 +5849,6 @@
       "version_constraints": [],
       "implementation": "native",
       "capabilities": [
-        "NATIVE",
         "UI"
       ],
       "versions": [],
@@ -5024,7 +5856,7 @@
         "Xykell"
       ],
       "evidence": "",
-      "notes": "signed+checksum design pending"
+      "notes": "probe report module exists; build-verified"
     }
   ]
 }

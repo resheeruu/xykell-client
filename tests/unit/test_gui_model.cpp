@@ -13,16 +13,16 @@ int main() {
     assert(read.ok);
     const auto rep = gui::buildFromRegistryJson(read.content);
     assert(rep.ok && rep.error.empty());
-    assert(rep.entries.size() == 192);
+    assert(rep.entries.size() == 225);
 
     // Spot checks.
     bool sawAura = false, sawCore = false;
     for (const auto& e : rep.entries) {
-        if (e.id == "combat.kill_aura") {
+        if (e.id == "xykell.combat.kill_aura") {
             sawAura = true;
             assert(e.status == "RESEARCH_REQUIRED" && !e.operable());
         }
-        if (e.id == "client.core") {
+        if (e.id == "xykell.client.core") {
             sawCore = true;
             assert(e.operable());
         }
@@ -30,7 +30,7 @@ int main() {
     assert(sawAura && sawCore);
 
     // Navigation helpers.
-    const auto combat = gui::filterByCategory(rep.entries, "combat");
+    const auto combat = gui::filterByCategory(rep.entries, "COMBAT");
     assert(!combat.empty() && combat.size() < rep.entries.size());
     const auto found = gui::search(rep.entries, "KILL");
     assert(!found.empty()); // case-insensitive

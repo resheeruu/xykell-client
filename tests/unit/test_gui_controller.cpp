@@ -12,7 +12,7 @@ int main() {
     gui::GuiController gui;
     std::string err;
     assert(gui.loadRegistry(read.content, err));
-    assert(gui.count() == 192); // registry truth, still exact
+    assert(gui.count() == 225); // registry truth, still exact
     assert(gui.loadRegistry("junk", err)); // cached: no-op success
 
     ModuleManager mods;
@@ -20,10 +20,10 @@ int main() {
     mods.registerModule({"xykell-hud", "Xykell HUD", "hud"});
 
     // RESEARCH_REQUIRED can never be enabled through ClickGUI.
-    assert(gui.requestToggle("combat.kill_aura", mods)
+    assert(gui.requestToggle("xykell.combat.kill_aura", mods)
            == gui::ToggleOutcome::RefusedResearch);
     // NOT_IMPLEMENTED can never be enabled either.
-    assert(gui.requestToggle("scripting.script_runtime", mods)
+    assert(gui.requestToggle("xykell.scripting.script_runtime", mods)
            == gui::ToggleOutcome::RefusedNotImplemented);
     // Unknown id reported, not performed.
     assert(gui.requestToggle("nope.nope", mods) == gui::ToggleOutcome::UnknownId);
@@ -31,18 +31,18 @@ int main() {
     assert(mods.get("xykell-core")->state == ModuleState::Loaded);
 
     // Implemented + operable toggles really flip.
-    assert(gui.requestToggle("client.core", mods) == gui::ToggleOutcome::Performed);
+    assert(gui.requestToggle("xykell.client.core", mods) == gui::ToggleOutcome::Performed);
     assert(mods.get("xykell-core")->state == ModuleState::Enabled);
-    assert(gui.requestToggle("client.core", mods) == gui::ToggleOutcome::Performed);
+    assert(gui.requestToggle("xykell.client.core", mods) == gui::ToggleOutcome::Performed);
     assert(mods.get("xykell-core")->state == ModuleState::Loaded);
 
     // Quarantine blocks even implemented entries.
     mods.quarantine("xykell-core", "boom x3");
-    assert(gui.requestToggle("client.core", mods)
+    assert(gui.requestToggle("xykell.client.core", mods)
            == gui::ToggleOutcome::RefusedQuarantined);
 
     // Navigation state.
-    gui.category = "combat";
+    gui.category = "COMBAT";
     assert(!gui.visible().empty() && gui.visible().size() < gui.count());
     gui.category = "all";
     gui.query = "waypoint";
@@ -51,10 +51,10 @@ int main() {
     assert(gui.visible().size() == gui.count());
 
     // Favorites are pure UI state.
-    gui.toggleFavorite("hud.fps");
-    assert(gui.isFavorite("hud.fps"));
-    gui.toggleFavorite("hud.fps");
-    assert(!gui.isFavorite("hud.fps"));
+    gui.toggleFavorite("xykell.hud.fps");
+    assert(gui.isFavorite("xykell.hud.fps"));
+    gui.toggleFavorite("xykell.hud.fps");
+    assert(!gui.isFavorite("xykell.hud.fps"));
 
     std::cout << "test_gui_controller: PASS\n";
     return 0;

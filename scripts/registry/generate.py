@@ -43,6 +43,9 @@ COMBAT = [
     ("target_selector", ["HYBRID"], "native", ["Lunar Proxy", "Flarial"], ""),
     ("friend_filter", ["UI"], "native", ["Lunar Proxy"], "local list; needs target source"),
     ("combat_settings", ["UI"], "native", ["Lunar Proxy"], ""),
+    ("double_click", ["HYBRID"], "native", ["Lunar Proxy"], "attack timing source TBD"),
+    ("auto_log", ["HYBRID"], "native", ["Lunar Proxy"], "safe-disconnect rules TBD"),
+    ("mob_aura", ["HYBRID"], "native", ["Apollon"], "mob targeting; needs entity source"),
 ]
 
 MOVEMENT = [
@@ -69,22 +72,14 @@ MOVEMENT = [
     ("no_fall", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("movement_correction", ["PACKET", "HYBRID"], "packet", ["Lunar Proxy"], "locality TBD"),
     ("timer", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
+    ("ladder_fly", ["HYBRID"], "native", ["Apollon"], "locality TBD; ladder detection TBD"),
+    ("block_fly", ["HYBRID"], "native", ["Apollon"], "locality TBD; placement source TBD"),
 ]
 
 PLAYER = [
-    ("auto_eat", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_fish", ["HYBRID"], "native", ["Lunar Proxy", "Apollon"], ""),
-    ("auto_refill", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_steal", ["HYBRID"], "native", ["Lunar Proxy"], "server rules risk"),
     ("inventory_manager", ["UI", "HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_tool", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_equip", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_armor", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("fast_eat", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("fast_throw", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("fast_interact", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_sign", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_sell", ["HYBRID"], "native", ["Lunar Proxy"], "server rules risk"),
     ("haste", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("slow_mine", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("no_fall", ["HYBRID"], "native", ["Lunar Proxy"], ""),
@@ -97,13 +92,29 @@ PLAYER = [
     ("friend_alerts", ["UI"], "native", ["Lunar Proxy"], ""),
     ("nickname", ["UI"], "native", ["BedrockTools"], "local-only"),
     ("fake_stats", ["UI"], "native", ["Lunar Proxy"], "local display only"),
+    ("spam", ["HYBRID"], "native", ["Lunar Proxy"], "rate-limited; server rules risk"),
+]
+
+AUTOMATION = [
+    ("auto_eat", ["HYBRID"], "native", ["Lunar Proxy"], "interruptible; cooldowns required"),
+    ("auto_fish", ["HYBRID"], "native", ["Lunar Proxy", "Apollon"], "interruptible"),
+    ("auto_refill", ["HYBRID"], "native", ["Lunar Proxy"], ""),
+    ("auto_steal", ["HYBRID"], "native", ["Lunar Proxy"], "server rules risk"),
+    ("auto_tool", ["HYBRID"], "native", ["Lunar Proxy"], ""),
+    ("auto_equip", ["HYBRID"], "native", ["Lunar Proxy"], ""),
+    ("auto_armor", ["HYBRID"], "native", ["Lunar Proxy"], ""),
+    ("auto_sign", ["HYBRID"], "native", ["Lunar Proxy"], ""),
+    ("auto_sell", ["HYBRID"], "native", ["Lunar Proxy"], "server rules risk"),
+    ("auto_mine", ["HYBRID"], "native", ["Lunar Proxy"], "throttled; cancellable"),
+    ("auto_dig", ["HYBRID"], "native", ["Lunar Proxy"], "throttled; cancellable"),
+    ("inventory_cleaner", ["HYBRID"], "native", ["Apollon"], "rules for protected items TBD"),
+    ("no_break_delay", ["HYBRID"], "native", ["Apollon"], "mechanism TBD"),
+    ("ghost", ["HYBRID"], "native", ["Lunar Proxy"], "interaction semantics TBD"),
 ]
 
 WORLD = [
     ("scaffold", ["HYBRID"], "native", ["Lunar Proxy", "Apollon"], "server rules risk"),
     ("nuker", ["HYBRID"], "native", ["Lunar Proxy"], "server rules risk; throttled by design"),
-    ("auto_mine", ["HYBRID"], "native", ["Lunar Proxy"], ""),
-    ("auto_dig", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("fast_break", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("fast_place", ["HYBRID"], "native", ["Lunar Proxy"], ""),
     ("spawner_protect", ["HYBRID"], "native", ["Lunar Proxy"], ""),
@@ -141,7 +152,8 @@ VISUAL = [
     ("new_chunks", ["WORLD", "UI"], "native", ["Lunar Proxy"], "see world.new_chunks"),
     ("hole_esp", ["RENDER", "WORLD"], "native", ["Lunar Proxy"], "see world.hole_esp"),
     ("spawner_esp", ["RENDER", "WORLD"], "native", ["Lunar Proxy"], "needs world+render sources"),
-    ("waypoints", ["WORLD", "UI"], "native", ["Atlas", "Flarial"], "see world.waypoints"),
+    ("sus_chunk_finder", ["WORLD", "UI"], "native", ["Lunar Proxy"], "suspicious-chunk heuristics TBD"),
+    ("bed_esp", ["RENDER", "WORLD"], "native", ["Apollon"], "needs world+render sources"),    ("waypoints", ["WORLD", "UI"], "native", ["Atlas", "Flarial"], "see world.waypoints"),
     ("minimap", ["WORLD", "UI"], "native", ["Atlas"], "see world.minimap"),
     ("schematic", ["WORLD", "UI"], "native", ["Lunar Proxy"], "see world.schematic"),
     ("view_model", ["RENDER"], "native", ["Atlas", "BedrockTools"], "needs viewmodel path"),
@@ -176,15 +188,6 @@ HUD = [
     ("notifications", ["UI"], "native", ["Flarial"], "event-driven; needs EventBus"),
     ("session_stats", ["UI"], "native", ["Flarial"], "local timers available"),
     ("server_info", ["UI"], "native", ["Flarial"], "needs connection source"),
-]
-
-UTILITY = [
-    ("quick_perspective", ["RENDER", "INPUT"], "native", ["Atlas"], "needs camera path"),
-    ("quick_drop", ["INPUT"], "native", ["Atlas"], "needs input path; Levi inbuilt Quick Drop exists — integrate, do not duplicate"),
-    ("hide_hud", ["UI"], "native", ["Atlas"], "overlay clear available"),
-    ("toggle_sprint", ["INPUT"], "native", ["Flarial"], "locality TBD"),
-    ("toggle_sneak", ["INPUT"], "native", ["Flarial"], "locality TBD"),
-    ("screenshot_tools", ["UI"], "native", ["Xykell"], "needs capture path"),
 ]
 
 NETWORK = [
@@ -224,6 +227,21 @@ MISC = [
     ("chat_filter", ["UI"], "native", ["Xykell"], "needs chat source"),
     ("custom_nicknames", ["UI"], "native", ["BedrockTools"], "local-only"),
     ("screenshot_share", ["UI"], "native", ["Xykell"], "needs capture path"),
+    ("quick_perspective", ["RENDER", "INPUT"], "native", ["Atlas"], "needs camera path"),
+    ("quick_drop", ["INPUT"], "native", ["Atlas"], "needs input path; Levi inbuilt Quick Drop exists — integrate, do not duplicate"),
+    ("hide_hud", ["UI"], "native", ["Atlas"], "overlay clear available"),
+    ("toggle_sprint", ["INPUT"], "native", ["Flarial"], "locality TBD"),
+    ("toggle_sneak", ["INPUT"], "native", ["Flarial"], "locality TBD"),
+    ("screenshot_tools", ["UI"], "native", ["Xykell"], "needs capture path"),
+    ("fake_op", ["UI"], "native", ["Lunar Proxy"], "client-side display only; never server authority"),
+    ("shulker_tooltip", ["UI"], "native", ["Lunar Proxy"], "needs container source"),
+    ("death_lightning", ["UI", "RENDER"], "native", ["Lunar Proxy"], "client-side effect only"),
+    ("java_mode", ["UI"], "native", ["Lunar Proxy"], "client-side timings; Bedrock mapping TBD"),
+    ("timer", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
+    ("disabler", ["PACKET"], "packet", ["Lunar Proxy"], "no verified packet API; server rules risk"),
+    ("skin_stealer", ["UI"], "native", ["Lunar Proxy"], "local display only; no account data"),
+    ("fast_throw", ["HYBRID"], "native", ["Lunar Proxy"], "moved from player QoL set"),
+    ("friends", ["UI"], "native", ["Xykell"], "local list; never inferred from private data"),
 ]
 
 SCRIPTING = [
@@ -240,66 +258,99 @@ CLIENT = [
     ("profile_manager", ["NATIVE", "UI"], "native", ["Xykell"], "Default only in M1.5 shell"),
     ("crash_guard", ["NATIVE"], "native", ["Xykell"], "quarantine design pending"),
     ("updater", ["NATIVE", "UI"], "native", ["Xykell"], "signed+checksum design pending"),
+    ("hud_editor", ["UI"], "native", ["Xykell"], "editor state+serialization exist; overlay binding partial"),
+]
+
+SERVER = [
+    ("browser", ["UI"], "native", ["Xykell"], "user-supplied servers only"),
+    ("saved", ["UI"], "native", ["Xykell"], "address/port/notes/favorites"),
+    ("profile", ["UI"], "native", ["Xykell"], "per-server modules/settings/HUD"),
+]
+
+PROXY = [
+    ("mode", ["PACKET"], "packet", ["Xykell"], "design only; separate subsystem"),
+    ("relay", ["PACKET"], "packet", ["Xykell", "Nova", "WClient"], "console/remote concept; protocol work required"),
+]
+
+LAUNCHER = [
+    ("play", ["UI"], "native", ["Xykell"], "disabled until verified launch action"),
+    ("versions", ["UI"], "native", ["Xykell", "LeviLaunchroid"], "integrate Levi version management"),
+    ("profiles", ["UI"], "native", ["Xykell"], "JNI bridge build-verified; runtime pending"),
+    ("worlds", ["UI"], "native", ["Xykell", "LeviLaunchroid"], "integrate Levi content management"),
+    ("packs", ["UI"], "native", ["Xykell", "LeviLaunchroid"], "integrate Levi content management"),
+    ("servers", ["UI"], "native", ["Xykell"], "user configuration only"),
+    ("settings", ["UI"], "native", ["Xykell"], "native-backed settings pending"),
+    ("diagnostics", ["UI"], "native", ["Xykell"], "probe report module exists; build-verified"),
 ]
 
 CATEGORIES = {
-    "combat": COMBAT, "movement": MOVEMENT, "player": PLAYER, "world": WORLD,
-    "visual": VISUAL, "hud": HUD, "utility": UTILITY, "network": NETWORK,
-    "performance": PERFORMANCE, "misc": MISC, "scripting": SCRIPTING, "client": CLIENT,
+    "CLIENT": CLIENT, "HUD": HUD, "PERFORMANCE": PERFORMANCE, "VISUAL": VISUAL,
+    "PLAYER": PLAYER, "MOVEMENT": MOVEMENT, "COMBAT": COMBAT, "WORLD": WORLD,
+    "AUTOMATION": AUTOMATION, "NETWORK": NETWORK, "PROXY": PROXY,
+    "SCRIPTING": SCRIPTING, "SERVER": SERVER, "MISC": MISC, "LAUNCHER": LAUNCHER,
 }
 
-# (category, suffix) -> forced status (default RR; these are the M1 proofs).
+# (CATEGORY, suffix) -> forced status (default RR; these are the M1 proofs).
 PROVEN = {
-    ("client", "core"): PARTIAL,
-    ("client", "version_adapter"): PARTIAL,
-    ("client", "config_store"): PARTIAL,
-    ("hud", "touch_indicators"): PARTIAL,
+    ("CLIENT", "core"): PARTIAL,
+    ("CLIENT", "version_adapter"): PARTIAL,
+    ("CLIENT", "config_store"): PARTIAL,
+    ("HUD", "touch_indicators"): PARTIAL,
+    ("CLIENT", "hud_editor"): PARTIAL,
+    ("LAUNCHER", "diagnostics"): PARTIAL,
+    ("LAUNCHER", "profiles"): PARTIAL,
 }
 
-# Capability requirements per entry (Batch 4). Everything here currently
+# Capability requirements per entry. Everything here currently
 # fails the runtime gate (no verified sources) except LIFECYCLE-backed infra.
-# Format: (category, suffix) -> [caps]; CATEGORY_DEFAULTS applies otherwise.
+# Format: (CATEGORY, suffix) -> [caps]; CATEGORY_DEFAULTS applies otherwise.
 REQUIRES = {
-    ("hud", "fps"): ["FRAME"],
-    ("hud", "coordinates"): ["PLAYER"],
-    ("hud", "position"): ["PLAYER"],
-    ("hud", "ping"): ["PACKET"],
-    ("hud", "tps"): ["FRAME"],
-    ("hud", "armor"): ["PLAYER"],
-    ("hud", "health"): ["PLAYER"],
-    ("hud", "hunger"): ["PLAYER"],
-    ("hud", "direction"): ["PLAYER"],
-    ("hud", "biome"): ["WORLD"],
-    ("hud", "clock"): ["OVERLAY_DELIVERY"],
-    ("hud", "cps"): ["INPUT_SEMANTICS"],
-    ("hud", "keystrokes"): ["INPUT_SEMANTICS"],
-    ("hud", "touch_indicators"): ["INPUT_SEMANTICS"],
-    ("hud", "target_info"): ["ENTITY"],
-    ("hud", "arraylist"): ["OVERLAY_DELIVERY"],
-    ("hud", "watermark"): ["OVERLAY_DELIVERY"],
-    ("hud", "notifications"): ["OVERLAY_DELIVERY"],
-    ("hud", "session_stats"): ["OVERLAY_DELIVERY"],
-    ("hud", "server_info"): ["PACKET"],
-    ("client", "core"): ["LIFECYCLE"],
-    ("client", "version_adapter"): ["LIFECYCLE", "VERSION_STRING"],
-    ("client", "config_store"): ["LIFECYCLE", "CONFIG_DIRS"],
-    ("client", "profile_manager"): ["LIFECYCLE", "CONFIG_DIRS"],
-    ("client", "crash_guard"): ["LIFECYCLE", "CONFIG_DIRS"],
-    ("client", "updater"): ["LIFECYCLE"],
+    ("HUD", "fps"): ["FRAME"],
+    ("HUD", "coordinates"): ["PLAYER"],
+    ("HUD", "position"): ["PLAYER"],
+    ("HUD", "ping"): ["PACKET"],
+    ("HUD", "tps"): ["FRAME"],
+    ("HUD", "armor"): ["PLAYER"],
+    ("HUD", "health"): ["PLAYER"],
+    ("HUD", "hunger"): ["PLAYER"],
+    ("HUD", "direction"): ["PLAYER"],
+    ("HUD", "biome"): ["WORLD"],
+    ("HUD", "clock"): ["OVERLAY_DELIVERY"],
+    ("HUD", "cps"): ["INPUT_SEMANTICS"],
+    ("HUD", "keystrokes"): ["INPUT_SEMANTICS"],
+    ("HUD", "touch_indicators"): ["INPUT_SEMANTICS"],
+    ("HUD", "target_info"): ["ENTITY"],
+    ("HUD", "arraylist"): ["OVERLAY_DELIVERY"],
+    ("HUD", "watermark"): ["OVERLAY_DELIVERY"],
+    ("HUD", "notifications"): ["OVERLAY_DELIVERY"],
+    ("HUD", "session_stats"): ["OVERLAY_DELIVERY"],
+    ("HUD", "server_info"): ["PACKET"],
+    ("CLIENT", "core"): ["LIFECYCLE"],
+    ("CLIENT", "version_adapter"): ["LIFECYCLE", "VERSION_STRING"],
+    ("CLIENT", "config_store"): ["LIFECYCLE", "CONFIG_DIRS"],
+    ("CLIENT", "profile_manager"): ["LIFECYCLE", "CONFIG_DIRS"],
+    ("CLIENT", "crash_guard"): ["LIFECYCLE", "CONFIG_DIRS"],
+    ("CLIENT", "updater"): ["LIFECYCLE"],
+    ("CLIENT", "hud_editor"): ["OVERLAY_DELIVERY"],
+    ("LAUNCHER", "diagnostics"): ["LIFECYCLE"],
+    ("LAUNCHER", "profiles"): ["LIFECYCLE", "CONFIG_DIRS"],
 }
 CATEGORY_DEFAULTS = {
-    "combat": ["FRAME", "PLAYER"],
-    "movement": ["FRAME", "PLAYER"],
-    "player": ["FRAME", "PLAYER"],
-    "world": ["FRAME", "WORLD"],
-    "visual": ["FRAME", "WORLD"],
-    "utility": ["FRAME"],
-    "network": ["PACKET"],
-    "performance": ["FRAME"],
-    "misc": ["OVERLAY_DELIVERY"],
-    "scripting": ["SCRIPTING"],
-    "hud": ["OVERLAY_DELIVERY"],
-    "client": ["LIFECYCLE"],
+    "COMBAT": ["FRAME", "PLAYER"],
+    "MOVEMENT": ["FRAME", "PLAYER"],
+    "PLAYER": ["FRAME", "PLAYER"],
+    "WORLD": ["FRAME", "WORLD"],
+    "VISUAL": ["FRAME", "WORLD"],
+    "AUTOMATION": ["FRAME", "PLAYER"],
+    "NETWORK": ["PACKET"],
+    "PROXY": ["PACKET"],
+    "SERVER": ["PACKET"],
+    "PERFORMANCE": ["FRAME"],
+    "MISC": ["OVERLAY_DELIVERY"],
+    "SCRIPTING": ["SCRIPTING"],
+    "HUD": ["OVERLAY_DELIVERY"],
+    "CLIENT": ["LIFECYCLE"],
+    "LAUNCHER": [],
 }
 
 
@@ -314,11 +365,12 @@ def main() -> None:
             req = REQUIRES.get((category, suffix),
                                CATEGORY_DEFAULTS.get(category, []))
             entries.append({
-                "id": f"{category}.{suffix}",
+                "id": f"xykell.{category.lower()}.{suffix}",
                 "name": humanize(suffix),
                 "category": category,
                 "description": notes or f"{humanize(suffix)} ({category}).",
-                "status": PROVEN.get((category, suffix), RR if category != "scripting" else NI),
+                "status": PROVEN.get((category, suffix),
+                                     RR if category != "SCRIPTING" else NI),
                 "requires": req,
                 "settings": [],
                 "platforms": ["android"],
@@ -330,12 +382,15 @@ def main() -> None:
                 "evidence": "",
                 "notes": notes,
             })
-    # scripting + client non-proven default to NOT_IMPLEMENTED
+    # scripting + client/launcher non-proven default to NOT_IMPLEMENTED
+    proven_ids = {"xykell.client.core", "xykell.client.version_adapter",
+                  "xykell.client.config_store", "xykell.hud.touch_indicators",
+                  "xykell.client.hud_editor", "xykell.launcher.diagnostics",
+                  "xykell.launcher.profiles"}
     for e in entries:
-        if e["category"] in ("scripting",) and e["status"] == RR:
+        if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI
-        if e["category"] == "client" and e["id"] not in {
-                "client.core", "client.version_adapter", "client.config_store"}:
+        if e["category"] in ("CLIENT", "LAUNCHER") and e["id"] not in proven_ids:
             e["status"] = NI
     out = {
         "meta": {"format": 1, "product": "Xykell Client",

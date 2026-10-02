@@ -9,13 +9,13 @@ from pathlib import Path
 
 # Registry id -> unit test suites covering it (host). Everything else: none.
 COVERAGE = {
-    "client.core": ["test_core", "test_manager"],
-    "client.version_adapter": ["test_adapter"],
-    "client.config_store": ["test_config"],
-    "client.profile_manager": ["test_profile", "test_hud_render"],
-    "client.crash_guard": ["test_crash"],
-    "hud.touch_indicators": ["test_input_router", "test_hud_render"],
-    "hud.watermark": ["test_hud_render"],
+    "xykell.client.core": ["test_core", "test_manager"],
+    "xykell.client.version_adapter": ["test_adapter"],
+    "xykell.client.config_store": ["test_config"],
+    "xykell.client.profile_manager": ["test_profile", "test_hud_render"],
+    "xykell.client.crash_guard": ["test_crash"],
+    "xykell.hud.touch_indicators": ["test_input_router", "test_hud_render"],
+    "xykell.hud.watermark": ["test_hud_render"],
 }
 
 DEVICE_VERIFIED = set()  # populated only by DEVICE-TESTING.md evidence

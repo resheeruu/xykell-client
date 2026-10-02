@@ -56,13 +56,13 @@ int main() {
     const GuiModuleEntry* core = nullptr;
     const GuiModuleEntry* fps = nullptr;
     for (const auto& e : all) {
-        if (e.id == "combat.kill_aura") {
+        if (e.id == "xykell.combat.kill_aura") {
             aura = &e;
         }
-        if (e.id == "client.core") {
+        if (e.id == "xykell.client.core") {
             core = &e;
         }
-        if (e.id == "hud.fps") {
+        if (e.id == "xykell.hud.fps") {
             fps = &e;
         }
     }

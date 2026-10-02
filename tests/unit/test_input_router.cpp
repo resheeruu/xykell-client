@@ -22,12 +22,19 @@ int main() {
     input::TouchPoint tap{100.0f, 500.0f, 0};
     assert(router.onTouch(tap, gui, mods) == input::Route::ToGame);
 
-    // Open GUI: consumed, tap on first row toggles client.core (implemented).
+    // Open GUI: consumed. Tap a RESEARCH_REQUIRED row: refused, nothing flips.
     router.setGuiOpen(true);
     gui.open = true;
-    const float y0 = router.headerHeight + 10.0f; // first row
+    const auto vis0 = gui.visible();
+    int auraRow = -1;
+    for (int i = 0; i < static_cast<int>(vis0.size()); ++i) {
+        if (vis0[static_cast<std::size_t>(i)].id == "xykell.combat.kill_aura") {
+            auraRow = i;
+        }
+    }
+    assert(auraRow >= 0);
+    const float y0 = router.headerHeight + (auraRow + 0.5f) * router.rowHeight;
     assert(router.onTouch({100.0f, y0, 0}, gui, mods) == input::Route::ToGui);
-    // First visible entry is combat.aim_assist (RR): refused, nothing flips.
     assert(router.onTouch({100.0f, y0, 1}, gui, mods) == input::Route::ToGui);
     assert(mods.get("xykell-core")->state == ModuleState::Loaded);
 
@@ -35,7 +42,7 @@ int main() {
     const auto vis = gui.visible();
     int row = -1;
     for (int i = 0; i < static_cast<int>(vis.size()); ++i) {
-        if (vis[static_cast<std::size_t>(i)].id == "client.core") {
+        if (vis[static_cast<std::size_t>(i)].id == "xykell.client.core") {
             row = i;
         }
     }
