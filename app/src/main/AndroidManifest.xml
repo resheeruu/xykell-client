@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Android 11+ package visibility: without this, PackageManager hides
+         Minecraft and detection falsely reports NOT INSTALLED. -->
+    <queries>
+        <package android:name="com.mojang.minecraftpe" />
+        <package android:name="org.levimc.launcher" />
+    </queries>
+
     <application
         android:label="Xykell Client"
         android:icon="@android:drawable/sym_def_app_icon"

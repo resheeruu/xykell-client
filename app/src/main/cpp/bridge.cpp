@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "xykell/profile_manager.h"
+#include "xykell/detection.h"
 #include "xykell/version_adapter.h"
 
 namespace {
@@ -89,8 +90,7 @@ Java_dev_xykell_client_NativeProfiles_importProfileJson(JNIEnv* env, jclass, jst
 // Returns "STATE|reason", e.g. "SUPPORTED|matches Levi-verified line".
 JNIEXPORT jstring JNICALL
 Java_dev_xykell_client_NativeProfiles_checkVersion(JNIEnv* env, jclass, jstring version,
-                                                   jstring abi) {
-    const auto r = xykell::VersionAdapter::check(toStd(env, version), toStd(env, abi));
+                                                   jstring abi) {    const auto r = xykell::VersionAdapter::check(toStd(env, version), toStd(env, abi));
     std::string state;
     switch (r.state) {
         case xykell::SupportState::Supported: state = "SUPPORTED"; break;
@@ -98,6 +98,24 @@ Java_dev_xykell_client_NativeProfiles_checkVersion(JNIEnv* env, jclass, jstring 
         case xykell::SupportState::Unsupported: state = "UNSUPPORTED"; break;
     }
     return toJni(env, state + "|" + r.reason);
+}
+
+// Installation verdict: the SAME detection rules as the game module.
+// found/version/abi/enabled come from PackageManager; queriesGranted is true
+// when the caller holds <queries> visibility (else every miss is ambiguous).
+// Returns "STATE|reason".
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeProfiles_checkInstall(JNIEnv* env, jclass, jboolean found,
+                                                   jstring version, jstring abi,
+                                                   jboolean enabled, jboolean queriesGranted) {
+    xykell::detect::DetectionInput in;
+    in.packageFound = (found == JNI_TRUE);
+    in.version = toStd(env, version);
+    in.abi = toStd(env, abi);
+    in.enabled = (enabled == JNI_TRUE);
+    in.queriesGranted = (queriesGranted == JNI_TRUE);
+    const auto v = xykell::detect::evaluateDetection(in);
+    return toJni(env, xykell::detect::stateName(v.state) + "|" + v.reason);
 }
 
 } // extern "C"

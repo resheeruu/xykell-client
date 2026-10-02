@@ -15,6 +15,7 @@ add_library(
     ${XYKELL_NATIVE_DIR}/src/xykell_file_util.cpp
     ${XYKELL_NATIVE_DIR}/src/xykell_profile_manager.cpp
     ${XYKELL_NATIVE_DIR}/src/xykell_version_adapter.cpp
+    ${XYKELL_NATIVE_DIR}/src/xykell_detection.cpp
 )
 
 target_include_directories(

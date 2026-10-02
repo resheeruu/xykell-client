@@ -22,4 +22,11 @@ object NativeProfiles {
 
     /** Shared version verdict ("STATE|reason") from native VersionAdapter. */
     external fun checkVersion(version: String, abi: String): String
+
+    /** Shared install verdict ("STATE|reason"). queriesGranted must reflect
+     *  whether this app declares <queries> visibility for the package. */
+    external fun checkInstall(
+        found: Boolean, version: String, abi: String,
+        enabled: Boolean, queriesGranted: Boolean
+    ): String
 }
