@@ -23,6 +23,9 @@ struct Theme {
     std::string supported = "#5DD39E";
     std::string partial = "#E8B34B";
     std::string unavailable = "#8A97AD";
+    // surface styling
+    double opacity = 1.0;
+    double radius = 8.0;
 
     json::Value serialize() const;
     bool deserialize(const json::Value& v, std::string& error);

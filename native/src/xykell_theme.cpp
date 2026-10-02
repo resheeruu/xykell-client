@@ -16,6 +16,8 @@ json::Value Theme::serialize() const {
     o.emplace("supported", json::Value(supported));
     o.emplace("partial", json::Value(partial));
     o.emplace("unavailable", json::Value(unavailable));
+    o.emplace("opacity", json::Value(opacity));
+    o.emplace("radius", json::Value(radius));
     return json::Value(std::move(o));
 }
 
@@ -46,12 +48,30 @@ bool Theme::deserialize(const json::Value& v, std::string& error) {
         }
         return true;
     };
-    if (!getColor("background", tmp.background) || !getColor("surface", tmp.surface)
-        || !getColor("accent", tmp.accent) || !getColor("text", tmp.text)
+    if (!getColor("background", tmp.background) || !getColor("surface", tmp.surface)        || !getColor("accent", tmp.accent) || !getColor("text", tmp.text)
         || !getColor("muted", tmp.muted) || !getColor("warning", tmp.warning)
         || !getColor("error", tmp.error) || !getColor("success", tmp.success)
         || !getColor("supported", tmp.supported) || !getColor("partial", tmp.partial)
         || !getColor("unavailable", tmp.unavailable)) {
+        return false;
+    }
+    const auto num = [&](const char* k, double& slot, double lo, double hi) {
+        const auto it = o.find(k);
+        if (it != o.end()) {
+            if (!it->second.isNumber()) {
+                error = std::string("theme.") + k + " is not a number";
+                return false;
+            }
+            const double v = it->second.asNumber();
+            if (!(v >= lo && v <= hi)) {
+                error = std::string("theme.") + k + " out of range";
+                return false;
+            }
+            slot = v;
+        }
+        return true;
+    };
+    if (!num("opacity", tmp.opacity, 0.0, 1.0) || !num("radius", tmp.radius, 0.0, 32.0)) {
         return false;
     }
     *this = std::move(tmp);
@@ -68,7 +88,22 @@ const std::vector<Theme>& ThemeManager::builtins() {
         light.accent = "#0E7C6F";
         light.text = "#16213A";
         light.muted = "#5A6B85";
-        return std::vector<Theme>{dark, light};
+        Theme amoled;
+        amoled.name = "Xykell AMOLED";
+        amoled.background = "#000000";
+        amoled.surface = "#0A0A0A";
+        amoled.accent = "#4FD8C7";
+        amoled.text = "#FFFFFF";
+        amoled.muted = "#8A97AD";
+        Theme minimal;
+        minimal.name = "Xykell Minimal";
+        minimal.background = "#1A1D24";
+        minimal.surface = "#23262F";
+        minimal.accent = "#9AA5B5";
+        minimal.text = "#E8EEF7";
+        minimal.muted = "#8A97AD";
+        minimal.radius = 4.0;
+        return std::vector<Theme>{dark, light, amoled, minimal};
     }();
     return themes;
 }

@@ -61,5 +61,9 @@ run_case test_runtime_proof "$ROOT/tests/unit/test_runtime_proof.cpp" \
     "$SRC/xykell_runtime_active.cpp" "$SRC/xykell_hud_renderer.cpp" \
     "$SRC/xykell_hud_model.cpp" "$SRC/xykell_theme.cpp" \
     "$SRC/xykell_profile_manager.cpp" "$SRC/xykell_module_manager.cpp"
-echo "UNIT: $pass/17 suites PASS"
+run_case test_local_systems "$ROOT/tests/unit/test_local_systems.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_friends.cpp" \
+    "$SRC/xykell_notifications.cpp" "$SRC/xykell_server_profiles.cpp" \
+    "$SRC/xykell_waypoints.cpp" "$SRC/xykell_theme.cpp"
+echo "UNIT: $pass/18 suites PASS"
 rm -rf "$WORK"

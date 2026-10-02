@@ -25,6 +25,7 @@ add_library(
     src/xykell_engines.cpp
     src/xykell_event_bus.cpp
     src/xykell_file_util.cpp
+    src/xykell_friends.cpp
     src/xykell_gui_controller.cpp
     src/xykell_gui_host.cpp
     src/xykell_hud.cpp
@@ -35,13 +36,15 @@ add_library(
     src/xykell_load_stages.cpp
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp
+    src/xykell_notifications.cpp
     src/xykell_profile_manager.cpp
     src/xykell_runtime_active.cpp
     src/xykell_runtime_probe.cpp
+    src/xykell_server_profiles.cpp
     src/xykell_sigscan.cpp
     src/xykell_theme.cpp
     src/xykell_version_adapter.cpp
-    src/xykell_version_adapter.cpp
+    src/xykell_waypoints.cpp
 )
 
 target_compile_options(xykell PRIVATE -Wall -Wextra -Werror)
