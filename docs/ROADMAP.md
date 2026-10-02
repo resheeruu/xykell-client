@@ -5,7 +5,8 @@
 - [x] M1 — native proof: Levi → `.so` → version detect → config → Mod Menu → input → overlay → enable/disable. Build PASS; **device PENDING**.
 - [x] M1.5 — launcher shell (6 screens, NOT WIRED) + CI APK green (`XykellClient-debug`, sha256 recorded). **Device PENDING.**
 - [x] Registry (192 modules, honest statuses) + EventBus + ModuleManager + host unit tests (4/4 PASS).
-- [ ] **Next: native Config/Profile store → CrashGuard → ClickGUI → HUD engine**
+- [x] Batch 2 — Config/Profile/CrashGuard/ClickGUI-model/HUD-model/themes + 10/10 tests.
+- [ ] **Next: ClickGUI render binding → HUD engine draw → runtime version source → QoL**
   (dependency graph in `docs/GAP-ANALYSIS.md` §12).
 - [ ] M3 — profiles (all 11), touchbind/gesture system, settings sync.
 - [ ] M4 — visual QoL batch (Zoom/Fullbright/FOV/crosshair), each version-gated.

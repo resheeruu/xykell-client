@@ -13,6 +13,7 @@ Modules talk to the game only through core abstractions (render/input/network/ve
 
 ## 4. Lifecycle & isolation
 Load → version check → dependency check → enable; any fault → quarantine (id + reason persisted), event-bus dispatch continues, safe mode offered when faults repeat. Disabling a module unsubscribes it fully (bus, hooks, overlay) and must be survivable mid-session — proven in M1.
+Runtime: `ModuleManager` (register/unregister/enable/quarantine, duplicate + empty-id rejection) + `EventBus` (throw-proof dispatch, per-module failure counts, snapshot iteration). Crash persistence: `CrashGuard` (counts, threshold-3 auto-quarantine, safe-mode flag + reason, last-known-good). See docs/CRASH-GUARD.md.
 
 ## 5. Dependency handling
 Missing/outdated dependency → module stays disabled with message naming the dependency. No auto-download of code; updates are signed packs with checksums.
