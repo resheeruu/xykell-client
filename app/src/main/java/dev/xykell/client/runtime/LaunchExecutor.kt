@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import dev.xykell.client.NativeProfiles
 
 /** Executes the decision from LaunchDecider using real device state.
  *  The only success outcome opens Levi's own MainActivity (verified
