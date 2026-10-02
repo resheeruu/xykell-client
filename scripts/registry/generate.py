@@ -67,8 +67,7 @@ MOVEMENT = [
     ("levitate", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("slow_falling", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("water_walk", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
-    ("tap_tp", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
-    ("safe_walk", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
+    ("tap_tp", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),    ("safe_walk", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("no_fall", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("movement_correction", ["PACKET", "HYBRID"], "packet", ["Lunar Proxy"], "locality TBD"),
     ("timer", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
@@ -93,6 +92,7 @@ PLAYER = [
     ("nickname", ["UI"], "native", ["BedrockTools"], "local-only"),
     ("fake_stats", ["UI"], "native", ["Lunar Proxy"], "local display only"),
     ("spam", ["HYBRID"], "native", ["Lunar Proxy"], "rate-limited; server rules risk"),
+    ("mod_alerts", ["UI"], "native", ["Lunar Proxy"], "server-specific mod lists (e.g. Lifeboat/DonutSMP)"),
 ]
 
 AUTOMATION = [
@@ -109,7 +109,16 @@ AUTOMATION = [
     ("auto_dig", ["HYBRID"], "native", ["Lunar Proxy"], "throttled; cancellable"),
     ("inventory_cleaner", ["HYBRID"], "native", ["Apollon"], "rules for protected items TBD"),
     ("no_break_delay", ["HYBRID"], "native", ["Apollon"], "mechanism TBD"),
-    ("ghost", ["HYBRID"], "native", ["Lunar Proxy"], "interaction semantics TBD"),
+    ("ghost", ["HYBRID"], "native", ["Lunar Proxy"], "Lunar Ghost hides commands/chat for recording — NOT phase-through"),
+    ("auto_tool_swap", ["HYBRID"], "native", ["Lunar Proxy"], "best-tool-for-target-block; distinct from auto_tool"),
+    ("auto_gg", ["HYBRID"], "native", ["Flarial"], "server-specific win messages (Hive/Zeqa/CubeCraft/Lifeboat/Galaxite/Mineville)"),
+    ("command_hotkey", ["INPUT", "UI"], "native", ["Flarial"], "shortcut buttons send commands"),
+    ("text_hotkey", ["INPUT", "UI"], "native", ["Flarial"], "shortcut buttons send chat text"),
+    ("death_logger", ["WORLD", "UI"], "native", ["Flarial"], "logs death coords; needs death source"),
+    ("inventory_lock", ["HYBRID"], "native", ["Flarial"], "lock items from being dropped"),
+    ("item_tracker", ["HYBRID", "UI"], "native", ["Flarial"], "picked/dropped item display"),
+    ("tnt_timer", ["WORLD", "UI"], "native", ["Flarial"], "TNT countdown; needs world source"),
+    ("player_notifier", ["UI"], "native", ["Flarial"], "notify when a player is on server; needs player-list source"),
 ]
 
 WORLD = [
@@ -152,6 +161,7 @@ VISUAL = [
     ("new_chunks", ["WORLD", "UI"], "native", ["Lunar Proxy"], "see world.new_chunks"),
     ("hole_esp", ["RENDER", "WORLD"], "native", ["Lunar Proxy"], "see world.hole_esp"),
     ("spawner_esp", ["RENDER", "WORLD"], "native", ["Lunar Proxy"], "needs world+render sources"),
+    ("spawner_ping", ["WORLD", "UI"], "native", ["Lunar Proxy"], "ping on chunk load; optional auto-disconnect is server-rules sensitive"),
     ("sus_chunk_finder", ["WORLD", "UI"], "native", ["Lunar Proxy"], "suspicious-chunk heuristics TBD"),
     ("bed_esp", ["RENDER", "WORLD"], "native", ["Apollon"], "needs world+render sources"),    ("waypoints", ["WORLD", "UI"], "native", ["Atlas", "Flarial"], "see world.waypoints"),
     ("minimap", ["WORLD", "UI"], "native", ["Atlas"], "see world.minimap"),
@@ -165,6 +175,12 @@ VISUAL = [
     ("particle_controls", ["RENDER"], "native", ["Atlas"], "needs particle path"),
     ("fog_controls", ["RENDER"], "native", ["Atlas", "BedrockTools"], "needs fog path"),
     ("camera_controls", ["RENDER"], "native", ["Lunar Proxy"], "needs camera path"),
+    ("block_outline", ["RENDER"], "native", ["Flarial"], "block outline color/style; needs render path"),
+    ("item_physics", ["RENDER"], "native", ["Flarial"], "dropped-item rotation; needs render path"),
+    ("nametag", ["RENDER"], "native", ["Flarial"], "third-person self nametag; needs render path"),
+    ("gui_scale", ["RENDER", "UI"], "native", ["Flarial"], "GUI scale beyond limits; needs render path"),
+    ("time_changer", ["RENDER"], "native", ["Flarial"], "client-side presentation; needs render path"),
+    ("weather_changer", ["RENDER"], "native", ["Flarial"], "client-side presentation; needs render path"),
 ]
 
 HUD = [
@@ -188,6 +204,18 @@ HUD = [
     ("notifications", ["UI"], "native", ["Flarial"], "event-driven; needs EventBus"),
     ("session_stats", ["UI"], "native", ["Flarial"], "local timers available"),
     ("server_info", ["UI"], "native", ["Flarial"], "needs connection source"),
+    ("entity_counter", ["UI"], "native", ["Flarial"], "needs client entity registry source"),
+    ("hardware_stats", ["UI"], "native", ["Flarial"], "device mem/CPU via OS APIs"),
+    ("inventory_hud", ["UI"], "native", ["Flarial"], "needs inventory source"),
+    ("ip_display", ["UI"], "native", ["Flarial"], "needs connection source"),
+    ("low_health", ["UI"], "native", ["Flarial"], "warning; needs health source"),
+    ("potion_hud", ["UI"], "native", ["Flarial"], "needs potion-effect source"),
+    ("speed_meter", ["UI"], "native", ["Flarial"], "needs movement source"),
+    ("stop_watch", ["UI"], "native", ["Flarial"], "local timer; no game source needed"),
+    ("subtitles", ["UI"], "native", ["Flarial"], "needs sound-event source"),
+    ("tab_list", ["UI"], "native", ["Flarial"], "needs player-list source"),
+    ("totem_counter", ["UI"], "native", ["Flarial"], "needs inventory source"),
+    ("movable_hud", ["UI"], "native", ["Flarial"], "editor feature; see hud editor"),
 ]
 
 NETWORK = [
@@ -239,7 +267,8 @@ MISC = [
     ("java_mode", ["UI"], "native", ["Lunar Proxy"], "client-side timings; Bedrock mapping TBD"),
     ("timer", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("disabler", ["PACKET"], "packet", ["Lunar Proxy"], "no verified packet API; server rules risk"),
-    ("skin_stealer", ["UI"], "native", ["Lunar Proxy"], "local display only; no account data"),
+    ("skin_stealer", ["UI"], "native", ["Lunar Proxy"], "Lunar claims server-visible wear; treat as server-authoritative until proven; never touch account data"),
+    ("anti_weather", ["RENDER"], "native", ["Lunar Proxy"], "hide rain/storms client-side; needs weather path"),
     ("fast_throw", ["HYBRID"], "native", ["Lunar Proxy"], "moved from player QoL set"),
     ("friends", ["UI"], "native", ["Xykell"], "local list; never inferred from private data"),
 ]
@@ -370,6 +399,84 @@ def humanize(suffix):
     return " ".join(w.capitalize() for w in suffix.replace("_", " ").split())
 
 
+def setting(key, type, default, description, min=None, max=None, options=None):
+    s = {"key": key, "type": type, "default": default, "description": description}
+    if min is not None:
+        s["min"] = min
+    if max is not None:
+        s["max"] = max
+    if options is not None:
+        s["options"] = options
+    return s
+
+
+def toggle():
+    return [setting("enabled", "bool", False, "master switch (gated by capability)")]
+
+
+SETTINGS_DEFAULTS = {
+    "COMBAT": lambda: toggle() + [
+        setting("range", "float", 4.5, "engagement range (blocks)", 1.0, 8.0),
+        setting("max_cps", "float", 10.0, "clicks per second cap", 1.0, 20.0),
+        setting("ignore_friends", "bool", True, "skip friend-list targets")],
+    "MOVEMENT": lambda: toggle() + [
+        setting("speed_multiplier", "float", 1.0, "speed factor", 0.1, 5.0)],
+    "PLAYER": lambda: toggle() + [
+        setting("cooldown_ms", "int", 500, "action cooldown", 0, 10000)],
+    "AUTOMATION": lambda: toggle() + [
+        setting("cooldown_ms", "int", 500, "action cooldown", 0, 10000),
+        setting("interruptible", "bool", True, "any input cancels")],
+    "WORLD": lambda: toggle() + [
+        setting("range", "int", 32, "scan/act radius (blocks)", 8, 128)],
+    "VISUAL": lambda: toggle() + [
+        setting("range", "int", 32, "render radius (blocks)", 8, 128),
+        setting("show_distance", "bool", True, "distance labels")],
+    "HUD": lambda: toggle() + [
+        setting("scale", "float", 1.0, "element scale", 0.5, 3.0),
+        setting("opacity", "float", 1.0, "element opacity", 0.0, 1.0)],
+    "NETWORK": lambda: toggle() + [
+        setting("interval_ms", "int", 1000, "sample interval", 100, 60000)],
+    "PERFORMANCE": lambda: toggle(),
+    "MISC": lambda: toggle(),
+    "SCRIPTING": lambda: toggle(),
+    "CLIENT": lambda: toggle(),
+    "LAUNCHER": lambda: toggle(),
+    "SERVER": lambda: toggle(),
+    "PROXY": lambda: toggle(),
+}
+
+SETTINGS_OVERRIDES = {
+    ("COMBAT", "kill_aura"): [setting("target_mode", "enum", "single",
+                                       "single or multi target", None, None,
+                                       ["single", "multi"])],
+    ("HUD", "fps"): [setting("show_graph", "bool", False, "frame-time graph")],
+    ("VISUAL", "zoom"): [setting("factor", "float", 3.0, "zoom factor", 1.5, 10.0)],
+    ("VISUAL", "esp"): [setting("box_color", "color", "#FF5555", "ESP box color")],
+    ("WORLD", "waypoints"): [setting("beacon", "bool", True, "HUD beacon marker")],
+}
+
+
+def settings_for(category, suffix):
+    base = [dict(s) for s in SETTINGS_DEFAULTS.get(category, lambda: toggle())()]
+    base += [dict(s) for s in SETTINGS_OVERRIDES.get((category, suffix), [])]
+    return base
+
+
+def risk_for(category, impl, notes):
+    low_notes = ("local-only", "local display only", "overlay redaction",
+                 "hides commands/chat", "device mem/CPU", "local timer")
+    if impl in ("packet", "script") or category == "COMBAT":
+        return "HIGH"
+    if any(n in notes for n in ("server rules", "server-visible", "server-authoritative")):
+        return "HIGH"
+    if any(n in notes for n in low_notes):
+        return "LOW"
+    if category in ("MOVEMENT", "WORLD", "AUTOMATION", "VISUAL", "PROXY",
+                    "SERVER", "NETWORK", "SCRIPTING"):
+        return "MEDIUM"
+    return "LOW"
+
+
 def main() -> None:
     entries = []
     for category, mods in CATEGORIES.items():
@@ -384,7 +491,8 @@ def main() -> None:
                 "status": PROVEN.get((category, suffix),
                                      RR if category != "SCRIPTING" else NI),
                 "requires": req,
-                "settings": [],
+                "settings": settings_for(category, suffix),
+                "risk_level": risk_for(category, impl, notes),
                 "platforms": ["android"],
                 "version_constraints": [],
                 "implementation": impl,

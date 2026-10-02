@@ -3,7 +3,7 @@
     "format": 1,
     "product": "Xykell Client",
     "generated_by": "scripts/registry/generate.py",
-    "count": 225
+    "count": 255
   },
   "features": [
     {
@@ -15,7 +15,15 @@
       "requires": [
         "LIFECYCLE"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -41,7 +49,15 @@
         "LIFECYCLE",
         "VERSION_STRING"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -67,7 +83,15 @@
         "LIFECYCLE",
         "CONFIG_DIRS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -95,7 +119,15 @@
         "LIFECYCLE",
         "CONFIG_DIRS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -122,7 +154,15 @@
         "LIFECYCLE",
         "CONFIG_DIRS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -147,7 +187,15 @@
       "requires": [
         "LIFECYCLE"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -173,7 +221,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -198,7 +254,37 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "key": "show_graph",
+          "type": "bool",
+          "default": false,
+          "description": "frame-time graph"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -225,7 +311,31 @@
       "requires": [
         "INPUT_SEMANTICS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -252,7 +362,31 @@
       "requires": [
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -278,7 +412,31 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -305,7 +463,31 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -330,7 +512,31 @@
       "requires": [
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -355,7 +561,31 @@
       "requires": [
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -380,7 +610,31 @@
       "requires": [
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -405,7 +659,31 @@
       "requires": [
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -430,7 +708,31 @@
       "requires": [
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -455,7 +757,31 @@
       "requires": [
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -480,7 +806,31 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -505,7 +855,31 @@
       "requires": [
         "INPUT_SEMANTICS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -532,7 +906,31 @@
       "requires": [
         "INPUT_SEMANTICS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -558,7 +956,31 @@
       "requires": [
         "ENTITY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -583,7 +1005,31 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -608,7 +1054,31 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -633,7 +1103,31 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -658,7 +1152,31 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -683,7 +1201,31 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -700,6 +1242,594 @@
       "notes": "needs connection source"
     },
     {
+      "id": "xykell.hud.entity_counter",
+      "name": "Entity Counter",
+      "category": "HUD",
+      "description": "needs client entity registry source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs client entity registry source"
+    },
+    {
+      "id": "xykell.hud.hardware_stats",
+      "name": "Hardware Stats",
+      "category": "HUD",
+      "description": "device mem/CPU via OS APIs",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "device mem/CPU via OS APIs"
+    },
+    {
+      "id": "xykell.hud.inventory_hud",
+      "name": "Inventory Hud",
+      "category": "HUD",
+      "description": "needs inventory source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs inventory source"
+    },
+    {
+      "id": "xykell.hud.ip_display",
+      "name": "Ip Display",
+      "category": "HUD",
+      "description": "needs connection source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs connection source"
+    },
+    {
+      "id": "xykell.hud.low_health",
+      "name": "Low Health",
+      "category": "HUD",
+      "description": "warning; needs health source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "warning; needs health source"
+    },
+    {
+      "id": "xykell.hud.potion_hud",
+      "name": "Potion Hud",
+      "category": "HUD",
+      "description": "needs potion-effect source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs potion-effect source"
+    },
+    {
+      "id": "xykell.hud.speed_meter",
+      "name": "Speed Meter",
+      "category": "HUD",
+      "description": "needs movement source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs movement source"
+    },
+    {
+      "id": "xykell.hud.stop_watch",
+      "name": "Stop Watch",
+      "category": "HUD",
+      "description": "local timer; no game source needed",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "local timer; no game source needed"
+    },
+    {
+      "id": "xykell.hud.subtitles",
+      "name": "Subtitles",
+      "category": "HUD",
+      "description": "needs sound-event source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs sound-event source"
+    },
+    {
+      "id": "xykell.hud.tab_list",
+      "name": "Tab List",
+      "category": "HUD",
+      "description": "needs player-list source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs player-list source"
+    },
+    {
+      "id": "xykell.hud.totem_counter",
+      "name": "Totem Counter",
+      "category": "HUD",
+      "description": "needs inventory source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "needs inventory source"
+    },
+    {
+      "id": "xykell.hud.movable_hud",
+      "name": "Movable Hud",
+      "category": "HUD",
+      "description": "editor feature; see hud editor",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "scale",
+          "type": "float",
+          "default": 1.0,
+          "description": "element scale",
+          "min": 0.5,
+          "max": 3.0
+        },
+        {
+          "key": "opacity",
+          "type": "float",
+          "default": 1.0,
+          "description": "element opacity",
+          "min": 0.0,
+          "max": 1.0
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "editor feature; see hud editor"
+    },
+    {
       "id": "xykell.performance.fps_limiter",
       "name": "Fps Limiter",
       "category": "PERFORMANCE",
@@ -708,7 +1838,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -735,7 +1873,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -762,7 +1908,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -787,7 +1941,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -812,7 +1974,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -837,7 +2007,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -862,7 +2040,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -888,7 +2074,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -913,7 +2107,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -938,7 +2140,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -963,7 +2173,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -988,7 +2206,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1014,7 +2240,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1039,7 +2273,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1064,7 +2306,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1089,7 +2339,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1114,7 +2372,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1139,7 +2405,15 @@
       "requires": [
         "FRAME"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -1166,7 +2440,35 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        },
+        {
+          "key": "box_color",
+          "type": "color",
+          "default": "#FF5555",
+          "description": "ESP box color"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1192,7 +2494,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1219,7 +2543,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1245,7 +2591,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1271,7 +2639,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1297,7 +2687,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1323,7 +2735,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1350,7 +2784,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1377,7 +2833,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1405,7 +2883,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1433,7 +2933,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1459,7 +2981,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1485,7 +3029,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1511,7 +3077,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1537,7 +3125,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1563,7 +3173,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1591,7 +3223,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1618,7 +3272,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1645,7 +3321,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1663,6 +3361,55 @@
       "notes": "needs world+render sources"
     },
     {
+      "id": "xykell.visual.spawner_ping",
+      "name": "Spawner Ping",
+      "category": "VISUAL",
+      "description": "ping on chunk load; optional auto-disconnect is server-rules sensitive",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "ping on chunk load; optional auto-disconnect is server-rules sensitive"
+    },
+    {
       "id": "xykell.visual.sus_chunk_finder",
       "name": "Sus Chunk Finder",
       "category": "VISUAL",
@@ -1672,7 +3419,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1699,7 +3468,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1726,7 +3517,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1754,7 +3567,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1781,7 +3616,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1808,7 +3665,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1835,7 +3714,37 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        },
+        {
+          "key": "factor",
+          "type": "float",
+          "default": 3.0,
+          "description": "zoom factor",
+          "min": 1.5,
+          "max": 10.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1864,7 +3773,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1890,7 +3821,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1916,7 +3869,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1944,7 +3919,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1970,7 +3967,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -1996,7 +4015,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2023,7 +4064,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2040,6 +4103,295 @@
       "notes": "needs camera path"
     },
     {
+      "id": "xykell.visual.block_outline",
+      "name": "Block Outline",
+      "category": "VISUAL",
+      "description": "block outline color/style; needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "block outline color/style; needs render path"
+    },
+    {
+      "id": "xykell.visual.item_physics",
+      "name": "Item Physics",
+      "category": "VISUAL",
+      "description": "dropped-item rotation; needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "dropped-item rotation; needs render path"
+    },
+    {
+      "id": "xykell.visual.nametag",
+      "name": "Nametag",
+      "category": "VISUAL",
+      "description": "third-person self nametag; needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "third-person self nametag; needs render path"
+    },
+    {
+      "id": "xykell.visual.gui_scale",
+      "name": "Gui Scale",
+      "category": "VISUAL",
+      "description": "GUI scale beyond limits; needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "GUI scale beyond limits; needs render path"
+    },
+    {
+      "id": "xykell.visual.time_changer",
+      "name": "Time Changer",
+      "category": "VISUAL",
+      "description": "client-side presentation; needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "client-side presentation; needs render path"
+    },
+    {
+      "id": "xykell.visual.weather_changer",
+      "name": "Weather Changer",
+      "category": "VISUAL",
+      "description": "client-side presentation; needs render path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "WORLD"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "render radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "show_distance",
+          "type": "bool",
+          "default": true,
+          "description": "distance labels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "client-side presentation; needs render path"
+    },
+    {
       "id": "xykell.player.inventory_manager",
       "name": "Inventory Manager",
       "category": "PLAYER",
@@ -2049,7 +4401,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2076,7 +4444,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2102,7 +4486,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2128,7 +4528,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2154,7 +4570,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2180,7 +4612,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2206,7 +4654,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2232,7 +4696,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2258,7 +4738,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2284,7 +4780,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2311,7 +4823,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2337,7 +4865,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2365,7 +4909,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2391,7 +4951,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2417,7 +4993,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -2443,7 +5035,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -2460,6 +5068,48 @@
       "notes": "rate-limited; server rules risk"
     },
     {
+      "id": "xykell.player.mod_alerts",
+      "name": "Mod Alerts",
+      "category": "PLAYER",
+      "description": "server-specific mod lists (e.g. Lifeboat/DonutSMP)",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "server-specific mod lists (e.g. Lifeboat/DonutSMP)"
+    },
+    {
       "id": "xykell.movement.sprint",
       "name": "Sprint",
       "category": "MOVEMENT",
@@ -2469,7 +5119,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2496,7 +5162,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2523,7 +5205,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2550,7 +5248,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2576,7 +5290,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2602,7 +5332,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2628,7 +5374,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -2655,7 +5417,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2681,7 +5459,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2707,7 +5501,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2733,7 +5543,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2759,7 +5585,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2785,7 +5627,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2811,7 +5669,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2838,7 +5712,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2864,7 +5754,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2890,7 +5796,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2916,7 +5838,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2942,7 +5880,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2968,7 +5922,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -2994,7 +5964,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -3020,7 +6006,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3047,7 +6049,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -3073,7 +6091,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -3099,7 +6133,23 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "speed_multiplier",
+          "type": "float",
+          "default": 1.0,
+          "description": "speed factor",
+          "min": 0.1,
+          "max": 5.0
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -3125,7 +6175,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3151,7 +6231,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3179,7 +6289,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3205,7 +6345,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3231,7 +6401,47 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        },
+        {
+          "key": "target_mode",
+          "type": "enum",
+          "default": "single",
+          "description": "single or multi target",
+          "options": [
+            "single",
+            "multi"
+          ]
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3258,7 +6468,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3284,7 +6524,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3311,7 +6581,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3337,7 +6637,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3364,7 +6694,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3390,7 +6750,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3416,7 +6806,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3443,7 +6863,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3469,7 +6919,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3495,7 +6975,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3521,7 +7031,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3547,7 +7087,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3573,7 +7143,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3599,7 +7199,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3625,7 +7255,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3651,7 +7311,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3677,7 +7367,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3703,7 +7423,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3729,7 +7479,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3755,7 +7535,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3782,7 +7592,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3809,7 +7649,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3835,7 +7705,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3861,7 +7761,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3887,7 +7817,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3913,7 +7873,37 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "float",
+          "default": 4.5,
+          "description": "engagement range (blocks)",
+          "min": 1.0,
+          "max": 8.0
+        },
+        {
+          "key": "max_cps",
+          "type": "float",
+          "default": 10.0,
+          "description": "clicks per second cap",
+          "min": 1.0,
+          "max": 20.0
+        },
+        {
+          "key": "ignore_friends",
+          "type": "bool",
+          "default": true,
+          "description": "skip friend-list targets"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3939,7 +7929,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3966,7 +7972,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -3992,7 +8014,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4018,7 +8056,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4044,7 +8098,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4070,7 +8140,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4097,7 +8183,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4124,7 +8226,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4152,7 +8270,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4179,7 +8313,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4207,7 +8357,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4234,7 +8400,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4261,7 +8443,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4288,7 +8486,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4315,7 +8529,29 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        },
+        {
+          "key": "beacon",
+          "type": "bool",
+          "default": true,
+          "description": "HUD beacon marker"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4343,7 +8579,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4370,7 +8622,23 @@
         "FRAME",
         "WORLD"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "range",
+          "type": "int",
+          "default": 32,
+          "description": "scan/act radius (blocks)",
+          "min": 8,
+          "max": 128
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4398,7 +8666,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4424,7 +8714,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4451,7 +8763,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4477,7 +8811,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4503,7 +8859,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4529,7 +8907,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4555,7 +8955,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4581,7 +9003,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4607,7 +9051,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4633,7 +9099,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4659,7 +9147,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4685,7 +9195,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4711,7 +9243,29 @@
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -4731,13 +9285,35 @@
       "id": "xykell.automation.ghost",
       "name": "Ghost",
       "category": "AUTOMATION",
-      "description": "interaction semantics TBD",
+      "description": "Lunar Ghost hides commands/chat for recording \u2014 NOT phase-through",
       "status": "RESEARCH_REQUIRED",
       "requires": [
         "FRAME",
         "PLAYER"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -4751,7 +9327,444 @@
         "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "interaction semantics TBD"
+      "notes": "Lunar Ghost hides commands/chat for recording \u2014 NOT phase-through"
+    },
+    {
+      "id": "xykell.automation.auto_tool_swap",
+      "name": "Auto Tool Swap",
+      "category": "AUTOMATION",
+      "description": "best-tool-for-target-block; distinct from auto_tool",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "best-tool-for-target-block; distinct from auto_tool"
+    },
+    {
+      "id": "xykell.automation.auto_gg",
+      "name": "Auto Gg",
+      "category": "AUTOMATION",
+      "description": "server-specific win messages (Hive/Zeqa/CubeCraft/Lifeboat/Galaxite/Mineville)",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "server-specific win messages (Hive/Zeqa/CubeCraft/Lifeboat/Galaxite/Mineville)"
+    },
+    {
+      "id": "xykell.automation.command_hotkey",
+      "name": "Command Hotkey",
+      "category": "AUTOMATION",
+      "description": "shortcut buttons send commands",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "shortcut buttons send commands"
+    },
+    {
+      "id": "xykell.automation.text_hotkey",
+      "name": "Text Hotkey",
+      "category": "AUTOMATION",
+      "description": "shortcut buttons send chat text",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "INPUT",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "shortcut buttons send chat text"
+    },
+    {
+      "id": "xykell.automation.death_logger",
+      "name": "Death Logger",
+      "category": "AUTOMATION",
+      "description": "logs death coords; needs death source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "logs death coords; needs death source"
+    },
+    {
+      "id": "xykell.automation.inventory_lock",
+      "name": "Inventory Lock",
+      "category": "AUTOMATION",
+      "description": "lock items from being dropped",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "lock items from being dropped"
+    },
+    {
+      "id": "xykell.automation.item_tracker",
+      "name": "Item Tracker",
+      "category": "AUTOMATION",
+      "description": "picked/dropped item display",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "HYBRID",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "picked/dropped item display"
+    },
+    {
+      "id": "xykell.automation.tnt_timer",
+      "name": "Tnt Timer",
+      "category": "AUTOMATION",
+      "description": "TNT countdown; needs world source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "WORLD",
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "TNT countdown; needs world source"
+    },
+    {
+      "id": "xykell.automation.player_notifier",
+      "name": "Player Notifier",
+      "category": "AUTOMATION",
+      "description": "notify when a player is on server; needs player-list source",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "FRAME",
+        "PLAYER"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "cooldown_ms",
+          "type": "int",
+          "default": 500,
+          "description": "action cooldown",
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "key": "interruptible",
+          "type": "bool",
+          "default": true,
+          "description": "any input cancels"
+        }
+      ],
+      "risk_level": "MEDIUM",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Flarial"
+      ],
+      "evidence": "",
+      "notes": "notify when a player is on server; needs player-list source"
     },
     {
       "id": "xykell.network.ping",
@@ -4762,7 +9775,23 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "interval_ms",
+          "type": "int",
+          "default": 1000,
+          "description": "sample interval",
+          "min": 100,
+          "max": 60000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4789,7 +9818,23 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "interval_ms",
+          "type": "int",
+          "default": 1000,
+          "description": "sample interval",
+          "min": 100,
+          "max": 60000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4815,7 +9860,23 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "interval_ms",
+          "type": "int",
+          "default": 1000,
+          "description": "sample interval",
+          "min": 100,
+          "max": 60000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4841,7 +9902,23 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "interval_ms",
+          "type": "int",
+          "default": 1000,
+          "description": "sample interval",
+          "min": 100,
+          "max": 60000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4867,7 +9944,23 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "interval_ms",
+          "type": "int",
+          "default": 1000,
+          "description": "sample interval",
+          "min": 100,
+          "max": 60000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4894,7 +9987,23 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        },
+        {
+          "key": "interval_ms",
+          "type": "int",
+          "default": 1000,
+          "description": "sample interval",
+          "min": 100,
+          "max": 60000
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4920,7 +10029,15 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4945,7 +10062,15 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4972,7 +10097,15 @@
       "requires": [
         "SCRIPTING"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -4997,7 +10130,15 @@
       "requires": [
         "SCRIPTING"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -5022,7 +10163,15 @@
       "requires": [
         "SCRIPTING"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -5047,7 +10196,15 @@
       "requires": [
         "SCRIPTING"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -5073,7 +10230,15 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -5098,7 +10263,15 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -5123,7 +10296,15 @@
       "requires": [
         "PACKET"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "MEDIUM",
       "platforms": [
         "android"
       ],
@@ -5148,7 +10329,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5173,7 +10362,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5198,7 +10395,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5223,7 +10428,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5248,7 +10461,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5273,7 +10494,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5298,7 +10527,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5324,7 +10561,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5349,7 +10594,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5374,7 +10627,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5399,7 +10660,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5424,7 +10693,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5449,7 +10726,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5474,7 +10759,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5499,7 +10792,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5525,7 +10826,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5550,7 +10859,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5575,7 +10892,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -5595,12 +10920,20 @@
       "id": "xykell.misc.skin_stealer",
       "name": "Skin Stealer",
       "category": "MISC",
-      "description": "local display only; no account data",
+      "description": "Lunar claims server-visible wear; treat as server-authoritative until proven; never touch account data",
       "status": "RESEARCH_REQUIRED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "HIGH",
       "platforms": [
         "android"
       ],
@@ -5614,7 +10947,40 @@
         "Lunar Proxy"
       ],
       "evidence": "",
-      "notes": "local display only; no account data"
+      "notes": "Lunar claims server-visible wear; treat as server-authoritative until proven; never touch account data"
+    },
+    {
+      "id": "xykell.misc.anti_weather",
+      "name": "Anti Weather",
+      "category": "MISC",
+      "description": "hide rain/storms client-side; needs weather path",
+      "status": "RESEARCH_REQUIRED",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "RENDER"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Lunar Proxy"
+      ],
+      "evidence": "",
+      "notes": "hide rain/storms client-side; needs weather path"
     },
     {
       "id": "xykell.misc.fast_throw",
@@ -5625,7 +10991,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5650,7 +11024,15 @@
       "requires": [
         "OVERLAY_DELIVERY"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5673,7 +11055,15 @@
       "description": "disabled until verified launch action",
       "status": "PARTIAL",
       "requires": [],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5696,7 +11086,15 @@
       "description": "integrate Levi version management",
       "status": "NOT_IMPLEMENTED",
       "requires": [],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5723,7 +11121,15 @@
         "LIFECYCLE",
         "CONFIG_DIRS"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5746,7 +11152,15 @@
       "description": "integrate Levi content management",
       "status": "NOT_IMPLEMENTED",
       "requires": [],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5770,7 +11184,15 @@
       "description": "integrate Levi content management",
       "status": "NOT_IMPLEMENTED",
       "requires": [],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5794,7 +11216,15 @@
       "description": "user configuration only",
       "status": "NOT_IMPLEMENTED",
       "requires": [],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5817,7 +11247,15 @@
       "description": "native-backed settings pending",
       "status": "NOT_IMPLEMENTED",
       "requires": [],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],
@@ -5842,7 +11280,15 @@
       "requires": [
         "LIFECYCLE"
       ],
-      "settings": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
       "platforms": [
         "android"
       ],

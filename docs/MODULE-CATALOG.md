@@ -1,6 +1,6 @@
 # Xykell module catalog
 
-Generated from `registry/features.json` (225 entries).
+Generated from `registry/features.json` (255 entries).
 Statuses are audit truth, not marketing: a toggle existing never
 implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 
@@ -9,13 +9,13 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - SUPPORTED: 0
 - PARTIAL: 8
 - BLOCKED: 0
-- RESEARCH_REQUIRED: 205
+- RESEARCH_REQUIRED: 235
 - INCOMPATIBLE: 0
 - NOT_IMPLEMENTED: 12
 
 ## By category
 
-### AUTOMATION (14)
+### AUTOMATION (23)
 
 - `xykell.automation.auto_eat` — Auto Eat: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.automation.auto_fish` — Auto Fish: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
@@ -31,6 +31,15 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.automation.inventory_cleaner` — Inventory Cleaner: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.automation.no_break_delay` — No Break Delay: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.automation.ghost` — Ghost: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.auto_tool_swap` — Auto Tool Swap: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.auto_gg` — Auto Gg: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.command_hotkey` — Command Hotkey: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.text_hotkey` — Text Hotkey: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.death_logger` — Death Logger: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.inventory_lock` — Inventory Lock: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.item_tracker` — Item Tracker: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.tnt_timer` — Tnt Timer: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.automation.player_notifier` — Player Notifier: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 
 ### CLIENT (7)
 
@@ -76,7 +85,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.combat.auto_log` — Auto Log: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.combat.mob_aura` — Mob Aura: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 
-### HUD (20)
+### HUD (32)
 
 - `xykell.hud.fps` — Fps: **RESEARCH_REQUIRED** (requires FRAME; evidence: no runtime evidence)
 - `xykell.hud.cps` — Cps: **RESEARCH_REQUIRED** (requires INPUT_SEMANTICS; evidence: no runtime evidence)
@@ -98,6 +107,18 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.hud.notifications` — Notifications: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.session_stats` — Session Stats: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.server_info` — Server Info: **RESEARCH_REQUIRED** (requires PACKET; evidence: no runtime evidence)
+- `xykell.hud.entity_counter` — Entity Counter: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.hardware_stats` — Hardware Stats: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.inventory_hud` — Inventory Hud: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.ip_display` — Ip Display: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.low_health` — Low Health: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.potion_hud` — Potion Hud: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.speed_meter` — Speed Meter: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.stop_watch` — Stop Watch: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.subtitles` — Subtitles: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.tab_list` — Tab List: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.totem_counter` — Totem Counter: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.movable_hud` — Movable Hud: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 
 ### LAUNCHER (8)
 
@@ -110,7 +131,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.launcher.settings` — Settings: **NOT_IMPLEMENTED** (requires -; evidence: no runtime evidence)
 - `xykell.launcher.diagnostics` — Diagnostics: **PARTIAL** (requires LIFECYCLE; evidence: Batch 5: probe-report ModMenu module; host test_probe)
 
-### MISC (21)
+### MISC (22)
 
 - `xykell.misc.streamer_mode` — Streamer Mode: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.misc.privacy_mode` — Privacy Mode: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
@@ -131,6 +152,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.misc.timer` — Timer: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.misc.disabler` — Disabler: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.misc.skin_stealer` — Skin Stealer: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.misc.anti_weather` — Anti Weather: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.misc.fast_throw` — Fast Throw: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.misc.friends` — Friends: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 
@@ -192,7 +214,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.performance.low_end_mode` — Low End Mode: **RESEARCH_REQUIRED** (requires FRAME; evidence: no runtime evidence)
 - `xykell.performance.render_distance` — Render Distance: **RESEARCH_REQUIRED** (requires FRAME; evidence: no runtime evidence)
 
-### PLAYER (16)
+### PLAYER (17)
 
 - `xykell.player.inventory_manager` — Inventory Manager: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.player.fast_eat` — Fast Eat: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
@@ -210,6 +232,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.player.nickname` — Nickname: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.player.fake_stats` — Fake Stats: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 - `xykell.player.spam` — Spam: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
+- `xykell.player.mod_alerts` — Mod Alerts: **RESEARCH_REQUIRED** (requires FRAME,PLAYER; evidence: no runtime evidence)
 
 ### PROXY (2)
 
@@ -229,7 +252,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.server.saved` — Saved: **RESEARCH_REQUIRED** (requires PACKET; evidence: no runtime evidence)
 - `xykell.server.profile` — Profile: **RESEARCH_REQUIRED** (requires PACKET; evidence: no runtime evidence)
 
-### VISUAL (33)
+### VISUAL (40)
 
 - `xykell.visual.esp` — Esp: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.player_esp` — Player Esp: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
@@ -250,6 +273,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.visual.new_chunks` — New Chunks: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.hole_esp` — Hole Esp: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.spawner_esp` — Spawner Esp: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.spawner_ping` — Spawner Ping: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.sus_chunk_finder` — Sus Chunk Finder: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.bed_esp` — Bed Esp: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.waypoints` — Waypoints: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
@@ -264,6 +288,12 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.visual.particle_controls` — Particle Controls: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.fog_controls` — Fog Controls: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 - `xykell.visual.camera_controls` — Camera Controls: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.block_outline` — Block Outline: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.item_physics` — Item Physics: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.nametag` — Nametag: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.gui_scale` — Gui Scale: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.time_changer` — Time Changer: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
+- `xykell.visual.weather_changer` — Weather Changer: **RESEARCH_REQUIRED** (requires FRAME,WORLD; evidence: no runtime evidence)
 
 ### WORLD (17)
 

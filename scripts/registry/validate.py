@@ -17,8 +17,9 @@ KNOWN_CAPS = {"LIFECYCLE", "SHUTDOWN", "CONFIG_DIRS", "INPUT_TRANSPORT",
               "VERSION_STRING", "VERSION_POLICY", "CONFIG_STORE",
               "PROFILE_STORE", "CRASHGUARD", "SCRIPTING", "PROXY"}
 REQUIRED = {"id", "name", "category", "description", "status", "requires",
-            "settings", "platforms", "version_constraints", "implementation",
-            "capabilities", "versions", "sourceReferences", "evidence", "notes"}
+            "settings", "risk_level", "platforms", "version_constraints",
+            "implementation", "capabilities", "versions", "sourceReferences",
+            "evidence", "notes"}
 
 
 def main() -> int:
@@ -60,6 +61,15 @@ def main() -> int:
                 f.get("platforms"), list) or not isinstance(
                 f.get("version_constraints"), list):
             errors.append(f"[{i}] settings/platforms/version_constraints must be lists")
+        if f.get("risk_level") not in ("LOW", "MEDIUM", "HIGH"):
+            errors.append(f"[{i}] bad risk_level {f.get('risk_level')}")
+        for s in f.get("settings", []):
+            if not isinstance(s, dict) or not {"key", "type", "default",
+                                               "description"} <= set(s):
+                errors.append(f"[{i}] bad setting shape in {f.get('id')}")
+                break
+            if s["type"] not in ("bool", "int", "float", "enum", "string", "color"):
+                errors.append(f"[{i}] bad setting type {s['type']}")
         if not isinstance(f.get("versions"), list) or not isinstance(f.get("sourceReferences"), list):
             errors.append(f"[{i}] versions/sourceReferences must be lists")
     if errors:
