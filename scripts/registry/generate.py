@@ -47,7 +47,7 @@ COMBAT = [
 
 MOVEMENT = [
     ("sprint", ["INPUT"], "native", ["Flarial", "Lunar Proxy"], "locality TBD"),
-    ("auto_sprint", ["INPUT"], "native", ["Lunar Proxy", "Flarial"], "locality TBD"),
+    ("auto_sprint", ["INPUT"], "native", ["Lunar Proxy", "Flarial"], "locality TBD; Levi inbuilt AutoSprint exists — integrate, do not duplicate"),
     ("speed", ["HYBRID"], "native", ["Lunar Proxy", "Apollon"], "locality TBD"),
     ("no_slow", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
     ("step", ["HYBRID"], "native", ["Lunar Proxy"], "locality TBD"),
@@ -180,7 +180,7 @@ HUD = [
 
 UTILITY = [
     ("quick_perspective", ["RENDER", "INPUT"], "native", ["Atlas"], "needs camera path"),
-    ("quick_drop", ["INPUT"], "native", ["Atlas"], "needs input path"),
+    ("quick_drop", ["INPUT"], "native", ["Atlas"], "needs input path; Levi inbuilt Quick Drop exists — integrate, do not duplicate"),
     ("hide_hud", ["UI"], "native", ["Atlas"], "overlay clear available"),
     ("toggle_sprint", ["INPUT"], "native", ["Flarial"], "locality TBD"),
     ("toggle_sneak", ["INPUT"], "native", ["Flarial"], "locality TBD"),

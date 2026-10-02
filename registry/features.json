@@ -773,7 +773,7 @@
       "id": "movement.auto_sprint",
       "name": "Auto Sprint",
       "category": "movement",
-      "description": "locality TBD",
+      "description": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate",
       "status": "RESEARCH_REQUIRED",
       "requires": [
         "FRAME",
@@ -794,7 +794,7 @@
         "Flarial"
       ],
       "evidence": "",
-      "notes": "locality TBD"
+      "notes": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate"
     },
     {
       "id": "movement.speed",
@@ -3881,7 +3881,7 @@
       "id": "utility.quick_drop",
       "name": "Quick Drop",
       "category": "utility",
-      "description": "needs input path",
+      "description": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate",
       "status": "RESEARCH_REQUIRED",
       "requires": [
         "FRAME"
@@ -3900,7 +3900,7 @@
         "Atlas"
       ],
       "evidence": "",
-      "notes": "needs input path"
+      "notes": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate"
     },
     {
       "id": "utility.hide_hud",
