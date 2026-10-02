@@ -1,13 +1,13 @@
 # Launcher integration (bridges + honest gaps)
 
-## Native store bridge
-The launcher app and the Levi game process are separate Android sandboxes:
-no JNI path can reach Levi's dirs, so no JNI bridge is built (it would only
-read a second store — forbidden). Integration instead:
-- Export/import profile JSON through app-visible files (`Profiles` screen,
-  SAF picker + external files dir, corrupt imports rejected). Native store
-  stays authoritative; launcher states the separation on-screen.
-- Registry browser reads the same `registry/features.json` (build-time asset).
+## Native store bridge (Batch 7: shared code, separate roots)
+`app/src/main/cpp/` compiles the SAME ProfileManager/json_min/file_util
+sources as the game module (one implementation, no duplication) behind a thin
+JNI facade (`NativeProfiles`). The `Profiles` screen is now native-backed:
+list/active/export/import all execute real C++ validation; corrupt imports
+are rejected natively. Stores remain per-sandbox (Android app vs Levi game
+process) — sync travels via export files. JNI runtime itself is
+DEVICE_PENDING (compiles in CI; first launch proves `loadLibrary`).
 
 ## PLAY / Quick Launch verdict
 Levi Quick Launch = Minecraft URI actions (screens/servers/Realms/worlds).

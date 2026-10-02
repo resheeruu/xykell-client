@@ -1,10 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+- Batch 7: symbol census of 1.26.45.1 libminecraftpe (90,545 defined dynsyms,
+  zero game-namespace exports — signature derivation is the only path), JNI
+  bridge (shared ProfileManager in app, native-backed Profiles screen),
+  Levi-dup registry notes, device verification doc, Quick Launch verdict.
+  16/16 suites PASS.
 - Batch 6: load checkpoints (12 stages, exact failure reports), signature
-  pipeline infra (pattern/scan/validate/database, empty by design), Quick
+  pipeline infra (pattern/scan/validate, empty by design), Quick
   Launch verdict (URIs address the game, not launcher config — PLAY stays
-  disabled), launcher SAF export/import, CI size audit, INCOMPATIBLE state.
+  disabled), launcher SAF export-import, CI size audit, INCOMPATIBLE state.
   16/16 suites PASS. New docs: SIGNATURE-PIPELINE, SERVICES,
   LAUNCHER-INTEGRATION, MODULE-IMPLEMENTATION-STATUS.
 - Batch 5: runtime diagnostics ModMenu module (probe report text), 1.26.45
