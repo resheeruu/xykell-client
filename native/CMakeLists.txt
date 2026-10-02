@@ -16,6 +16,7 @@ add_library(
     xykell
     SHARED
     src/xykell.cpp
+    src/xykell_core.cpp
 )
 
 target_include_directories(
