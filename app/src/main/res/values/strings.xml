@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Xykell Client</string>
+
+    <!-- Theme picker (Batch 10) -->
+    <string name="themes_title">Themes</string>
+    <string name="themes_active_label">Active theme</string>
+    <string name="themes_status_label">Theme status</string>
+    <string name="themes_reset">RESET TO DEFAULT THEME</string>
+    <string name="themes_unavailable">Themes unavailable — native bridge missing. Showing compiled default palette.</string>
+    <string name="themes_unknown">unset</string>
+    <string name="themes_active_badge">ACTIVE</string>
+    <string name="themes_bad_tokens">Theme \"%1$s\" has unreadable tokens — selection not applied.</string>
+    <string name="themes_rejected">Theme \"%1$s\" rejected by settings validation — selection not applied.</string>
+    <string name="themes_reset_failed">Reset failed — settings store unavailable.</string>
 </resources>

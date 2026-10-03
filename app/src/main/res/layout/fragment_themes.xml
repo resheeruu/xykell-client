@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/themes_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/themes_title" />
+
+    <TextView
+        android:id="@+id/themes_active"
+        style="@style/XykellStatus"
+        android:contentDescription="@string/themes_active_label" />
+
+    <TextView
+        android:id="@+id/themes_status"
+        style="@style/XykellStatus"
+        android:contentDescription="@string/themes_status_label" />
+
+    <LinearLayout
+        android:id="@+id/themes_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/themes_reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
+        android:text="@string/themes_reset" />
+
+</LinearLayout>

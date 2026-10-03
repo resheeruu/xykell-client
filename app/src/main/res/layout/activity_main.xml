@@ -52,6 +52,10 @@
             style="@style/XykellNavButton"
             android:text="Profiles" />
         <Button
+            android:id="@+id/nav_themes"
+            style="@style/XykellNavButton"
+            android:text="Themes" />
+        <Button
             android:id="@+id/nav_settings"
             style="@style/XykellNavButton"
             android:text="Settings" />

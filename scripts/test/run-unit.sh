@@ -43,6 +43,9 @@ run_case test_gui_model "$ROOT/tests/unit/test_gui_model.cpp" "$SRC/xykell_json_
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_clickgui_model.cpp"
 run_case test_hud_theme "$ROOT/tests/unit/test_hud_theme.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_hud_model.cpp" "$SRC/xykell_theme.cpp"
+run_case test_theme_settings "$ROOT/tests/unit/test_theme_settings.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_file_util.cpp" \
+    "$SRC/xykell_config_store.cpp" "$SRC/xykell_theme.cpp"
 run_case test_hud_editor "$ROOT/tests/unit/test_hud_editor.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_hud_model.cpp"
 run_case test_hud_sources "$ROOT/tests/unit/test_hud_sources.cpp" "$SRC/xykell_json_min.cpp" \
@@ -103,5 +106,11 @@ run_case test_runtime_session "$ROOT/tests/unit/test_runtime_session.cpp" \
 run_case test_runtime_observation "$ROOT/tests/unit/test_runtime_observation.cpp"
 run_case test_observation_consumer "$ROOT/tests/unit/test_observation_consumer.cpp"
 run_case test_observation_source "$ROOT/tests/unit/test_observation_source.cpp"
-echo "UNIT: $pass/33 suites PASS"
+# Count is enforced: a silently dropped suite is a coverage regression.
+EXPECTED_SUITES=34
+if [ "$pass" -ne "$EXPECTED_SUITES" ]; then
+    echo "UNIT: FAIL — ran $pass suites, expected $EXPECTED_SUITES" >&2
+    exit 1
+fi
+echo "UNIT: $pass/$EXPECTED_SUITES suites PASS"
 rm -rf "$WORK"

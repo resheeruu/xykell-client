@@ -47,7 +47,7 @@ PlayerMessage/PlayerTravelled; nothing else has a source).
 | U-ZOOM | visual | Atlas/Flarial | FOV zoom | render/input hook | native load path | RESEARCH_REQUIRED | none | per-version sigs | GUARDED | native provider LAB-GATED |
 | U-CHAT | social | multi-ref | timestamps/filtering | chat customize on observed messages | PlayerMessage source (proven) | RESEARCH_REQUIRED | none | live source | LOW | production live source absent |
 | U-NOTIFY | ui | multi-ref | toasts | notifications.h exists | none | IMPLEMENTED | AUTOMATED | none | LOW | wiring to UI |
-| U-THEME | ui | multi-ref | 2 built-ins + JSON | theme.h | files | IMPLEMENTED (Batch 9: 7 builtins — Dark/Light/AMOLED/Minimal/Midnight/Aurora/Crimson + elevated/border/hudAccent tokens, old-JSON compatible) | AUTOMATED (test_hud_theme) | none | LOW | picker UI via existing profile-JSON JNI round-trip = next batch |
+| U-THEME | ui | multi-ref | 2 built-ins + JSON | theme.h | files | IMPLEMENTED (Batch 9: 7 builtins — Dark/Light/AMOLED/Minimal/Midnight/Aurora/Crimson + elevated/border/hudAccent tokens, old-JSON compatible; Batch 10: in-app picker — NativeThemes JNI, ThemesFragment rows with swatches, persists via validated client.theme, restore on launch) | AUTOMATED (test_hud_theme, test_theme_settings, ThemeColorsTest on CI) | smoke: pick each theme on device | LOW | — |
 | U-WIDGET | hud | multi-ref | drag/scale/visibility | hud editor state machine | touch host | IMPLEMENTED (Batch 8: editor fragment w/ element rows, preview, profile save, reset, module toggles; grid-snap in native) | AUTOMATED (test_hud_editor + HudPreviewTest on CI) | smoke: touch edit | LOW | on-screen drag-over-game deferred (device) |
 
 ## Tier 3 — UX (shell-first, largely buildable)

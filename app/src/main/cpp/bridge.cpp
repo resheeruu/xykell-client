@@ -16,6 +16,7 @@
 #include "xykell/config_store.h"
 #include "xykell/hud_model.h"
 #include "xykell/settings.h"
+#include "xykell/theme.h"
 
 namespace {
 
@@ -620,6 +621,40 @@ Java_dev_xykell_client_NativeHud_setProfileModule(JNIEnv* env, jclass, jstring r
         return static_cast<jboolean>(saveHud(toStd(env, root), p, err));
     } catch (...) {
         return JNI_FALSE;
+    }
+}
+
+// Theme picker bridge (Batch 10). Confined to the builtin theme registry:
+// names + serialized token sets, read-only. The active theme is stored
+// through the validated settings bridge (client.theme), never here.
+JNIEXPORT jobjectArray JNICALL
+Java_dev_xykell_client_NativeThemes_listThemes(JNIEnv* env, jclass) {
+    jclass strCls = env->FindClass("java/lang/String");
+    try {
+        const auto& themes = xykell::ui::ThemeManager::builtins();
+        jobjectArray arr =
+            env->NewObjectArray(static_cast<jsize>(themes.size()), strCls, nullptr);
+        for (jsize i = 0; i < static_cast<jsize>(themes.size()); ++i) {
+            jstring s = toJni(env, themes[static_cast<std::size_t>(i)].name);
+            env->SetObjectArrayElement(arr, i, s);
+            env->DeleteLocalRef(s);
+        }
+        return arr;
+    } catch (...) {
+        return env->NewObjectArray(0, strCls, nullptr);
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeThemes_themeTokens(JNIEnv* env, jclass, jstring name) {
+    try {
+        xykell::ui::Theme t;
+        if (!xykell::ui::ThemeManager::find(toStd(env, name), t)) {
+            return nullptr;  // unknown theme: caller keeps its current palette
+        }
+        return toJni(env, xykell::json::stringify(t.serialize()));
+    } catch (...) {
+        return nullptr;
     }
 }
 

@@ -27,6 +27,10 @@ quality, final release smoke. Everything else MUST be automated and CI.
 
 - [ ] Startup animation smooth on test device; reduced-motion honored
 - [ ] Theme switching coherent across all screens
+- [ ] Batch 10 theme picker: all 7 builtin rows show swatches + ACTIVE
+      marker on the active theme; selecting one re-themes immediately and
+      survives app restart; RESET TO DEFAULT returns to Xykell Dark;
+      invalid stored value falls back to default palette without crash
 - [ ] Touch targets ≥48dp; contrast readable; typography consistent
 - [ ] Empty/loading/error states render (airplane mode, no Minecraft,
       corrupt config, storage denied)

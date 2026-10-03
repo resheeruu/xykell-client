@@ -39,7 +39,9 @@ inline json::Value t(const char* v) { return json::Value(std::string(v)); }
 inline const std::vector<SettingSpec>& catalog() {
     static const std::vector<SettingSpec> kSpecs = {
         {"client", "theme", SettingType::Choice, t("Xykell Dark"), 0, 0,
-         {"Xykell Dark", "Xykell Midnight", "Xykell Minimal"}, "active theme"},
+         {"Xykell Dark", "Xykell Light", "Xykell AMOLED", "Xykell Minimal",
+          "Xykell Midnight", "Xykell Aurora", "Xykell Crimson"},
+         "active theme"},
         {"client", "animations", SettingType::Bool, b(true), 0, 0, {},
          "master animation switch"},
         {"client", "animation_intensity", SettingType::Int, i(100), 0, 100, {},
