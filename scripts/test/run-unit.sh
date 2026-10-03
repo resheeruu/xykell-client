@@ -81,6 +81,8 @@ run_case test_planner "$ROOT/tests/unit/test_planner.cpp" \
     "$SRC/xykell_gui_controller.cpp" "$SRC/xykell_runtime_probe.cpp" \
     "$SRC/xykell_planner.cpp"
 run_case test_runtime_provider "$ROOT/tests/unit/test_runtime_provider.cpp" \
-    "$SRC/xykell_runtime_provider.cpp"
-echo "UNIT: $pass/22 suites PASS"
+    "$SRC/xykell_runtime_provider.cpp" "$SRC/xykell_lan_discovery.cpp"
+run_case test_lan_discovery "$ROOT/tests/unit/test_lan_discovery.cpp" \
+    "$SRC/xykell_lan_discovery.cpp" "$SRC/xykell_runtime_provider.cpp"
+echo "UNIT: $pass/23 suites PASS"
 rm -rf "$WORK"

@@ -155,8 +155,70 @@ bool SyntheticRelayProvider::closeSession(const std::string& sessionId) {
     return !sessionId.empty();  // synthetic sessions are synchronous records
 }
 
-DiagnosticInfo NativeProviderStub::diagnostics() const {
+void LanDiscoveryProvider::setConfig(const discovery::DiscoveryConfig& cfg) {
+    config_ = cfg;
+}
+
+bool LanDiscoveryProvider::start() {
+    if (state_ == ProviderState::Running || state_ == ProviderState::Starting) {
+        return false;  // no duplicate starts
+    }
+    state_ = ProviderState::Starting;
+    lastError_.clear();
+    if (!discovery_.start(config_)) {
+        lastError_ = discovery_.lastError().empty() ? "discovery failed to start"
+                                                    : discovery_.lastError();
+        state_ = ProviderState::Failed;
+        return false;
+    }
+    startedAtMs_ = wallMs();
+    state_ = ProviderState::Running;
+    if (sink_ != nullptr) {
+        sink_->onConnection(ConnectionObservation{true, "udp-loopback", startedAtMs_});
+    }
+    return true;
+}
+
+void LanDiscoveryProvider::stop() {
+    if (state_ == ProviderState::Stopped) return;  // idempotent
+    state_ = ProviderState::Stopping;
+    discovery_.stop();
+    if (sink_ != nullptr) {
+        sink_->onConnection(ConnectionObservation{false, "udp-loopback", wallMs()});
+    }
+    state_ = ProviderState::Stopped;
+}
+
+std::vector<CapabilityInfo> LanDiscoveryProvider::capabilities() const {
+    const std::string p = name();
+    // Discovery metadata only: no game-state observations offered.
+    return {
+        {CapabilityKind::Connection, "connection", p},
+        {CapabilityKind::Session, "session", p},
+        {CapabilityKind::ServerInfo, "server-info", p},
+        {CapabilityKind::TransportDiagnostics, "transport-diagnostics", p},
+    };
+}
+
+DiagnosticInfo LanDiscoveryProvider::diagnostics() const {
     DiagnosticInfo d;
+    d.provider = name();
+    d.state = state_;
+    if (state_ == ProviderState::Failed && lastError_.empty()) {
+        d.lastError = "discovery failed";
+    } else {
+        d.lastError = lastError_;
+    }
+    if (state_ == ProviderState::Failed && d.lastError.empty()) {
+        const std::string dl = discovery_.lastError();
+        if (!dl.empty()) d.lastError = dl;
+    }
+    d.uptimeMs = (state_ == ProviderState::Running) ? wallMs() - startedAtMs_ : 0;
+    d.sessionsActive = discovery_.endpoints().size();
+    return d;
+}
+
+DiagnosticInfo NativeProviderStub::diagnostics() const {    DiagnosticInfo d;
     d.provider = name();
     d.state = state_;
     d.lastError = (state_ == ProviderState::Failed) ? kUnavailableReason : "";
@@ -171,6 +233,7 @@ bool Runtime::selectProvider(const std::string& name) {
         provider_ = std::make_unique<SyntheticRelayProvider>();
         provider_->setSink(sink_);
         selected_ = name;
+        selectedEndpoint_.clear();
         lastError_.clear();
         return true;
     }
@@ -179,6 +242,16 @@ bool Runtime::selectProvider(const std::string& name) {
         provider_ = std::make_unique<NativeProviderStub>();
         provider_->setSink(sink_);
         selected_ = name;
+        selectedEndpoint_.clear();
+        lastError_.clear();
+        return true;
+    }
+    if (name == LanDiscoveryProvider::kName) {
+        if (state() == ProviderState::Running) return false;
+        provider_ = std::make_unique<LanDiscoveryProvider>();
+        provider_->setSink(sink_);
+        selected_ = name;
+        selectedEndpoint_.clear();
         lastError_.clear();
         return true;
     }
@@ -213,7 +286,45 @@ std::vector<EndpointDescriptor> Runtime::discover() const {
         const auto* p = static_cast<const SyntheticRelayProvider*>(provider_.get());
         return p->discover();
     }
+    if (selected_ == LanDiscoveryProvider::kName) {
+        const auto* p = static_cast<const LanDiscoveryProvider*>(provider_.get());
+        std::vector<EndpointDescriptor> out;
+        for (const auto& r : p->discovery().endpoints()) {
+            EndpointDescriptor e;
+            e.id = r.ad.endpointId;
+            e.displayName = r.serviceName + "/" + r.ad.endpointId;
+            e.address = r.ad.address;
+            e.port = r.ad.port;
+            e.capabilities = {"discovery", "endpoint-status"};
+            e.advertisedAtMs = r.lastSeenMs;
+            e.ttlMs = r.ad.ttlMs;
+            out.push_back(std::move(e));
+        }
+        return out;
+    }
     return {};
+}
+
+bool Runtime::selectEndpoint(const std::string& id) {
+    if (selected_ == SyntheticRelayProvider::kName) {
+        auto* p = static_cast<SyntheticRelayProvider*>(provider_.get());
+        for (const auto& e : p->discover()) {
+            if (e.id == id) {
+                selectedEndpoint_ = id;
+                return true;
+            }
+        }
+        return false;
+    }
+    if (selected_ == LanDiscoveryProvider::kName) {
+        auto* p = static_cast<LanDiscoveryProvider*>(provider_.get());
+        if (p->discovery().selectEndpoint(id)) {
+            selectedEndpoint_ = id;
+            return true;
+        }
+        return false;
+    }
+    return false;
 }
 
 } // namespace xykell::runtime

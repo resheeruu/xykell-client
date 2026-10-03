@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 
+#include "xykell/lan_discovery.h"
+
 namespace xykell::runtime {
 
 enum class ProviderState : std::uint8_t {
@@ -187,6 +189,35 @@ class SyntheticRelayProvider final : public RuntimeProvider {
     std::string lastError_;
 };
 
+// LAN discovery provider (Stage 6): local-network endpoint discovery only.
+// Capabilities are discovery metadata (endpoint-status, runtime-status,
+// diagnostics). It deliberately offers NO player/entity/world observations:
+// discovery sees advertisements, not game state.
+class LanDiscoveryProvider final : public RuntimeProvider {
+  public:
+    static constexpr const char* kName = "lan-discovery";
+
+    const char* name() const override { return kName; }
+    bool start() override;
+    void stop() override;
+    ProviderState state() const override { return state_; }
+    std::vector<CapabilityInfo> capabilities() const override;
+    DiagnosticInfo diagnostics() const override;
+    void setSink(CapabilitySink* sink) override { sink_ = sink; }
+
+    void setConfig(const discovery::DiscoveryConfig& cfg);
+    discovery::LanDiscovery& discovery() { return discovery_; }
+    const discovery::LanDiscovery& discovery() const { return discovery_; }
+
+  private:
+    ProviderState state_ = ProviderState::Stopped;
+    CapabilitySink* sink_ = nullptr;
+    discovery::LanDiscovery discovery_;
+    discovery::DiscoveryConfig config_;
+    std::uint64_t startedAtMs_ = 0;
+    std::string lastError_;
+};
+
 // Native/game provider: NOT IMPLEMENTED (lab-gated). Present so selection
 // code paths are honest: start() always fails with an explicit reason.
 class NativeProviderStub final : public RuntimeProvider {
@@ -221,6 +252,9 @@ class Runtime {
     // fail safely (returns false, selection unchanged).
     bool selectProvider(const std::string& name);
     const std::string& selectedProviderName() const { return selected_; }
+    // Endpoint selection (validated against live discovery; deterministic).
+    bool selectEndpoint(const std::string& id);
+    const std::string& selectedEndpoint() const { return selectedEndpoint_; }
 
     bool start();  // idempotent-safe: false when already running/failed
     void stop();   // idempotent; no sink calls after return
@@ -244,6 +278,7 @@ class Runtime {
   private:
     std::unique_ptr<RuntimeProvider> provider_;
     std::string selected_ = kDefaultProvider;
+    std::string selectedEndpoint_;
     CapabilitySink* sink_ = nullptr;
     std::string lastError_;
 };
