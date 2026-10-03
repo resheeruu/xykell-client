@@ -54,7 +54,8 @@ PlayerMessage/PlayerTravelled; nothing else has a source).
 
 Main menu, settings (catalog: 14 declared settings w/ validation+
 reset+import-checks, IMPLEMENTED Batch 2), module configuration, profile management, HUD/theme/
-keybind editors, localization, onboarding, diagnostics, accessibility:
+keybind editors (backend: IMPLEMENTED Batch 4 — 8 default actions,
+conflict-safe binds, touch-code range), localization, onboarding, diagnostics, accessibility:
 app shell + Fragments exist; editors bind to F-CONFIG/F-PROFILE/F-HUD
 state machines. Status: SPECIFIED (shell present), device smoke required
 for touch/render acceptance. No runtime data needed → no Tier-1 blocker.

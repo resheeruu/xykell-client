@@ -31,6 +31,7 @@ run_case test_config "$ROOT/tests/unit/test_config.cpp" "$SRC/xykell_json_min.cp
 run_case test_settings "$ROOT/tests/unit/test_settings.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_config_store.cpp"
 run_case test_animation "$ROOT/tests/unit/test_animation.cpp"
+run_case test_keybinds "$ROOT/tests/unit/test_keybinds.cpp" "$SRC/xykell_keybinds.cpp"
 run_case test_profile "$ROOT/tests/unit/test_profile.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_profile_manager.cpp"
 run_case test_crash "$ROOT/tests/unit/test_crash.cpp" "$SRC/xykell_json_min.cpp" \
@@ -97,5 +98,5 @@ run_case test_runtime_session "$ROOT/tests/unit/test_runtime_session.cpp" \
 run_case test_runtime_observation "$ROOT/tests/unit/test_runtime_observation.cpp"
 run_case test_observation_consumer "$ROOT/tests/unit/test_observation_consumer.cpp"
 run_case test_observation_source "$ROOT/tests/unit/test_observation_source.cpp"
-echo "UNIT: $pass/30 suites PASS"
+echo "UNIT: $pass/31 suites PASS"
 rm -rf "$WORK"
