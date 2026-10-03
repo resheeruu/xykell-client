@@ -14,8 +14,21 @@ const CAPTURE_A = 'capture-2026-10-03T08-35-07-457Z.jsonl';
 const CAPTURE_B = 'capture-2026-10-03T08-36-29-002Z.jsonl';
 
 function loadCapture(name) {
-  const text = readFileSync(join(LAB, 'captures', name), 'utf8');
-  assert.ok(text.trim().length > 0, `real capture missing/empty: ${name}`);
+  // Prefer the real git-ignored capture when present (local evidence runs);
+  // fall back to the committed sanitized fixture (CI hermeticity). Fixtures
+  // hold the same post-establishment inbound records with the player name
+  // redacted and no key/handshake material; counts are identical either way.
+  const real = join(LAB, 'captures', name);
+  const stem = name.includes('08-35-07') ? 'capture-a.jsonl' : 'capture-b.jsonl';
+  const fallback = join(HERE, 'fixtures', stem);
+  let file = real;
+  try {
+    readFileSync(real, 'utf8');
+  } catch {
+    file = fallback;
+  }
+  const text = readFileSync(file, 'utf8');
+  assert.ok(text.trim().length > 0, `capture missing AND no fixture: ${name}`);
   return text.trim().split('\n').map((line) => JSON.parse(line));
 }
 
