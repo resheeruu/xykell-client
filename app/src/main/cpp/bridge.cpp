@@ -216,4 +216,32 @@ Java_dev_xykell_client_runtime_RuntimeStatus_nativeEndpoints(JNIEnv* env, jclass
     }
 }
 
+// Discovery state (READ-ONLY): endpoint registry + selection + last
+// diagnostic. No LAN control beyond what the provider already exposes.
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeDiscovery(JNIEnv* env, jclass) {
+    try {
+        const auto& rt = sharedRuntime();
+        const auto d = rt.diagnostics();
+        std::string out = std::string("{\"running\":") +
+                          (d.state == xykell::runtime::ProviderState::Running ? "true"
+                                                                             : "false") +
+                          ",\"selected\":\"" + jsonEscape(rt.selectedEndpoint()) +
+                          "\",\"diagnostic\":\"" + jsonEscape(d.lastError) + "\"}";
+        return toJni(env, out);
+    } catch (...) {
+        return toJni(env, "{\"running\":false,\"selected\":\"\",\"diagnostic\":\"bridge\"}");
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeSelectEndpoint(JNIEnv* env, jclass,
+                                                                 jstring id) {
+    try {
+        return static_cast<jboolean>(sharedRuntime().selectEndpoint(toStd(env, id)));
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
 } // extern "C"

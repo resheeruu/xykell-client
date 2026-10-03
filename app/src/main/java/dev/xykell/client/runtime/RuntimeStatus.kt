@@ -24,6 +24,8 @@ object RuntimeStatus {
     @JvmStatic external fun nativeStatus(): String
     @JvmStatic external fun nativeCapabilities(): String
     @JvmStatic external fun nativeEndpoints(): String
+    @JvmStatic external fun nativeDiscovery(): String
+    @JvmStatic external fun nativeSelectEndpoint(id: String): Boolean
 
     fun start(): Boolean = guard { nativeStart() } ?: false
 
@@ -45,13 +47,20 @@ object RuntimeStatus {
         val eps = guard { nativeEndpoints() } ?: "[]"
         val capCount = caps.count { it == '"' } / 2
         val epCount = eps.split("\"id\"").size - 1
+        val disc = guard { JSONObject(nativeDiscovery()) }
+        val discState = if (disc?.optBoolean("running", false) == true) "ACTIVE" else "IDLE"
+        val selected = disc?.optString("selected", "").orEmpty().ifEmpty { "none" }
+        val lastDiag = st.optString("lastError", "").ifEmpty { "none" }
         val providerLabel = when (provider) {
             "synthetic-relay" -> "Synthetic Relay"
+            "lan-discovery" -> "LAN Discovery"
             "native" -> "Native Provider Unavailable"
             else -> provider
         }
         return "Runtime: $state\nProvider: $providerLabel\n" +
-            "Session: SYNTHETIC\nCapabilities: $capCount\nEndpoints: $epCount"
+            "Session: SYNTHETIC\nCapabilities: $capCount\nEndpoints: $epCount\n" +
+            "Discovery: $discState\nSelected: $selected\n" +
+            "Minecraft Runtime: NOT CONNECTED\nLast Diagnostic: $lastDiag"
     }
 
     fun providerUnavailableReason(): String =

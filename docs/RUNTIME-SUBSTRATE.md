@@ -59,3 +59,22 @@ and Stage-3B relay findings (in the analysis workspace, not this repo).
 `Runtime::kConfigSection/kConfigKeyProvider` (`runtime/provider`,
 default `synthetic-relay`) integrate with `XykellConfig` get/setString;
 persistence is caller-owned. No credentials are ever stored (none exist).
+
+## LAN discovery provider (Stage 6)
+
+- `native/.../lan_discovery.h/.cpp`: `LanDiscovery` (UDP announce/receive
+  workers, TTL/expiry, duplicate suppression, deterministic selection) +
+  wire format `XYKELL-ADV/1` (own `xykell-lan` service identity; never
+  claims Minecraft compatibility — audit-enforced).
+- `LanDiscoveryProvider` (in runtime_provider.*): selectable as
+  `"lan-discovery"`; offers discovery metadata capabilities ONLY (no
+  game-state observations — asserted in tests). Honest failure codes
+  (NETWORK_UNAVAILABLE/BIND_FAILED/INVALID_ADVERTISEMENT/
+  UNSUPPORTED_VERSION/ENDPOINT_EXPIRED/STOPPED).
+- `Runtime::selectEndpoint/selectedEndpoint` (+ JNI
+  `nativeDiscovery/nativeSelectEndpoint`, `RuntimeStatus.summary()`
+  Discovery/Selected lines): validated selection, no hot-swap while
+  running, selection cleared on provider switch.
+- Manifest: orphaned `org.levimc.launcher` `<queries>` entry removed (no
+  code path referenced it — verified by grep); About-screen pins are
+  reference documentation, preloader linkage unchanged (lab-gated).

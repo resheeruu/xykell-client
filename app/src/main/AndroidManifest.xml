@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Android 11+ package visibility: without this, PackageManager hides
-         Minecraft and detection falsely reports NOT INSTALLED. -->
+         Minecraft and detection falsely reports NOT INSTALLED.
+         No Levi entry: the launcher never queries another launcher. -->
     <queries>
         <package android:name="com.mojang.minecraftpe" />
-        <package android:name="org.levimc.launcher" />
     </queries>
 
     <application

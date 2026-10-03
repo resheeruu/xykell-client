@@ -21,6 +21,13 @@ SCOPED = [
     ROOT / "app/src/main/cpp/bridge.cpp",
     ROOT / "app/src/main/java/dev/xykell/client/runtime/RuntimeStatus.kt",
 ]
+# Stage-6 discovery files: UDP sockets are their stated purpose, so the
+# socket-API check does not apply -- but the gameplay-action gate does.
+SCOPED_NET = [
+    ROOT / "native/include/xykell/lan_discovery.h",
+    ROOT / "native/src/xykell_lan_discovery.cpp",
+    ROOT / "tests/unit/test_lan_discovery.cpp",
+]
 
 # Case-insensitive substrings that must never appear in scoped files.
 FORBIDDEN = [
@@ -53,11 +60,24 @@ def main() -> int:
             for m in re.finditer(re.escape(word), low):
                 line = low.count("\n", 0, m.start()) + 1
                 failures.append(f"{path.name}:{line}: forbidden '{word}'")
-        # Stage-4 provider must not open sockets (in-memory only).
+        # Stage-4/5 provider code opens no sockets (in-memory only).
         if "test_" not in path.name:
             for api in SOCKET_APIS:
                 if api in low:
                     failures.append(f"{path.name}: socket API '{api}' present")
+    for path in SCOPED_NET:
+        if not path.is_file():
+            return f"MISSING SCOPED FILE: {path}"
+        low = code_only(path.read_text()).lower()
+        for word in FORBIDDEN:
+            for m in re.finditer(re.escape(word), low):
+                line = low.count("\n", 0, m.start()) + 1
+                failures.append(f"{path.name}:{line}: forbidden '{word}'")
+    # Discovery must still never claim Minecraft compatibility.
+    for path in SCOPED_NET:
+        low = code_only(path.read_text()).lower()
+        if "minecraft" in low and "never claim" not in low:
+            failures.append(f"{path.name}: mentions Minecraft (compat claim risk)")
     # Positive checks: the boundary must be explicit, not accidental.
     header = (ROOT / "native/include/xykell/runtime_provider.h").read_text()
     for marker in ["RuntimeProvider", "SyntheticRelayProvider",
@@ -69,7 +89,7 @@ def main() -> int:
         for f in failures:
             print("  " + f)
         return 1
-    print(f"STAGE4-RELAY-AUDIT: PASS ({len(SCOPED)} scoped files)")
+    print(f"STAGE4-RELAY-AUDIT: PASS ({len(SCOPED) + len(SCOPED_NET)} scoped files)")
     return 0
 
 
