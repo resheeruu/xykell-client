@@ -31,6 +31,11 @@ quality, final release smoke. Everything else MUST be automated and CI.
       marker on the active theme; selecting one re-themes immediately and
       survives app restart; RESET TO DEFAULT returns to Xykell Dark;
       invalid stored value falls back to default palette without crash
+- [ ] Batch 12 module catalog: 255 entries grouped by category, search
+      filters live, row tap expands detail (id/caps/settings/evidence),
+      preference switches appear ONLY on SUPPORTED/PARTIAL rows, toggling
+      persists into the active profile and survives restart, RESEARCH_
+      REQUIRED rows never show a switch
 - [ ] Touch targets ≥48dp; contrast readable; typography consistent
 - [ ] Empty/loading/error states render (airplane mode, no Minecraft,
       corrupt config, storage denied)

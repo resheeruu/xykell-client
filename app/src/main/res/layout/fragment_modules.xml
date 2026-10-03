@@ -11,25 +11,51 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/xykell_accent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/modules_title"
+        android:contentDescription="@string/modules_title" />
+
+    <TextView
+        android:id="@+id/modules_counts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted"
+        android:layout_marginTop="4dp" />
 
     <EditText
         android:id="@+id/modules_search"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
-        android:hint="Search modules..."
+        android:hint="@string/modules_search_hint"
         android:inputType="text"
+        android:importantForAutofill="no"
         android:minHeight="56dp"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/modules_body"
+        android:id="@+id/modules_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/xykell_text"
-        android:lineSpacingExtra="4dp"
-        android:layout_marginTop="12dp" />
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted"
+        android:layout_marginTop="6dp"
+        android:text="@string/modules_hint" />
+
+    <LinearLayout
+        android:id="@+id/modules_sections"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/modules_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted"
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>

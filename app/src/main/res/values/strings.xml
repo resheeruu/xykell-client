@@ -33,4 +33,18 @@
     <string name="profiles_reset_confirm">Tap again to RESET \"%1$s\" to its builtin preset</string>
     <string name="profiles_active_badge">ACTIVE</string>
     <string name="profiles_name_empty">Enter a profile name first.</string>
+
+    <!-- Module catalog (Batch 12) -->
+    <string name="modules_title">Modules</string>
+    <string name="modules_search_hint">Search modules…</string>
+    <string name="modules_hint">Statuses are authoritative. Switches store profile preferences for in-game use — nothing runs from this app; support status governs what actually operates.</string>
+    <string name="modules_unavailable">Registry unavailable — catalog not loaded.</string>
+    <string name="modules_count_line">%1$d modules · %2$d categories · tap a row for detail</string>
+    <string name="modules_no_match">No modules match \"%1$s\".</string>
+    <string name="modules_detail_format">id: %1$s · implementation: %2$s · risk: %3$s\ncapabilities: %4$s\nsettings: %5$s\nevidence: %6$s</string>
+    <string name="modules_pref_saved">Saved preference for \"%1$s\": %2$s</string>
+    <string name="modules_pref_failed">Could not save preference for \"%1$s\" — reverted.</string>
+    <string name="modules_pref_unavailable">Profile store unavailable — preference not saved.</string>
+    <string name="modules_switch_desc">Preference for %1$s (profile)</string>
+    <string name="modules_hint_switch_label">profile preference</string>
 </resources>

@@ -4,4 +4,6 @@
     <color name="xykell_accent">#4FD8C7</color>
     <color name="xykell_text">#E8EEF7</color>
     <color name="xykell_muted">#8A97AD</color>
+    <color name="xykell_warning">#E8B34B</color>
+    <color name="xykell_success">#5DD39E</color>
 </resources>
