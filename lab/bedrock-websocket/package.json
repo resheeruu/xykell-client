@@ -1,0 +1,14 @@
+{
+  "name": "xykell-bedrock-websocket-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Isolated observation lab for Minecraft Bedrock /wsserver code-connection behavior. Not production code.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test ./test/protocol.test.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
