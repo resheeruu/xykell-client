@@ -64,4 +64,14 @@ tasks.named("preBuild") { dependsOn(copyRegistry) }
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
+    // Stage 20 (Phase 1): loopback WebSocket transport only. OkHttp 4.12.x
+    // (minSdk 21+, Java 8+; repo is minSdk 28 / Java 17): binary frames,
+    // subprotocol header, graceful close. No other new dependency.
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    // Host JVM unit tests for the observation pipeline (CI). No device impact.
+    testImplementation("junit:junit:4.13.2")
+    // org.json ships with Android but unit tests run against android.jar
+    // stubs (methods throw "not mocked"); the reference implementation is
+    // needed to execute translator tests on the host JVM. Test-only.
+    testImplementation("org.json:json:20240303")
 }

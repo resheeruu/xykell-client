@@ -11,6 +11,7 @@
 #include "xykell/detection.h"
 #include "xykell/version_adapter.h"
 #include "xykell/runtime_provider.h"
+#include "xykell/runtime_observation_consumer.h"
 
 namespace {
 
@@ -46,6 +47,14 @@ std::string jsonEscape(const std::string& s) {
         }
     }
     return out;
+}
+
+// Process-wide observation consumer for Stage-20 field-only offers.
+// Kotlin never sees a native pointer: primitives/strings in, bool out.
+// No JSON, envelopes, bytes, keys, ciphertext, or commands cross here.
+xykell::runtime::ObservationConsumer& sharedObservationConsumer() {
+    static xykell::runtime::ObservationConsumer consumer;
+    return consumer;
 }
 
 } // namespace
@@ -274,6 +283,66 @@ Java_dev_xykell_client_runtime_RuntimeStatus_nativeEndSession(JNIEnv* env, jclas
     try {
         sharedRuntime().endSession(toStd(env, reason));
     } catch (...) {
+    }
+}
+
+// Observation offers (READ-ONLY, field-only): each builds a Stage-10 model
+// object through its validating factory; invalid input is rejected (false)
+// and never stored. No envelope/JSON/bytes/key/ciphertext crosses JNI.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferPlayerMessage(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jstring sender,
+    jstring message) {
+    try {
+        auto o = xykell::runtime::makePlayerMessage(
+            toStd(env, eventId), static_cast<std::uint64_t>(observedAtMs), toStd(env, sender),
+            toStd(env, message));
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::RuntimeObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferPlayerTravelled(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jdouble x, jdouble y, jdouble z,
+    jdouble yawDegrees, jdouble metersTravelled, jint travelMethod) {
+    try {
+        auto o = xykell::runtime::makePlayerTravel(
+            toStd(env, eventId), static_cast<std::uint64_t>(observedAtMs),
+            xykell::runtime::Vec3{static_cast<double>(x), static_cast<double>(y),
+                                  static_cast<double>(z)},
+            static_cast<double>(yawDegrees), static_cast<double>(metersTravelled),
+            static_cast<int>(travelMethod));
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::RuntimeObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferUnknown(
+    JNIEnv* env, jclass, jstring eventId, jlong wireLength, jstring reason,
+    jlong observedAtMs) {
+    try {
+        auto o = xykell::runtime::makeUnknown(
+            toStd(env, eventId), static_cast<std::uint64_t>(observedAtMs),
+            static_cast<std::uint64_t>(wireLength), toStd(env, reason));
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::RuntimeObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
     }
 }
 

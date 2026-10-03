@@ -11,6 +11,7 @@ import dev.xykell.client.runtime.LaunchExecutor
 import dev.xykell.client.runtime.ProfileManager
 import dev.xykell.client.runtime.RuntimeManager
 import dev.xykell.client.runtime.XykellInfo
+import dev.xykell.client.runtime.observation.ObservationService
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +39,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             "Android ${Build.VERSION.RELEASE}, " +
             (Build.SUPPORTED_ABIS.firstOrNull() ?: "abi?") +
             "\n" + dev.xykell.client.runtime.RuntimeStatus.summary()
+        // Stage 20 (Phase 1): explicit observation Start/Stop + state text.
+        // No settings, no endpoint configuration, no diagnostics.
+        val obsStatus = view.findViewById<TextView>(R.id.home_obs_status)
+        val refreshObs = { obsStatus.text = ObservationService.statusText() }
+        refreshObs()
+        view.findViewById<Button>(R.id.home_obs_start).setOnClickListener {
+            ObservationService.start(requireContext())
+            refreshObs()
+        }
+        view.findViewById<Button>(R.id.home_obs_stop).setOnClickListener {
+            ObservationService.stop(requireContext())
+            refreshObs()
+        }
     }
 
     private fun installedLine(): String {

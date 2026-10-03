@@ -8,6 +8,18 @@
         <package android:name="com.mojang.minecraftpe" />
     </queries>
 
+    <!-- Stage 20 (Phase 1, explicit user-driven observation only): loopback
+         WebSocket observation needs INTERNET even for 127.0.0.1 (Android
+         gates all app sockets on it). No remote networking exists: the
+         endpoint is hardcoded in code (see ObservationService) and no
+         host/port is configurable. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Foreground-service declarations for the explicit observation owner.
+         Type specialUse: persistent localhost observation relay fits no
+         other FGS type (Stage 19). Started only from the Activity. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
     <application
         android:label="Xykell Client"
         android:icon="@android:drawable/sym_def_app_icon"
@@ -22,6 +34,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Explicit observation owner (Stage 20): started/stopped only by
+             the Activity; never exported; never auto-started (no receiver,
+             no boot path). Type specialUse per Stage-19 resolution. -->
+        <service
+            android:name=".runtime.observation.ObservationService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false" />
     </application>
 
 </manifest>
