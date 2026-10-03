@@ -1,6 +1,7 @@
 package dev.xykell.client.runtime.observation
 
 import java.util.UUID
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -71,7 +72,7 @@ class LoopbackWebSocket(
 
     private fun shutdownClient() {
         try {
-            client?.dispatcher?.executorService()?.shutdown()
+            client?.dispatcher?.executorService?.shutdown()
         } catch (_: Exception) {
         }
         try {
@@ -211,7 +212,7 @@ class LoopbackWebSocket(
         /** Fails immediately unless the target is exactly 127.0.0.1:8765. */
         fun buildRequest(url: String = ENDPOINT): Request {
             require(url == ENDPOINT) { "only $ENDPOINT is permitted" }
-            val http = okhttp3.HttpUrl.get(url.replaceFirst("ws://", "http://"))
+            val http = url.replaceFirst("ws://", "http://").toHttpUrl()
             require(http.host == "127.0.0.1") { "host must be 127.0.0.1" }
             require(http.port == 8765) { "port must be 8765" }
             require(http.scheme == "http") { "plaintext loopback only" }
