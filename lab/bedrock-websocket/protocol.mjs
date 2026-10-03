@@ -12,6 +12,9 @@ export const Categories = Object.freeze({
   ENTITY: 'ENTITY',
   CHAT: 'CHAT',
   OTHER: 'OTHER',
+  // Stage 9H: an encrypted session failed to yield valid application JSON.
+  // Never a game-state claim; always a lab-side or key-state problem.
+  DECRYPTION_ERROR: 'DECRYPTION_ERROR',
 });
 
 // Bedrock scripting/code-connection envelopes observed in the wild use

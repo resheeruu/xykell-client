@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test ./test/protocol.test.mjs"
+    "test": "node --test ./test/protocol.test.mjs ./test/subscribe.test.mjs ./test/encryption.test.mjs ./test/translate.test.mjs ./test/capture-producer.test.mjs"
   },
   "dependencies": {
     "ws": "^8.18.0"
