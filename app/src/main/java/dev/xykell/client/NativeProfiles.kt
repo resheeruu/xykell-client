@@ -23,6 +23,16 @@ object NativeProfiles {
     external fun resetProfile(root: String, name: String): Boolean
     external fun deleteProfile(root: String, name: String): Boolean
 
+    /** Bounded lifecycle op with the native error surfaced (Batch 11):
+     *  op 0=activate, 1=create, 2=reset, 3=delete. "" means success,
+     *  anything else is the exact native rejection reason. Missing
+     *  bridge reports that honestly — never a fabricated reason. */
+    fun profileOp(root: String, name: String, op: Int): String = guard {
+        profileOpRaw(root, name, op)
+    } ?: "native bridge unavailable"
+
+    private external fun profileOpRaw(root: String, name: String, op: Int): String
+
     /** Shared version verdict ("STATE|reason") from native VersionAdapter. */
     external fun checkVersion(version: String, abi: String): String
 
@@ -32,4 +42,12 @@ object NativeProfiles {
         found: Boolean, version: String, abi: String,
         enabled: Boolean, queriesGranted: Boolean
     ): String
+
+    private inline fun <T> guard(block: () -> T): T? {
+        return try {
+            block()
+        } catch (e: UnsatisfiedLinkError) {
+            null
+        }
+    }
 }

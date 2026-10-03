@@ -13,4 +13,24 @@
     <string name="themes_bad_tokens">Theme \"%1$s\" has unreadable tokens — selection not applied.</string>
     <string name="themes_rejected">Theme \"%1$s\" rejected by settings validation — selection not applied.</string>
     <string name="themes_reset_failed">Reset failed — settings store unavailable.</string>
+
+    <!-- Profile switcher (Batch 11) -->
+    <string name="profiles_title">Profiles</string>
+    <string name="profiles_name_hint">New profile name</string>
+    <string name="profiles_create">CREATE</string>
+    <string name="profiles_delete">DELETE</string>
+    <string name="profiles_reset">RESET</string>
+    <string name="profiles_export">Export active profile</string>
+    <string name="profiles_import">Import profile file</string>
+    <string name="profiles_store_info">Native-backed store (shared ProfileManager). The game-process store is separate — sync via export files.</string>
+    <string name="profiles_bridge_missing">Native bridge unavailable — profile actions disabled.</string>
+    <string name="profiles_switched">Switched active profile to \"%1$s\".</string>
+    <string name="profiles_created">Created profile \"%1$s\".</string>
+    <string name="profiles_deleted">Deleted profile \"%1$s\".</string>
+    <string name="profiles_reset_done">Reset profile \"%1$s\" to its builtin preset.</string>
+    <string name="profiles_rejected">Rejected: %1$s</string>
+    <string name="profiles_delete_confirm">Tap again to DELETE \"%1$s\"</string>
+    <string name="profiles_reset_confirm">Tap again to RESET \"%1$s\" to its builtin preset</string>
+    <string name="profiles_active_badge">ACTIVE</string>
+    <string name="profiles_name_empty">Enter a profile name first.</string>
 </resources>

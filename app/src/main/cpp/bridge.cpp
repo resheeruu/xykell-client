@@ -148,6 +148,29 @@ Java_dev_xykell_client_NativeProfiles_deleteProfile(JNIEnv* env, jclass, jstring
     return static_cast<jboolean>(pm.remove(toStd(env, name), err));
 }
 
+// Batch 11: same four lifecycle ops with the native error surfaced to the
+// UI. Returns "" on success, otherwise the exact native reason (never
+// invented). Bounded op switch — no free-form command crosses JNI.
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeProfiles_profileOpRaw(JNIEnv* env, jclass, jstring root,
+                                                    jstring name, jint op) {
+    xykell::ProfileManager pm(toStd(env, root));
+    const std::string target = toStd(env, name);
+    std::string err;
+    bool ok = false;
+    switch (op) {
+        case 0: ok = pm.setActive(target, err); break;
+        case 1: ok = pm.create(target, err); break;
+        case 2: ok = pm.reset(target, err); break;
+        case 3: ok = pm.remove(target, err); break;
+        default: err = "unknown profile op"; break;
+    }
+    if (ok) {
+        return env->NewStringUTF("");
+    }
+    return toJni(env, err.empty() ? std::string("operation rejected") : err);
+}
+
 // Settings domain bridge (Batch 7). Confined to the settings catalog:
 // catalog snapshot, current values, validated set, scoped reset. NOT a
 // generic JSON bridge — section/key/value only, validated natively.
