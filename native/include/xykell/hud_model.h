@@ -68,8 +68,23 @@ struct HudEditor {
     void select(int index) { selected = index; }
     void clear() { selected = -1; }
     bool apply(HudLayout& layout); // false when nothing selected
+    // Grid-snapped commit: rounds the pending transform to the grid before
+    // applying (grid <= 0 disables snapping). Touch drags feed dx/dy.
+    bool applySnapped(HudLayout& layout, float grid);
     void reset(HudLayout& layout, const HudLayout& defaults);
 };
+
+// Snap a coordinate to a grid (grid <= 0: unchanged). Pure math for the
+// touch editor; host-tested, no platform involved.
+inline float snapToGrid(float v, float grid) {
+    if (grid <= 0.0f) {
+        return v;
+    }
+    // Round-half-away without <cmath> dependency surprises on NDK builds.
+    const float q = v / grid;
+    const long n = static_cast<long>(q >= 0.0f ? q + 0.5f : q - 0.5f);
+    return static_cast<float>(n) * grid;
+}
 
 class HudManager {
   public:

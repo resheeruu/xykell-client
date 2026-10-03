@@ -181,6 +181,15 @@ bool HudEditor::apply(HudLayout& layout) {
     return true;
 }
 
+bool HudEditor::applySnapped(HudLayout& layout, float grid) {
+    if (selected < 0 || selected >= static_cast<int>(layout.elements.size())) {
+        return false;
+    }
+    dx = snapToGrid(dx, grid);
+    dy = snapToGrid(dy, grid);
+    return apply(layout);
+}
+
 void HudEditor::reset(HudLayout& layout, const HudLayout& defaults) {
     layout = defaults;
     clear();

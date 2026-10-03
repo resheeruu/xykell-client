@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import dev.xykell.client.ui.AboutFragment
 import dev.xykell.client.ui.AccountsFragment
 import dev.xykell.client.ui.HomeFragment
+import dev.xykell.client.ui.HudEditorFragment
 import dev.xykell.client.ui.ModulesFragment
 import dev.xykell.client.ui.PacksFragment
 import dev.xykell.client.ui.ProfilesFragment
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         wire(R.id.nav_home, HomeFragment())
         wire(R.id.nav_versions, VersionsFragment())
         wire(R.id.nav_modules, ModulesFragment())
+        wire(R.id.nav_hud, HudEditorFragment())
         wire(R.id.nav_profiles, ProfilesFragment())
         wire(R.id.nav_settings, SettingsFragment())
         wire(R.id.nav_about, AboutFragment())

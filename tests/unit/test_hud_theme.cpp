@@ -55,6 +55,31 @@ int main() {
     ui::Theme t4;
     assert(!t4.deserialize(json::parse(R"({"accent":"red"})").value, err));
 
+    // Batch 9: seven builtins incl. Midnight/Aurora/Crimson, new semantic
+    // tokens present on every builtin, old JSON still parses (new keys
+    // default), round-trip preserves the new tokens.
+    {
+        const auto& all = ui::ThemeManager::builtins();
+        assert(all.size() == 7);
+        for (const char* n :
+             {"Xykell Dark", "Xykell Midnight", "Xykell Aurora", "Xykell Crimson",
+              "Xykell Minimal"}) {
+            ui::Theme f;
+            assert(ui::ThemeManager::find(n, f));
+            assert(!f.elevated.empty() && !f.border.empty() && !f.hudAccent.empty());
+        }
+        ui::Theme aur;
+        assert(ui::ThemeManager::find("Xykell Aurora", aur));
+        assert(aur.accent == "#3FE0A8" && aur.hudAccent == "#7C6CF0");
+        ui::Theme old;
+        assert(old.deserialize(json::parse(R"({"name":"Legacy"})").value, err));
+        assert(old.elevated == ui::Theme().elevated);  // missing keys: defaults
+        ui::Theme rt;
+        assert(rt.deserialize(json::parse(json::stringify(aur.serialize())).value, err));
+        assert(rt.elevated == aur.elevated && rt.border == aur.border
+               && rt.hudAccent == aur.hudAccent);
+    }
+
     std::cout << "test_hud_theme: PASS\n";
     return 0;
 }

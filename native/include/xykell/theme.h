@@ -13,9 +13,12 @@ struct Theme {
     std::string name = "Xykell Dark";
     std::string background = "#0D1526";
     std::string surface = "#16213A";
+    std::string elevated = "#1E2A45";   // raised cards/dialogs
     std::string accent = "#4FD8C7";
-    std::string text = "#E8EEF7";
-    std::string muted = "#8A97AD";
+    std::string text = "#E8EEF7";       // primary text
+    std::string muted = "#8A97AD";      // secondary text
+    std::string border = "#2A3A58";
+    std::string hudAccent = "#4FD8C7";  // HUD-tinted accents
     std::string warning = "#E8B34B";
     std::string error = "#E05D5D";
     std::string success = "#5DD39E";

@@ -7,9 +7,12 @@ json::Value Theme::serialize() const {
     o.emplace("name", json::Value(name));
     o.emplace("background", json::Value(background));
     o.emplace("surface", json::Value(surface));
+    o.emplace("elevated", json::Value(elevated));
     o.emplace("accent", json::Value(accent));
     o.emplace("text", json::Value(text));
     o.emplace("muted", json::Value(muted));
+    o.emplace("border", json::Value(border));
+    o.emplace("hudAccent", json::Value(hudAccent));
     o.emplace("warning", json::Value(warning));
     o.emplace("error", json::Value(error));
     o.emplace("success", json::Value(success));
@@ -48,8 +51,9 @@ bool Theme::deserialize(const json::Value& v, std::string& error) {
         }
         return true;
     };
-    if (!getColor("background", tmp.background) || !getColor("surface", tmp.surface)        || !getColor("accent", tmp.accent) || !getColor("text", tmp.text)
-        || !getColor("muted", tmp.muted) || !getColor("warning", tmp.warning)
+    if (!getColor("background", tmp.background) || !getColor("surface", tmp.surface)        || !getColor("elevated", tmp.elevated) || !getColor("accent", tmp.accent) || !getColor("text", tmp.text)
+        || !getColor("muted", tmp.muted) || !getColor("border", tmp.border)
+        || !getColor("hudAccent", tmp.hudAccent) || !getColor("warning", tmp.warning)
         || !getColor("error", tmp.error) || !getColor("success", tmp.success)
         || !getColor("supported", tmp.supported) || !getColor("partial", tmp.partial)
         || !getColor("unavailable", tmp.unavailable)) {
@@ -103,7 +107,40 @@ const std::vector<Theme>& ThemeManager::builtins() {
         minimal.text = "#E8EEF7";
         minimal.muted = "#8A97AD";
         minimal.radius = 4.0;
-        return std::vector<Theme>{dark, light, amoled, minimal};
+        // Original Xykell palettes (Batch 9): deep-space blue-black with a
+        // cold steel accent; teal-violet night with aurora green; charcoal
+        // red with a restrained crimson accent. None copied from references.
+        Theme midnight;
+        midnight.name = "Xykell Midnight";
+        midnight.background = "#05070D";
+        midnight.surface = "#0B1120";
+        midnight.elevated = "#141C33";
+        midnight.accent = "#6E9BD8";
+        midnight.text = "#DFE7F5";
+        midnight.muted = "#7286A3";
+        midnight.border = "#1C2742";
+        midnight.hudAccent = "#6E9BD8";
+        Theme aurora;
+        aurora.name = "Xykell Aurora";
+        aurora.background = "#071210";
+        aurora.surface = "#0D1F1C";
+        aurora.elevated = "#14322C";
+        aurora.accent = "#3FE0A8";
+        aurora.text = "#E2F5EC";
+        aurora.muted = "#7FA698";
+        aurora.border = "#1B3A33";
+        aurora.hudAccent = "#7C6CF0";
+        Theme crimson;
+        crimson.name = "Xykell Crimson";
+        crimson.background = "#120809";
+        crimson.surface = "#1F0F11";
+        crimson.elevated = "#33161A";
+        crimson.accent = "#E0485E";
+        crimson.text = "#F7E6E8";
+        crimson.muted = "#A37E84";
+        crimson.border = "#3D1E23";
+        crimson.hudAccent = "#E0485E";
+        return std::vector<Theme>{dark, light, amoled, minimal, midnight, aurora, crimson};
     }();
     return themes;
 }
