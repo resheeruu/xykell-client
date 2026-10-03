@@ -116,6 +116,33 @@ Java_dev_xykell_client_NativeProfiles_importProfileJson(JNIEnv* env, jclass, jst
     return static_cast<jboolean>(pm.save(p, err));
 }
 
+// Profile lifecycle: typed string/bool only, mirroring the host-tested
+// ProfileManager. Invalid names, duplicates, and Default deletion are
+// rejected natively with false (never an exception across JNI).
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeProfiles_createProfile(JNIEnv* env, jclass, jstring root,
+                                                    jstring name) {
+    xykell::ProfileManager pm(toStd(env, root));
+    std::string err;
+    return static_cast<jboolean>(pm.create(toStd(env, name), err));
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeProfiles_resetProfile(JNIEnv* env, jclass, jstring root,
+                                                   jstring name) {
+    xykell::ProfileManager pm(toStd(env, root));
+    std::string err;
+    return static_cast<jboolean>(pm.reset(toStd(env, name), err));
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeProfiles_deleteProfile(JNIEnv* env, jclass, jstring root,
+                                                    jstring name) {
+    xykell::ProfileManager pm(toStd(env, root));
+    std::string err;
+    return static_cast<jboolean>(pm.remove(toStd(env, name), err));
+}
+
 // Shared version verdict: the SAME VersionAdapter the game module uses.
 // Returns "STATE|reason", e.g. "SUPPORTED|matches Levi-verified line".
 JNIEXPORT jstring JNICALL
