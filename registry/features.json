@@ -250,7 +250,7 @@
       "name": "Fps",
       "category": "HUD",
       "description": "needs frame-tick source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "FRAME"
       ],
@@ -299,7 +299,7 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "",
+      "evidence": "Batch 1: FrameTimer provider + honest unknown; host test_hud_sources",
       "notes": "needs frame-tick source"
     },
     {
@@ -307,7 +307,7 @@
       "name": "Cps",
       "category": "HUD",
       "description": "needs input tap stream (have callback)",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "INPUT_SEMANTICS"
       ],
@@ -350,7 +350,7 @@
         "Flarial",
         "Nova"
       ],
-      "evidence": "",
+      "evidence": "Batch 1: TapCounter provider + verified zero; host test_hud_sources",
       "notes": "needs input tap stream (have callback)"
     },
     {
@@ -802,7 +802,7 @@
       "name": "Clock",
       "category": "HUD",
       "description": "device clock available; game-time TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -843,7 +843,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch 1: UTC clock provider; host test_hud_sources",
       "notes": "device clock available; game-time TBD"
     },
     {
@@ -1148,7 +1148,7 @@
       "name": "Session Stats",
       "category": "HUD",
       "description": "local timers available",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1189,7 +1189,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch 1: session elapsed provider; host test_hud_sources",
       "notes": "local timers available"
     },
     {
@@ -1589,7 +1589,7 @@
       "name": "Stop Watch",
       "category": "HUD",
       "description": "local timer; no game source needed",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1630,7 +1630,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch 1: elapsed formatter; host test_hud_sources",
       "notes": "local timer; no game source needed"
     },
     {

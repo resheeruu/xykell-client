@@ -7,9 +7,9 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 8
+- PARTIAL: 13
 - BLOCKED: 0
-- RESEARCH_REQUIRED: 235
+- RESEARCH_REQUIRED: 230
 - INCOMPATIBLE: 0
 - NOT_IMPLEMENTED: 12
 
@@ -87,8 +87,8 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 
 ### HUD (32)
 
-- `xykell.hud.fps` — Fps: **RESEARCH_REQUIRED** (requires FRAME; evidence: no runtime evidence)
-- `xykell.hud.cps` — Cps: **RESEARCH_REQUIRED** (requires INPUT_SEMANTICS; evidence: no runtime evidence)
+- `xykell.hud.fps` — Fps: **PARTIAL** (requires FRAME; evidence: Batch 1: FrameTimer provider + honest unknown; host test_hud_sources)
+- `xykell.hud.cps` — Cps: **PARTIAL** (requires INPUT_SEMANTICS; evidence: Batch 1: TapCounter provider + verified zero; host test_hud_sources)
 - `xykell.hud.coordinates` — Coordinates: **RESEARCH_REQUIRED** (requires PLAYER; evidence: no runtime evidence)
 - `xykell.hud.ping` — Ping: **RESEARCH_REQUIRED** (requires PACKET; evidence: no runtime evidence)
 - `xykell.hud.tps` — Tps: **RESEARCH_REQUIRED** (requires FRAME; evidence: no runtime evidence)
@@ -98,14 +98,14 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.hud.position` — Position: **RESEARCH_REQUIRED** (requires PLAYER; evidence: no runtime evidence)
 - `xykell.hud.direction` — Direction: **RESEARCH_REQUIRED** (requires PLAYER; evidence: no runtime evidence)
 - `xykell.hud.biome` — Biome: **RESEARCH_REQUIRED** (requires WORLD; evidence: no runtime evidence)
-- `xykell.hud.clock` — Clock: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.clock` — Clock: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch 1: UTC clock provider; host test_hud_sources)
 - `xykell.hud.keystrokes` — Keystrokes: **RESEARCH_REQUIRED** (requires INPUT_SEMANTICS; evidence: no runtime evidence)
 - `xykell.hud.touch_indicators` — Touch Indicators: **PARTIAL** (requires INPUT_SEMANTICS; evidence: M1: touch callback counter; host test_input_router)
 - `xykell.hud.target_info` — Target Info: **RESEARCH_REQUIRED** (requires ENTITY; evidence: no runtime evidence)
 - `xykell.hud.arraylist` — Arraylist: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.watermark` — Watermark: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.notifications` — Notifications: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
-- `xykell.hud.session_stats` — Session Stats: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.session_stats` — Session Stats: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch 1: session elapsed provider; host test_hud_sources)
 - `xykell.hud.server_info` — Server Info: **RESEARCH_REQUIRED** (requires PACKET; evidence: no runtime evidence)
 - `xykell.hud.entity_counter` — Entity Counter: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.hardware_stats` — Hardware Stats: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
@@ -114,7 +114,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.hud.low_health` — Low Health: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.potion_hud` — Potion Hud: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.speed_meter` — Speed Meter: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
-- `xykell.hud.stop_watch` — Stop Watch: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
+- `xykell.hud.stop_watch` — Stop Watch: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch 1: elapsed formatter; host test_hud_sources)
 - `xykell.hud.subtitles` — Subtitles: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.tab_list` — Tab List: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
 - `xykell.hud.totem_counter` — Totem Counter: **RESEARCH_REQUIRED** (requires OVERLAY_DELIVERY; evidence: no runtime evidence)
