@@ -20,6 +20,11 @@ SCOPED = [
     # Stage-5 JNI/Kotlin boundary: status-only surface, same gate.
     ROOT / "app/src/main/cpp/bridge.cpp",
     ROOT / "app/src/main/java/dev/xykell/client/runtime/RuntimeStatus.kt",
+    # Stage-7 session/game-state/capability bridge: same read-only gate.
+    ROOT / "native/include/xykell/runtime_session.h",
+    ROOT / "native/src/xykell_runtime_session.cpp",
+    ROOT / "tests/unit/test_runtime_session.cpp",
+    ROOT / "app/src/main/java/dev/xykell/client/runtime/LaunchExecutor.kt",
 ]
 # Stage-6 discovery files: UDP sockets are their stated purpose, so the
 # socket-API check does not apply -- but the gameplay-action gate does.

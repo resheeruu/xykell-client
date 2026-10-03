@@ -26,6 +26,9 @@ object RuntimeStatus {
     @JvmStatic external fun nativeEndpoints(): String
     @JvmStatic external fun nativeDiscovery(): String
     @JvmStatic external fun nativeSelectEndpoint(id: String): Boolean
+    @JvmStatic external fun nativeBeginSession(pkg: String, version: String): String
+    @JvmStatic external fun nativeMarkLaunched()
+    @JvmStatic external fun nativeEndSession(reason: String)
 
     fun start(): Boolean = guard { nativeStart() } ?: false
 
@@ -34,6 +37,23 @@ object RuntimeStatus {
             nativeStop()
         } catch (e: UnsatisfiedLinkError) {
             // Native bridge unavailable: nothing to stop.
+        }
+    }
+
+    fun beginSession(pkg: String, version: String): String =
+        guard { nativeBeginSession(pkg, version) } ?: ""
+
+    fun markLaunched() {
+        try {
+            nativeMarkLaunched()
+        } catch (e: UnsatisfiedLinkError) {
+        }
+    }
+
+    fun endSession(reason: String) {
+        try {
+            nativeEndSession(reason)
+        } catch (e: UnsatisfiedLinkError) {
         }
     }
 

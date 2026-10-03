@@ -24,12 +24,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             "Profile: ${ProfileManager.currentProfile}"
         val play = view.findViewById<Button>(R.id.home_play)
         val status = view.findViewById<TextView>(R.id.home_play_status)
-        // PLAY = verified handoff only: pre-checks, then Levi's own activity.
-        // Never claims the game launched. See LaunchDecider/LaunchExecutor.
+        // PLAY = Xykell-owned path: staged checks, then Minecraft's own
+        // exported activity via system intent. Never claims the game
+        // launched or any runtime connection. See LaunchExecutor.
         play.isEnabled = true
         status.text = RuntimeManager.playStatusText()
         play.setOnClickListener {
-            status.text = LaunchExecutor.execute(requireContext())
+            status.text = LaunchExecutor.execute(requireContext()) + "\n\n" +
+                LaunchExecutor.launchMinecraft(requireContext())
         }
         val diag = view.findViewById<TextView>(R.id.home_diag)
         diag.text = "Device: ${Build.MANUFACTURER} ${Build.MODEL}, " +

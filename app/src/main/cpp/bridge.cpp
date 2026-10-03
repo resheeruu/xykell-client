@@ -244,4 +244,37 @@ Java_dev_xykell_client_runtime_RuntimeStatus_nativeSelectEndpoint(JNIEnv* env, j
     }
 }
 
+// Runtime session (READ-ONLY): Xykell-owned launch bookkeeping. `connected`
+// is always false here: firing a system intent is not runtime attachment.
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeBeginSession(JNIEnv* env, jclass,
+                                                               jstring pkg,
+                                                               jstring version) {
+    try {
+        const auto s = sharedRuntime().beginSession(toStd(env, pkg), toStd(env, version));
+        return toJni(env, std::string("{\"sessionId\":\"") + jsonEscape(s.sessionId) +
+                             "\",\"connected\":false,\"diagnostics\":\"" +
+                             jsonEscape(s.diagnostics) + "\"}");
+    } catch (...) {
+        return toJni(env, "{\"sessionId\":\"\",\"connected\":false,\"diagnostic\":\"bridge\"}");
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeMarkLaunched(JNIEnv*, jclass) {
+    try {
+        sharedRuntime().markSessionLaunched();
+    } catch (...) {
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_dev_xykell_client_runtime_RuntimeStatus_nativeEndSession(JNIEnv* env, jclass,
+                                                             jstring reason) {
+    try {
+        sharedRuntime().endSession(toStd(env, reason));
+    } catch (...) {
+    }
+}
+
 } // extern "C"

@@ -47,4 +47,51 @@ object LaunchExecutor {
         )
         return PlayPipeline.report(results)
     }
+
+    /**
+     * Xykell-owned Minecraft launch (Stage 7). Legitimate system intent only:
+     * validate installation, start the Xykell runtime if available, fire
+     * Minecraft's own exported launcher activity, record an owned session.
+     * Launching is NOT a runtime connection: the report always states that
+     * the Xykell runtime is not connected to Minecraft.
+     */
+    fun launchMinecraft(context: Context): String {
+        val pm = context.packageManager
+        val versionName: String? = try {
+            @Suppress("DEPRECATION")
+            pm.getPackageInfo(MC_PKG, 0)?.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
+        if (versionName == null) {
+            return "Minecraft Installed: NO ($MC_PKG not found)\n" +
+                "Minecraft Launchable: NO\nXykell Runtime: not started"
+        }
+        val runtimeOk = RuntimeStatus.start()
+        val sessionLine = RuntimeStatus.beginSession(MC_PKG, versionName).ifEmpty {
+            "session unavailable (native bridge missing)"
+        }
+        val intent = pm.getLaunchIntentForPackage(MC_PKG)
+        if (intent == null) {
+            RuntimeStatus.endSession("no exported launch intent")
+            return "Minecraft Installed: YES ($versionName)\n" +
+                "Minecraft Launchable: NO (no exported launch intent)\n" +
+                "Xykell Runtime Available: $runtimeOk ($sessionLine)"
+        }
+        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+        return try {
+            context.startActivity(intent)
+            RuntimeStatus.markLaunched()
+            "Minecraft Installed: YES ($versionName)\n" +
+                "Minecraft Launchable: YES (system intent)\n" +
+                "Xykell Runtime Available: $runtimeOk ($sessionLine)\n" +
+                "Minecraft Runtime Connected: NO " +
+                "(launch is not connection; no attachment mechanism)"
+        } catch (e: Exception) {
+            RuntimeStatus.endSession("launch failed: ${e.message}")
+            "Minecraft Installed: YES ($versionName)\n" +
+                "Minecraft Launchable: YES\n" +
+                "Launch: FAILED (${e.message})"
+        }
+    }
 }

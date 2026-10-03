@@ -78,3 +78,20 @@ persistence is caller-owned. No credentials are ever stored (none exist).
 - Manifest: orphaned `org.levimc.launcher` `<queries>` entry removed (no
   code path referenced it — verified by grep); About-screen pins are
   reference documentation, preloader linkage unchanged (lab-gated).
+
+## Runtime session + game state (Stage 7)
+
+- `native/.../runtime_session.h/.cpp`: `SessionManager` (deterministic
+  `xykell-session-<n>` ids; `launched` vs `connected` kept separate —
+  `connected` has no setter reachable from any current layer),
+  `GameState::unattached()` (all fields Unavailable, values empty — no
+  fabricated health/position/dimension), `availabilityFor` feature gate
+  (launcher-local AVAILABLE; needs-runtime + disconnected →
+  RUNTIME_REQUIRED).
+- `Runtime::{beginSession,markSessionLaunched,endSession,session,
+  sessionActive}`; JNI `nativeBeginSession/MarkLaunched/EndSession`;
+  `RuntimeStatus.{beginSession,markLaunched,endSession}` guarded facades.
+- `LaunchExecutor.launchMinecraft`: install check → runtime start →
+  session begin → system launch intent → honest 4-line report (Installed /
+  Launchable / Runtime Available / Connected-NO). PLAY shows pipeline
+  report + launch result; never claims connection.
