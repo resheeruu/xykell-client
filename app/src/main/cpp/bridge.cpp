@@ -4,6 +4,7 @@
 // launcher's own store; the game-process store syncs via export/import files.
 #include <jni.h>
 
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -12,6 +13,9 @@
 #include "xykell/version_adapter.h"
 #include "xykell/runtime_provider.h"
 #include "xykell/runtime_observation_consumer.h"
+#include "xykell/config_store.h"
+#include "xykell/hud_model.h"
+#include "xykell/settings.h"
 
 namespace {
 
@@ -141,6 +145,118 @@ Java_dev_xykell_client_NativeProfiles_deleteProfile(JNIEnv* env, jclass, jstring
     xykell::ProfileManager pm(toStd(env, root));
     std::string err;
     return static_cast<jboolean>(pm.remove(toStd(env, name), err));
+}
+
+// Settings domain bridge (Batch 7). Confined to the settings catalog:
+// catalog snapshot, current values, validated set, scoped reset. NOT a
+// generic JSON bridge — section/key/value only, validated natively.
+namespace {
+
+std::string settingsPath(const std::string& root) {
+    return root + "/xykell.json";
+}
+
+bool loadConfig(const std::string& root, xykell::XykellConfig& cfg) {
+    return cfg.load(settingsPath(root));
+}
+
+bool saveConfig(const std::string& root, xykell::XykellConfig& cfg) {
+    return cfg.save(settingsPath(root));
+}
+
+} // namespace
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeSettings_settingsCatalog(JNIEnv* env, jclass) {
+    try {
+        xykell::json::Object out;
+        for (const auto& s : xykell::settings::catalog()) {
+            xykell::json::Object spec;
+            spec.emplace("section", xykell::json::Value(std::string(s.section)));
+            spec.emplace("key", xykell::json::Value(std::string(s.key)));
+            const char* type = "text";
+            switch (s.type) {
+                case xykell::settings::SettingType::Bool: type = "bool"; break;
+                case xykell::settings::SettingType::Int: type = "int"; break;
+                case xykell::settings::SettingType::Double: type = "double"; break;
+                case xykell::settings::SettingType::Text: type = "text"; break;
+                case xykell::settings::SettingType::Choice: type = "choice"; break;
+            }
+            spec.emplace("type", xykell::json::Value(std::string(type)));
+            spec.emplace("default", s.defaultValue);
+            spec.emplace("min", xykell::json::Value(s.min));
+            spec.emplace("max", xykell::json::Value(s.max));
+            xykell::json::Array opts;
+            for (const auto& o : s.options) {
+                opts.push_back(xykell::json::Value(o));
+            }
+            spec.emplace("options", xykell::json::Value(std::move(opts)));
+            spec.emplace("description", xykell::json::Value(std::string(s.description)));
+            out.emplace(std::string(s.section) + "." + s.key,
+                        xykell::json::Value(std::move(spec)));
+        }
+        return toJni(env, xykell::json::stringify(xykell::json::Value(std::move(out))));
+    } catch (...) {
+        return toJni(env, "{}");
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeSettings_settingsValues(JNIEnv* env, jclass, jstring root) {
+    try {
+        xykell::XykellConfig cfg;
+        loadConfig(toStd(env, root), cfg);
+        return toJni(env, xykell::json::stringify(cfg.root()));
+    } catch (...) {
+        return toJni(env, "{}");
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeSettings_setSetting(JNIEnv* env, jclass, jstring root,
+                                                 jstring section, jstring key,
+                                                 jstring valueJson) {
+    try {
+        const std::string sec = toStd(env, section);
+        const std::string k = toStd(env, key);
+        const auto parsed = xykell::json::parse(toStd(env, valueJson));
+        if (!parsed.ok) {
+            return JNI_FALSE;
+        }
+        const xykell::settings::SettingSpec* spec = xykell::settings::find(sec, k);
+        if (spec == nullptr) {
+            return JNI_FALSE;  // undeclared setting: never stored
+        }
+        std::string error;
+        if (!xykell::settings::validate(*spec, parsed.value, error)) {
+            return JNI_FALSE;  // invalid value rejected with reason (logged below)
+        }
+        xykell::XykellConfig cfg;
+        loadConfig(toStd(env, root), cfg);
+        if (!xykell::settings::setValue(cfg, *spec, parsed.value, error)) {
+            return JNI_FALSE;
+        }
+        return static_cast<jboolean>(saveConfig(toStd(env, root), cfg));
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeSettings_resetSettings(JNIEnv* env, jclass, jstring root,
+                                                    jstring section) {    try {
+        xykell::XykellConfig cfg;
+        loadConfig(toStd(env, root), cfg);
+        const std::string sec = toStd(env, section);
+        if (sec.empty()) {
+            xykell::settings::resetAll(cfg);
+        } else {
+            xykell::settings::resetSection(cfg, sec);
+        }
+        return static_cast<jboolean>(saveConfig(toStd(env, root), cfg));
+    } catch (...) {
+        return JNI_FALSE;
+    }
 }
 
 // Shared version verdict: the SAME VersionAdapter the game module uses.
@@ -368,6 +484,140 @@ Java_dev_xykell_client_runtime_observation_Observations_nativeOfferUnknown(
         }
         sharedObservationConsumer().consume(xykell::runtime::RuntimeObservation{*o});
         return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+// HUD editor bridge (Batch 8). Confined to profile HUD layouts and module
+// enable flags: layout JSON round-trips through validated deserialize,
+// element edits are bounds/finite/positive-scale checked, module ids are
+// non-empty strings. Typed primitives/strings only; no generic bridge.
+namespace {
+
+bool loadHud(const std::string& root, const std::string& name, xykell::Profile& out,
+             std::string& err) {
+    xykell::ProfileManager pm(root);
+    return pm.load(name, out, err);
+}
+
+bool saveHud(const std::string& root, const xykell::Profile& p, std::string& err) {
+    xykell::ProfileManager pm(root);
+    return pm.save(p, err);
+}
+
+bool finiteDouble(double v) {
+    return v == v && v != std::numeric_limits<double>::infinity()
+        && v != -std::numeric_limits<double>::infinity();
+}
+
+} // namespace
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeHud_getHudLayout(JNIEnv* env, jclass, jstring root,
+                                             jstring profile) {
+    try {
+        xykell::Profile p;
+        std::string err;
+        if (!loadHud(toStd(env, root), toStd(env, profile), p, err)) {
+            return nullptr;
+        }
+        return toJni(env, xykell::json::stringify(p.hudLayout));
+    } catch (...) {
+        return nullptr;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeHud_setHudLayout(JNIEnv* env, jclass, jstring root,
+                                             jstring profile, jstring layoutJson) {
+    try {
+        const auto parsed = xykell::json::parse(toStd(env, layoutJson));
+        if (!parsed.ok) {
+            return JNI_FALSE;
+        }
+        xykell::hud::HudLayout tmp;
+        std::string err;
+        if (!tmp.deserialize(parsed.value, err)) {
+            return JNI_FALSE;  // corrupt layout rejected, current kept
+        }
+        xykell::Profile p;
+        if (!loadHud(toStd(env, root), toStd(env, profile), p, err)) {
+            return JNI_FALSE;
+        }
+        p.hudLayout = parsed.value;
+        return static_cast<jboolean>(saveHud(toStd(env, root), p, err));
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeHud_setHudElement(JNIEnv* env, jclass, jstring root,
+                                              jstring profile, jint index, jdouble x,
+                                              jdouble y, jdouble scale, jboolean visible) {
+    try {
+        if (index < 0 || !finiteDouble(x) || !finiteDouble(y) || !finiteDouble(scale)
+            || scale <= 0.0 || scale > 10.0) {
+            return JNI_FALSE;
+        }
+        xykell::Profile p;
+        std::string err;
+        if (!loadHud(toStd(env, root), toStd(env, profile), p, err)) {
+            return JNI_FALSE;
+        }
+        xykell::hud::HudLayout layout;
+        if (!layout.deserialize(p.hudLayout, err)) {
+            return JNI_FALSE;
+        }
+        if (index >= static_cast<jint>(layout.elements.size())) {
+            return JNI_FALSE;
+        }
+        auto& el = layout.elements[static_cast<std::size_t>(index)];
+        el.x = static_cast<float>(x);
+        el.y = static_cast<float>(y);
+        el.scale = static_cast<float>(scale);
+        el.visible = visible == JNI_TRUE;
+        p.hudLayout = layout.serialize();
+        return static_cast<jboolean>(saveHud(toStd(env, root), p, err));
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeHud_resetHudLayout(JNIEnv* env, jclass, jstring root,
+                                               jstring profile) {
+    try {
+        xykell::Profile p;
+        std::string err;
+        if (!loadHud(toStd(env, root), toStd(env, profile), p, err)) {
+            return JNI_FALSE;
+        }
+        xykell::hud::HudLayout dflt = xykell::hud::HudLayout::m1Default();
+        p.hudLayout = dflt.serialize();
+        return static_cast<jboolean>(saveHud(toStd(env, root), p, err));
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_NativeHud_setProfileModule(JNIEnv* env, jclass, jstring root,
+                                                  jstring profile, jstring id,
+                                                  jboolean enabled) {
+    try {
+        const std::string mid = toStd(env, id);
+        if (mid.empty()) {
+            return JNI_FALSE;
+        }
+        xykell::Profile p;
+        std::string err;
+        if (!loadHud(toStd(env, root), toStd(env, profile), p, err)) {
+            return JNI_FALSE;
+        }
+        p.modules[mid] = (enabled == JNI_TRUE);
+        return static_cast<jboolean>(saveHud(toStd(env, root), p, err));
     } catch (...) {
         return JNI_FALSE;
     }
