@@ -9,9 +9,57 @@ namespace stdfs = std::filesystem;
 
 namespace {
 
+// Module-enabled presets for builtins. Keys are real Batch-1 module ids;
+// settings keys/values match the Batch-2 settings catalog exactly.
+void presetModules(Profile& p, std::initializer_list<const char*> ids) {
+    for (const char* id : ids) {
+        p.modules[id] = true;
+    }
+}
+
+void presetSetting(Profile& p, const char* section, const char* key, json::Value v) {
+    const auto& empty = json::Value::emptyObject();
+    json::Object& root =
+        const_cast<json::Object&>(p.settings.asObject(empty));
+    auto sit = root.find(section);
+    if (sit == root.end() || !sit->second.isObject()) {
+        sit = root.emplace(section, json::Value(json::Object{})).first;
+    }
+    json::Object& inner =
+        const_cast<json::Object&>(sit->second.asObject(empty));
+    inner[key] = std::move(v);
+}
+
 Profile builtin(const std::string& name) {
     Profile p;
     p.name = name;
+    if (name == "Default" || name == "PvP" || name == "Survival") {
+        presetModules(p, {"xykell.hud.fps", "xykell.hud.clock"});
+        if (name != "Survival") {
+            p.modules["xykell.hud.cps"] = true;
+        }
+        if (name == "Default") {
+            p.modules["xykell.hud.session_stats"] = true;
+        }
+        p.theme = "Xykell Dark";
+    } else if (name == "Performance") {
+        presetModules(p, {"xykell.hud.fps"});
+        presetSetting(p, "client", "animations", json::Value(false));
+        presetSetting(p, "hud", "show_cps", json::Value(false));
+        presetSetting(p, "hud", "show_clock", json::Value(false));
+        presetSetting(p, "hud", "show_session", json::Value(false));
+        p.theme = "Xykell Minimal";
+    } else if (name == "Recording") {
+        // Clean capture: HUD elements off, motion calm, minimal chrome.
+        presetSetting(p, "client", "animations", json::Value(false));
+        presetSetting(p, "client", "reduced_motion", json::Value(true));
+        presetSetting(p, "hud", "show_fps", json::Value(false));
+        presetSetting(p, "hud", "show_cps", json::Value(false));
+        presetSetting(p, "hud", "show_clock", json::Value(false));
+        presetSetting(p, "hud", "show_session", json::Value(false));
+        p.theme = "Xykell Minimal";
+    }
+    // Builder/Minimal/Custom keep empty content (user-defined from scratch).
     return p;
 }
 
@@ -113,7 +161,8 @@ bool Profile::deserialize(const json::Value& v, std::string& error) {
 
 const std::vector<std::string>& ProfileManager::builtinNames() {
     static const std::vector<std::string> names = {"Default", "PvP",     "Survival",
-                                                   "Performance", "Builder", "Minimal"};
+                                                   "Performance", "Recording", "Builder",
+                                                   "Minimal"};
     return names;
 }
 

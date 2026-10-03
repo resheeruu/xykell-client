@@ -57,10 +57,17 @@ int main() {
     assert(pm.exportTo("PvP", exp, err));
     assert(pm.importFrom(exp, "Imported", err) && pm.exists("Imported"));
 
-    // Reset restores builtin.
+    // Reset restores builtin preset content (PvP ships fps+cps+clock on).
     assert(pm.reset("PvP", err));
     Profile r;
-    assert(pm.load("PvP", r, err) && r.modules.empty());
+    assert(pm.load("PvP", r, err));
+    assert(r.modules["xykell.hud.fps"] && r.modules["xykell.hud.cps"]);
+    assert(r.theme == "Xykell Dark");
+    // Recording preset: clean capture, everything HUD off.
+    Profile rec;
+    assert(pm.reset("Recording", err) && pm.load("Recording", rec, err));
+    assert(rec.modules.empty() && rec.theme == "Xykell Minimal");
+    assert(pm.setActive("Recording", err) && pm.active() == "Recording");
 
     std::cout << "test_profile: PASS\n";
     return 0;
