@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "xykell/lan_discovery.h"
+#include "xykell/runtime_session.h"
 
 namespace xykell::runtime {
 
@@ -270,6 +271,15 @@ class Runtime {
     }
     RuntimeProvider* provider() { return provider_.get(); }
 
+    // Xykell-owned session (Stage 7): launch/monitor bookkeeping. Never
+    // implies runtime attachment; see runtime_session.h truth rule.
+    RuntimeSession beginSession(const std::string& minecraftPackage,
+                                const std::string& minecraftVersion);
+    void markSessionLaunched();
+    void endSession(const std::string& reason);
+    const RuntimeSession& session() const { return sessions_.current(); }
+    bool sessionActive() const { return sessions_.active(); }
+
     // Config key helpers (caller owns persistence via XykellConfig).
     static constexpr const char* kConfigSection = "runtime";
     static constexpr const char* kConfigKeyProvider = "provider";
@@ -279,6 +289,7 @@ class Runtime {
     std::unique_ptr<RuntimeProvider> provider_;
     std::string selected_ = kDefaultProvider;
     std::string selectedEndpoint_;
+    SessionManager sessions_;
     CapabilitySink* sink_ = nullptr;
     std::string lastError_;
 };

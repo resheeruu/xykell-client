@@ -305,8 +305,7 @@ std::vector<EndpointDescriptor> Runtime::discover() const {
     return {};
 }
 
-bool Runtime::selectEndpoint(const std::string& id) {
-    if (selected_ == SyntheticRelayProvider::kName) {
+bool Runtime::selectEndpoint(const std::string& id) {    if (selected_ == SyntheticRelayProvider::kName) {
         auto* p = static_cast<SyntheticRelayProvider*>(provider_.get());
         for (const auto& e : p->discover()) {
             if (e.id == id) {
@@ -326,5 +325,14 @@ bool Runtime::selectEndpoint(const std::string& id) {
     }
     return false;
 }
+
+RuntimeSession Runtime::beginSession(const std::string& minecraftPackage,
+                                     const std::string& minecraftVersion) {
+    return sessions_.begin(minecraftPackage, minecraftVersion, selected_);
+}
+
+void Runtime::markSessionLaunched() { sessions_.markLaunched(); }
+
+void Runtime::endSession(const std::string& reason) { sessions_.end(reason); }
 
 } // namespace xykell::runtime
