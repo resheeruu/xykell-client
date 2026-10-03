@@ -98,15 +98,19 @@ jobs:
           "$AAPT" dump xmltree "$APK" AndroidManifest.xml > /tmp/manifest-tree.txt
           grep -c "E: service" /tmp/manifest-tree.txt
           grep -E "E: (service|receiver|provider)" /tmp/manifest-tree.txt
+          echo "--- auto-added components (record identity; must not be ours) ---"
+          grep -B1 -A8 "E: provider" /tmp/manifest-tree.txt | head -n 14
+          grep -B1 -A8 "E: receiver" /tmp/manifest-tree.txt | head -n 14 || echo "no-receiver-element"
           grep -q "BOOT_COMPLETED" /tmp/manifest-tree.txt && (echo "BOOT RECEIVER PRESENT" && exit 1) || echo "no-boot-receiver"
           grep -A3 "E: service" /tmp/manifest-tree.txt | grep -E "specialUse|exported" | head -n 4
           echo "--- endpoint strings in dex (only 127.0.0.1:8765 allowed) ---"
           rm -rf /tmp/dexcheck && mkdir -p /tmp/dexcheck && cd /tmp/dexcheck
           unzip -o "$GITHUB_WORKSPACE/$APK" 'classes*.dex' > /dev/null
-          strings classes*.dex | grep -E "ws://|wss://|http://" | sort | uniq -c | sort -rn | head -n 20
-          if strings classes*.dex | grep -E "ws://|wss://" | grep -v "ws://127.0.0.1:8765" | grep -q .; then
-            echo "UNEXPECTED WEBSOCKET ENDPOINT" && exit 1
-          fi
+          # Extract only URLs carrying a host (excludes the code's own "ws://"
+          # scheme-strip literal, which has no host by construction).
+          strings classes*.dex | grep -Eo "wss?://[A-Za-z0-9.:\[\]_-]+" | sort | uniq -c | sort -rn
+          URLS=$(strings classes*.dex | grep -Eo "wss?://[A-Za-z0-9.:\[\]_-]+" | sort -u)
+          test "$URLS" = "ws://127.0.0.1:8765" || (echo "UNEXPECTED WEBSOCKET ENDPOINT: $URLS" && exit 1)
           echo "endpoint-check: only ws://127.0.0.1:8765"
           strings classes*.dex | grep -c -i -E "/execute|BOOT_COMPLETED" || echo "no-exec-no-boot-strings"
           echo "--- native lib + JNI offer symbols ---"
