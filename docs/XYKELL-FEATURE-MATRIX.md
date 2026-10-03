@@ -29,6 +29,7 @@ Automated test status | Device-only requirement | Security | Dependencies/blocke
 | F-UI | ui framework | Lunar/Flarial/Atlas ClickGUI | nav/search/favorites, honest toggles | gui_controller + ClickGUI model | overlay host | IMPLEMENTED | AUTOMATED | smoke: render/touch | LOW | overlay binding partial |
 | F-HUD | hud framework | Lunar/Flarial/Atlas HUD | layouts/editor/theme, "--" for unverified | hud_model/renderer/theme + providers | frame clock (Batch 1) | IMPLEMENTED | AUTOMATED | smoke: on-screen render | LOW | data providers (Batch 1) |
 | F-LOG | logging | — | redacted logs, diagnostics | crash_guard + redaction | files | IMPLEMENTED | AUTOMATED | none | LOW | none |
+| F-ANIM | animation | multi-ref motion patterns (original curves) | unified easings + controller + reduced-motion | animation.h (fade/slide/scale/spring/stagger) | none (injected time) | IMPLEMENTED (Batch 3) | AUTOMATED (test_animation) | smoke: visual smoothness | LOW | consumers wire in later (startup/pages/toggles) |
 | F-UPD | update/config arch | Lunar/Atlas | signed+checksum update checks | checker design (not built) | network (update host) | RESEARCH_REQUIRED | none | none | GUARDED | needs owner + signing keys |
 
 ## Tier 2 — Universal client features (reference-supported)
