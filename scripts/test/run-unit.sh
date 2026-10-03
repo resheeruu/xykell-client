@@ -89,5 +89,8 @@ run_case test_lan_discovery "$ROOT/tests/unit/test_lan_discovery.cpp" \
 run_case test_runtime_session "$ROOT/tests/unit/test_runtime_session.cpp" \
     "$SRC/xykell_runtime_session.cpp" "$SRC/xykell_runtime_provider.cpp" \
     "$SRC/xykell_lan_discovery.cpp"
-echo "UNIT: $pass/24 suites PASS"
+run_case test_runtime_observation "$ROOT/tests/unit/test_runtime_observation.cpp"
+run_case test_observation_consumer "$ROOT/tests/unit/test_observation_consumer.cpp"
+run_case test_observation_source "$ROOT/tests/unit/test_observation_source.cpp"
+echo "UNIT: $pass/27 suites PASS"
 rm -rf "$WORK"
