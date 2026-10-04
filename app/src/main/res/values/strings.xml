@@ -191,4 +191,19 @@
     <string name="perf_startup_label">App startup: %1$d ms</string>
     <string name="perf_uptime_label">Uptime: %1$d s</string>
     <string name="perf_cpu_label">Thread CPU: %1$d ms</string>
+
+    <string name="accounts_title">Accounts</string>
+    <string name="accounts_body">Official Microsoft/Xbox sign-in via external browser. No passwords or tokens are entered in-app. A valid app registration (client ID) is required for the auth flow.</string>
+    <string name="accounts_client_id_hint">Azure App Registration Client ID</string>
+    <string name="accounts_save_client">SAVE CLIENT ID</string>
+    <string name="accounts_clear_client">CLEAR CLIENT ID</string>
+    <string name="accounts_sign_in">SIGN IN WITH MICROSOFT</string>
+    <string name="accounts_sign_out">SIGN OUT</string>
+    <string name="accounts_client_saved">Client ID saved</string>
+    <string name="accounts_client_cleared">Client ID cleared</string>
+    <string name="accounts_client_empty">Enter a client ID first</string>
+    <string name="accounts_launched_browser">Opened Microsoft auth in browser</string>
+    <string name="accounts_signed_out">Signed out</string>
+    <string name="accounts_signed_in">Signed in as %1$s</string>
+    <string name="accounts_not_signed_in">Not signed in</string>
 </resources>

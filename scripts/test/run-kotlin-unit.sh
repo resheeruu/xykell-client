@@ -13,6 +13,8 @@ cd "$ROOT"
 
 KOTLINC_BIN="${KOTLINC:-$HOME/local/opt/kotlinc/bin/kotlinc}"
 JARS_DIR="${XYKELL_JVM_JARS:-$HOME/local/opt/jvm-jars}"
+AX_DIR="${XYKELL_ANDROIDX_JARS:-$HOME/local/opt/androidx-jars}"
+ANDROID_JAR="${XYKELL_ANDROID_JAR:-$HOME/android-sdk/platforms/android-35/android.jar}"
 WORK="${XYKELL_KOTLIN_WORK:-/data/data/com.termux/files/usr/tmp/opencode/xykell-kotlin}"
 
 if [ ! -x "$KOTLINC_BIN" ]; then
@@ -46,6 +48,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/worlds/WorldStore.kt"
     "$SRC/dev/xykell/client/runtime/packs/PackStore.kt"
     "$SRC/dev/xykell/client/runtime/performance/PerformanceStore.kt"
+    "$SRC/dev/xykell/client/runtime/accounts/AccountStore.kt"
     "$SRC/dev/xykell/client/runtime/observation/Observations.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationTranslator.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationStateMachine.kt"
@@ -86,7 +89,7 @@ for s in "${SUITES[@]}"; do
     fi
 done
 
-CP="$JARS_DIR/junit-4.13.2.jar:$JARS_DIR/hamcrest-core-1.3.jar:$JARS_DIR/json-20240303.jar:$JARS_DIR/okhttp-4.12.0.jar:$JARS_DIR/okio-jvm-3.6.0.jar"
+CP="$JARS_DIR/junit-4.13.2.jar:$JARS_DIR/hamcrest-core-1.3.jar:$JARS_DIR/json-20240303.jar:$JARS_DIR/okhttp-4.12.0.jar:$JARS_DIR/okio-jvm-3.6.0.jar:$ANDROID_JAR"
 # kotlinc's own stdlib (compiled classes need it at runtime too).
 KOTLINC_HOME="$(cd "$(dirname "$KOTLINC_BIN")/.." && pwd)"
 for lib in kotlin-stdlib.jar kotlin-stdlib-jdk7.jar kotlin-stdlib-jdk8.jar; do

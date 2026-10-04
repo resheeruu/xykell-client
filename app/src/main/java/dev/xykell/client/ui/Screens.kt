@@ -18,17 +18,6 @@ open class InfoFragment : Fragment(R.layout.fragment_info) {
     }
 }
 
-class AccountsFragment : InfoFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        title = "Accounts"
-        body = "NOT WIRED — official flows only.\n\nXykell will use official " +
-            "Microsoft/Xbox sign-in flows. Never enters passwords, never " +
-            "extracts tokens, never bypasses authentication. Until an " +
-            "official integration exists, manage accounts in Minecraft itself."
-    }
-}
-
 class AboutFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
