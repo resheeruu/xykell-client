@@ -183,4 +183,12 @@
     <string name="packs_empty_search">No packs match \"%1$s\".</string>
     <string name="packs_created">Added: %1$s</string>
     <string name="packs_never_used">Never used</string>
+
+    <string name="perf_title">Performance</string>
+    <string name="perf_body">Real-time app performance metrics. These are Xykell app metrics only — never mixed with Minecraft runtime data.</string>
+    <string name="perf_memory_label">Heap: %1$d / %2$d MB | System avail: %3$d / %4$d MB</string>
+    <string name="perf_storage_label">Storage free: %1$d / %2$d MB</string>
+    <string name="perf_startup_label">App startup: %1$d ms</string>
+    <string name="perf_uptime_label">Uptime: %1$d s</string>
+    <string name="perf_cpu_label">Thread CPU: %1$d ms</string>
 </resources>

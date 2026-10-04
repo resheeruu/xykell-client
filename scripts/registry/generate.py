@@ -357,6 +357,7 @@ EVIDENCE = {
     ("LAUNCHER", "servers_probe"): "Batch A: read-only TCP reachability check per server; host test_serverstore_probe",
     ("LAUNCHER", "worlds"): "Batch B: local world book with level.dat NBT import via SAF tree picker; host test_worldstore",
     ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
+    ("LAUNCHER", "performance"): "Batch D: app performance dashboard (FPS, memory, storage, startup); host test_perfstore",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -525,7 +526,8 @@ def main() -> None:
                   "xykell.client.hud_editor", "xykell.launcher.diagnostics",
                   "xykell.launcher.profiles", "xykell.launcher.play",
                   "xykell.launcher.servers", "xykell.launcher.servers_probe",
-                  "xykell.launcher.worlds", "xykell.launcher.packs"}
+                  "xykell.launcher.worlds", "xykell.launcher.packs",
+                  "xykell.launcher.performance"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI
