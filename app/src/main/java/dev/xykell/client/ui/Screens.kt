@@ -18,16 +18,6 @@ open class InfoFragment : Fragment(R.layout.fragment_info) {
     }
 }
 
-class PacksFragment : InfoFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        title = "Packs"
-        body = "NOT WIRED — pack browser pending Xykell content manager.\n\n" +
-            "Planned: browse, import, export, enable, disable, compatibility, " +
-            "backup, rollback. Never loads native executables as content."
-    }
-}
-
 class AccountsFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

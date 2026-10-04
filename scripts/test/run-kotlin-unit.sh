@@ -44,6 +44,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/servers/ServerStore.kt"
     "$SRC/dev/xykell/client/runtime/worlds/NbtReader.kt"
     "$SRC/dev/xykell/client/runtime/worlds/WorldStore.kt"
+    "$SRC/dev/xykell/client/runtime/packs/PackStore.kt"
     "$SRC/dev/xykell/client/runtime/observation/Observations.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationTranslator.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationStateMachine.kt"
@@ -60,9 +61,10 @@ SUITES=(
     dev.xykell.client.ui.HomeStatusTest
     dev.xykell.client.runtime.servers.ServerStoreTest
     dev.xykell.client.runtime.worlds.WorldStoreTest
+    dev.xykell.client.runtime.packs.PackStoreTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
 )
-EXPECTED_SUITES=9
+EXPECTED_SUITES=10
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -97,6 +99,7 @@ done
     "$TEST"/dev/xykell/client/runtime/observation/ObservationPipelineTest.kt \
     "$TEST"/dev/xykell/client/runtime/servers/ServerStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/worlds/WorldStoreTest.kt \
+    "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     2> "$WORK/kotlinc.log" || {
         echo "KOTLIN-UNIT: FAIL — kotlinc compile error" >&2
         cat "$WORK/kotlinc.log" >&2

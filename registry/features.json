@@ -11182,7 +11182,7 @@
       "name": "Packs",
       "category": "LAUNCHER",
       "description": "integrate Levi content management",
-      "status": "NOT_IMPLEMENTED",
+      "status": "RESEARCH_REQUIRED",
       "requires": [],
       "settings": [
         {
@@ -11206,7 +11206,7 @@
         "Xykell",
         "LeviLaunchroid"
       ],
-      "evidence": "",
+      "evidence": "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
       "notes": "integrate Levi content management"
     },
     {

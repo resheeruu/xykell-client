@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/packs_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/packs_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/xykell_muted" />
+
+    <EditText
+        android:id="@+id/packs_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="@string/packs_search_hint"
+        android:inputType="text"
+        android:importantForAutofill="no"
+        android:maxLines="1"
+        android:minHeight="48dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:background="@color/xykell_surface"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/packs_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/packs_name_hint"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:maxLines="1"
+            android:minHeight="48dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/packs_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/packs_type_hint"
+                android:inputType="text"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/packs_version"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:hint="@string/packs_version_hint"
+                android:inputType="text"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:minHeight="48dp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/packs_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/packs_author_hint"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:maxLines="1"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/packs_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/packs_notes_hint"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:maxLines="2"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/packs_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/packs_path_hint"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            android:maxLines="1"
+            android:minHeight="48dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/packs_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/packs_cancel_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:minHeight="48dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/packs_import"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/packs_export"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:minHeight="48dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/packs_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/xykell_muted" />
+
+    <TextView
+        android:id="@+id/packs_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="14sp"
+        android:textColor="@color/xykell_muted" />
+
+    <LinearLayout
+        android:id="@+id/packs_rows"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>
