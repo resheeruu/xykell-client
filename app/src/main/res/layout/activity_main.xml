@@ -37,48 +37,41 @@
                 android:textColor="@color/xykell_muted"
                 android:textSize="14sp"
                 android:freezesText="true" />
+
+            <TextView
+                android:id="@+id/page_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/xykell_muted"
+                android:textSize="12sp"
+                android:visibility="gone" />
         </LinearLayout>
 
+        <dev.xykell.client.ui.NonSwipeableViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Reduced-motion fallback: chip row shown when ViewPager is disabled -->
         <HorizontalScrollView
+            android:id="@+id/nav_row_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
             android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/nav_row"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
-                <Button android:id="@+id/nav_home" style="@style/XykellNavButton" android:text="Home" />
-                <Button android:id="@+id/nav_versions" style="@style/XykellNavButton" android:text="Versions" />
-                <Button android:id="@+id/nav_modules" style="@style/XykellNavButton" android:text="Modules" />
-                <Button android:id="@+id/nav_hud" style="@style/XykellNavButton" android:text="HUD" />
-                <Button android:id="@+id/nav_profiles" style="@style/XykellNavButton" android:text="Profiles" />
-                <Button android:id="@+id/nav_themes" style="@style/XykellNavButton" android:text="Themes" />
-                <Button android:id="@+id/nav_keybinds" style="@style/XykellNavButton" android:text="@string/nav_keybinds" />
-                <Button android:id="@+id/nav_settings" style="@style/XykellNavButton" android:text="Settings" />
-                <Button android:id="@+id/nav_about" style="@style/XykellNavButton" android:text="About" />
-                <Button android:id="@+id/nav_worlds" style="@style/XykellNavButton" android:text="Worlds" />
-                <Button android:id="@+id/nav_packs" style="@style/XykellNavButton" android:text="Packs" />
-                <Button android:id="@+id/nav_servers" style="@style/XykellNavButton" android:text="Servers" />
-                <Button android:id="@+id/nav_accounts" style="@style/XykellNavButton" android:text="Accounts" />
             </LinearLayout>
         </HorizontalScrollView>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
-
-            <FrameLayout
-                android:id="@+id/screen_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
     </LinearLayout>
 
     <LinearLayout

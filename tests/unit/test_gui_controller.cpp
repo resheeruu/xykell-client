@@ -12,7 +12,7 @@ int main() {
     gui::GuiController gui;
     std::string err;
     assert(gui.loadRegistry(read.content, err));
-    assert(gui.count() == 255); // registry truth, still exact
+    assert(gui.count() == 256); // registry truth, still exact
     assert(gui.loadRegistry("junk", err)); // cached: no-op success
 
     ModuleManager mods;

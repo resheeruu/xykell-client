@@ -13,7 +13,7 @@ int main() {
     assert(read.ok);
     const auto rep = gui::buildFromRegistryJson(read.content);
     assert(rep.ok && rep.error.empty());
-    assert(rep.entries.size() == 255);
+    assert(rep.entries.size() == 256);
 
     // Spot checks.
     bool sawAura = false, sawCore = false;

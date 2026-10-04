@@ -2,76 +2,160 @@ package dev.xykell.client
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.ViewPager
 import dev.xykell.client.ui.AboutFragment
 import dev.xykell.client.ui.AccountsFragment
+import dev.xykell.client.ui.ClientFragment
 import dev.xykell.client.ui.HomeFragment
 import dev.xykell.client.ui.HudEditorFragment
 import dev.xykell.client.ui.KeybindCapture
 import dev.xykell.client.ui.KeybindsFragment
 import dev.xykell.client.ui.ModulesFragment
+import dev.xykell.client.ui.NonSwipeableViewPager
 import dev.xykell.client.ui.PacksFragment
 import dev.xykell.client.ui.ProfilesFragment
+import dev.xykell.client.ui.ScreenPagerAdapter
 import dev.xykell.client.ui.ServersFragment
 import dev.xykell.client.ui.SettingsFragment
-import dev.xykell.client.ui.ThemeColors
-import dev.xykell.client.ui.ActiveTheme
 import dev.xykell.client.ui.ThemesFragment
 import dev.xykell.client.ui.VersionsFragment
 import dev.xykell.client.ui.WorldsFragment
+import dev.xykell.client.ui.ActiveTheme
+import dev.xykell.client.ui.ThemeColors
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var pager: dev.xykell.client.ui.NonSwipeableViewPager
+    private lateinit var adapter: ScreenPagerAdapter
+    private lateinit var screenTitle: TextView
+    private lateinit var pageIndicator: TextView
+    private lateinit var navRowContainer: ViewGroup
+    private var currentPage = 0
+    private var usePager = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         applyStoredTheme()
-        wire(R.id.nav_home, HomeFragment())
-        wire(R.id.nav_versions, VersionsFragment())
-        wire(R.id.nav_modules, ModulesFragment())
-        wire(R.id.nav_hud, HudEditorFragment())
-        wire(R.id.nav_profiles, ProfilesFragment())
-        wire(R.id.nav_themes, ThemesFragment())
-        wire(R.id.nav_keybinds, KeybindsFragment())
-        wire(R.id.nav_settings, SettingsFragment())
-        wire(R.id.nav_about, AboutFragment())
-        wire(R.id.nav_worlds, WorldsFragment())
-        wire(R.id.nav_packs, PacksFragment())
-        wire(R.id.nav_servers, ServersFragment())
-        wire(R.id.nav_accounts, AccountsFragment())
+
+        pager = findViewById(R.id.pager)
+        screenTitle = findViewById(R.id.screen_title)
+        pageIndicator = findViewById(R.id.page_indicator)
+        navRowContainer = findViewById(R.id.nav_row_container)
+
+        // Check reduced motion preference
+        usePager = !isReducedMotionEnabled()
+
+        adapter = ScreenPagerAdapter(supportFragmentManager, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+        pager.adapter = adapter
+
+        if (usePager) {
+            pager.setSwipeEnabled(true)
+            pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
+                override fun onPageSelected(position: Int) {
+                    currentPage = position
+                    updateTitleAndIndicator(position)
+                }
+                override fun onPageScrollStateChanged(state: Int) = Unit
+            })
+            // Hide the fallback chip row
+            navRowContainer.visibility = View.GONE
+        } else {
+            // Reduced motion: disable pager swiping, show chip fallback
+            pager.setSwipeEnabled(false)
+            setupChipNavigation()
+            navRowContainer.visibility = View.VISIBLE
+        }
+
         if (savedInstanceState == null) {
-            show(HomeFragment())
-            // Default tab state matches the default screen.
-            findViewById<Button>(R.id.nav_home).also {
-                it.isSelected = true
-                currentNav = it
-                findViewById<android.widget.TextView>(R.id.screen_title).text = it.text
-            }
+            showPage(0)
             playSplash()
         } else {
-            // Rotation: fragment state is restored; hide the splash instantly
-            // and rebind currentNav to the chip view-state restored as selected.
-            findViewById<android.view.View>(R.id.splash_screen)?.visibility =
-                android.view.View.GONE
-            val row = findViewById<android.widget.LinearLayout>(R.id.nav_row)
-            currentNav = (0 until row.childCount)
-                .map { row.getChildAt(it) as Button }
-                .firstOrNull { it.isSelected }
+            // Rotation: restore state
+            findViewById<View>(R.id.splash_screen)?.visibility = View.GONE
+            val savedPage = savedInstanceState.getInt("current_page", 0)
+            showPage(savedPage)
         }
     }
 
-    private var currentNav: Button? = null
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("current_page", currentPage)
+    }
 
-    private fun wire(buttonId: Int, screen: Fragment) {
-        val button = findViewById<Button>(buttonId)
-        button.setOnClickListener {
-            currentNav?.isSelected = false
-            button.isSelected = true
-            currentNav = button
-            findViewById<android.widget.TextView>(R.id.screen_title).text = button.text
-            show(screen)
+    private fun showPage(page: Int) {
+        currentPage = page.coerceIn(0, adapter.count - 1)
+        if (usePager) {
+            pager.currentItem = currentPage
+        }
+        updateTitleAndIndicator(currentPage)
+    }
+
+    private fun updateTitleAndIndicator(position: Int) {
+        screenTitle.text = adapter.getTitle(position)
+        pageIndicator.text = "${position + 1} / ${adapter.count}"
+        pageIndicator.visibility = View.VISIBLE
+    }
+
+    /** Navigation methods for sub-screens (Client hub buttons) */
+    fun navigateToVersion() = showPage(1) // Client screen handles this internally
+    fun navigateToModules() = showPage(1)
+    fun navigateToSettings() = showPage(1)
+    fun navigateToKeybinds() = showPage(1)
+    fun navigateToThemes() = showPage(1)
+    fun navigateToAbout() = showPage(1)
+
+    private fun isReducedMotionEnabled(): Boolean {
+        val scale = resources.configuration.fontScale
+        // Use system reduced motion setting if available (API 29+)
+        // For now, check a simple heuristic
+        return resources.configuration.fontScale > 1.3f
+    }
+
+    private fun setupChipNavigation() {
+        val navRow = findViewById<LinearLayout>(R.id.nav_row)
+        val fragments = listOf(
+            HomeFragment() to R.string.nav_home,
+            VersionsFragment() to R.string.nav_versions,
+            ModulesFragment() to R.string.nav_modules,
+            HudEditorFragment() to R.string.nav_hud,
+            ProfilesFragment() to R.string.nav_profiles,
+            ThemesFragment() to R.string.nav_themes,
+            KeybindsFragment() to R.string.nav_keybinds,
+            SettingsFragment() to R.string.nav_settings,
+            AboutFragment() to R.string.nav_about,
+            WorldsFragment() to R.string.nav_worlds,
+            PacksFragment() to R.string.nav_packs,
+            ServersFragment() to R.string.nav_servers,
+            AccountsFragment() to R.string.nav_accounts,
+        )
+
+        navRow.removeAllViews()
+        for ((fragment, stringRes) in fragments) {
+            val btn = Button(this, null, 0, R.style.XykellNavButton)
+            btn.text = getString(stringRes)
+            btn.setOnClickListener {
+                val idx = navRow.indexOfChild(btn)
+                if (idx >= 0 && idx < adapter.count) {
+                    showPage(idx)
+                }
+            }
+            navRow.addView(btn)
+        }
+
+        // Set initial selected state
+        navRow.getChildAt(currentPage)?.let {
+            it.isSelected = true
         }
     }
 
@@ -79,10 +163,10 @@ class MainActivity : AppCompatActivity() {
      *  is ready before the first frame. Only on fresh launch; rotation hides
      *  it instantly in onCreate. */
     private fun playSplash() {
-        val splash = findViewById<android.view.View>(R.id.splash_screen) ?: return
+        val splash = findViewById<View>(R.id.splash_screen) ?: return
         splash.alpha = 1f
         splash.animate().alpha(0f).setStartDelay(350).setDuration(250)
-            .withEndAction { splash.visibility = android.view.View.GONE }
+            .withEndAction { splash.visibility = View.GONE }
             .start()
     }
 
@@ -96,17 +180,6 @@ class MainActivity : AppCompatActivity() {
             return sink(event.keyCode)
         }
         return super.dispatchKeyEvent(event)
-    }
-
-    private fun show(screen: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.screen_container, screen)
-            .commit()
-        // Fresh fragment views are inflated from the compiled palette;
-        // re-map them to the active theme after the transaction lands.
-        findViewById<android.view.View>(R.id.screen_container).post {
-            ActiveTheme.bindFresh(findViewById(R.id.screen_container))
-        }
     }
 
     /** Startup theme restore: read the validated client.theme setting and
