@@ -56,6 +56,10 @@
             style="@style/XykellNavButton"
             android:text="Themes" />
         <Button
+            android:id="@+id/nav_keybinds"
+            style="@style/XykellNavButton"
+            android:text="@string/nav_keybinds" />
+        <Button
             android:id="@+id/nav_settings"
             style="@style/XykellNavButton"
             android:text="Settings" />

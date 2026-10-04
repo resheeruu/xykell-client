@@ -17,6 +17,7 @@
 #include "xykell/hud_model.h"
 #include "xykell/settings.h"
 #include "xykell/theme.h"
+#include "xykell/keybind_store.h"
 
 namespace {
 
@@ -678,6 +679,100 @@ Java_dev_xykell_client_NativeThemes_themeTokens(JNIEnv* env, jclass, jstring nam
         return toJni(env, xykell::json::stringify(t.serialize()));
     } catch (...) {
         return nullptr;
+    }
+}
+
+// Keybind store bridge (Batch 13). Bounded surface: list all registered
+// actions with binds, bind/unbind one slot for one action, reset all.
+// Codes and action ids are validated natively (registered actions, code
+// range, conflicts) before touching disk; error text comes from the
+// manager/store verbatim, never fabricated here. Every call reloads the
+// file so Kotlin state cannot drift from disk. Codes are abstract host
+// codes (Android keycodes as assigned by this launcher, touch regions
+// below kTouchBase) — no keystroke content is ever stored.
+namespace {
+
+std::string keybindsPath(const std::string& root) {
+    return root + "/keybinds.json";
+}
+
+void loadKeybindManager(const std::string& root, xykell::input::KeybindManager& m,
+                        std::string& loadErr) {
+    xykell::input::registerDefaultBinds(m);
+    xykell::input::loadBinds(m, keybindsPath(root), loadErr);
+}
+
+} // namespace
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeKeybinds_keybindList(JNIEnv* env, jclass, jstring root) {
+    try {
+        xykell::input::KeybindManager m;
+        std::string loadErr;
+        loadKeybindManager(toStd(env, root), m, loadErr);
+        xykell::json::Array binds;
+        for (const auto& kb : m.list()) {
+            xykell::json::Object row;
+            row.emplace("action", xykell::json::Value(kb.action));
+            row.emplace("primary", xykell::json::Value(kb.primary));
+            row.emplace("secondary", xykell::json::Value(kb.secondary));
+            binds.push_back(xykell::json::Value(std::move(row)));
+        }
+        xykell::json::Object out;
+        out.emplace("binds", xykell::json::Value(std::move(binds)));
+        out.emplace("loadError", xykell::json::Value(loadErr));
+        return toJni(env, xykell::json::stringify(xykell::json::Value(std::move(out))));
+    } catch (...) {
+        return nullptr;
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeKeybinds_keybindSet(JNIEnv* env, jclass, jstring root,
+                                                  jstring action, jint slot, jint code) {
+    try {
+        if (slot != 0 && slot != 1) {
+            return toJni(env, std::string("invalid slot"));
+        }
+        const std::string r = toStd(env, root);
+        xykell::input::KeybindManager m;
+        std::string loadErr;
+        loadKeybindManager(r, m, loadErr);
+        const bool secondary = (slot == 1);
+        const std::string act = toStd(env, action);
+        bool ok = (code == 0) ? m.unbind(act, secondary)
+                              : m.bind(act, code, secondary);
+        if (!ok) {
+            const std::string why = m.lastError();
+            return toJni(env, why.empty() ? std::string("operation rejected") : why);
+        }
+        std::string saveErr;
+        if (!xykell::input::saveBinds(m, keybindsPath(r), saveErr)) {
+            return toJni(env, saveErr.empty() ? std::string("cannot save keybinds")
+                                              : saveErr);
+        }
+        return env->NewStringUTF("");
+    } catch (...) {
+        return toJni(env, std::string("keybind op failed"));
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeKeybinds_keybindReset(JNIEnv* env, jclass, jstring root) {
+    try {
+        const std::string r = toStd(env, root);
+        xykell::input::KeybindManager m;
+        std::string loadErr;
+        loadKeybindManager(r, m, loadErr);
+        m.reset();
+        std::string saveErr;
+        if (!xykell::input::saveBinds(m, keybindsPath(r), saveErr)) {
+            return toJni(env, saveErr.empty() ? std::string("cannot save keybinds")
+                                              : saveErr);
+        }
+        return env->NewStringUTF("");
+    } catch (...) {
+        return toJni(env, std::string("keybind reset failed"));
     }
 }
 

@@ -36,6 +36,13 @@ quality, final release smoke. Everything else MUST be automated and CI.
       preference switches appear ONLY on SUPPORTED/PARTIAL rows, toggling
       persists into the active profile and survives restart, RESEARCH_
       REQUIRED rows never show a switch
+- [ ] Batch 13 keybinds: tap PRIMARY on a row, press VOL_UP — binds as
+      "VOL_UP" and survives restart (keybinds.json); conflict (same code
+      on two actions) shows the native "already bound to …" error without
+      changing either; CANCEL aborts capture without binding; CLR and
+      RESET ALL BINDS clear state; with an external keyboard, F-keys/
+      letters bind and label correctly; bridge-missing state shows the
+      honest unavailable line
 - [ ] Touch targets ≥48dp; contrast readable; typography consistent
 - [ ] Empty/loading/error states render (airplane mode, no Minecraft,
       corrupt config, storage denied)

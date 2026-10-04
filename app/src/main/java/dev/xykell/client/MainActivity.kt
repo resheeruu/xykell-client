@@ -1,6 +1,7 @@
 package dev.xykell.client
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,6 +9,8 @@ import dev.xykell.client.ui.AboutFragment
 import dev.xykell.client.ui.AccountsFragment
 import dev.xykell.client.ui.HomeFragment
 import dev.xykell.client.ui.HudEditorFragment
+import dev.xykell.client.ui.KeybindCapture
+import dev.xykell.client.ui.KeybindsFragment
 import dev.xykell.client.ui.ModulesFragment
 import dev.xykell.client.ui.PacksFragment
 import dev.xykell.client.ui.ProfilesFragment
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         wire(R.id.nav_hud, HudEditorFragment())
         wire(R.id.nav_profiles, ProfilesFragment())
         wire(R.id.nav_themes, ThemesFragment())
+        wire(R.id.nav_keybinds, KeybindsFragment())
         wire(R.id.nav_settings, SettingsFragment())
         wire(R.id.nav_about, AboutFragment())
         wire(R.id.nav_worlds, WorldsFragment())
@@ -42,6 +46,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun wire(buttonId: Int, screen: Fragment) {
         findViewById<Button>(buttonId).setOnClickListener { show(screen) }
+    }
+
+    /** Keybind capture bridge (Batch 13): while the keybind editor holds a
+     *  one-shot sink, the next discrete host keycode is consumed and bound
+     *  — no keystroke content is recorded, only the abstract code. With no
+     *  sink registered this is the default dispatch, unchanged. */
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        val sink = KeybindCapture.sink
+        if (sink != null && event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
+            return sink(event.keyCode)
+        }
+        return super.dispatchKeyEvent(event)
     }
 
     private fun show(screen: Fragment) {

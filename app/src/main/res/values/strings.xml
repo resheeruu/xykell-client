@@ -47,4 +47,23 @@
     <string name="modules_pref_unavailable">Profile store unavailable — preference not saved.</string>
     <string name="modules_switch_desc">Preference for %1$s (profile)</string>
     <string name="modules_hint_switch_label">profile preference</string>
+
+    <!-- Keybinds (Batch 13) -->
+    <string name="nav_keybinds">Keybinds</string>
+    <string name="keybinds_title">Keybinds</string>
+    <string name="keybinds_status_label">Keybind status</string>
+    <string name="keybinds_unavailable">Keybinds unavailable — native bridge missing.</string>
+    <string name="keybinds_reset">RESET ALL BINDS</string>
+    <string name="keybinds_cancel">CANCEL</string>
+    <string name="keybinds_clear">CLR</string>
+    <string name="keybinds_clear_desc">Clear binds for %1$s</string>
+    <string name="keybinds_primary">primary</string>
+    <string name="keybinds_secondary">secondary</string>
+    <string name="keybinds_slot_desc">%1$s %2$s bind, %3$s</string>
+    <string name="keybinds_press_primary">Press a key to bind PRIMARY for %1$s (tap CANCEL to abort)</string>
+    <string name="keybinds_press_secondary">Press a key to bind SECONDARY for %1$s (tap CANCEL to abort)</string>
+    <string name="keybinds_capture_cancelled">Capture cancelled.</string>
+    <string name="keybinds_bound">Bound %1$s → %2$s</string>
+    <string name="keybinds_cleared">Cleared binds for %1$s</string>
+    <string name="keybinds_reset_done">All binds cleared.</string>
 </resources>

@@ -32,6 +32,8 @@ run_case test_settings "$ROOT/tests/unit/test_settings.cpp" "$SRC/xykell_json_mi
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_config_store.cpp"
 run_case test_animation "$ROOT/tests/unit/test_animation.cpp"
 run_case test_keybinds "$ROOT/tests/unit/test_keybinds.cpp" "$SRC/xykell_keybinds.cpp"
+run_case test_keybind_store "$ROOT/tests/unit/test_keybind_store.cpp" "$SRC/xykell_keybinds.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_file_util.cpp" "$SRC/xykell_keybind_store.cpp"
 run_case test_profile "$ROOT/tests/unit/test_profile.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_profile_manager.cpp"
 run_case test_profile_apply "$ROOT/tests/unit/test_profile_apply.cpp" "$SRC/xykell_json_min.cpp" \
@@ -107,7 +109,7 @@ run_case test_runtime_observation "$ROOT/tests/unit/test_runtime_observation.cpp
 run_case test_observation_consumer "$ROOT/tests/unit/test_observation_consumer.cpp"
 run_case test_observation_source "$ROOT/tests/unit/test_observation_source.cpp"
 # Count is enforced: a silently dropped suite is a coverage regression.
-EXPECTED_SUITES=34
+EXPECTED_SUITES=35
 if [ "$pass" -ne "$EXPECTED_SUITES" ]; then
     echo "UNIT: FAIL — ran $pass suites, expected $EXPECTED_SUITES" >&2
     exit 1
