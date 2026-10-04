@@ -60,7 +60,7 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
         try {
             val text = requireContext().assets.open("features.json")
                 .bufferedReader().use { it.readText() }
-            val parsed = ModuleCatalog.parseAll(text)
+            val parsed = ModuleEntry.parseAll(text)
             if (parsed == null) {
                 loadError = getString(R.string.modules_unavailable)
             } else {
@@ -105,12 +105,12 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
         view.findViewById<TextView>(R.id.modules_counts).text = getString(
             R.string.modules_count_line,
             entries.size,
-            ModuleCatalog.groupByCategory(entries).size,
+            ModuleEntry.groupByCategory(entries).size,
         )
         val density = resources.displayMetrics.density
         val builtHeaders = ArrayList<Pair<TextView, List<Holder>>>()
         val builtHolders = ArrayList<Holder>()
-        for ((category, group) in ModuleCatalog.groupByCategory(entries)) {
+        for ((category, group) in ModuleEntry.groupByCategory(entries)) {
             val header = TextView(requireContext())
             header.text = category
             header.textSize = 15f
@@ -247,7 +247,7 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
 
     private fun applyFilter(view: View, query: String) {
         if (loadError != null) return
-        val matched = ModuleCatalog.search(entries, query)
+        val matched = ModuleEntry.search(entries, query)
         val matchedIds = matched.mapTo(HashSet()) { it.id }
         for (holder in holders) {
             val visible = matchedIds.contains(holder.entry.id)

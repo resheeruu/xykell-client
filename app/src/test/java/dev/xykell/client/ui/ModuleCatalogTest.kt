@@ -36,7 +36,7 @@ class ModuleCatalogTest {
 
     @Test
     fun parsesRequiredFieldsAndSkipsInvalid() {
-        val entries = ModuleCatalog.parseAll(fixture)
+        val entries = ModuleEntry.parseAll(fixture)
         assertNotNull(entries)
         assertEquals(3, entries!!.size) // id-less entry skipped
         val core = entries.first()
@@ -52,14 +52,14 @@ class ModuleCatalogTest {
 
     @Test
     fun malformedJsonReturnsNull() {
-        assertNull(ModuleCatalog.parseAll("not json"))
-        assertNull(ModuleCatalog.parseAll("[1,2]"))
-        assertNull(ModuleCatalog.parseAll(""))
+        assertNull(ModuleEntry.parseAll("not json"))
+        assertNull(ModuleEntry.parseAll("[1,2]"))
+        assertNull(ModuleEntry.parseAll(""))
     }
 
     @Test
     fun missingOptionalFieldsDefaultGracefully() {
-        val entries = ModuleCatalog.parseAll(fixture)!!
+        val entries = ModuleEntry.parseAll(fixture)!!
         val aura = entries.first { it.id == "xykell.combat.aura" }
         assertEquals("", aura.implementation)
         assertEquals("", aura.evidence)
@@ -69,7 +69,7 @@ class ModuleCatalogTest {
 
     @Test
     fun preferenceSwitchPolicy() {
-        val entries = ModuleCatalog.parseAll(fixture)!!
+        val entries = ModuleEntry.parseAll(fixture)!!
         assertTrue(entries.first { it.id == "xykell.client.core" }.supportsPreference)
         assertFalse(entries.first { it.id == "xykell.combat.aura" }.supportsPreference)
         // Forward-compat: SUPPORTED and NOT_IMPLEMENTED spellings.
@@ -83,27 +83,27 @@ class ModuleCatalogTest {
 
     @Test
     fun searchMatchesAcrossFields() {
-        val entries = ModuleCatalog.parseAll(fixture)!!
-        assertEquals(entries, ModuleCatalog.search(entries, "  "))  // blank = all
-        assertEquals(1, ModuleCatalog.search(entries, "aura").size)
-        assertEquals(1, ModuleCatalog.search(entries, "fps").size)
+        val entries = ModuleEntry.parseAll(fixture)!!
+        assertEquals(entries, ModuleEntry.search(entries, "  "))  // blank = all
+        assertEquals(1, ModuleEntry.search(entries, "aura").size)
+        assertEquals(1, ModuleEntry.search(entries, "fps").size)
         // Status is deliberately not a search field — filtering by
         // "partial" matches nothing, it is not a name/id/desc/category.
-        assertEquals(0, ModuleCatalog.search(entries, "partial").size)
-        assertEquals(1, ModuleCatalog.search(entries, "m1 proven").size)
-        assertEquals(1, ModuleCatalog.search(entries, "combat").size)
-        assertEquals(0, ModuleCatalog.search(entries, "zzz").size)
+        assertEquals(0, ModuleEntry.search(entries, "partial").size)
+        assertEquals(1, ModuleEntry.search(entries, "m1 proven").size)
+        assertEquals(1, ModuleEntry.search(entries, "combat").size)
+        assertEquals(0, ModuleEntry.search(entries, "zzz").size)
     }
 
     @Test
     fun groupPreservesFirstSeenOrder() {
-        val entries = ModuleCatalog.parseAll(fixture)!!
-        val groups = ModuleCatalog.groupByCategory(entries)
+        val entries = ModuleEntry.parseAll(fixture)!!
+        val groups = ModuleEntry.groupByCategory(entries)
         assertEquals(listOf("CLIENT", "HUD", "COMBAT"), groups.map { it.first })
         assertEquals(1, groups[0].second.size)
         // Re-grouping a filtered subset keeps relative order too.
         val subset = entries.filter { it.supportsPreference }
-        val g2 = ModuleCatalog.groupByCategory(subset)
+        val g2 = ModuleEntry.groupByCategory(subset)
         assertEquals(listOf("CLIENT", "HUD"), g2.map { it.first })
     }
 }
