@@ -376,7 +376,7 @@ EVIDENCE = {
     ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
     ("CLIENT", "profile_manager"): "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
-    ("LAUNCHER", "accounts"): "Batch E: Microsoft/Xbox auth handoff scaffold with encrypted token storage; host test_accountstore",
+    ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; tokens stored in plaintext SharedPreferences (SCAFFOLD — production requires EncryptedSharedPreferences + Android Keystore); host test_accountstore",
 }
 
 # Capability requirements per entry. Everything here currently

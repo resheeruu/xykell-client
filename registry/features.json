@@ -11363,7 +11363,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "Batch E: Microsoft/Xbox auth handoff scaffold with encrypted token storage; host test_accountstore",
+      "evidence": "Batch E: Microsoft auth handoff scaffold with client_id config; tokens stored in plaintext SharedPreferences (SCAFFOLD \u2014 production requires EncryptedSharedPreferences + Android Keystore); host test_accountstore",
       "notes": "Microsoft/Xbox auth handoff scaffold"
     }
   ]

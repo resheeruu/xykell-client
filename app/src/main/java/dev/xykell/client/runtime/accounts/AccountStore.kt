@@ -4,11 +4,20 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 
-/** Local account state model. No real MSAL integration (requires
- *  app registration client_id). Provides scaffold for official
- *  Microsoft/Xbox auth handoff: stores auth code/token in
- *  SharedPreferences (production should use EncryptedSharedPreferences
- *  from androidx.security:security-crypto). */
+/**
+ * Local account state model. No real MSAL integration (requires
+ * app registration client_id). Provides scaffold for official
+ * Microsoft/Xbox auth handoff.
+ *
+ * SECURITY NOTE: This implementation uses plain SharedPreferences.
+ * Production builds MUST replace getPrefs() with EncryptedSharedPreferences
+ * from androidx.security:security-crypto using Android Keystore-backed
+ * master key. This scaffold stores tokens in plaintext — DO NOT USE
+ * in production without enabling encrypted storage.
+ *
+ * See: https://developer.android.com/topic/security/data
+ * Dependency: androidx.security:security-crypto:1.1.0-alpha03+
+ */
 object AccountStore {
 
     private const val PREFS_NAME = "xykell_accounts"
@@ -17,6 +26,7 @@ object AccountStore {
     private const val KEY_REFRESH_TOKEN = "refresh_token"
     private const val KEY_CLIENT_ID = "client_id"
 
+    /** Returns SharedPreferences. SCAFFOLD: replace with EncryptedSharedPreferences in production. */
     private fun getPrefs(context: Context): SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
