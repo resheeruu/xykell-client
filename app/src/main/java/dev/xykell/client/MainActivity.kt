@@ -41,11 +41,49 @@ class MainActivity : AppCompatActivity() {
         wire(R.id.nav_packs, PacksFragment())
         wire(R.id.nav_servers, ServersFragment())
         wire(R.id.nav_accounts, AccountsFragment())
-        if (savedInstanceState == null) show(HomeFragment())
+        if (savedInstanceState == null) {
+            show(HomeFragment())
+            // Default tab state matches the default screen.
+            findViewById<Button>(R.id.nav_home).also {
+                it.isSelected = true
+                currentNav = it
+                findViewById<android.widget.TextView>(R.id.screen_title).text = it.text
+            }
+            playSplash()
+        } else {
+            // Rotation: fragment state is restored; hide the splash instantly
+            // and rebind currentNav to the chip view-state restored as selected.
+            findViewById<android.view.View>(R.id.splash_screen)?.visibility =
+                android.view.View.GONE
+            val row = findViewById<android.widget.LinearLayout>(R.id.nav_row)
+            currentNav = (0 until row.childCount)
+                .map { row.getChildAt(it) as Button }
+                .firstOrNull { it.isSelected }
+        }
     }
 
+    private var currentNav: Button? = null
+
     private fun wire(buttonId: Int, screen: Fragment) {
-        findViewById<Button>(buttonId).setOnClickListener { show(screen) }
+        val button = findViewById<Button>(buttonId)
+        button.setOnClickListener {
+            currentNav?.isSelected = false
+            button.isSelected = true
+            currentNav = button
+            findViewById<android.widget.TextView>(R.id.screen_title).text = button.text
+            show(screen)
+        }
+    }
+
+    /** Startup splash: fixed short fade, no fake loading state — the shell
+     *  is ready before the first frame. Only on fresh launch; rotation hides
+     *  it instantly in onCreate. */
+    private fun playSplash() {
+        val splash = findViewById<android.view.View>(R.id.splash_screen) ?: return
+        splash.alpha = 1f
+        splash.animate().alpha(0f).setStartDelay(350).setDuration(250)
+            .withEndAction { splash.visibility = android.view.View.GONE }
+            .start()
     }
 
     /** Keybind capture bridge (Batch 13): while the keybind editor holds a

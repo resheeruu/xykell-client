@@ -1,95 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/xykell_bg"
-    android:padding="16dp">
+    android:background="@color/xykell_bg">
 
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/screen_container"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="6dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XYKELL"
+                android:textColor="@color/xykell_accent"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08" />
 
-        <Button
-            android:id="@+id/nav_home"
-            style="@style/XykellNavButton"
-            android:text="Home" />
-        <Button
-            android:id="@+id/nav_versions"
-            style="@style/XykellNavButton"
-            android:text="Versions" />
-        <Button
-            android:id="@+id/nav_modules"
-            style="@style/XykellNavButton"
-            android:text="Modules" />
-        <Button
-            android:id="@+id/nav_hud"
-            style="@style/XykellNavButton"
-            android:text="HUD" />
+            <TextView
+                android:id="@+id/screen_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/xykell_muted"
+                android:textSize="14sp"
+                android:freezesText="true" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <LinearLayout
+                android:id="@+id/nav_row"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button android:id="@+id/nav_home" style="@style/XykellNavButton" android:text="Home" />
+                <Button android:id="@+id/nav_versions" style="@style/XykellNavButton" android:text="Versions" />
+                <Button android:id="@+id/nav_modules" style="@style/XykellNavButton" android:text="Modules" />
+                <Button android:id="@+id/nav_hud" style="@style/XykellNavButton" android:text="HUD" />
+                <Button android:id="@+id/nav_profiles" style="@style/XykellNavButton" android:text="Profiles" />
+                <Button android:id="@+id/nav_themes" style="@style/XykellNavButton" android:text="Themes" />
+                <Button android:id="@+id/nav_keybinds" style="@style/XykellNavButton" android:text="@string/nav_keybinds" />
+                <Button android:id="@+id/nav_settings" style="@style/XykellNavButton" android:text="Settings" />
+                <Button android:id="@+id/nav_about" style="@style/XykellNavButton" android:text="About" />
+                <Button android:id="@+id/nav_worlds" style="@style/XykellNavButton" android:text="Worlds" />
+                <Button android:id="@+id/nav_packs" style="@style/XykellNavButton" android:text="Packs" />
+                <Button android:id="@+id/nav_servers" style="@style/XykellNavButton" android:text="Servers" />
+                <Button android:id="@+id/nav_accounts" style="@style/XykellNavButton" android:text="Accounts" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <FrameLayout
+                android:id="@+id/screen_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/splash_screen"
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/xykell_bg">
 
-        <Button
-            android:id="@+id/nav_profiles"
-            style="@style/XykellNavButton"
-            android:text="Profiles" />
-        <Button
-            android:id="@+id/nav_themes"
-            style="@style/XykellNavButton"
-            android:text="Themes" />
-        <Button
-            android:id="@+id/nav_keybinds"
-            style="@style/XykellNavButton"
-            android:text="@string/nav_keybinds" />
-        <Button
-            android:id="@+id/nav_settings"
-            style="@style/XykellNavButton"
-            android:text="Settings" />
-        <Button
-            android:id="@+id/nav_about"
-            style="@style/XykellNavButton"
-            android:text="About" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XYKELL"
+            android:textColor="@color/xykell_accent"
+            android:textSize="42sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Minecraft Bedrock client"
+            android:textColor="@color/xykell_muted"
+            android:textSize="14sp" />
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/nav_worlds"
-            style="@style/XykellNavButton"
-            android:text="Worlds" />
-        <Button
-            android:id="@+id/nav_packs"
-            style="@style/XykellNavButton"
-            android:text="Packs" />
-        <Button
-            android:id="@+id/nav_servers"
-            style="@style/XykellNavButton"
-            android:text="Servers" />
-        <Button
-            android:id="@+id/nav_accounts"
-            style="@style/XykellNavButton"
-            android:text="Accounts" />
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>
