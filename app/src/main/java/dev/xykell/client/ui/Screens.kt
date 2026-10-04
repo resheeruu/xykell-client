@@ -50,15 +50,6 @@ class AccountsFragment : InfoFragment() {
     }
 }
 
-class ServersFragment : InfoFragment() {    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        title = "Servers"
-        body = "NOT WIRED — server browser pending network layer.\n\n" +
-            "Planned: saved servers, status, latency where measurable, " +
-            "profiles, connection history. No credentials collected."
-    }
-}
-
 class AboutFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

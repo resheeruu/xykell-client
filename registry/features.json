@@ -3,7 +3,7 @@
     "format": 1,
     "product": "Xykell Client",
     "generated_by": "scripts/registry/generate.py",
-    "count": 255
+    "count": 256
   },
   "features": [
     {
@@ -11214,7 +11214,7 @@
       "name": "Servers",
       "category": "LAUNCHER",
       "description": "user configuration only",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [],
       "settings": [
         {
@@ -11237,8 +11237,39 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch A: local server book with schema-tolerant JSON, favorites, search, SAF import/export; host test_serverstore",
       "notes": "user configuration only"
+    },
+    {
+      "id": "xykell.launcher.servers_probe",
+      "name": "Servers Probe",
+      "category": "LAUNCHER",
+      "description": "read-only TCP reachability check",
+      "status": "PARTIAL",
+      "requires": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "Batch A: read-only TCP reachability check per server; host test_serverstore_probe",
+      "notes": "read-only TCP reachability check"
     },
     {
       "id": "xykell.launcher.settings",

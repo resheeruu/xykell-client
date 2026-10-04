@@ -308,6 +308,7 @@ LAUNCHER = [
     ("worlds", ["UI"], "native", ["Xykell", "LeviLaunchroid"], "integrate Levi content management"),
     ("packs", ["UI"], "native", ["Xykell", "LeviLaunchroid"], "integrate Levi content management"),
     ("servers", ["UI"], "native", ["Xykell"], "user configuration only"),
+    ("servers_probe", ["UI"], "native", ["Xykell"], "read-only TCP reachability check"),
     ("settings", ["UI"], "native", ["Xykell"], "native-backed settings pending"),
     ("diagnostics", ["UI"], "native", ["Xykell"], "probe report module exists; build-verified"),
 ]
@@ -334,6 +335,8 @@ PROVEN = {
     ("LAUNCHER", "diagnostics"): PARTIAL,
     ("LAUNCHER", "profiles"): PARTIAL,
     ("LAUNCHER", "play"): PARTIAL,
+    ("LAUNCHER", "servers"): PARTIAL,
+    ("LAUNCHER", "servers_probe"): PARTIAL,
 }
 
 EVIDENCE = {
@@ -350,6 +353,8 @@ EVIDENCE = {
     ("LAUNCHER", "diagnostics"): "Batch 5: probe-report ModMenu module; host test_probe",
     ("LAUNCHER", "profiles"): "Batch 7: JNI bridge + native-backed screen; CI builds",
     ("LAUNCHER", "play"): "handoff: pre-checks + Levi MainActivity intent; device run pending",
+    ("LAUNCHER", "servers"): "Batch A: local server book with schema-tolerant JSON, favorites, search, SAF import/export; host test_serverstore",
+    ("LAUNCHER", "servers_probe"): "Batch A: read-only TCP reachability check per server; host test_serverstore_probe",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -516,7 +521,8 @@ def main() -> None:
     proven_ids = {"xykell.client.core", "xykell.client.version_adapter",
                   "xykell.client.config_store", "xykell.hud.touch_indicators",
                   "xykell.client.hud_editor", "xykell.launcher.diagnostics",
-                  "xykell.launcher.profiles", "xykell.launcher.play"}
+                  "xykell.launcher.profiles", "xykell.launcher.play",
+                  "xykell.launcher.servers", "xykell.launcher.servers_probe"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI
