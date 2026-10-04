@@ -231,4 +231,14 @@
     <string name="update_status_none">No update metadata available</string>
     <string name="update_status_available">Update available: %1$s</string>
     <string name="update_download">CHECK FOR UPDATE</string>
+
+    <string name="session_title">Session</string>
+    <string name="session_body">Pre-launch configuration: profile, theme, runtime, observation, and launch readiness.</string>
+    <string name="session_profile_label">Profile: %1$s</string>
+    <string name="session_theme_label">Theme: %1$s</string>
+    <string name="session_version_label">Xykell %1$s (native %2$s)</string>
+    <string name="session_observation_label">Observation: %1$s</string>
+    <string name="session_runtime_label">Runtime: %1$s</string>
+    <string name="session_runtime_unknown">Unknown</string>
+    <string name="session_launch">LAUNCH MINECRAFT</string>
 </resources>

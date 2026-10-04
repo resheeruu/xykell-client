@@ -24,6 +24,7 @@ import dev.xykell.client.ui.PacksFragment
 import dev.xykell.client.ui.ProfilesFragment
 import dev.xykell.client.ui.ScreenPagerAdapter
 import dev.xykell.client.ui.ServersFragment
+import dev.xykell.client.ui.SessionFragment
 import dev.xykell.client.ui.SettingsFragment
 import dev.xykell.client.ui.SplashFragment
 import dev.xykell.client.ui.ThemesFragment
