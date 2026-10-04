@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xykell_bg">
+
+    <!-- Logo -->
+    <TextView
+        android:id="@+id/splash_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XYKELL"
+        android:textColor="@color/xykell_accent"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.12"
+        android:alpha="0" />
+
+    <!-- Accent sweep line -->
+    <View
+        android:id="@+id/splash_sweep"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/xykell_accent"
+        android:alpha="0" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/splash_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Minecraft Bedrock client"
+        android:textColor="@color/xykell_muted"
+        android:textSize="14sp"
+        android:alpha="0" />
+
+    <!-- Initialization status -->
+    <TextView
+        android:id="@+id/splash_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/xykell_muted"
+        android:textSize="12sp"
+        android:letterSpacing="0.05"
+        android:alpha="0" />
+</LinearLayout>

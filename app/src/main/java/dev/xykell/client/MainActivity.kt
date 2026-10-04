@@ -25,6 +25,7 @@ import dev.xykell.client.ui.ProfilesFragment
 import dev.xykell.client.ui.ScreenPagerAdapter
 import dev.xykell.client.ui.ServersFragment
 import dev.xykell.client.ui.SettingsFragment
+import dev.xykell.client.ui.SplashFragment
 import dev.xykell.client.ui.ThemesFragment
 import dev.xykell.client.ui.VersionsFragment
 import dev.xykell.client.ui.WorldsFragment
@@ -78,11 +79,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            showPage(0)
-            playSplash()
+            // Show animated splash fragment first
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.screen_container, SplashFragment())
+                .commit()
         } else {
             // Rotation: restore state
-            findViewById<View>(R.id.splash_screen)?.visibility = View.GONE
             val savedPage = savedInstanceState.getInt("current_page", 0)
             showPage(savedPage)
         }
@@ -93,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("current_page", currentPage)
     }
 
-    private fun showPage(page: Int) {
+    internal fun showPage(page: Int) {
         currentPage = page.coerceIn(0, adapter.count - 1)
         if (usePager) {
             pager.currentItem = currentPage
@@ -159,15 +161,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Startup splash: fixed short fade, no fake loading state — the shell
-     *  is ready before the first frame. Only on fresh launch; rotation hides
-     *  it instantly in onCreate. */
+    /** Startup splash is now handled by SplashFragment with animated sequence.
+     *  This method is kept for compatibility but no longer used. */
+    @Deprecated("Use SplashFragment instead")
     private fun playSplash() {
-        val splash = findViewById<View>(R.id.splash_screen) ?: return
-        splash.alpha = 1f
-        splash.animate().alpha(0f).setStartDelay(350).setDuration(250)
-            .withEndAction { splash.visibility = View.GONE }
-            .start()
+        // Legacy splash kept for reference; SplashFragment handles animation now.
     }
 
     /** Keybind capture bridge (Batch 13): while the keybind editor holds a
