@@ -3,6 +3,13 @@
 ## What runs where
 - **Phone (Termux)**: native CMake build (`scripts/build/build-native.sh`,
   pipefail-verified), symbol checks (`nm -D`), levipack packaging check.
+  Kotlin: `scripts/test/run-kotlin-unit.sh` (6 pure-JVM suites, 40 tests) and
+  `scripts/test/run-kotlin-typecheck.sh` (all 34 main sources against
+  android.jar + androidx + generated R stub). Both need the verified toolchain
+  outside the repo (`~/local/opt/kotlinc`, `~/local/opt/jvm-jars`,
+  `~/local/opt/androidx-jars`) — missing toolchain fails loudly, never skips.
+  Phone cannot run Gradle or aapt2 (x86-64 prebuilts on ARM64), so APK
+  assembly stays CI-only.
 - **CI (GitHub Actions)**: `android-release.yml` rebuilds native with NDK r28c
   and asserts: aarch64 `.so`, `PLGetModRegistration` exported, APK exists,
   APK contains `lib/arm64-v8a/libxykell.so` with the symbol. Any failed
