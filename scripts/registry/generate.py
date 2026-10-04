@@ -355,6 +355,7 @@ EVIDENCE = {
     ("LAUNCHER", "play"): "handoff: pre-checks + Levi MainActivity intent; device run pending",
     ("LAUNCHER", "servers"): "Batch A: local server book with schema-tolerant JSON, favorites, search, SAF import/export; host test_serverstore",
     ("LAUNCHER", "servers_probe"): "Batch A: read-only TCP reachability check per server; host test_serverstore_probe",
+    ("LAUNCHER", "worlds"): "Batch B: local world book with level.dat NBT import via SAF tree picker; host test_worldstore",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -522,7 +523,8 @@ def main() -> None:
                   "xykell.client.config_store", "xykell.hud.touch_indicators",
                   "xykell.client.hud_editor", "xykell.launcher.diagnostics",
                   "xykell.launcher.profiles", "xykell.launcher.play",
-                  "xykell.launcher.servers", "xykell.launcher.servers_probe"}
+                  "xykell.launcher.servers", "xykell.launcher.servers_probe",
+                  "xykell.launcher.worlds"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI

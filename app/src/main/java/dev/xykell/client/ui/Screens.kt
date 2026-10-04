@@ -18,17 +18,6 @@ open class InfoFragment : Fragment(R.layout.fragment_info) {
     }
 }
 
-class WorldsFragment : InfoFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        title = "Worlds"
-        body = "NOT WIRED — world browser pending Xykell content manager.\n\n" +
-            "Planned: browse, backup, restore, import, export, profile " +
-            "association, version compatibility. Uses official/local " +
-            "Minecraft data pathways only."
-    }
-}
-
 class PacksFragment : InfoFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
