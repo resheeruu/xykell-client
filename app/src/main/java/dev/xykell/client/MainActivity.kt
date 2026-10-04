@@ -27,6 +27,7 @@ import dev.xykell.client.ui.ServersFragment
 import dev.xykell.client.ui.SettingsFragment
 import dev.xykell.client.ui.SplashFragment
 import dev.xykell.client.ui.ThemesFragment
+import dev.xykell.client.ui.UpdateFragment
 import dev.xykell.client.ui.VersionsFragment
 import dev.xykell.client.ui.WorldsFragment
 import dev.xykell.client.ui.ActiveTheme

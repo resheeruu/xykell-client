@@ -220,7 +220,15 @@
     <string name="nav_packs">Packs</string>
     <string name="nav_servers">Servers</string>
     <string name="nav_accounts">Accounts</string>
+    <string name="nav_update">Update</string>
 
     <string name="settings_empty">No settings available (native bridge missing?)</string>
     <string name="settings_empty_search">No settings match \"%1$s\"</string>
+
+    <string name="update_title">Update Center</string>
+    <string name="update_body">Current version and update status. No remote update service configured — showing local metadata only.</string>
+    <string name="update_current_version">Xykell %1$s (native %2$s)\nLevi target: %3$s, preloader: %4$s</string>
+    <string name="update_status_none">No update metadata available</string>
+    <string name="update_status_available">Update available: %1$s</string>
+    <string name="update_download">CHECK FOR UPDATE</string>
 </resources>

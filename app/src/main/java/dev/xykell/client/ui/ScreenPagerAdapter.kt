@@ -18,10 +18,11 @@ class ScreenPagerAdapter(fm: FragmentManager, behavior: Int) : FragmentStatePage
         { ServersFragment() },        // 4: Servers
         { PacksFragment() },          // 5: Content
         { ProfilesFragment() },       // 6: Profile
+        { UpdateFragment() },         // 7: Update
     )
 
     private val screenTitles = listOf(
-        "Home", "Client", "HUD", "Worlds", "Servers", "Content", "Profile"
+        "Home", "Client", "HUD", "Worlds", "Servers", "Content", "Profile", "Update"
     )
 
     override fun getCount(): Int = screenFactories.size
