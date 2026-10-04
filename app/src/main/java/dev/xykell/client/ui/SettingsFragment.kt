@@ -103,7 +103,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun reload(filter: String) {
         container.removeAllViews()
         error.text = ""
-        val rows = loadRows().filter {
+        val allRows = loadRows()
+        val rows = allRows.filter {
             filter.isBlank() ||
                 it.key.contains(filter, true) ||
                 it.description.contains(filter, true) ||
@@ -111,7 +112,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         if (rows.isEmpty()) {
             val empty = TextView(requireContext())
-            empty.text = "No settings available (native bridge missing?)"
+            empty.text = if (filter.isBlank()) {
+                getString(R.string.settings_empty)
+            } else {
+                getString(R.string.settings_empty_search, filter)
+            }
             container.addView(empty)
             return
         }
