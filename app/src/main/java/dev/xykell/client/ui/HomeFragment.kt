@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import dev.xykell.client.NativeProfiles
 import dev.xykell.client.R
 import dev.xykell.client.runtime.LaunchExecutor
 import dev.xykell.client.runtime.ProfileManager
@@ -63,7 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun bindStatus(view: View) {
         val rows = HomeStatus.rows(
             minecraftVersion = installedVersion(),
-            profile = ProfileManager.currentProfile,
+            profile = activeProfile(),
             xykellVersion = XykellInfo.XYKELL_VERSION,
             nativeVersion = XykellInfo.NATIVE_VERSION,
             runtimeSummary = dev.xykell.client.runtime.RuntimeStatus.summary(),
@@ -85,6 +86,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             StatusTone.MUTED -> R.color.xykell_muted
         }
     )
+
+    // Native active profile (shared store with the game module);
+    // bridge missing → launcher-side fallback, never a fake value.
+    private fun activeProfile(): String {
+        val native = try {
+            NativeProfiles.getActive(NativeProfiles.root(requireContext()))
+        } catch (e: UnsatisfiedLinkError) {
+            ""
+        }
+        return native.ifEmpty { ProfileManager.currentProfile }
+    }
 
     private fun installedVersion(): String? {
         return try {
