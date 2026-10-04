@@ -3,7 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/home_title"
@@ -12,54 +14,230 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/xykell_accent"
-        android:layout_marginTop="24dp" />
+        android:layout_marginBottom="8dp" />
 
-    <TextView
-        android:id="@+id/home_versions"
-        style="@style/XykellStatus" />
-
-    <TextView
-        android:id="@+id/home_xykell"
-        style="@style/XykellStatus" />
-
-    <TextView
-        android:id="@+id/home_profile"
-        style="@style/XykellStatus" />
-
-    <Button
-        android:id="@+id/home_play"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginTop="24dp"
-        android:text="PLAY"
-        android:textSize="20sp"
-        android:minHeight="64dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:background="@color/xykell_surface"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/home_play_status"
-        style="@style/XykellStatus" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STATUS"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:textColor="@color/xykell_muted" />
 
-    <!-- Stage 20 (Phase 1): explicit observation controls only. No
-         settings, no endpoint configuration, no diagnostics. -->
-    <Button
-        android:id="@+id/home_obs_start"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Minecraft"
+                android:textSize="14sp"
+                android:textColor="@color/xykell_muted" />
+
+            <TextView
+                android:id="@+id/home_mc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/xykell_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textSize="14sp"
+                android:textColor="@color/xykell_muted" />
+
+            <TextView
+                android:id="@+id/home_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/xykell_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Xykell"
+                android:textSize="14sp"
+                android:textColor="@color/xykell_muted" />
+
+            <TextView
+                android:id="@+id/home_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/xykell_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Runtime"
+                android:textSize="14sp"
+                android:textColor="@color/xykell_muted" />
+
+            <TextView
+                android:id="@+id/home_runtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/xykell_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Observation"
+                android:textSize="14sp"
+                android:textColor="@color/xykell_muted" />
+
+            <TextView
+                android:id="@+id/home_obs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/xykell_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="START OBSERVATION" />
+        android:orientation="vertical"
+        android:background="@color/xykell_surface"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/home_obs_stop"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LAUNCH"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:textColor="@color/xykell_muted" />
+
+        <Button
+            android:id="@+id/home_play"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:text="PLAY"
+            android:textSize="20sp"
+            android:minHeight="64dp" />
+
+        <TextView
+            android:id="@+id/home_play_status"
+            style="@style/XykellStatus" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="STOP OBSERVATION" />
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:background="@color/xykell_surface"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/home_obs_status"
-        style="@style/XykellStatus" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OBSERVATION"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:textColor="@color/xykell_muted" />
 
-    <TextView
-        android:id="@+id/home_diag"
-        style="@style/XykellStatus" />
+        <!-- Stage 20 (Phase 1): explicit observation controls only. No
+             settings, no endpoint configuration, no diagnostics. -->
+        <Button
+            android:id="@+id/home_obs_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="START OBSERVATION" />
+
+        <Button
+            android:id="@+id/home_obs_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="STOP OBSERVATION" />
+
+        <TextView
+            android:id="@+id/home_obs_status"
+            style="@style/XykellStatus" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:background="@color/xykell_surface"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DIAGNOSTICS"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:textColor="@color/xykell_muted" />
+
+        <TextView
+            android:id="@+id/home_diag"
+            style="@style/XykellStatus" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,4 +6,6 @@
     <color name="xykell_muted">#8A97AD</color>
     <color name="xykell_warning">#E8B34B</color>
     <color name="xykell_success">#5DD39E</color>
+    <color name="xykell_surface">#16213A</color>
+    <color name="xykell_error">#E05D5D</color>
 </resources>

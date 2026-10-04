@@ -3,8 +3,8 @@
 ## What runs where
 - **Phone (Termux)**: native CMake build (`scripts/build/build-native.sh`,
   pipefail-verified), symbol checks (`nm -D`), levipack packaging check.
-  Kotlin: `scripts/test/run-kotlin-unit.sh` (6 pure-JVM suites, 40 tests) and
-  `scripts/test/run-kotlin-typecheck.sh` (all 34 main sources against
+  Kotlin: `scripts/test/run-kotlin-unit.sh` (7 pure-JVM suites, 49 tests) and
+  `scripts/test/run-kotlin-typecheck.sh` (all 35 main sources against
   android.jar + androidx + generated R stub). Both need the verified toolchain
   outside the repo (`~/local/opt/kotlinc`, `~/local/opt/jvm-jars`,
   `~/local/opt/androidx-jars`) — missing toolchain fails loudly, never skips.
