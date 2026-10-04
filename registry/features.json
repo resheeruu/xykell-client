@@ -3,7 +3,7 @@
     "format": 1,
     "product": "Xykell Client",
     "generated_by": "scripts/registry/generate.py",
-    "count": 256
+    "count": 257
   },
   "features": [
     {
@@ -114,7 +114,7 @@
       "name": "Profile Manager",
       "category": "CLIENT",
       "description": "Default only in M1.5 shell",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "LIFECYCLE",
         "CONFIG_DIRS"
@@ -141,7 +141,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
       "notes": "Default only in M1.5 shell"
     },
     {
@@ -149,7 +149,7 @@
       "name": "Crash Guard",
       "category": "CLIENT",
       "description": "quarantine design pending",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "LIFECYCLE",
         "CONFIG_DIRS"
@@ -175,7 +175,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch X: uncaught exception handler with safe crash reports, redaction, bounded storage; host test_crashguard",
       "notes": "quarantine design pending"
     },
     {
@@ -11084,7 +11084,7 @@
       "name": "Versions",
       "category": "LAUNCHER",
       "description": "integrate Levi version management",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [],
       "settings": [
         {
@@ -11108,7 +11108,7 @@
         "Xykell",
         "LeviLaunchroid"
       ],
-      "evidence": "",
+      "evidence": "Batch H: installed Minecraft detection via PackageManager + native verdicts; host test_versions",
       "notes": "integrate Levi version management"
     },
     {
@@ -11150,7 +11150,7 @@
       "name": "Worlds",
       "category": "LAUNCHER",
       "description": "integrate Levi content management",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [],
       "settings": [
         {
@@ -11182,7 +11182,7 @@
       "name": "Packs",
       "category": "LAUNCHER",
       "description": "integrate Levi content management",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [],
       "settings": [
         {
@@ -11276,7 +11276,7 @@
       "name": "Settings",
       "category": "LAUNCHER",
       "description": "native-backed settings pending",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [],
       "settings": [
         {
@@ -11299,7 +11299,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch H: native-backed settings catalog with search/validation/reset; host test_settings",
       "notes": "native-backed settings pending"
     },
     {
@@ -11334,6 +11334,37 @@
       ],
       "evidence": "Batch 5: probe-report ModMenu module; host test_probe",
       "notes": "probe report module exists; build-verified"
+    },
+    {
+      "id": "xykell.launcher.accounts",
+      "name": "Accounts",
+      "category": "LAUNCHER",
+      "description": "Microsoft/Xbox auth handoff scaffold",
+      "status": "PARTIAL",
+      "requires": [],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Xykell"
+      ],
+      "evidence": "Batch E: Microsoft/Xbox auth handoff scaffold with encrypted token storage; host test_accountstore",
+      "notes": "Microsoft/Xbox auth handoff scaffold"
     }
   ]
 }

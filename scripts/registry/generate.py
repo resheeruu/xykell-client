@@ -311,6 +311,7 @@ LAUNCHER = [
     ("servers_probe", ["UI"], "native", ["Xykell"], "read-only TCP reachability check"),
     ("settings", ["UI"], "native", ["Xykell"], "native-backed settings pending"),
     ("diagnostics", ["UI"], "native", ["Xykell"], "probe report module exists; build-verified"),
+    ("accounts", ["UI"], "native", ["Xykell"], "Microsoft/Xbox auth handoff scaffold"),
 ]
 
 CATEGORIES = {
@@ -325,6 +326,8 @@ PROVEN = {
     ("CLIENT", "core"): PARTIAL,
     ("CLIENT", "version_adapter"): PARTIAL,
     ("CLIENT", "config_store"): PARTIAL,
+    ("CLIENT", "profile_manager"): PARTIAL,
+    ("CLIENT", "crash_guard"): PARTIAL,
     ("HUD", "touch_indicators"): PARTIAL,
     ("HUD", "fps"): PARTIAL,
     ("HUD", "cps"): PARTIAL,
@@ -337,6 +340,12 @@ PROVEN = {
     ("LAUNCHER", "play"): PARTIAL,
     ("LAUNCHER", "servers"): PARTIAL,
     ("LAUNCHER", "servers_probe"): PARTIAL,
+    ("LAUNCHER", "versions"): PARTIAL,
+    ("LAUNCHER", "settings"): PARTIAL,
+    ("LAUNCHER", "worlds"): PARTIAL,
+    ("LAUNCHER", "packs"): PARTIAL,
+    ("LAUNCHER", "accounts"): PARTIAL,
+    ("CLIENT", "profile_manager"): PARTIAL,
 }
 
 EVIDENCE = {
@@ -344,6 +353,7 @@ EVIDENCE = {
     ("CLIENT", "version_adapter"): "M1: table logic; host test_adapter",
     ("CLIENT", "config_store"): "M1: menu toggles + file store; host test_config",
     ("CLIENT", "hud_editor"): "Batch 2/3: editor state + serialization; host test_hud_theme",
+    ("CLIENT", "crash_guard"): "Batch X: uncaught exception handler with safe crash reports, redaction, bounded storage; host test_crashguard",
     ("HUD", "touch_indicators"): "M1: touch callback counter; host test_input_router",
     ("HUD", "fps"): "Batch 1: FrameTimer provider + honest unknown; host test_hud_sources",
     ("HUD", "cps"): "Batch 1: TapCounter provider + verified zero; host test_hud_sources",
@@ -358,6 +368,12 @@ EVIDENCE = {
     ("LAUNCHER", "worlds"): "Batch B: local world book with level.dat NBT import via SAF tree picker; host test_worldstore",
     ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
     ("LAUNCHER", "performance"): "Batch D: app performance dashboard (FPS, memory, storage, startup); host test_perfstore",
+    ("LAUNCHER", "versions"): "Batch H: installed Minecraft detection via PackageManager + native verdicts; host test_versions",
+    ("LAUNCHER", "settings"): "Batch H: native-backed settings catalog with search/validation/reset; host test_settings",
+    ("LAUNCHER", "worlds"): "Batch B: local world book with level.dat NBT import via SAF tree picker; host test_worldstore",
+    ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
+    ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
+    ("CLIENT", "profile_manager"): "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft/Xbox auth handoff scaffold with encrypted token storage; host test_accountstore",
 }
 
@@ -528,7 +544,9 @@ def main() -> None:
                   "xykell.launcher.profiles", "xykell.launcher.play",
                   "xykell.launcher.servers", "xykell.launcher.servers_probe",
                   "xykell.launcher.worlds", "xykell.launcher.packs",
-                  "xykell.launcher.performance", "xykell.launcher.accounts"}
+                  "xykell.launcher.performance", "xykell.launcher.accounts",
+                  "xykell.client.profile_manager", "xykell.launcher.versions",
+                  "xykell.launcher.settings", "xykell.client.crash_guard"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI

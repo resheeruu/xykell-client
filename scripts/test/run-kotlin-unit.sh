@@ -49,6 +49,8 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/packs/PackStore.kt"
     "$SRC/dev/xykell/client/runtime/performance/PerformanceStore.kt"
     "$SRC/dev/xykell/client/runtime/accounts/AccountStore.kt"
+    "$SRC/dev/xykell/client/runtime/CrashGuard.kt"
+    "$SRC/dev/xykell/client/runtime/XykellInfo.kt"
     "$SRC/dev/xykell/client/runtime/observation/Observations.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationTranslator.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationStateMachine.kt"
@@ -67,9 +69,10 @@ SUITES=(
     dev.xykell.client.runtime.worlds.WorldStoreTest
     dev.xykell.client.runtime.packs.PackStoreTest
     dev.xykell.client.runtime.performance.PerformanceStoreTest
+    dev.xykell.client.runtime.CrashGuardTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
 )
-EXPECTED_SUITES=11
+EXPECTED_SUITES=12
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -104,6 +107,7 @@ done
     "$TEST"/dev/xykell/client/runtime/observation/ObservationPipelineTest.kt \
     "$TEST"/dev/xykell/client/runtime/servers/ServerStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/worlds/WorldStoreTest.kt \
+    "$TEST"/dev/xykell/client/runtime/CrashGuardTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/performance/PerformanceStoreTest.kt \
     2> "$WORK/kotlinc.log" || {
