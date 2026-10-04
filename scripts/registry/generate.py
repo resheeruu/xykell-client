@@ -328,6 +328,7 @@ PROVEN = {
     ("CLIENT", "config_store"): PARTIAL,
     ("CLIENT", "profile_manager"): PARTIAL,
     ("CLIENT", "crash_guard"): PARTIAL,
+    ("CLIENT", "updater"): PARTIAL,
     ("HUD", "touch_indicators"): PARTIAL,
     ("HUD", "fps"): PARTIAL,
     ("HUD", "cps"): PARTIAL,
@@ -354,6 +355,7 @@ EVIDENCE = {
     ("CLIENT", "config_store"): "M1: menu toggles + file store; host test_config",
     ("CLIENT", "hud_editor"): "Batch 2/3: editor state + serialization; host test_hud_theme",
     ("CLIENT", "crash_guard"): "Batch X: uncaught exception handler with safe crash reports, redaction, bounded storage; host test_crashguard",
+    ("CLIENT", "updater"): "Batch Y: local update metadata model with version comparison, validation, local metadata; host test_updater",
     ("HUD", "touch_indicators"): "M1: touch callback counter; host test_input_router",
     ("HUD", "fps"): "Batch 1: FrameTimer provider + honest unknown; host test_hud_sources",
     ("HUD", "cps"): "Batch 1: TapCounter provider + verified zero; host test_hud_sources",
@@ -546,7 +548,8 @@ def main() -> None:
                   "xykell.launcher.worlds", "xykell.launcher.packs",
                   "xykell.launcher.performance", "xykell.launcher.accounts",
                   "xykell.client.profile_manager", "xykell.launcher.versions",
-                  "xykell.launcher.settings", "xykell.client.crash_guard"}
+                  "xykell.launcher.settings", "xykell.client.crash_guard",
+                  "xykell.client.updater"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI

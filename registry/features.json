@@ -183,7 +183,7 @@
       "name": "Updater",
       "category": "CLIENT",
       "description": "signed+checksum design pending",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "LIFECYCLE"
       ],
@@ -209,7 +209,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch Y: local update metadata model with version comparison, validation, local metadata; host test_updater",
       "notes": "signed+checksum design pending"
     },
     {
