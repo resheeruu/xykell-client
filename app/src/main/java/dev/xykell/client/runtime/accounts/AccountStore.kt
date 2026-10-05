@@ -58,7 +58,7 @@ object AccountStore {
             KEY_REFRESH_TOKEN to PURPOSE_REFRESH,
         )) {
             val legacy = p.getString(key, null)
-            if (!legacy.isNullOrEmpty() && !legacy.startsWith(ENVELOPE_PREFIX)) {
+            if (legacy != null && needsMigration(legacy)) {
                 when (val enc = secretBox().encrypt(purpose, legacy)) {
                     is SecretBox.Result.Ok -> editor.putString(key, enc.value)
                     else -> editor.remove(key) // cannot protect it, so drop it
@@ -157,4 +157,12 @@ object AccountStore {
     }
 
     private const val ENVELOPE_PREFIX = "v1:"
+
+    /**
+     * A v1 build stored the token as raw JSON. Anything that is not already a
+     * [ENVELOPE_PREFIX] blob has to be re-encrypted before use. Pure, so the
+     * migration decision is unit-testable without an Android Context.
+     */
+    internal fun needsMigration(stored: String?): Boolean =
+        !stored.isNullOrEmpty() && !stored.startsWith(ENVELOPE_PREFIX)
 }

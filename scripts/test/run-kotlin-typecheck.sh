@@ -93,4 +93,30 @@ if ! "$KOTLINC_BIN" -nowarn -cp "$CP" -d "$WORK/classes" \
 fi
 
 echo "KOTLIN-TYPECHECK: PASS (${#SOURCES[@]} sources compiled)"
+
+# --- compile the test sourceset too ----------------------------------------
+# Gradle builds app/src/test as its own compilation, so a test file importing a
+# dependency the app never declared fails the build and nothing else. That is
+# how AccountStoreTest sat broken for several CI runs: it imported
+# androidx.test.core.app.ApplicationProvider with no such dependency. Compiling
+# the test sources here catches the whole class on the phone.
+TEST_CP="$CP:$WORK/classes:$JARS_DIR/junit-4.13.2.jar:$JARS_DIR/hamcrest-core-1.3.jar"
+if [ -f "$JARS_DIR/junit-4.13.2.jar" ]; then
+    mapfile -t TEST_SOURCES < <(find "$ROOT/app/src/test/java" -name '*.kt' | sort)
+    if [ ${#TEST_SOURCES[@]} -gt 0 ]; then
+        # -Xfriend-paths mirrors Gradle's associated test compilation, which is
+        # what makes `internal` members visible to app/src/test.
+        if "$KOTLINC_BIN" -nowarn -cp "$TEST_CP" -Xfriend-paths="$WORK/classes" \
+                -d "$WORK/test-classes" "${TEST_SOURCES[@]}" \
+                2> "$WORK/kotlinc-test.log"; then
+            echo "KOTLIN-TYPECHECK: PASS (${#TEST_SOURCES[@]} test sources compiled)"
+        else
+            echo "KOTLIN-TYPECHECK: FAIL — test source compile error (${#TEST_SOURCES[@]} sources)" >&2
+            grep -E "error:" "$WORK/kotlinc-test.log" | head -50 >&2 || cat "$WORK/kotlinc-test.log" >&2
+            exit 1
+        fi
+    fi
+else
+    echo "KOTLIN-TYPECHECK: skip test sources (no junit jar)" >&2
+fi
 rm -rf "$WORK"
