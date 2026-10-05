@@ -9,6 +9,8 @@ Run: python3 scripts/registry/generate.py. Validate: validate.py.
 import json
 from pathlib import Path
 
+PREFIX = "xykell."
+
 RR = "RESEARCH_REQUIRED"
 NI = "NOT_IMPLEMENTED"
 PARTIAL = "PARTIAL"
@@ -314,6 +316,102 @@ LAUNCHER = [
     ("accounts", ["UI"], "native", ["Xykell"], "Microsoft/Xbox auth handoff scaffold"),
 ]
 
+
+# ---------------------------------------------------------------------------
+# Classification beyond PARTIAL.
+#
+# This table is the single source of truth. It is keyed by FULL id, never by
+# bare suffix: fog_controls and particle_controls exist in both PERFORMANCE and
+# VISUAL, and a suffix-keyed table previously assigned the two copies
+# contradictory statuses in the same file.
+#
+# REFERENCE_ONLY   out of product scope. Cheats, ESP, combat/movement
+#                 automation, anti-cheat bypass, packet access, MITM/relay.
+#                 Never implemented, not "not yet".
+# DEVICE_LIMITED  only reachable by controlling the Bedrock renderer or engine
+#                 from inside the game process. No app-level API reaches them.
+# NOT_IMPLEMENTED not written yet. Two distinct reasons, tracked separately below
+#                 so the registry does not imply live validation exists.
+# ---------------------------------------------------------------------------
+
+# Categories that are entirely cheat/ESP surfaces.
+PROHIBITED_CATEGORIES = {"COMBAT", "MOVEMENT", "VISUAL", "PROXY"}
+
+# Individual ids outside those categories that are equally out of scope.
+# Input injection (quick_drop, toggle_sprint, toggle_sneak, fast_throw,
+# quick_perspective) is here because it means unauthorised game control.
+PROHIBITED_IDS = {PREFIX + i for i in """
+ automation.command_hotkey automation.text_hotkey automation.ghost
+ automation.auto_eat automation.auto_fish automation.auto_refill
+ automation.auto_steal automation.auto_tool automation.auto_equip
+ automation.auto_armor automation.auto_sign automation.auto_sell
+ automation.auto_mine automation.auto_dig automation.inventory_cleaner
+ automation.no_break_delay automation.auto_tool_swap automation.auto_gg
+ automation.inventory_lock
+ player.fake_stats player.fast_eat player.fast_interact player.haste
+ player.slow_mine player.no_fall player.no_blindness player.no_nausea
+ player.no_fire player.no_hurt_cam player.anti_immobile player.spam
+ network.packet_monitor network.packet_logger
+ misc.fake_op misc.java_mode misc.disabler misc.skin_stealer
+ misc.anti_weather misc.fast_throw misc.quick_drop misc.toggle_sprint
+ misc.toggle_sneak misc.quick_perspective
+ world.scaffold world.nuker world.fast_break world.fast_place
+ world.spawner_protect world.block_esp world.block_tracer world.xray
+ world.ore_esp world.chunk_borders world.chunk_finder world.new_chunks
+ world.hole_esp world.schematic
+""".split()}
+
+# Renderer/engine internals. An app process cannot reach these; only code
+# running inside the game's own render or engine path can.
+DEVICE_LIMITED_IDS = {PREFIX + "performance." + s for s in """
+ fps_limiter fps_unlocker dynamic_fps background_fps entity_opt render_opt
+ particle_controls animation_controls cloud_controls weather_opt fog_controls
+ frame_graph low_end_mode render_distance perf_profiles
+""".split()}
+
+# NOT_IMPLEMENTED because the value lives in the Bedrock client and the read
+# path does not exist yet. The blocker is code we have not written, not a
+# missing device: there is nothing to live-validate until the read path lands.
+RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
+ coordinates ping tps armor health hunger position direction biome keystrokes
+ target_info server_info inventory_hud ip_display entity_counter low_health
+ potion_hud speed_meter subtitles tab_list totem_counter
+""".split()} | {PREFIX + "player." + s for s in """
+ inventory_manager death_position friend_alerts nickname mod_alerts
+""".split()} | {PREFIX + "misc." + s for s in """
+ chat_timestamps chat_filter custom_nicknames shulker_tooltip death_lightning
+""".split()} | {PREFIX + "server." + s for s in "browser saved profile".split()}
+
+# NOT_IMPLEMENTED, but reachable with ordinary Android/app APIs and no game
+# internals. These are the real remaining build backlog, not external blockers.
+APP_LEVEL_IDS = {PREFIX + "hud." + s for s in """
+ arraylist hardware_stats
+""".split()} | {PREFIX + "misc." + s for s in """
+ streamer_mode privacy_mode screenshot_share screenshot_tools hide_hud timer
+ friends
+""".split()} | {PREFIX + "network." + s for s in """
+ ping connection_status latency_graph network_diagnostics
+""".split()} | {PREFIX + "performance." + s for s in """
+ memory_info cpu_info gpu_info
+""".split()} | {PREFIX + "world." + s for s in """
+ waypoints minimap world_markers
+""".split()} | {PREFIX + "automation." + s for s in """
+ death_logger item_tracker tnt_timer player_notifier
+""".split()}
+
+REFERENCE_ONLY_NOTE = (
+    "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban "
+    "evasion, packet access, or MITM/relay. Not scheduled, not partial."
+)
+RUNTIME_GATED_NOTE = (
+    "Value lives in the Bedrock client. No read path written yet, so there is "
+    "nothing to live-validate; needs a Stage-20 observation source first."
+)
+APP_LEVEL_NOTE = (
+    "Reachable with ordinary Android/app APIs and no game internals. Not "
+    "written yet: this is remaining build work, not an external blocker."
+)
+
 CATEGORIES = {
     "CLIENT": CLIENT, "HUD": HUD, "PERFORMANCE": PERFORMANCE, "VISUAL": VISUAL,
     "PLAYER": PLAYER, "MOVEMENT": MOVEMENT, "COMBAT": COMBAT, "WORLD": WORLD,
@@ -347,7 +445,18 @@ PROVEN = {
     ("LAUNCHER", "packs"): PARTIAL,
     ("LAUNCHER", "accounts"): PARTIAL,
     ("CLIENT", "profile_manager"): PARTIAL,
+    # Scripting: runtime, sandbox, API and manager are implemented and
+    # unit-tested. No arbitrary code path exists in any of them.
+    ("SCRIPTING", "script_runtime"): PARTIAL,
+    ("SCRIPTING", "script_sandbox"): PARTIAL,
+    ("SCRIPTING", "script_api"): PARTIAL,
     ("SCRIPTING", "script_manager"): PARTIAL,
+    # HUD elements whose element model, render case and value source already
+    # exist natively (xykell_hud_renderer.cpp / hud_model.cpp). Coordinates
+    # still needs a Stage-20 observation source for a live value.
+    ("HUD", "watermark"): PARTIAL,
+    ("HUD", "coordinates"): PARTIAL,
+    ("HUD", "movable_hud"): PARTIAL,
 }
 
 EVIDENCE = {
@@ -375,10 +484,23 @@ EVIDENCE = {
     ("LAUNCHER", "settings"): "Batch H: native-backed settings catalog with search/validation/reset; host test_settings",
     ("LAUNCHER", "worlds"): "Batch B: local world book with level.dat NBT import via SAF tree picker; host test_worldstore",
     ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
+    ("SCRIPTING", "script_runtime"): "Batch Z2: ScriptRuntime lifecycle, dispatch, budget, re-entrancy guard, failure isolation; host test_scriptruntime",
+    ("SCRIPTING", "script_sandbox"): "Batch Z2: explicit allowlists, limits, injection-shaped payload rejection, rolling budget; host test_scriptsandbox",
+    ("SCRIPTING", "script_api"): "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
+    ("SCRIPTING", "script_manager"): "Batch Z2: host wiring, CRUD, duplicate, import/export, v1 migration, persistence; host test_scriptruntime",
+    ("HUD", "watermark"): "Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render",
+    ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
+    ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
     ("CLIENT", "profile_manager"): "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
-    ("SCRIPTING", "script_manager"): "Batch Z: safe local rule engine with conditions/actions; host test_scriptengine",
-    ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; tokens stored in plaintext SharedPreferences (SCAFFOLD — production requires EncryptedSharedPreferences + Android Keystore); host test_accountstore",
+    ("SCRIPTING", "script_runtime"): "Batch Z2: ScriptRuntime lifecycle, dispatch, budget, re-entrancy guard, failure isolation; host test_scriptruntime",
+    ("SCRIPTING", "script_sandbox"): "Batch Z2: explicit allowlists, limits, injection-shaped payload rejection, rolling budget; host test_scriptsandbox",
+    ("SCRIPTING", "script_api"): "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
+    ("SCRIPTING", "script_manager"): "Batch Z2: host wiring, CRUD, duplicate, import/export, v1 migration, persistence; host test_scriptruntime",
+    ("HUD", "watermark"): "Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render",
+    ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
+    ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
+    ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; tokens encrypted at rest with AES-256-GCM under an AndroidKeyStore-held non-exportable key; host test_secretbox",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -541,22 +663,32 @@ def main() -> None:
                 "evidence": EVIDENCE.get((category, suffix), ""),
                 "notes": notes,
             })
-    # scripting + client/launcher non-proven default to NOT_IMPLEMENTED
-    proven_ids = {"xykell.client.core", "xykell.client.version_adapter",
-                  "xykell.client.config_store", "xykell.hud.touch_indicators",
-                  "xykell.client.hud_editor", "xykell.launcher.diagnostics",
-                  "xykell.launcher.profiles", "xykell.launcher.play",
-                  "xykell.launcher.servers", "xykell.launcher.servers_probe",
-                  "xykell.launcher.worlds", "xykell.launcher.packs",
-                  "xykell.launcher.performance", "xykell.launcher.accounts",
-                  "xykell.client.profile_manager", "xykell.launcher.versions",
-                  "xykell.launcher.settings", "xykell.client.crash_guard",
-                  "xykell.client.updater", "xykell.scripting.script_manager"}
     for e in entries:
-        if e["category"] in ("SCRIPTING",) and e["status"] == RR:
-            e["status"] = NI
-        if e["category"] in ("CLIENT", "LAUNCHER") and e["id"] not in proven_ids:
-            e["status"] = NI
+        fid = e["id"]
+        if e["status"] == PARTIAL:
+            continue  # already proven by PROVEN/EVIDENCE above
+        if e["category"] in PROHIBITED_CATEGORIES or fid in PROHIBITED_IDS:
+            e["status"] = "REFERENCE_ONLY"
+            e["evidence"] = "policy: no cheat/ESP/automation/packet/MITM surface"
+            e["notes"] = REFERENCE_ONLY_NOTE
+        elif fid in DEVICE_LIMITED_IDS:
+            e["status"] = "DEVICE_LIMITED"
+            e["evidence"] = "Bedrock renderer/engine internal; no app-level API"
+            e["notes"] = (
+                "Reachable only from inside the game's render/engine path. "
+                "The app process has no API for it."
+            )
+        elif fid in RUNTIME_GATED_IDS:
+            e["status"] = "NOT_IMPLEMENTED"
+            e["evidence"] = "no read path; Stage-20 observation source absent"
+            e["notes"] = RUNTIME_GATED_NOTE
+        elif fid in APP_LEVEL_IDS:
+            e["status"] = "NOT_IMPLEMENTED"
+            e["evidence"] = "app-level APIs available; feature not written"
+            e["notes"] = APP_LEVEL_NOTE
+        else:
+            e["status"] = "NOT_IMPLEMENTED"
+            e["notes"] = "not implemented"
     out = {
         "meta": {"format": 1, "product": "Xykell Client",
                  "generated_by": "scripts/registry/generate.py",

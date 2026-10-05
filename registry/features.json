@@ -358,7 +358,7 @@
       "name": "Coordinates",
       "category": "HUD",
       "description": "needs player-position source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "PLAYER"
       ],
@@ -400,7 +400,7 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "",
+      "evidence": "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
       "notes": "needs player-position source"
     },
     {
@@ -408,7 +408,7 @@
       "name": "Ping",
       "category": "HUD",
       "description": "needs latency source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -451,15 +451,15 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs latency source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.tps",
       "name": "Tps",
       "category": "HUD",
       "description": "measurability TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME"
       ],
@@ -500,15 +500,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "measurability TBD"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.armor",
       "name": "Armor",
       "category": "HUD",
       "description": "needs inventory source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PLAYER"
       ],
@@ -549,15 +549,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs inventory source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.health",
       "name": "Health",
       "category": "HUD",
       "description": "needs player source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PLAYER"
       ],
@@ -598,15 +598,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs player source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.hunger",
       "name": "Hunger",
       "category": "HUD",
       "description": "needs player source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PLAYER"
       ],
@@ -647,15 +647,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs player source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.position",
       "name": "Position",
       "category": "HUD",
       "description": "see coordinates",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PLAYER"
       ],
@@ -696,15 +696,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "see coordinates"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.direction",
       "name": "Direction",
       "category": "HUD",
       "description": "needs rotation source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PLAYER"
       ],
@@ -745,15 +745,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs rotation source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.biome",
       "name": "Biome",
       "category": "HUD",
       "description": "needs world source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "WORLD"
       ],
@@ -794,8 +794,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs world source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.clock",
@@ -851,7 +851,7 @@
       "name": "Keystrokes",
       "category": "HUD",
       "description": "needs input stream (have callback)",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "INPUT_SEMANTICS"
       ],
@@ -894,8 +894,8 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs input stream (have callback)"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.touch_indicators",
@@ -952,7 +952,7 @@
       "name": "Target Info",
       "category": "HUD",
       "description": "needs target source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "ENTITY"
       ],
@@ -993,15 +993,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs target source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.arraylist",
       "name": "Arraylist",
       "category": "HUD",
       "description": "module-list display",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1042,15 +1042,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "module-list display"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.hud.watermark",
       "name": "Watermark",
       "category": "HUD",
       "description": "static text via draw commands",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1091,7 +1091,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render",
       "notes": "static text via draw commands"
     },
     {
@@ -1099,7 +1099,7 @@
       "name": "Notifications",
       "category": "HUD",
       "description": "event-driven; needs EventBus",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1141,7 +1141,7 @@
         "Flarial"
       ],
       "evidence": "",
-      "notes": "event-driven; needs EventBus"
+      "notes": "not implemented"
     },
     {
       "id": "xykell.hud.session_stats",
@@ -1197,7 +1197,7 @@
       "name": "Server Info",
       "category": "HUD",
       "description": "needs connection source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -1238,15 +1238,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs connection source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.entity_counter",
       "name": "Entity Counter",
       "category": "HUD",
       "description": "needs client entity registry source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1287,15 +1287,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs client entity registry source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.hardware_stats",
       "name": "Hardware Stats",
       "category": "HUD",
       "description": "device mem/CPU via OS APIs",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1336,15 +1336,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "device mem/CPU via OS APIs"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.hud.inventory_hud",
       "name": "Inventory Hud",
       "category": "HUD",
       "description": "needs inventory source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1385,15 +1385,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs inventory source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.ip_display",
       "name": "Ip Display",
       "category": "HUD",
       "description": "needs connection source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1434,15 +1434,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs connection source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.low_health",
       "name": "Low Health",
       "category": "HUD",
       "description": "warning; needs health source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1483,15 +1483,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "warning; needs health source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.potion_hud",
       "name": "Potion Hud",
       "category": "HUD",
       "description": "needs potion-effect source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1532,15 +1532,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs potion-effect source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.speed_meter",
       "name": "Speed Meter",
       "category": "HUD",
       "description": "needs movement source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1581,8 +1581,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs movement source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.stop_watch",
@@ -1638,7 +1638,7 @@
       "name": "Subtitles",
       "category": "HUD",
       "description": "needs sound-event source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1679,15 +1679,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs sound-event source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.tab_list",
       "name": "Tab List",
       "category": "HUD",
       "description": "needs player-list source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1728,15 +1728,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs player-list source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.totem_counter",
       "name": "Totem Counter",
       "category": "HUD",
       "description": "needs inventory source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1777,15 +1777,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs inventory source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.movable_hud",
       "name": "Movable Hud",
       "category": "HUD",
       "description": "editor feature; see hud editor",
-      "status": "RESEARCH_REQUIRED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1826,7 +1826,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
       "notes": "editor feature; see hud editor"
     },
     {
@@ -1834,7 +1834,7 @@
       "name": "Fps Limiter",
       "category": "PERFORMANCE",
       "description": "needs frame path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -1861,15 +1861,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs frame path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.fps_unlocker",
       "name": "Fps Unlocker",
       "category": "PERFORMANCE",
       "description": "needs frame path; measure gains",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -1896,15 +1896,15 @@
         "Atlas",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs frame path; measure gains"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.dynamic_fps",
       "name": "Dynamic Fps",
       "category": "PERFORMANCE",
       "description": "needs frame path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -1929,15 +1929,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs frame path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.background_fps",
       "name": "Background Fps",
       "category": "PERFORMANCE",
       "description": "needs frame path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -1962,15 +1962,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs frame path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.frame_graph",
       "name": "Frame Graph",
       "category": "PERFORMANCE",
       "description": "needs frame-tick source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -1995,15 +1995,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "needs frame-tick source"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.entity_opt",
       "name": "Entity Opt",
       "category": "PERFORMANCE",
       "description": "needs entity path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2028,15 +2028,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs entity path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.render_opt",
       "name": "Render Opt",
       "category": "PERFORMANCE",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2062,15 +2062,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.particle_controls",
       "name": "Particle Controls",
       "category": "PERFORMANCE",
       "description": "see visual.particle_controls",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2095,15 +2095,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "see visual.particle_controls"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.animation_controls",
       "name": "Animation Controls",
       "category": "PERFORMANCE",
       "description": "needs animation path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2128,15 +2128,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs animation path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.cloud_controls",
       "name": "Cloud Controls",
       "category": "PERFORMANCE",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2161,15 +2161,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.weather_opt",
       "name": "Weather Opt",
       "category": "PERFORMANCE",
       "description": "needs weather path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2194,15 +2194,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs weather path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.fog_controls",
       "name": "Fog Controls",
       "category": "PERFORMANCE",
       "description": "see visual.fog_controls",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2228,15 +2228,15 @@
         "Atlas",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "see visual.fog_controls"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.memory_info",
       "name": "Memory Info",
       "category": "PERFORMANCE",
       "description": "OS APIs available",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME"
       ],
@@ -2261,15 +2261,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "OS APIs available"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.performance.cpu_info",
       "name": "Cpu Info",
       "category": "PERFORMANCE",
       "description": "OS APIs available",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME"
       ],
@@ -2294,15 +2294,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "OS APIs available"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.performance.gpu_info",
       "name": "Gpu Info",
       "category": "PERFORMANCE",
       "description": "OS APIs available",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME"
       ],
@@ -2327,15 +2327,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "OS APIs available"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.performance.perf_profiles",
       "name": "Perf Profiles",
       "category": "PERFORMANCE",
       "description": "needs PerformanceManager",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2360,15 +2360,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "needs PerformanceManager"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.low_end_mode",
       "name": "Low End Mode",
       "category": "PERFORMANCE",
       "description": "needs perf paths",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2393,15 +2393,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs perf paths"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.performance.render_distance",
       "name": "Render Distance",
       "category": "PERFORMANCE",
       "description": "needs settings path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "DEVICE_LIMITED",
       "requires": [
         "FRAME"
       ],
@@ -2427,15 +2427,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs settings path"
+      "evidence": "Bedrock renderer/engine internal; no app-level API",
+      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
     },
     {
       "id": "xykell.visual.esp",
       "name": "Esp",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2481,15 +2481,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.player_esp",
       "name": "Player Esp",
       "category": "VISUAL",
       "description": "needs entity source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2530,15 +2530,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "needs entity source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.entity_esp",
       "name": "Entity Esp",
       "category": "VISUAL",
       "description": "needs entity source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2578,15 +2578,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs entity source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.item_esp",
       "name": "Item Esp",
       "category": "VISUAL",
       "description": "needs entity source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2626,15 +2626,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs entity source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.tracers",
       "name": "Tracers",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2674,15 +2674,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.block_tracers",
       "name": "Block Tracers",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2722,15 +2722,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.free_look",
       "name": "Free Look",
       "category": "VISUAL",
       "description": "needs camera path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2771,15 +2771,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs camera path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.free_cam",
       "name": "Free Cam",
       "category": "VISUAL",
       "description": "needs camera path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2820,15 +2820,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs camera path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.xray",
       "name": "Xray",
       "category": "VISUAL",
       "description": "see world.xray",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2870,15 +2870,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "see world.xray"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.fullbright",
       "name": "Fullbright",
       "category": "VISUAL",
       "description": "needs lighting path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2920,15 +2920,15 @@
         "Apollon",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs lighting path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.no_invisible",
       "name": "No Invisible",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2968,15 +2968,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.no_fire",
       "name": "No Fire",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3016,15 +3016,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.no_weather",
       "name": "No Weather",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3064,15 +3064,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.no_blindness",
       "name": "No Blindness",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3112,15 +3112,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.no_nausea",
       "name": "No Nausea",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3160,15 +3160,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.chunk_borders",
       "name": "Chunk Borders",
       "category": "VISUAL",
       "description": "see world.chunk_borders",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3210,15 +3210,15 @@
         "Lunar Proxy",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "see world.chunk_borders"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.new_chunks",
       "name": "New Chunks",
       "category": "VISUAL",
       "description": "see world.new_chunks",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3259,15 +3259,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "see world.new_chunks"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.hole_esp",
       "name": "Hole Esp",
       "category": "VISUAL",
       "description": "see world.hole_esp",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3308,15 +3308,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "see world.hole_esp"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.spawner_esp",
       "name": "Spawner Esp",
       "category": "VISUAL",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3357,15 +3357,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.spawner_ping",
       "name": "Spawner Ping",
       "category": "VISUAL",
       "description": "ping on chunk load; optional auto-disconnect is server-rules sensitive",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3406,15 +3406,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "ping on chunk load; optional auto-disconnect is server-rules sensitive"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.sus_chunk_finder",
       "name": "Sus Chunk Finder",
       "category": "VISUAL",
       "description": "suspicious-chunk heuristics TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3455,15 +3455,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "suspicious-chunk heuristics TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.bed_esp",
       "name": "Bed Esp",
       "category": "VISUAL",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3504,15 +3504,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.waypoints",
       "name": "Waypoints",
       "category": "VISUAL",
       "description": "see world.waypoints",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3554,15 +3554,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "see world.waypoints"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.minimap",
       "name": "Minimap",
       "category": "VISUAL",
       "description": "see world.minimap",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3603,15 +3603,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "see world.minimap"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.schematic",
       "name": "Schematic",
       "category": "VISUAL",
       "description": "see world.schematic",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3652,15 +3652,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "see world.schematic"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.view_model",
       "name": "View Model",
       "category": "VISUAL",
       "description": "needs viewmodel path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3701,15 +3701,15 @@
         "Atlas",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs viewmodel path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.zoom",
       "name": "Zoom",
       "category": "VISUAL",
       "description": "needs camera/FOV path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3760,15 +3760,15 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs camera/FOV path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.motion_blur",
       "name": "Motion Blur",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3808,15 +3808,15 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.shader_loader",
       "name": "Shader Loader",
       "category": "VISUAL",
       "description": "MaterialBin-style; needs material path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3856,15 +3856,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "MaterialBin-style; needs material path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.custom_crosshair",
       "name": "Custom Crosshair",
       "category": "VISUAL",
       "description": "overlay-drawn first",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3906,15 +3906,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "overlay-drawn first"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.hit_effects",
       "name": "Hit Effects",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3954,15 +3954,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.particle_controls",
       "name": "Particle Controls",
       "category": "VISUAL",
       "description": "needs particle path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4002,15 +4002,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs particle path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.fog_controls",
       "name": "Fog Controls",
       "category": "VISUAL",
       "description": "needs fog path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4051,15 +4051,15 @@
         "Atlas",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs fog path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.camera_controls",
       "name": "Camera Controls",
       "category": "VISUAL",
       "description": "needs camera path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4099,15 +4099,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs camera path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.block_outline",
       "name": "Block Outline",
       "category": "VISUAL",
       "description": "block outline color/style; needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4147,15 +4147,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "block outline color/style; needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.item_physics",
       "name": "Item Physics",
       "category": "VISUAL",
       "description": "dropped-item rotation; needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4195,15 +4195,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "dropped-item rotation; needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.nametag",
       "name": "Nametag",
       "category": "VISUAL",
       "description": "third-person self nametag; needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4243,15 +4243,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "third-person self nametag; needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.gui_scale",
       "name": "Gui Scale",
       "category": "VISUAL",
       "description": "GUI scale beyond limits; needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4292,15 +4292,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "GUI scale beyond limits; needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.time_changer",
       "name": "Time Changer",
       "category": "VISUAL",
       "description": "client-side presentation; needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4340,15 +4340,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "client-side presentation; needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.visual.weather_changer",
       "name": "Weather Changer",
       "category": "VISUAL",
       "description": "client-side presentation; needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4388,15 +4388,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "client-side presentation; needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.inventory_manager",
       "name": "Inventory Manager",
       "category": "PLAYER",
       "description": "Inventory Manager (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4431,15 +4431,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.player.fast_eat",
       "name": "Fast Eat",
       "category": "PLAYER",
       "description": "Fast Eat (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4473,15 +4473,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.fast_interact",
       "name": "Fast Interact",
       "category": "PLAYER",
       "description": "Fast Interact (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4515,15 +4515,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.haste",
       "name": "Haste",
       "category": "PLAYER",
       "description": "Haste (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4557,15 +4557,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.slow_mine",
       "name": "Slow Mine",
       "category": "PLAYER",
       "description": "Slow Mine (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4599,15 +4599,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.no_fall",
       "name": "No Fall",
       "category": "PLAYER",
       "description": "No Fall (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4641,15 +4641,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.no_blindness",
       "name": "No Blindness",
       "category": "PLAYER",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4683,15 +4683,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.no_nausea",
       "name": "No Nausea",
       "category": "PLAYER",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4725,15 +4725,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.no_fire",
       "name": "No Fire",
       "category": "PLAYER",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4767,15 +4767,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.no_hurt_cam",
       "name": "No Hurt Cam",
       "category": "PLAYER",
       "description": "needs render path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4810,15 +4810,15 @@
         "Lunar Proxy",
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs render path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.anti_immobile",
       "name": "Anti Immobile",
       "category": "PLAYER",
       "description": "Anti Immobile (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4852,15 +4852,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.death_position",
       "name": "Death Position",
       "category": "PLAYER",
       "description": "needs death source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4896,15 +4896,15 @@
         "Apollon",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs death source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.player.friend_alerts",
       "name": "Friend Alerts",
       "category": "PLAYER",
       "description": "Friend Alerts (PLAYER).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4938,15 +4938,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.player.nickname",
       "name": "Nickname",
       "category": "PLAYER",
       "description": "local-only",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4980,15 +4980,15 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "local-only"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.player.fake_stats",
       "name": "Fake Stats",
       "category": "PLAYER",
       "description": "local display only",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5022,15 +5022,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "local display only"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.spam",
       "name": "Spam",
       "category": "PLAYER",
       "description": "rate-limited; server rules risk",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5064,15 +5064,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "rate-limited; server rules risk"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.player.mod_alerts",
       "name": "Mod Alerts",
       "category": "PLAYER",
       "description": "server-specific mod lists (e.g. Lifeboat/DonutSMP)",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5106,15 +5106,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "server-specific mod lists (e.g. Lifeboat/DonutSMP)"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.movement.sprint",
       "name": "Sprint",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5149,15 +5149,15 @@
         "Flarial",
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.auto_sprint",
       "name": "Auto Sprint",
       "category": "MOVEMENT",
       "description": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5192,15 +5192,15 @@
         "Lunar Proxy",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "locality TBD; Levi inbuilt AutoSprint exists \u2014 integrate, do not duplicate"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.speed",
       "name": "Speed",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5235,15 +5235,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.no_slow",
       "name": "No Slow",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5277,15 +5277,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.step",
       "name": "Step",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5319,15 +5319,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.air_jump",
       "name": "Air Jump",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5361,15 +5361,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.fly",
       "name": "Fly",
       "category": "MOVEMENT",
       "description": "server-visible risk; locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5404,15 +5404,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "server-visible risk; locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.motion_fly",
       "name": "Motion Fly",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5446,15 +5446,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.jetpack",
       "name": "Jetpack",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5488,15 +5488,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.phase",
       "name": "Phase",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5530,15 +5530,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.glide",
       "name": "Glide",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5572,15 +5572,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.auto_elytra",
       "name": "Auto Elytra",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5614,15 +5614,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.auto_rocket",
       "name": "Auto Rocket",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5656,15 +5656,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.bunny_hop",
       "name": "Bunny Hop",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5699,15 +5699,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.jump_boost",
       "name": "Jump Boost",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5741,15 +5741,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.levitate",
       "name": "Levitate",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5783,15 +5783,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.slow_falling",
       "name": "Slow Falling",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5825,15 +5825,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.water_walk",
       "name": "Water Walk",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5867,15 +5867,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.tap_tp",
       "name": "Tap Tp",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5909,15 +5909,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.safe_walk",
       "name": "Safe Walk",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5951,15 +5951,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.no_fall",
       "name": "No Fall",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5993,15 +5993,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.movement_correction",
       "name": "Movement Correction",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6036,15 +6036,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.timer",
       "name": "Timer",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6078,15 +6078,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.ladder_fly",
       "name": "Ladder Fly",
       "category": "MOVEMENT",
       "description": "locality TBD; ladder detection TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6120,15 +6120,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "locality TBD; ladder detection TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.movement.block_fly",
       "name": "Block Fly",
       "category": "MOVEMENT",
       "description": "locality TBD; placement source TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6162,15 +6162,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "locality TBD; placement source TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.aim_assist",
       "name": "Aim Assist",
       "category": "COMBAT",
       "description": "Aim Assist (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6218,15 +6218,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_clicker",
       "name": "Auto Clicker",
       "category": "COMBAT",
       "description": "Auto Clicker (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6276,15 +6276,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.afk_clicker",
       "name": "Afk Clicker",
       "category": "COMBAT",
       "description": "Afk Clicker (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6332,15 +6332,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.trigger_bot",
       "name": "Trigger Bot",
       "category": "COMBAT",
       "description": "Trigger Bot (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6388,15 +6388,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.kill_aura",
       "name": "Kill Aura",
       "category": "COMBAT",
       "description": "needs targeting+attack sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6455,15 +6455,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "needs targeting+attack sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.tp_aura",
       "name": "Tp Aura",
       "category": "COMBAT",
       "description": "Tp Aura (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6511,15 +6511,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.reach",
       "name": "Reach",
       "category": "COMBAT",
       "description": "Reach (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6568,15 +6568,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.hitbox",
       "name": "Hitbox",
       "category": "COMBAT",
       "description": "Hitbox (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6624,15 +6624,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.velocity",
       "name": "Velocity",
       "category": "COMBAT",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6681,15 +6681,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.knockback",
       "name": "Knockback",
       "category": "COMBAT",
       "description": "Knockback (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6737,15 +6737,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.knockback_delay",
       "name": "Knockback Delay",
       "category": "COMBAT",
       "description": "Knockback Delay (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6793,15 +6793,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.backtrack",
       "name": "Backtrack",
       "category": "COMBAT",
       "description": "Backtrack (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6850,15 +6850,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_crit",
       "name": "Auto Crit",
       "category": "COMBAT",
       "description": "Auto Crit (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6906,15 +6906,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_totem",
       "name": "Auto Totem",
       "category": "COMBAT",
       "description": "Auto Totem (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6962,15 +6962,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_potion",
       "name": "Auto Potion",
       "category": "COMBAT",
       "description": "Auto Potion (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7018,15 +7018,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_crystal",
       "name": "Auto Crystal",
       "category": "COMBAT",
       "description": "Auto Crystal (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7074,15 +7074,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.anti_crystal",
       "name": "Anti Crystal",
       "category": "COMBAT",
       "description": "Anti Crystal (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7130,15 +7130,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_cart",
       "name": "Auto Cart",
       "category": "COMBAT",
       "description": "Auto Cart (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7186,15 +7186,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_web",
       "name": "Auto Web",
       "category": "COMBAT",
       "description": "Auto Web (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7242,15 +7242,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_switch",
       "name": "Auto Switch",
       "category": "COMBAT",
       "description": "Auto Switch (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7298,15 +7298,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.mace_swap",
       "name": "Mace Swap",
       "category": "COMBAT",
       "description": "Bedrock mechanic mapping TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7354,15 +7354,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "Bedrock mechanic mapping TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.mace_damage",
       "name": "Mace Damage",
       "category": "COMBAT",
       "description": "Bedrock mechanic mapping TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7410,15 +7410,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "Bedrock mechanic mapping TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.shield_disabler",
       "name": "Shield Disabler",
       "category": "COMBAT",
       "description": "Shield Disabler (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7466,15 +7466,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.anchor_aura",
       "name": "Anchor Aura",
       "category": "COMBAT",
       "description": "Anchor Aura (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7522,15 +7522,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.target_hud",
       "name": "Target Hud",
       "category": "COMBAT",
       "description": "needs target source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7579,15 +7579,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs target source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.target_selector",
       "name": "Target Selector",
       "category": "COMBAT",
       "description": "Target Selector (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7636,15 +7636,15 @@
         "Lunar Proxy",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.friend_filter",
       "name": "Friend Filter",
       "category": "COMBAT",
       "description": "local list; needs target source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7692,15 +7692,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "local list; needs target source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.combat_settings",
       "name": "Combat Settings",
       "category": "COMBAT",
       "description": "Combat Settings (COMBAT).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7748,15 +7748,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.double_click",
       "name": "Double Click",
       "category": "COMBAT",
       "description": "attack timing source TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7804,15 +7804,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "attack timing source TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.auto_log",
       "name": "Auto Log",
       "category": "COMBAT",
       "description": "safe-disconnect rules TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7860,15 +7860,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "safe-disconnect rules TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.combat.mob_aura",
       "name": "Mob Aura",
       "category": "COMBAT",
       "description": "mob targeting; needs entity source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7916,15 +7916,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "mob targeting; needs entity source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.scaffold",
       "name": "Scaffold",
       "category": "WORLD",
       "description": "server rules risk",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -7959,15 +7959,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "server rules risk"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.nuker",
       "name": "Nuker",
       "category": "WORLD",
       "description": "server rules risk; throttled by design",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8001,15 +8001,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "server rules risk; throttled by design"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.fast_break",
       "name": "Fast Break",
       "category": "WORLD",
       "description": "Fast Break (WORLD).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8043,15 +8043,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.fast_place",
       "name": "Fast Place",
       "category": "WORLD",
       "description": "Fast Place (WORLD).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8085,15 +8085,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.spawner_protect",
       "name": "Spawner Protect",
       "category": "WORLD",
       "description": "Spawner Protect (WORLD).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8127,15 +8127,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.block_esp",
       "name": "Block Esp",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8170,15 +8170,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.block_tracer",
       "name": "Block Tracer",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8213,15 +8213,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.xray",
       "name": "Xray",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8257,15 +8257,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.ore_esp",
       "name": "Ore Esp",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8300,15 +8300,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.chunk_borders",
       "name": "Chunk Borders",
       "category": "WORLD",
       "description": "needs world source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8344,15 +8344,15 @@
         "Lunar Proxy",
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs world source"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.chunk_finder",
       "name": "Chunk Finder",
       "category": "WORLD",
       "description": "needs chunk data",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8387,15 +8387,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs chunk data"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.new_chunks",
       "name": "New Chunks",
       "category": "WORLD",
       "description": "needs chunk data",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8430,15 +8430,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs chunk data"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.hole_esp",
       "name": "Hole Esp",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8473,15 +8473,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs world+render sources"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.schematic",
       "name": "Schematic",
       "category": "WORLD",
       "description": "Schematic (WORLD).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8516,15 +8516,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.world.waypoints",
       "name": "Waypoints",
       "category": "WORLD",
       "description": "needs position source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8566,15 +8566,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs position source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.world.minimap",
       "name": "Minimap",
       "category": "WORLD",
       "description": "needs world+position sources",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8609,15 +8609,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs world+position sources"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.world.world_markers",
       "name": "World Markers",
       "category": "WORLD",
       "description": "needs position source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8653,15 +8653,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "needs position source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.automation.auto_eat",
       "name": "Auto Eat",
       "category": "AUTOMATION",
       "description": "interruptible; cooldowns required",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8701,15 +8701,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "interruptible; cooldowns required"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_fish",
       "name": "Auto Fish",
       "category": "AUTOMATION",
       "description": "interruptible",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8750,15 +8750,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "interruptible"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_refill",
       "name": "Auto Refill",
       "category": "AUTOMATION",
       "description": "Auto Refill (AUTOMATION).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8798,15 +8798,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_steal",
       "name": "Auto Steal",
       "category": "AUTOMATION",
       "description": "server rules risk",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8846,15 +8846,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "server rules risk"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_tool",
       "name": "Auto Tool",
       "category": "AUTOMATION",
       "description": "Auto Tool (AUTOMATION).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8894,15 +8894,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_equip",
       "name": "Auto Equip",
       "category": "AUTOMATION",
       "description": "Auto Equip (AUTOMATION).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8942,15 +8942,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_armor",
       "name": "Auto Armor",
       "category": "AUTOMATION",
       "description": "Auto Armor (AUTOMATION).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8990,15 +8990,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_sign",
       "name": "Auto Sign",
       "category": "AUTOMATION",
       "description": "Auto Sign (AUTOMATION).",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9038,15 +9038,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": ""
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_sell",
       "name": "Auto Sell",
       "category": "AUTOMATION",
       "description": "server rules risk",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9086,15 +9086,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "server rules risk"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_mine",
       "name": "Auto Mine",
       "category": "AUTOMATION",
       "description": "throttled; cancellable",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9134,15 +9134,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "throttled; cancellable"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_dig",
       "name": "Auto Dig",
       "category": "AUTOMATION",
       "description": "throttled; cancellable",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9182,15 +9182,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "throttled; cancellable"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.inventory_cleaner",
       "name": "Inventory Cleaner",
       "category": "AUTOMATION",
       "description": "rules for protected items TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9230,15 +9230,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "rules for protected items TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.no_break_delay",
       "name": "No Break Delay",
       "category": "AUTOMATION",
       "description": "mechanism TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9278,15 +9278,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "",
-      "notes": "mechanism TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.ghost",
       "name": "Ghost",
       "category": "AUTOMATION",
       "description": "Lunar Ghost hides commands/chat for recording \u2014 NOT phase-through",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9326,15 +9326,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "Lunar Ghost hides commands/chat for recording \u2014 NOT phase-through"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_tool_swap",
       "name": "Auto Tool Swap",
       "category": "AUTOMATION",
       "description": "best-tool-for-target-block; distinct from auto_tool",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9374,15 +9374,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "best-tool-for-target-block; distinct from auto_tool"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.auto_gg",
       "name": "Auto Gg",
       "category": "AUTOMATION",
       "description": "server-specific win messages (Hive/Zeqa/CubeCraft/Lifeboat/Galaxite/Mineville)",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9422,15 +9422,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "server-specific win messages (Hive/Zeqa/CubeCraft/Lifeboat/Galaxite/Mineville)"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.command_hotkey",
       "name": "Command Hotkey",
       "category": "AUTOMATION",
       "description": "shortcut buttons send commands",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9471,15 +9471,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "shortcut buttons send commands"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.text_hotkey",
       "name": "Text Hotkey",
       "category": "AUTOMATION",
       "description": "shortcut buttons send chat text",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9520,15 +9520,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "shortcut buttons send chat text"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.death_logger",
       "name": "Death Logger",
       "category": "AUTOMATION",
       "description": "logs death coords; needs death source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9569,15 +9569,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "logs death coords; needs death source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.automation.inventory_lock",
       "name": "Inventory Lock",
       "category": "AUTOMATION",
       "description": "lock items from being dropped",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9617,15 +9617,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "lock items from being dropped"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.automation.item_tracker",
       "name": "Item Tracker",
       "category": "AUTOMATION",
       "description": "picked/dropped item display",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9666,15 +9666,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "picked/dropped item display"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.automation.tnt_timer",
       "name": "Tnt Timer",
       "category": "AUTOMATION",
       "description": "TNT countdown; needs world source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9715,15 +9715,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "TNT countdown; needs world source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.automation.player_notifier",
       "name": "Player Notifier",
       "category": "AUTOMATION",
       "description": "notify when a player is on server; needs player-list source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9763,15 +9763,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "notify when a player is on server; needs player-list source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.network.ping",
       "name": "Ping",
       "category": "NETWORK",
       "description": "needs packet/latency source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -9806,15 +9806,15 @@
         "WClient",
         "Nova"
       ],
-      "evidence": "",
-      "notes": "needs packet/latency source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.network.connection_status",
       "name": "Connection Status",
       "category": "NETWORK",
       "description": "needs connection source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -9848,15 +9848,15 @@
       "sourceReferences": [
         "WClient"
       ],
-      "evidence": "",
-      "notes": "needs connection source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.network.latency_graph",
       "name": "Latency Graph",
       "category": "NETWORK",
       "description": "needs latency source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -9890,15 +9890,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "needs latency source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.network.network_diagnostics",
       "name": "Network Diagnostics",
       "category": "NETWORK",
       "description": "needs connection source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -9932,15 +9932,15 @@
       "sourceReferences": [
         "WClient"
       ],
-      "evidence": "",
-      "notes": "needs connection source"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.network.packet_monitor",
       "name": "Packet Monitor",
       "category": "NETWORK",
       "description": "no verified packet API",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "PACKET"
       ],
@@ -9975,15 +9975,15 @@
         "WClient",
         "Nova"
       ],
-      "evidence": "",
-      "notes": "no verified packet API"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.network.packet_logger",
       "name": "Packet Logger",
       "category": "NETWORK",
       "description": "dev only; no verified packet API",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "PACKET"
       ],
@@ -10017,15 +10017,15 @@
       "sourceReferences": [
         "WClient"
       ],
-      "evidence": "",
-      "notes": "dev only; no verified packet API"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.proxy.mode",
       "name": "Mode",
       "category": "PROXY",
       "description": "design only; separate subsystem",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "PACKET"
       ],
@@ -10050,15 +10050,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "design only; separate subsystem"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.proxy.relay",
       "name": "Relay",
       "category": "PROXY",
       "description": "console/remote concept; protocol work required",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "PACKET"
       ],
@@ -10085,15 +10085,15 @@
         "Nova",
         "WClient"
       ],
-      "evidence": "",
-      "notes": "console/remote concept; protocol work required"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.scripting.script_runtime",
       "name": "Script Runtime",
       "category": "SCRIPTING",
       "description": "engine choice needs license/size review",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "SCRIPTING"
       ],
@@ -10118,7 +10118,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch Z2: ScriptRuntime lifecycle, dispatch, budget, re-entrancy guard, failure isolation; host test_scriptruntime",
       "notes": "engine choice needs license/size review"
     },
     {
@@ -10126,7 +10126,7 @@
       "name": "Script Sandbox",
       "category": "SCRIPTING",
       "description": "design in docs/SCRIPTING.md",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "SCRIPTING"
       ],
@@ -10151,7 +10151,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
+      "evidence": "Batch Z2: explicit allowlists, limits, injection-shaped payload rejection, rolling budget; host test_scriptsandbox",
       "notes": "design in docs/SCRIPTING.md"
     },
     {
@@ -10159,7 +10159,7 @@
       "name": "Script Api",
       "category": "SCRIPTING",
       "description": "design in docs/SCRIPTING.md",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "SCRIPTING"
       ],
@@ -10184,7 +10184,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
+      "evidence": "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
       "notes": "design in docs/SCRIPTING.md"
     },
     {
@@ -10218,7 +10218,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "Batch Z: safe local rule engine with conditions/actions; host test_scriptengine",
+      "evidence": "Batch Z2: host wiring, CRUD, duplicate, import/export, v1 migration, persistence; host test_scriptruntime",
       "notes": "safe local rule engine implemented; host test_scriptengine"
     },
     {
@@ -10226,7 +10226,7 @@
       "name": "Browser",
       "category": "SERVER",
       "description": "user-supplied servers only",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -10251,15 +10251,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "user-supplied servers only"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.server.saved",
       "name": "Saved",
       "category": "SERVER",
       "description": "address/port/notes/favorites",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -10284,15 +10284,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "address/port/notes/favorites"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.server.profile",
       "name": "Profile",
       "category": "SERVER",
       "description": "per-server modules/settings/HUD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "PACKET"
       ],
@@ -10317,15 +10317,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "per-server modules/settings/HUD"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.misc.streamer_mode",
       "name": "Streamer Mode",
       "category": "MISC",
       "description": "overlay redaction",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10350,15 +10350,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "overlay redaction"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.misc.privacy_mode",
       "name": "Privacy Mode",
       "category": "MISC",
       "description": "overlay redaction",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10383,15 +10383,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "overlay redaction"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.misc.chat_timestamps",
       "name": "Chat Timestamps",
       "category": "MISC",
       "description": "needs chat source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10416,15 +10416,15 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "needs chat source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.misc.chat_filter",
       "name": "Chat Filter",
       "category": "MISC",
       "description": "needs chat source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10449,15 +10449,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "needs chat source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.misc.custom_nicknames",
       "name": "Custom Nicknames",
       "category": "MISC",
       "description": "local-only",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10482,15 +10482,15 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "",
-      "notes": "local-only"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.misc.screenshot_share",
       "name": "Screenshot Share",
       "category": "MISC",
       "description": "needs capture path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10515,15 +10515,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "needs capture path"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.misc.quick_perspective",
       "name": "Quick Perspective",
       "category": "MISC",
       "description": "needs camera path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10549,15 +10549,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs camera path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.quick_drop",
       "name": "Quick Drop",
       "category": "MISC",
       "description": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10582,15 +10582,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.hide_hud",
       "name": "Hide Hud",
       "category": "MISC",
       "description": "overlay clear available",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10615,15 +10615,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "",
-      "notes": "overlay clear available"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.misc.toggle_sprint",
       "name": "Toggle Sprint",
       "category": "MISC",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10648,15 +10648,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.toggle_sneak",
       "name": "Toggle Sneak",
       "category": "MISC",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10681,15 +10681,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.screenshot_tools",
       "name": "Screenshot Tools",
       "category": "MISC",
       "description": "needs capture path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10714,15 +10714,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "needs capture path"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.misc.fake_op",
       "name": "Fake Op",
       "category": "MISC",
       "description": "client-side display only; never server authority",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10747,15 +10747,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "client-side display only; never server authority"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.shulker_tooltip",
       "name": "Shulker Tooltip",
       "category": "MISC",
       "description": "needs container source",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10780,15 +10780,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "needs container source"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.misc.death_lightning",
       "name": "Death Lightning",
       "category": "MISC",
       "description": "client-side effect only",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10814,15 +10814,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "client-side effect only"
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.misc.java_mode",
       "name": "Java Mode",
       "category": "MISC",
       "description": "client-side timings; Bedrock mapping TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10847,15 +10847,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "client-side timings; Bedrock mapping TBD"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.timer",
       "name": "Timer",
       "category": "MISC",
       "description": "locality TBD",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10880,15 +10880,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "locality TBD"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.misc.disabler",
       "name": "Disabler",
       "category": "MISC",
       "description": "no verified packet API; server rules risk",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10913,15 +10913,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "no verified packet API; server rules risk"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.skin_stealer",
       "name": "Skin Stealer",
       "category": "MISC",
       "description": "Lunar claims server-visible wear; treat as server-authoritative until proven; never touch account data",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10946,15 +10946,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "Lunar claims server-visible wear; treat as server-authoritative until proven; never touch account data"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.anti_weather",
       "name": "Anti Weather",
       "category": "MISC",
       "description": "hide rain/storms client-side; needs weather path",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10979,15 +10979,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "hide rain/storms client-side; needs weather path"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.fast_throw",
       "name": "Fast Throw",
       "category": "MISC",
       "description": "moved from player QoL set",
-      "status": "RESEARCH_REQUIRED",
+      "status": "REFERENCE_ONLY",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -11012,15 +11012,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "",
-      "notes": "moved from player QoL set"
+      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
+      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
     },
     {
       "id": "xykell.misc.friends",
       "name": "Friends",
       "category": "MISC",
       "description": "local list; never inferred from private data",
-      "status": "RESEARCH_REQUIRED",
+      "status": "NOT_IMPLEMENTED",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -11045,8 +11045,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "",
-      "notes": "local list; never inferred from private data"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
     },
     {
       "id": "xykell.launcher.play",
@@ -11363,7 +11363,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "Batch E: Microsoft auth handoff scaffold with client_id config; tokens stored in plaintext SharedPreferences (SCAFFOLD \u2014 production requires EncryptedSharedPreferences + Android Keystore); host test_accountstore",
+      "evidence": "Batch E: Microsoft auth handoff scaffold with client_id config; tokens encrypted at rest with AES-256-GCM under an AndroidKeyStore-held non-exportable key; host test_secretbox",
       "notes": "Microsoft/Xbox auth handoff scaffold"
     }
   ]
