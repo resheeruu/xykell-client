@@ -81,7 +81,7 @@ run_case test_input_router "$ROOT/tests/unit/test_input_router.cpp" "$SRC/xykell
 run_case test_hud_render "$ROOT/tests/unit/test_hud_render.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_profile_manager.cpp" \
     "$SRC/xykell_hud_model.cpp" "$SRC/xykell_theme.cpp" "$SRC/xykell_module_manager.cpp" \
-    "$SRC/xykell_hud_renderer.cpp"
+    "$SRC/xykell_notifications.cpp" "$SRC/xykell_hud_renderer.cpp"
 run_case test_probe "$ROOT/tests/unit/test_probe.cpp" "$SRC/xykell_json_min.cpp" \
     "$SRC/xykell_file_util.cpp" "$SRC/xykell_clickgui_model.cpp" \
     "$SRC/xykell_module_manager.cpp" "$SRC/xykell_gui_controller.cpp" \

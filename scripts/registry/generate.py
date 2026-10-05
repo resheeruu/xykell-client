@@ -421,6 +421,37 @@ RUNTIME_GATED_NOTE = (
     "Value lives in the Bedrock client. No read path written yet, so there is "
     "nothing to live-validate; needs a Stage-20 observation source first."
 )
+# Logic is complete and tested, but nothing reaches a user surface yet, so
+# the feature stays NOT_IMPLEMENTED rather than being over-claimed.
+MODEL_ONLY_NOTE = {
+    PREFIX + "misc.chat_timestamps":
+        "ChatFilter/ObservedState implement it over observed PlayerMessage and are "
+        "tested, but no screen renders observed chat yet.",
+    PREFIX + "misc.chat_filter":
+        "Hide/highlight rules with fail-open invalid patterns are implemented and "
+        "tested, but no screen exposes the rule editor yet.",
+    PREFIX + "misc.custom_nicknames":
+        "NicknameMap display-name substitution is implemented and tested, but no "
+        "screen edits it yet.",
+    PREFIX + "network.ping":
+        "NetworkProbe.Prober measures a real TCP round trip to a user-chosen host; "
+        "no screen starts a probe yet.",
+    PREFIX + "network.latency_graph":
+        "NetworkProbe.LatencyHistory is a bounded ring with honest empty stats; no "
+        "screen draws it yet.",
+    PREFIX + "network.connection_status":
+        "NetworkDiagnostics.link() reads ConnectivityManager transport/metered/"
+        "validated; no screen shows it yet.",
+    PREFIX + "network.network_diagnostics":
+        "link() plus the prober cover the data; no diagnostics screen exists yet.",
+    PREFIX + "world.waypoints":
+        "WaypointStore is implemented, validated and tested with schema versioning; "
+        "no waypoint screen exists yet.",
+    PREFIX + "misc.timer":
+        "CountdownTimer is implemented and tested with an injected clock; no screen "
+        "exposes start/stop yet.",
+}
+
 APP_LEVEL_NOTE = (
     "Reachable with ordinary Android/app APIs and no game internals. Not "
     "written yet: this is remaining build work, not an external blocker."
@@ -468,6 +499,23 @@ PROVEN = {
     # HUD elements whose element model, render case and value source already
     # exist natively (xykell_hud_renderer.cpp / hud_model.cpp). Coordinates
     # still needs a Stage-20 observation source for a live value.
+    # Implemented end-to-end in this pass: model, persistence, UI, tests.
+    # "performance.*_info" read real Android APIs; GPU *utilisation* is not a
+    # public API, so the view reports capability data and states that
+    # utilisation is unavailable rather than inventing a percentage.
+    ("PERFORMANCE", "memory_info"): PARTIAL,
+    ("PERFORMANCE", "cpu_info"): PARTIAL,
+    ("PERFORMANCE", "gpu_info"): PARTIAL,
+    # Real module list and a real NotificationCenter->HUD binding, both in
+    # xykell_hud_renderer.cpp with host renderer tests.
+    ("HUD", "arraylist"): PARTIAL,
+    ("HUD", "notifications"): PARTIAL,
+    # Three switches in SettingsFragment over PrivacySettings, which is
+    # tested; hide_hud is wired to RenderContext.hudVisible so a hidden
+    # overlay is genuinely absent rather than blank.
+    ("MISC", "streamer_mode"): PARTIAL,
+    ("MISC", "privacy_mode"): PARTIAL,
+    ("MISC", "hide_hud"): PARTIAL,
     ("HUD", "watermark"): PARTIAL,
     ("HUD", "coordinates"): PARTIAL,
     ("HUD", "movable_hud"): PARTIAL,
@@ -503,6 +551,14 @@ EVIDENCE = {
     ("SCRIPTING", "script_api"): "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
     ("SCRIPTING", "script_manager"): "Batch Z2: host wiring, CRUD, duplicate, import/export, v1 migration, persistence; host test_scriptruntime",
     ("HUD", "watermark"): "Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render",
+    ("PERFORMANCE", "memory_info"): "Batch Z3: DeviceInfo.memory over ActivityManager/Runtime/Debug/StatFs; detail rows in PerformanceFragment",
+    ("PERFORMANCE", "cpu_info"): "Batch Z3: DeviceInfo.cpu - cores, ABI, device strings, max freq, process CPU via injected source",
+    ("PERFORMANCE", "gpu_info"): "Batch Z3: DeviceInfo.gpu - GL driver strings and capability limits; utilisation reported unavailable, never estimated",
+    ("HUD", "arraylist"): "Batch Z3: enabledModuleNames() renders real module names ordered by (category,id); host test_hud_render",
+    ("HUD", "notifications"): "Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render",
+    ("MISC", "streamer_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
+    ("MISC", "privacy_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
+    ("MISC", "hide_hud"): "Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle",
     ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
     ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
@@ -512,6 +568,14 @@ EVIDENCE = {
     ("SCRIPTING", "script_api"): "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
     ("SCRIPTING", "script_manager"): "Batch Z2: host wiring, CRUD, duplicate, import/export, v1 migration, persistence; host test_scriptruntime",
     ("HUD", "watermark"): "Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render",
+    ("PERFORMANCE", "memory_info"): "Batch Z3: DeviceInfo.memory over ActivityManager/Runtime/Debug/StatFs; detail rows in PerformanceFragment",
+    ("PERFORMANCE", "cpu_info"): "Batch Z3: DeviceInfo.cpu - cores, ABI, device strings, max freq, process CPU via injected source",
+    ("PERFORMANCE", "gpu_info"): "Batch Z3: DeviceInfo.gpu - GL driver strings and capability limits; utilisation reported unavailable, never estimated",
+    ("HUD", "arraylist"): "Batch Z3: enabledModuleNames() renders real module names ordered by (category,id); host test_hud_render",
+    ("HUD", "notifications"): "Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render",
+    ("MISC", "streamer_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
+    ("MISC", "privacy_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
+    ("MISC", "hide_hud"): "Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle",
     ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
     ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; tokens encrypted at rest with AES-256-GCM under an AndroidKeyStore-held non-exportable key; host test_secretbox",
@@ -699,7 +763,7 @@ def main() -> None:
         elif fid in APP_LEVEL_IDS:
             e["status"] = "NOT_IMPLEMENTED"
             e["evidence"] = "app-level APIs available; feature not written"
-            e["notes"] = NOTES_BY_ID.get(fid, APP_LEVEL_NOTE)
+            e["notes"] = NOTES_BY_ID.get(fid) or MODEL_ONLY_NOTE.get(fid) or APP_LEVEL_NOTE
         else:
             e["status"] = "NOT_IMPLEMENTED"
             e["notes"] = "not implemented"

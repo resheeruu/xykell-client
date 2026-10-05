@@ -1001,7 +1001,7 @@
       "name": "Arraylist",
       "category": "HUD",
       "description": "module-list display",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1042,8 +1042,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Renderer prints a module on/total count, not the enabled-module list. Module state is known app-side, so this is a rendering change only."
+      "evidence": "Batch Z3: enabledModuleNames() renders real module names ordered by (category,id); host test_hud_render",
+      "notes": "module-list display"
     },
     {
       "id": "xykell.hud.watermark",
@@ -1099,7 +1099,7 @@
       "name": "Notifications",
       "category": "HUD",
       "description": "event-driven; needs EventBus",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1140,8 +1140,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "NativeNotificationCenter (post/drain/clear + priority) exists and is host-tested, and ElementType::Notifications is in the layout model, but nothing binds the queue to a HUD line. Needs that binding, not a new subsystem."
+      "evidence": "Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render",
+      "notes": "event-driven; needs EventBus"
     },
     {
       "id": "xykell.hud.session_stats",
@@ -2236,7 +2236,7 @@
       "name": "Memory Info",
       "category": "PERFORMANCE",
       "description": "OS APIs available",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "FRAME"
       ],
@@ -2261,15 +2261,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch Z3: DeviceInfo.memory over ActivityManager/Runtime/Debug/StatFs; detail rows in PerformanceFragment",
+      "notes": "OS APIs available"
     },
     {
       "id": "xykell.performance.cpu_info",
       "name": "Cpu Info",
       "category": "PERFORMANCE",
       "description": "OS APIs available",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "FRAME"
       ],
@@ -2294,15 +2294,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch Z3: DeviceInfo.cpu - cores, ABI, device strings, max freq, process CPU via injected source",
+      "notes": "OS APIs available"
     },
     {
       "id": "xykell.performance.gpu_info",
       "name": "Gpu Info",
       "category": "PERFORMANCE",
       "description": "OS APIs available",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "FRAME"
       ],
@@ -2327,8 +2327,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch Z3: DeviceInfo.gpu - GL driver strings and capability limits; utilisation reported unavailable, never estimated",
+      "notes": "OS APIs available"
     },
     {
       "id": "xykell.performance.perf_profiles",
@@ -8567,7 +8567,7 @@
         "Flarial"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "WaypointStore is implemented, validated and tested with schema versioning; no waypoint screen exists yet."
     },
     {
       "id": "xykell.world.minimap",
@@ -9807,7 +9807,7 @@
         "Nova"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "NetworkProbe.Prober measures a real TCP round trip to a user-chosen host; no screen starts a probe yet."
     },
     {
       "id": "xykell.network.connection_status",
@@ -9849,7 +9849,7 @@
         "WClient"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "NetworkDiagnostics.link() reads ConnectivityManager transport/metered/validated; no screen shows it yet."
     },
     {
       "id": "xykell.network.latency_graph",
@@ -9891,7 +9891,7 @@
         "Xykell"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "NetworkProbe.LatencyHistory is a bounded ring with honest empty stats; no screen draws it yet."
     },
     {
       "id": "xykell.network.network_diagnostics",
@@ -9933,7 +9933,7 @@
         "WClient"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "link() plus the prober cover the data; no diagnostics screen exists yet."
     },
     {
       "id": "xykell.network.packet_monitor",
@@ -10325,7 +10325,7 @@
       "name": "Streamer Mode",
       "category": "MISC",
       "description": "overlay redaction",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10350,15 +10350,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
+      "notes": "overlay redaction"
     },
     {
       "id": "xykell.misc.privacy_mode",
       "name": "Privacy Mode",
       "category": "MISC",
       "description": "overlay redaction",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10383,8 +10383,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
+      "notes": "overlay redaction"
     },
     {
       "id": "xykell.misc.chat_timestamps",
@@ -10590,7 +10590,7 @@
       "name": "Hide Hud",
       "category": "MISC",
       "description": "overlay clear available",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10615,8 +10615,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle",
+      "notes": "overlay clear available"
     },
     {
       "id": "xykell.misc.toggle_sprint",
@@ -10881,7 +10881,7 @@
         "Lunar Proxy"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "CountdownTimer is implemented and tested with an injected clock; no screen exposes start/stop yet."
     },
     {
       "id": "xykell.misc.disabler",
