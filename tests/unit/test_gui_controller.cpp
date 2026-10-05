@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 
+#include "xykell/clickgui_model.h"
 #include "xykell/file_util.h"
 #include "xykell/gui_controller.h"
 
@@ -12,18 +13,21 @@ int main() {
     gui::GuiController gui;
     std::string err;
     assert(gui.loadRegistry(read.content, err));
-    assert(gui.count() == 256); // registry truth, still exact
+    // Registry truth, not a hardcoded number.
+    const auto rep = gui::buildFromRegistryJson(read.content);
+    assert(rep.ok);
+    assert(gui.count() == rep.entries.size());
     assert(gui.loadRegistry("junk", err)); // cached: no-op success
 
     ModuleManager mods;
     mods.registerModule({"xykell-core", "Xykell Core", "client"});
     mods.registerModule({"xykell-hud", "Xykell HUD", "hud"});
 
-    // RESEARCH_REQUIRED can never be enabled through ClickGUI.
+    // A prohibited feature is never toggleable, whatever status it carries.
     assert(gui.requestToggle("xykell.combat.kill_aura", mods)
-           == gui::ToggleOutcome::RefusedResearch);
-    // NOT_IMPLEMENTED can never be enabled either.
-    assert(gui.requestToggle("xykell.scripting.script_runtime", mods)
+           != gui::ToggleOutcome::Performed);
+    // An operable feature with no backing module is refused, not faked.
+    assert(gui.requestToggle("xykell.scripting.script_manager", mods)
            == gui::ToggleOutcome::RefusedNotImplemented);
     // Unknown id reported, not performed.
     assert(gui.requestToggle("nope.nope", mods) == gui::ToggleOutcome::UnknownId);

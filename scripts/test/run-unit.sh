@@ -15,9 +15,19 @@ rm -rf "$XYKELL_TEST_TMP/xcfg-1" "$XYKELL_TEST_TMP/xprof-1" \
 pass=0
 run_case() { # name, sources...
     local name="$1"; shift
+    local t0 t1
+    t0=$(date +%s)
     "$CXX_BIN" -std=c++20 -Wall -Wextra -Werror -I "$ROOT/native/include" "$@" \
         -o "$WORK/$name"
-    "$WORK/$name"
+    # A failing suite must still be reported with its own timing, and must not
+    # abort the run before the remaining suites execute.
+    if ! "$WORK/$name"; then
+        echo "$name: FAIL (after $(( $(date +%s) - t0 ))s)" >&2
+        echo "UNIT: FAIL — $name failed; $pass suites passed before it" >&2
+        exit 1
+    fi
+    t1=$(date +%s)
+    echo "$name: PASS ($(( t1 - t0 ))s)"
     pass=$((pass + 1))
 }
 SRC="$ROOT/native/src"
@@ -115,4 +125,7 @@ if [ "$pass" -ne "$EXPECTED_SUITES" ]; then
     exit 1
 fi
 echo "UNIT: $pass/$EXPECTED_SUITES suites PASS"
+echo "UNIT: full run takes several minutes on a phone (35 suites, each a"
+echo "UNIT: separate clang++ -O0 compile + run). Use a generous timeout;"
+echo "UNIT: a short timeout truncates the run, it is not a hang."
 rm -rf "$WORK"

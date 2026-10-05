@@ -62,6 +62,22 @@ ParseReport buildFromRegistryJson(const std::string& jsonText) {
         }
         rep.entries.push_back(std::move(e));
     }
+    // Integrity: meta.count must agree with what we actually parsed.
+    const auto mit = root.find("meta");
+    if (mit != root.end() && mit->second.isObject()) {
+        const auto& m = mit->second.asObject(json::Value::emptyObject());
+        const auto cit2 = m.find("count");
+        if (cit2 != m.end() && cit2->second.isNumber()) {
+            const auto declared = static_cast<size_t>(cit2->second.asNumber(0));
+            if (declared != rep.entries.size()) {
+                rep.error = "registry: meta.count " + std::to_string(declared) + " != " +
+                            std::to_string(rep.entries.size()) + " parsed features";
+                rep.entries.clear();
+                return rep;
+            }
+            rep.declaredCount = declared;
+        }
+    }
     rep.ok = true;
     return rep;
 }

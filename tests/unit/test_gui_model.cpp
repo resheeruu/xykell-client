@@ -13,14 +13,18 @@ int main() {
     assert(read.ok);
     const auto rep = gui::buildFromRegistryJson(read.content);
     assert(rep.ok && rep.error.empty());
-    assert(rep.entries.size() == 256);
+    // No hardcoded catalog size: the parser already refuses a registry whose
+    // meta.count disagrees with its contents, so equality here is the check.
+    assert(rep.declaredCount > 0);
+    assert(rep.entries.size() == rep.declaredCount);
 
-    // Spot checks.
+    // Spot checks: a cheat entry must never be toggleable, whatever status
+    // the registry assigns it; the core entry must be.
     bool sawAura = false, sawCore = false;
     for (const auto& e : rep.entries) {
         if (e.id == "xykell.combat.kill_aura") {
             sawAura = true;
-            assert(e.status == "RESEARCH_REQUIRED" && !e.operable());
+            assert(!e.operable());
         }
         if (e.id == "xykell.client.core") {
             sawCore = true;

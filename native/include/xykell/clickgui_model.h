@@ -30,6 +30,10 @@ struct ParseReport {
     std::vector<GuiModuleEntry> entries;
     bool ok = false;
     std::string error;
+    // meta.count from the registry, or 0 when absent. Parsing fails when this
+    // is present and disagrees with entries.size(), so a truncated or
+    // hand-edited registry cannot silently load a partial catalog.
+    size_t declaredCount = 0;
 };
 
 ParseReport buildFromRegistryJson(const std::string& jsonText);
