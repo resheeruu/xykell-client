@@ -127,38 +127,26 @@ def check_android_api_surface(root: Path) -> list:
 
 
 def check_jni_coverage(root: Path) -> list:
-    """Every Kotlin `external fun` needs a JNIEXPORT (or RegisterNatives)
-    implementation in native/. There is none, so each of these calls raises
-    UnsatisfiedLinkError at runtime and its guard() wrapper degrades to null /
-    false / empty. That is a real runtime gap, not a build error, so nothing
-    else in the toolchain reports it."""
-    import re
-    natives = root / "native"
-    if not natives.is_dir():
-        return []
-    has_jni = False
-    for f in natives.rglob("*.cpp"):
-        txt = f.read_text(encoding="utf-8", errors="replace")
-        if "JNIEXPORT" in txt or "RegisterNatives" in txt:
-            has_jni = True
-            break
-    if has_jni:
-        return []
-    problems = []
-    for f in sorted((root / "app" / "src" / "main" / "java").rglob("*.kt")):
-        txt = f.read_text(encoding="utf-8")
-        ext = re.findall(r"external fun (\w+)", txt)
-        if not ext:
-            continue
-        rel = f.relative_to(root)
-        problems.append(
-            f"{rel}: declares {len(ext)} external fun(s) with no JNI "
-            f"implementation in native/ (native/*.cpp has no JNIEXPORT or "
-            f"RegisterNatives). Every one of them will raise "
-            f"UnsatisfiedLinkError at runtime: {', '.join(ext[:4])}"
-            + (" ..." if len(ext) > 4 else "")
-        )
-    return problems
+    """JNI coverage is now an objective result, not a warning.
+
+    Delegates to scripts/test/jni_coverage.py, which derives every expected
+    mangled symbol from the real Kotlin declaration and compares it against the
+    JNIEXPORT symbols actually defined in native/src/*.cpp, including the
+    receiver kind (@JvmStatic -> jclass) and the full parameter list. It also
+    verifies the defining files are registered in CMakeLists.txt, since a JNI
+    file missing from CMake builds and links nowhere.
+    """
+    import subprocess
+    script = root / "scripts" / "test" / "jni_coverage.py"
+    if not script.is_file():
+        return ["scripts/test/jni_coverage.py is missing"]
+    proc = subprocess.run(
+        [sys.executable, str(script)], capture_output=True, text=True, cwd=root,
+    )
+    out = (proc.stdout or "") + (proc.stderr or "")
+    if proc.returncode != 0:
+        return ["JNI coverage check failed:\n" + out.strip()]
+    return []
 
 
 def main() -> int:
@@ -217,13 +205,8 @@ def main() -> int:
         Path(__file__).resolve().parent.parent.parent))
     errors.extend(check_android_api_surface(
         Path(__file__).resolve().parent.parent.parent))
-    jni = check_jni_coverage(Path(__file__).resolve().parent.parent.parent)
-    if jni:
-        # Reported, but non-fatal: a missing JNI layer is a known runtime gap,
-        # not a reason to stop the registry check from running.
-        print("KNOWN RUNTIME GAP (not a build error):", file=sys.stderr)
-        for line in jni:
-            print("  " + line, file=sys.stderr)
+    errors.extend(check_jni_coverage(
+        Path(__file__).resolve().parent.parent.parent))
     if errors:
         print("\n".join(errors))
         return 1

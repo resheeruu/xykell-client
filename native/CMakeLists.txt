@@ -30,6 +30,8 @@ add_library(
     src/xykell_gui_controller.cpp
     src/xykell_gui_host.cpp
     src/xykell_hud.cpp
+    src/xykell_jni.cpp
+    src/xykell_jni_runtime.cpp
     src/xykell_hud_model.cpp
     src/xykell_hud_renderer.cpp
     src/xykell_input_router.cpp

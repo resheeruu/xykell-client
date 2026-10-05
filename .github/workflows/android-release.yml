@@ -11,6 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: JNI coverage audit
+        run: |
+          set -e
+          # Proves every Kotlin `external fun` has a matching JNIEXPORT with the
+          # right receiver and parameter list, and that the defining files are
+          # in CMakeLists.txt. Run before the build so a missing or misnamed
+          # symbol fails here rather than as UnsatisfiedLinkError on a device.
+          python3 scripts/test/jni_coverage.py
+
       - name: Validate registry and audit features
         run: |
           set -e
@@ -100,6 +109,21 @@ jobs:
           NM="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
           "$NM" -D lib/arm64-v8a/libxykell.so | grep "PLGetModRegistration" || true
           "$NM" -D lib/arm64-v8a/libxykell.so | grep -q "T PLGetModRegistration"
+          # Every Kotlin external must be a real exported symbol in the APK's
+          # .so, not merely declared in source.
+          MISSING=$(python3 scripts/test/jni_coverage.py | sed -n 's/^MISSING=//p')
+          test "$MISSING" = "0" || { echo "JNI symbols missing: $MISSING"; exit 1; }
+          for sym in Java_dev_xykell_client_NativeSettings_settingsCatalog \
+                     Java_dev_xykell_client_NativeHud_setHudElement \
+                     Java_dev_xykell_client_NativeProfiles_setActive \
+                     Java_dev_xykell_client_NativeThemes_listThemes \
+                     Java_dev_xykell_client_NativeKeybinds_keybindSet \
+                     Java_dev_xykell_client_runtime_RuntimeStatus_nativeStart \
+                     Java_dev_xykell_client_runtime_observation_Observations_nativeOfferPlayerMessage; do
+            "$NM" -D lib/arm64-v8a/libxykell.so | grep -q " T $sym\$" \
+              || { echo "symbol not exported by the APK library: $sym"; exit 1; }
+          done
+          echo "JNI symbols verified in libxykell.so"
           echo "Xykell APK:"
           echo "Path: $APK"
           echo "Size: $(stat -c%s "$GITHUB_WORKSPACE/$APK")"
