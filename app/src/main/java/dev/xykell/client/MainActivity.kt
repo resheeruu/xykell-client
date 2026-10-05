@@ -128,29 +128,36 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupChipNavigation() {
         val navRow = findViewById<LinearLayout>(R.id.nav_row)
-        val fragments = listOf(
-            HomeFragment() to R.string.nav_home,
-            VersionsFragment() to R.string.nav_versions,
-            ModulesFragment() to R.string.nav_modules,
-            HudEditorFragment() to R.string.nav_hud,
-            ProfilesFragment() to R.string.nav_profiles,
-            ThemesFragment() to R.string.nav_themes,
-            KeybindsFragment() to R.string.nav_keybinds,
-            SettingsFragment() to R.string.nav_settings,
-            AboutFragment() to R.string.nav_about,
-            WorldsFragment() to R.string.nav_worlds,
-            PacksFragment() to R.string.nav_packs,
-            ServersFragment() to R.string.nav_servers,
-            AccountsFragment() to R.string.nav_accounts,
+        // Titles, not fragments: each chip indexes ScreenPagerAdapter by
+        // position, so this list must stay exactly as long as the adapter and
+        // in the same order. A longer list leaves trailing chips dead; that bug
+        // hid Worlds/Packs/Servers/Accounts behind 13 chips over 9 pages.
+        // Secondary screens stay reachable from the Client hub.
+        val titles = listOf(
+            R.string.nav_home,
+            R.string.nav_client,
+            R.string.nav_hud,
+            R.string.nav_worlds,
+            R.string.nav_servers,
+            R.string.nav_packs,
+            R.string.nav_profiles,
+            R.string.nav_update,
+            R.string.nav_session,
+            R.string.nav_scripts,
         )
+        if (titles.size != adapter.count) {
+            throw IllegalStateException(
+                "nav chips (${titles.size}) must match pager pages (${adapter.count})",
+            )
+        }
 
         navRow.removeAllViews()
-        for ((fragment, stringRes) in fragments) {
+        for (stringRes in titles) {
             val btn = Button(this, null, 0, R.style.XykellNavButton)
             btn.text = getString(stringRes)
             btn.setOnClickListener {
                 val idx = navRow.indexOfChild(btn)
-                if (idx >= 0 && idx < adapter.count) {
+                if (idx in 0 until adapter.count) {
                     showPage(idx)
                 }
             }

@@ -5,8 +5,16 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 CXX_BIN="${CXX:-clang++}"
-WORK="${XYKELL_WORK:-/data/data/com.termux/files/usr/tmp/opencode/xykell-unit}"
-rm -rf "$WORK" && mkdir -p "$WORK"
+# A per-run directory. Two concurrent runs used to share one path, so the
+# `rm -rf` at startup deleted a live run's binaries mid-flight and the loser
+# failed with a confusing linker error. mktemp makes overlap harmless.
+if [ -n "${XYKELL_WORK:-}" ]; then
+    WORK="$XYKELL_WORK"
+    rm -rf "$WORK"
+else
+    WORK="$(mktemp -d "${TMPDIR:-/tmp}/xykell-unit-XXXXXX")"
+fi
+mkdir -p "$WORK"
 export XYKELL_TEST_TMP="$WORK/files"
 mkdir -p "$XYKELL_TEST_TMP"
 # File-state fixtures start clean (aborted runs must not pollute assertions).

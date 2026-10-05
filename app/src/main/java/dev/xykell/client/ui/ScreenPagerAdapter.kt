@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 /**
- * Adapter for the 7 primary Xykell screens using ViewPager v1.
- * Order: Home, Client, HUD, Worlds, Servers, Content, Profile
+ * Adapter for the 10 primary Xykell screens using ViewPager v1.
+ * Order: Home, Client, HUD, Worlds, Servers, Content, Profile, Update, Session, Scripts
  */
 class ScreenPagerAdapter(fm: FragmentManager, behavior: Int) : FragmentStatePagerAdapter(fm, behavior) {
 
@@ -20,10 +20,12 @@ class ScreenPagerAdapter(fm: FragmentManager, behavior: Int) : FragmentStatePage
         { ProfilesFragment() },       // 6: Profile
         { UpdateFragment() },         // 7: Update
         { SessionFragment() },        // 8: Session
+        { ScriptsFragment() },        // 9: Scripts
     )
 
     private val screenTitles = listOf(
-        "Home", "Client", "HUD", "Worlds", "Servers", "Content", "Profile", "Update", "Session"
+        "Home", "Client", "HUD", "Worlds", "Servers", "Content", "Profile", "Update", "Session",
+        "Scripts",
     )
 
     override fun getCount(): Int = screenFactories.size
