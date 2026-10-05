@@ -88,6 +88,44 @@ def check_res_references(root: Path) -> list:
     return uniq
 
 
+# Packages AGP removes from the Android compile classpath. A desktop JDK has
+# them, so referencing one typechecks locally and then breaks the real Gradle
+# build. PerformanceStore's java.lang.management import sat undetected through
+# several CI runs for exactly this reason.
+NOT_ON_ANDROID = {
+    "java.lang.management",
+    "java.awt",
+    "javax.swing",
+    "javax.imageio",
+    "java.nio.file",
+    "java.sql",
+    "java.rmi",
+    "javax.script",
+    "java.util.jar",
+    "java.util.prefs",
+    "java.util.concurrent.locks",
+    "javax.naming",
+    "java.beans",
+}
+
+
+def check_android_api_surface(root: Path) -> list:
+    import re
+    problems = []
+    kt_root = root / "app" / "src"
+    for f in sorted(kt_root.rglob("*.kt")):
+        txt = f.read_text(encoding="utf-8")
+        for m in re.finditer(r"^\s*import\s+([\w.]+)", txt, re.M):
+            pkg = m.group(1)
+            if any(pkg == b or pkg.startswith(b + ".") for b in NOT_ON_ANDROID):
+                rel = f.relative_to(root)
+                problems.append(
+                    f"{rel}: imports {pkg}, which is not in the Android API "
+                    f"surface (breaks the Gradle build, passes a local kotlinc)"
+                )
+    return problems
+
+
 def main() -> int:
     data = json.loads((Path(__file__).resolve().parent.parent.parent
                        / "registry" / "features.json").read_text())
@@ -141,6 +179,8 @@ def main() -> int:
     errors.extend(check_res_duplicates(
         Path(__file__).resolve().parent.parent.parent))
     errors.extend(check_res_references(
+        Path(__file__).resolve().parent.parent.parent))
+    errors.extend(check_android_api_surface(
         Path(__file__).resolve().parent.parent.parent))
     if errors:
         print("\n".join(errors))

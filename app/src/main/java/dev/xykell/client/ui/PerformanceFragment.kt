@@ -29,6 +29,9 @@ class PerformanceFragment : Fragment(R.layout.fragment_performance) {
         view.findViewById<TextView>(R.id.perf_body).text =
             getString(R.string.perf_body)
         // Choreographer callback for FPS
+        // Real thread CPU time comes from the platform; java.lang.management is
+        // not in the Android API surface.
+        PerformanceStore.setCpuTimeSource { android.os.Debug.threadCpuTimeNanos() }
         val callback = object : android.view.Choreographer.FrameCallback {
             override fun doFrame(frameTimeNanos: Long) {
                 PerformanceStore.onFrame()

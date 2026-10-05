@@ -25,8 +25,22 @@ class PerformanceStoreTest {
     }
 
     @Test
-    fun cpuTimeNonNegative() {
-        assertTrue(PerformanceStore.getCpuTimeMs() >= 0)
+    fun cpuTimeIsUnknownUntilASourceIsWired() {
+        // No java.lang.management: AGP strips it from the Android classpath, so
+        // an unwired store must report "unknown" (-1), never a fake zero.
+        PerformanceStore.clearCpuTimeSource()
+        assertEquals(-1L, PerformanceStore.getCpuTimeMs())
+    }
+
+    @Test
+    fun cpuTimeUsesTheInjectedSource() {
+        PerformanceStore.setCpuTimeSource { 7_500_000L }
+        assertEquals(7L, PerformanceStore.getCpuTimeMs())
+        // A negative reading stays -1: -1 / 1_000_000 is 0, which would read as
+        // a real measurement.
+        PerformanceStore.setCpuTimeSource { -1L }
+        assertEquals(-1L, PerformanceStore.getCpuTimeMs())
+        PerformanceStore.clearCpuTimeSource()
     }
 
     @Test
