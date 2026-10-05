@@ -43,14 +43,18 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/ui/HudPreview.kt"
     "$SRC/dev/xykell/client/ui/KeyLabels.kt"
     "$SRC/dev/xykell/client/ui/HomeStatus.kt"
+    "$SRC/dev/xykell/client/NativeSettings.kt"
     "$SRC/dev/xykell/client/runtime/servers/ServerStore.kt"
     "$SRC/dev/xykell/client/runtime/worlds/NbtReader.kt"
     "$SRC/dev/xykell/client/runtime/worlds/WorldStore.kt"
     "$SRC/dev/xykell/client/runtime/packs/PackStore.kt"
     "$SRC/dev/xykell/client/runtime/performance/PerformanceStore.kt"
+    "$SRC/dev/xykell/client/runtime/ProfileManager.kt"
     "$SRC/dev/xykell/client/runtime/accounts/AccountStore.kt"
     "$SRC/dev/xykell/client/runtime/CrashGuard.kt"
     "$SRC/dev/xykell/client/runtime/Updater.kt"
+    "$SRC/dev/xykell/client/runtime/scripting/ScriptEngine.kt"
+    "$SRC/dev/xykell/client/runtime/scripting/ScriptManager.kt"
     "$SRC/dev/xykell/client/runtime/XykellInfo.kt"
     "$SRC/dev/xykell/client/runtime/observation/Observations.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationTranslator.kt"
@@ -72,9 +76,10 @@ SUITES=(
     dev.xykell.client.runtime.performance.PerformanceStoreTest
     dev.xykell.client.runtime.CrashGuardTest
     dev.xykell.client.runtime.UpdaterTest
+    dev.xykell.client.runtime.scripting.ScriptEngineTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
 )
-EXPECTED_SUITES=13
+EXPECTED_SUITES=14
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -110,6 +115,7 @@ done
     "$TEST"/dev/xykell/client/runtime/servers/ServerStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/UpdaterTest.kt \
     "$TEST"/dev/xykell/client/runtime/worlds/WorldStoreTest.kt \
+    "$TEST"/dev/xykell/client/runtime/scripting/ScriptEngineTest.kt \
     "$TEST"/dev/xykell/client/runtime/CrashGuardTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/performance/PerformanceStoreTest.kt \

@@ -277,7 +277,7 @@ SCRIPTING = [
     ("script_runtime", ["SCRIPT"], "script", ["Flarial"], "engine choice needs license/size review"),
     ("script_sandbox", ["SCRIPT"], "script", ["Xykell"], "design in docs/SCRIPTING.md"),
     ("script_api", ["SCRIPT"], "script", ["Flarial"], "design in docs/SCRIPTING.md"),
-    ("script_manager", ["SCRIPT", "UI"], "script", ["Xykell"], "needs runtime first"),
+    ("script_manager", ["SCRIPT", "UI"], "script", ["Xykell"], "safe local rule engine implemented; host test_scriptengine"),
 ]
 
 CLIENT = [
@@ -347,6 +347,7 @@ PROVEN = {
     ("LAUNCHER", "packs"): PARTIAL,
     ("LAUNCHER", "accounts"): PARTIAL,
     ("CLIENT", "profile_manager"): PARTIAL,
+    ("SCRIPTING", "script_manager"): PARTIAL,
 }
 
 EVIDENCE = {
@@ -376,6 +377,7 @@ EVIDENCE = {
     ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
     ("CLIENT", "profile_manager"): "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
+    ("SCRIPTING", "script_manager"): "Batch Z: safe local rule engine with conditions/actions; host test_scriptengine",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; tokens stored in plaintext SharedPreferences (SCAFFOLD — production requires EncryptedSharedPreferences + Android Keystore); host test_accountstore",
 }
 
@@ -549,7 +551,7 @@ def main() -> None:
                   "xykell.launcher.performance", "xykell.launcher.accounts",
                   "xykell.client.profile_manager", "xykell.launcher.versions",
                   "xykell.launcher.settings", "xykell.client.crash_guard",
-                  "xykell.client.updater"}
+                  "xykell.client.updater", "xykell.scripting.script_manager"}
     for e in entries:
         if e["category"] in ("SCRIPTING",) and e["status"] == RR:
             e["status"] = NI
