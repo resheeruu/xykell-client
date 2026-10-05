@@ -24,6 +24,30 @@ REQUIRED = {"id", "name", "category", "description", "status", "requires",
             "evidence", "notes"}
 
 
+def check_res_duplicates(root: Path) -> list:
+    """Duplicate res/ names break MergeResources at build time, and only CI can
+    run aapt2. Catch it here instead."""
+    import collections
+    import xml.etree.ElementTree as ET
+    problems = []
+    tags = ("string", "style", "color", "string-array", "integer", "bool",
+            "dimen", "array", "plurals", "attr", "item")
+    for f in sorted((root / "app" / "src" / "main" / "res").rglob("*.xml")):
+        try:
+            tree = ET.parse(f)
+        except ET.ParseError as e:
+            problems.append(f"{f.name}: XML parse error: {e}")
+            continue
+        counts = collections.Counter(
+            el.get("name") for el in tree.getroot() if el.tag in tags and el.get("name")
+        )
+        for name, n in counts.items():
+            if n > 1:
+                rel = f.relative_to(root)
+                problems.append(f"{rel}: <{name}> defined {n} times")
+    return problems
+
+
 def main() -> int:
     data = json.loads((Path(__file__).resolve().parent.parent.parent
                        / "registry" / "features.json").read_text())
@@ -74,6 +98,8 @@ def main() -> int:
                 errors.append(f"[{i}] bad setting type {s['type']}")
         if not isinstance(f.get("versions"), list) or not isinstance(f.get("sourceReferences"), list):
             errors.append(f"[{i}] versions/sourceReferences must be lists")
+    errors.extend(check_res_duplicates(
+        Path(__file__).resolve().parent.parent.parent))
     if errors:
         print("\n".join(errors))
         return 1

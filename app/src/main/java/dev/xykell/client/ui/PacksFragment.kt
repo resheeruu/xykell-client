@@ -523,7 +523,7 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
                 save()
                 view.post {
                     render()
-                    status(view, getString(R.string.packs_manifest_updated))
+                    status(view, getString(R.string.packs_manifest_updated, entryId))
                 }
             } catch (e: Exception) {
                 view.post {
