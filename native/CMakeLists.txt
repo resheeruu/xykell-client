@@ -37,6 +37,7 @@ add_library(
     src/xykell_input_router.cpp
     src/xykell_json_min.cpp
     src/xykell_keybinds.cpp
+    src/xykell_keybind_store.cpp
     src/xykell_load_stages.cpp
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp

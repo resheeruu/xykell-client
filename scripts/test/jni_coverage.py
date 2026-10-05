@@ -172,8 +172,16 @@ def main() -> int:
                 f"{symbol}: Kotlin params {d['kt_params']} != JNI params "
                 f"{s['jni_params']}")
 
-    # CMake must compile every file that defines a symbol we rely on.
     cmake = CMAKE.read_text(encoding="utf-8") if CMAKE.exists() else ""
+
+    # Every .cpp in native/src must be compiled. A file missing from
+    # CMakeLists.txt links in the host suite (which names its sources
+    # explicitly) but is absent from the Android .so, so it fails only at
+    # Android link time. xykell_keybind_store.cpp sat in exactly that state.
+    all_src = sorted(p.name for p in NATIVE_SRC.glob("*.cpp"))
+    orphaned = [f for f in all_src if f"src/{f}" not in cmake]
+
+    # CMake must compile every file that defines a symbol we rely on.
     defining = sorted({s["file"] for s in syms})
     not_registered = [f for f in defining if f"src/{f}" not in cmake]
 
@@ -187,6 +195,7 @@ def main() -> int:
     print(f"STATIC_DECLARATIONS={sum(1 for d in decls if d['static'])}")
     print(f"INSTANCE_DECLARATIONS={sum(1 for d in decls if not d['static'])}")
     print(f"FILES_NOT_IN_CMAKE={len(not_registered)}")
+    print(f"ORPHANED_SOURCES={len(orphaned)}")
     print(f"SIGNATURE_MATCH={'PASS' if not missing and not mismatched else 'FAIL'}")
     print(f"COVERAGE={'PASS' if not missing and not unused and not not_registered else 'FAIL'}")
 
@@ -206,8 +215,13 @@ def main() -> int:
         print("\nFILES NOT REGISTERED IN CMakeLists.txt:")
         for f in not_registered:
             print(f"  native/src/{f}")
+    if orphaned:
+        print("\nSOURCES PRESENT BUT NOT COMPILED:")
+        for f in orphaned:
+            print(f"  native/src/{f}  (links in host tests, absent from the APK)")
 
-    ok = not missing and not mismatched and not unused and not not_registered
+    ok = (not missing and not mismatched and not unused and not not_registered
+          and not orphaned)
     print(f"\nNATIVE_LINKAGE={'PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
