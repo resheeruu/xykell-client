@@ -227,4 +227,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    if "--check" in sys.argv:
+        # Quiet, exit-code-only mode for CI: no text scraping, no CWD
+        # assumptions about which directory the caller runs from.
+        sys.exit(main())
     sys.exit(main())
