@@ -1043,7 +1043,7 @@
         "Lunar Proxy"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "Renderer prints a module on/total count, not the enabled-module list. Module state is known app-side, so this is a rendering change only."
     },
     {
       "id": "xykell.hud.watermark",
@@ -1140,8 +1140,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "",
-      "notes": "not implemented"
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "NativeNotificationCenter (post/drain/clear + priority) exists and is host-tested, and ElementType::Notifications is in the layout model, but nothing binds the queue to a HUD line. Needs that binding, not a new subsystem."
     },
     {
       "id": "xykell.hud.session_stats",

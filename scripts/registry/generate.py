@@ -385,7 +385,7 @@ RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
 # NOT_IMPLEMENTED, but reachable with ordinary Android/app APIs and no game
 # internals. These are the real remaining build backlog, not external blockers.
 APP_LEVEL_IDS = {PREFIX + "hud." + s for s in """
- arraylist hardware_stats
+ arraylist hardware_stats notifications
 """.split()} | {PREFIX + "misc." + s for s in """
  streamer_mode privacy_mode screenshot_share screenshot_tools hide_hud timer
  friends
@@ -398,6 +398,20 @@ APP_LEVEL_IDS = {PREFIX + "hud." + s for s in """
 """.split()} | {PREFIX + "automation." + s for s in """
  death_logger item_tracker tnt_timer player_notifier
 """.split()}
+
+# Per-id notes where the generic reason is too coarse to be useful.
+NOTES_BY_ID = {
+    PREFIX + "hud.notifications": (
+        "NativeNotificationCenter (post/drain/clear + priority) exists and is "
+        "host-tested, and ElementType::Notifications is in the layout model, but "
+        "nothing binds the queue to a HUD line. Needs that binding, not a "
+        "new subsystem."
+    ),
+    PREFIX + "hud.arraylist": (
+        "Renderer prints a module on/total count, not the enabled-module list. "
+        "Module state is known app-side, so this is a rendering change only."
+    ),
+}
 
 REFERENCE_ONLY_NOTE = (
     "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban "
@@ -685,7 +699,7 @@ def main() -> None:
         elif fid in APP_LEVEL_IDS:
             e["status"] = "NOT_IMPLEMENTED"
             e["evidence"] = "app-level APIs available; feature not written"
-            e["notes"] = APP_LEVEL_NOTE
+            e["notes"] = NOTES_BY_ID.get(fid, APP_LEVEL_NOTE)
         else:
             e["status"] = "NOT_IMPLEMENTED"
             e["notes"] = "not implemented"
