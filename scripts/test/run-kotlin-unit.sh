@@ -62,6 +62,8 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/observation/Observations.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationTranslator.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationStateMachine.kt"
+    "$SRC/dev/xykell/client/runtime/observation/ObservedState.kt"
+    "$SRC/dev/xykell/client/runtime/observation/ChatFilter.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationCrypto.kt"
     "$SRC/dev/xykell/client/runtime/observation/LiveProducer.kt"
     "$SRC/dev/xykell/client/runtime/observation/LoopbackWebSocket.kt"
@@ -85,8 +87,9 @@ SUITES=(
     dev.xykell.client.runtime.scripting.ScriptRuntimeTest
     dev.xykell.client.runtime.accounts.SecretBoxTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
+    dev.xykell.client.runtime.observation.ObservedChatTest
 )
-EXPECTED_SUITES=18
+EXPECTED_SUITES=19
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -116,9 +119,10 @@ for lib in kotlin-stdlib.jar kotlin-stdlib-jdk7.jar kotlin-stdlib-jdk8.jar; do
     fi
     CP="$CP:$KOTLINC_HOME/lib/$lib"
 done
-"$KOTLINC_BIN" -nowarn -cp "$CP" -d "$WORK/classes" \
+"$KOTLINC_BIN" -J-Xmx1400m -nowarn -cp "$CP" -d "$WORK/classes" \
     "${MAIN_SOURCES[@]}" "$TEST"/dev/xykell/client/ui/*Test.kt \
     "$TEST"/dev/xykell/client/runtime/observation/ObservationPipelineTest.kt \
+    "$TEST"/dev/xykell/client/runtime/observation/ObservedChatTest.kt \
     "$TEST"/dev/xykell/client/runtime/servers/ServerStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/UpdaterTest.kt \
     "$TEST"/dev/xykell/client/runtime/worlds/WorldStoreTest.kt \

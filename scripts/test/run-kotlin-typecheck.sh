@@ -84,7 +84,7 @@ CP="$CP:$KOTLINC_HOME/lib/kotlin-stdlib.jar:$KOTLINC_HOME/lib/kotlin-stdlib-jdk8
 mapfile -t SOURCES < <(find "$ROOT/app/src/main/java" -name '*.kt' | sort)
 [ ${#SOURCES[@]} -gt 0 ] || fail "no Kotlin sources found under app/src/main/java"
 
-if ! "$KOTLINC_BIN" -nowarn -cp "$CP" -d "$WORK/classes" \
+if ! "$KOTLINC_BIN" -J-Xmx1400m -nowarn -cp "$CP" -d "$WORK/classes" \
         "${SOURCES[@]}" "$R_STUB" 2> "$WORK/kotlinc.log"; then
     echo "KOTLIN-TYPECHECK: FAIL — kotlinc compile error (${#SOURCES[@]} sources)" >&2
     # Errors only: dump the real diagnostics, not warnings.
@@ -106,7 +106,7 @@ if [ -f "$JARS_DIR/junit-4.13.2.jar" ]; then
     if [ ${#TEST_SOURCES[@]} -gt 0 ]; then
         # -Xfriend-paths mirrors Gradle's associated test compilation, which is
         # what makes `internal` members visible to app/src/test.
-        if "$KOTLINC_BIN" -nowarn -cp "$TEST_CP" -Xfriend-paths="$WORK/classes" \
+        if "$KOTLINC_BIN" -J-Xmx1400m -nowarn -cp "$TEST_CP" -Xfriend-paths="$WORK/classes" \
                 -d "$WORK/test-classes" "${TEST_SOURCES[@]}" \
                 2> "$WORK/kotlinc-test.log"; then
             echo "KOTLIN-TYPECHECK: PASS (${#TEST_SOURCES[@]} test sources compiled)"
