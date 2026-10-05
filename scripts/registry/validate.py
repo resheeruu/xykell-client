@@ -48,6 +48,46 @@ def check_res_duplicates(root: Path) -> list:
     return problems
 
 
+def check_res_references(root: Path) -> list:
+    """Every @color/@drawable/@string/@style reference in res/ must resolve to a
+    real local resource. aapt2 is the only thing that checks this, and it only
+    runs in CI, so two build breaks reached main this way already."""
+    import re
+    res = root / "app" / "src" / "main" / "res"
+    problems = []
+    # Defined values, by kind.
+    values = {"color": set(), "string": set(), "style": set(), "dimen": set(),
+              "bool": set(), "integer": set(), "array": set(), "string-array": set()}
+    for f in sorted(res.glob("values*/*.xml")):
+        for m in re.finditer(
+            r'<(color|string|style|dimen|bool|integer|array|string-array)\s+name="([^"]+)"',
+            f.read_text(encoding="utf-8"),
+        ):
+            values[m.group(1)].add(m.group(2))
+    # File-backed kinds: the file stem is the resource name.
+    for kind in ("drawable", "layout", "menu", "anim", "xml", "mipmap", "raw"):
+        values.setdefault(kind, set()).update(
+            f.stem for f in res.rglob("*") if f.is_file() and f.suffix.lstrip(".") == kind
+        )
+    local = {k for k, v in values.items() if v}
+    for f in sorted(res.rglob("*.xml")):
+        txt = f.read_text(encoding="utf-8")
+        for m in re.finditer(r'"@(\w+)/([\w.]+)"', txt):
+            kind, name = m.group(1), m.group(2)
+            # android: framework resources are not ours to define.
+            if kind not in local:
+                continue
+            if name not in values[kind]:
+                rel = f.relative_to(root)
+                problems.append(f"{rel}: @{kind}/{name} is referenced but not defined")
+    seen, uniq = set(), []
+    for x in problems:
+        if x not in seen:
+            seen.add(x)
+            uniq.append(x)
+    return uniq
+
+
 def main() -> int:
     data = json.loads((Path(__file__).resolve().parent.parent.parent
                        / "registry" / "features.json").read_text())
@@ -99,6 +139,8 @@ def main() -> int:
         if not isinstance(f.get("versions"), list) or not isinstance(f.get("sourceReferences"), list):
             errors.append(f"[{i}] versions/sourceReferences must be lists")
     errors.extend(check_res_duplicates(
+        Path(__file__).resolve().parent.parent.parent))
+    errors.extend(check_res_references(
         Path(__file__).resolve().parent.parent.parent))
     if errors:
         print("\n".join(errors))

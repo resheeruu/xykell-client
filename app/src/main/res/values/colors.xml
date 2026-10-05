@@ -8,4 +8,8 @@
     <color name="xykell_success">#5DD39E</color>
     <color name="xykell_surface">#16213A</color>
     <color name="xykell_error">#E05D5D</color>
+    <!-- Matches Theme.border in native/include/xykell/theme.h; referenced by
+         drawable/client_action_card_bg.xml. Its absence broke aapt2 linking,
+         which is only observable in CI. -->
+    <color name="xykell_border">#2A3A58</color>
 </resources>
