@@ -32,10 +32,24 @@ object NativeSettings {
     fun reset(root: String, section: String = ""): Boolean =
         guard { resetSettings(root, section) } ?: false
 
-    private inline fun <T> guard(block: () -> T): T? {
+    /**
+     * Turns an UnsatisfiedLinkError into the documented fallback, but records it
+     * first. A missing symbol must show up in diagnostics rather than making
+     * this bridge look like it simply had no data.
+     */
+    private const val BRIDGE = "NativeSettings"
+
+    private inline fun <T> guard(symbol: String = "", block: () -> T): T? {
         return try {
-            block()
+            val v = block()
+            dev.xykell.client.runtime.NativeBridgeStatus.recordSuccess(
+                BRIDGE, if (symbol.isEmpty()) "call" else symbol,
+            )
+            v
         } catch (e: UnsatisfiedLinkError) {
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                BRIDGE, if (symbol.isEmpty()) "call" else symbol,
+            )
             null
         }
     }

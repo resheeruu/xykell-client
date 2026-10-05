@@ -44,7 +44,11 @@ object Observations {
         try {
             nativeOfferPlayerMessage(eventId, observedAtMs, sender, message)
         } catch (e: UnsatisfiedLinkError) {
-            // Native bridge absent: offer dropped (service counts stay local).
+            // Native bridge absent: the offer is dropped and the counts stay
+            // local, but the failure is recorded so diagnostics can say why.
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                "Observations", "nativeOfferPlayerMessage",
+            )
         }
     }
 
@@ -63,6 +67,9 @@ object Observations {
                 eventId, observedAtMs, x, y, z, yawDegrees, metersTravelled, travelMethod,
             )
         } catch (e: UnsatisfiedLinkError) {
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                "Observations", "nativeOfferPlayerTravelled",
+            )
         }
     }
 
@@ -70,6 +77,9 @@ object Observations {
         try {
             nativeOfferUnknown(eventId, wireLength, reason, observedAtMs)
         } catch (e: UnsatisfiedLinkError) {
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                "Observations", "nativeOfferUnknown",
+            )
         }
     }
 }

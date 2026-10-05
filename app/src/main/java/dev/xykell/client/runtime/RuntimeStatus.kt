@@ -59,12 +59,13 @@ object RuntimeStatus {
 
     /** Short honest multi-line summary for status surfaces. */
     fun summary(): String {
-        val st = guard { JSONObject(nativeStatus()) }
-            ?: return "Runtime: unavailable (native bridge missing)"
+        val st = guard("nativeStatus") { JSONObject(nativeStatus()) }
+            ?: return "Runtime: unavailable (native bridge missing: " +
+                NativeBridgeStatus.summary() + ")"
         val state = st.optString("state", "?")
         val provider = st.optString("provider", "?").ifEmpty { "?" }
-        val caps = guard { nativeCapabilities() } ?: "[]"
-        val eps = guard { nativeEndpoints() } ?: "[]"
+        val caps = guard("nativeCapabilities") { nativeCapabilities() } ?: "[]"
+        val eps = guard("nativeEndpoints") { nativeEndpoints() } ?: "[]"
         val capCount = caps.count { it == '"' } / 2
         val epCount = eps.split("\"id\"").size - 1
         val disc = guard { JSONObject(nativeDiscovery()) }
@@ -80,16 +81,26 @@ object RuntimeStatus {
         return "Runtime: $state\nProvider: $providerLabel\n" +
             "Session: SYNTHETIC\nCapabilities: $capCount\nEndpoints: $epCount\n" +
             "Discovery: $discState\nSelected: $selected\n" +
-            "Minecraft Runtime: NOT CONNECTED\nLast Diagnostic: $lastDiag"
+            "Minecraft Runtime: NOT CONNECTED\nLast Diagnostic: $lastDiag\n" +
+            NativeBridgeStatus.summary()
     }
 
     fun providerUnavailableReason(): String =
         "Native Provider Unavailable (lab-gated). Protocol Not Configured."
 
-    private inline fun <T> guard(block: () -> T): T? {
+    private const val BRIDGE = "RuntimeStatus"
+
+    /**
+     * Records an unresolved native symbol before falling back, so a broken
+     * bridge reports itself instead of presenting as "no runtime detected".
+     */
+    private inline fun <T> guard(symbol: String = "", block: () -> T): T? {
         return try {
-            block()
+            val v = block()
+            NativeBridgeStatus.recordSuccess(BRIDGE, if (symbol.isEmpty()) "call" else symbol)
+            v
         } catch (e: UnsatisfiedLinkError) {
+            NativeBridgeStatus.recordFailure(BRIDGE, if (symbol.isEmpty()) "call" else symbol)
             null
         } catch (e: org.json.JSONException) {
             null
