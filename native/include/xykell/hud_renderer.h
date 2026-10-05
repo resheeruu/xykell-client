@@ -10,6 +10,7 @@
 
 #include "xykell/hud_model.h"
 #include "xykell/module_manager.h"
+#include "xykell/notifications.h"
 #include "xykell/profile_manager.h"
 #include "xykell/theme.h"
 
@@ -31,7 +32,21 @@ struct RenderContext {
     const ModuleManager* modules = nullptr;
     int taps = 0;
     std::string versionLine = "XYKELL";
+    // Bound so hud.notifications actually reaches a line. Null = no queue.
+    const ui::NotificationCenter* notifications = nullptr;
+    // Max notification lines drawn. The queue is bounded; the draw set is too.
+    int notificationLines = 3;
+    // Max arraylist entries drawn; 0 = use every enabled module.
+    int arraylistLimit = 0;
 };
+
+// Enabled, non-quarantined module display names, deterministic order
+// (category, then id). Never includes a module the manager does not know, so
+// a prohibited entry cannot appear as active functionality.
+std::vector<std::string> enabledModuleNames(const ModuleManager& mods, int limit = 0);
+
+// Notification text lines, newest last, bounded and de-duplicated by seq.
+std::vector<std::string> notificationLines(const ui::NotificationCenter& center, int limit);
 
 std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx);
 

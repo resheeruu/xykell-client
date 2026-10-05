@@ -35,6 +35,86 @@ std::uint32_t themeColor(const std::string& hex) {
     return v;
 }
 
+
+namespace {
+
+// Small fixed-size de-dup window for notification seq ids.
+constexpr std::size_t kNotificationSeenCap = 64;
+
+// Deterministic module ordering: category, then id. Registration order is not
+// stable across sessions, so relying on it would make the arraylist flicker.
+bool moduleLess(const ModuleDescriptor& a, const ModuleDescriptor& b) {
+    if (a.category != b.category) {
+        return a.category < b.category;
+    }
+    return a.id < b.id;
+}
+
+} // namespace
+
+std::vector<std::string> enabledModuleNames(const ModuleManager& mods, int limit) {
+    std::vector<const ModuleDescriptor*> on;
+    for (const auto& m : mods.list()) {
+        // A quarantined module is disabled by definition; never list it.
+        if (m.state != ModuleState::Enabled || !m.quarantineReason.empty()) {
+            continue;
+        }
+        on.push_back(&m);
+    }
+    std::sort(on.begin(), on.end(),
+              [](const ModuleDescriptor* a, const ModuleDescriptor* b) { return moduleLess(*a, *b); });
+    std::vector<std::string> out;
+    const std::size_t cap = limit > 0 ? static_cast<std::size_t>(limit) : on.size();
+    for (std::size_t i = 0; i < on.size() && out.size() < cap; ++i) {
+        // Display name from the descriptor; never a registry id we invented.
+        const std::string& n = on[i]->name;
+        if (!n.empty()) {
+            out.push_back(n);
+        }
+    }
+    return out;
+}
+
+std::vector<std::string> notificationLines(const ui::NotificationCenter& center, int limit) {
+    std::vector<std::string> out;
+    if (limit <= 0) {
+        return out;
+    }
+    std::uint64_t seen[kNotificationSeenCap] = {};
+    std::size_t seenN = 0;
+    // Read without draining: render must not consume the queue, or a HUD that
+    // is hidden for one frame would silently drop notifications.
+    for (const auto& n : center.peek()) {
+        if (n.text.empty()) {
+            continue;
+        }
+        bool dup = false;
+        for (std::size_t i = 0; i < seenN; ++i) {
+            if (seen[i] == n.seq) {
+                dup = true;
+                break;
+            }
+        }
+        if (dup) {
+            continue;
+        }
+        if (seenN < kNotificationSeenCap) {
+            seen[seenN++] = n.seq;
+        }
+        if (n.priority == ui::NotifyPriority::Error) {
+            out.push_back("[!] " + n.text);
+        } else if (n.priority == ui::NotifyPriority::Warning) {
+            out.push_back("[*] " + n.text);
+        } else {
+            out.push_back(n.text);
+        }
+    }
+    while (out.size() > static_cast<std::size_t>(limit)) {
+        out.erase(out.begin()); // keep the newest
+    }
+    return out;
+}
+
 std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx) {
     const std::uint32_t textCol =
         ctx.theme != nullptr ? themeColor(ctx.theme->text) : 0xFFFFFFFF;
@@ -66,6 +146,41 @@ std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx) 
                 line.text = std::string("XYZ: ") + v;
                 line.color = (v == kUnavailable) ? mutedCol : textCol;
                 break;
+            case ElementType::ModuleList: {
+                // Real list, not a count. Falls back to an explicit unknown
+                // marker rather than an empty box when there is no manager.
+                std::vector<std::string> names;
+                if (ctx.modules != nullptr) {
+                    names = enabledModuleNames(*ctx.modules, ctx.arraylistLimit);
+                }
+                if (names.empty()) {
+                    line.text = std::string(typeName(el.type)) + ": " + kUnavailable;
+                    line.color = mutedCol;
+                    break;
+                }
+                // Stacked, top-aligned, one line per enabled module.
+                std::string joined;
+                for (std::size_t i = 0; i < names.size(); ++i) {
+                    if (i > 0) {
+                        joined += " | ";
+                    }
+                    joined += names[i];
+                }
+                line.text = joined;
+                line.color = accentCol;
+                break;
+            }
+            case ElementType::Notifications: {
+                std::vector<std::string> notes;
+                if (ctx.notifications != nullptr) {
+                    notes = notificationLines(*ctx.notifications, ctx.notificationLines);
+                }
+                line.text = notes.empty()
+                                ? std::string(typeName(el.type)) + ": " + kUnavailable
+                                : notes.back();
+                line.color = notes.empty() ? mutedCol : textCol;
+                break;
+            }
             default:
                 line.text = typeName(el.type) + ": " + v;
                 line.color = (v == kUnavailable) ? mutedCol : textCol;
