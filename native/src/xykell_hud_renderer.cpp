@@ -53,23 +53,25 @@ bool moduleLess(const ModuleDescriptor& a, const ModuleDescriptor& b) {
 } // namespace
 
 std::vector<std::string> enabledModuleNames(const ModuleManager& mods, int limit) {
-    std::vector<const ModuleDescriptor*> on;
+    // ModuleManager::list() returns by value, so these are copies. Holding
+    // pointers into that temporary was a use-after-free: it happened to survive
+    // on ARM64 and segfaulted on x86_64 in CI.
+    std::vector<ModuleDescriptor> on;
     for (const auto& m : mods.list()) {
         // A quarantined module is disabled by definition; never list it.
         if (m.state != ModuleState::Enabled || !m.quarantineReason.empty()) {
             continue;
         }
-        on.push_back(&m);
+        on.push_back(m);
     }
     std::sort(on.begin(), on.end(),
-              [](const ModuleDescriptor* a, const ModuleDescriptor* b) { return moduleLess(*a, *b); });
+              [](const ModuleDescriptor& a, const ModuleDescriptor& b) { return moduleLess(a, b); });
     std::vector<std::string> out;
     const std::size_t cap = limit > 0 ? static_cast<std::size_t>(limit) : on.size();
     for (std::size_t i = 0; i < on.size() && out.size() < cap; ++i) {
         // Display name from the descriptor; never a registry id we invented.
-        const std::string& n = on[i]->name;
-        if (!n.empty()) {
-            out.push_back(n);
+        if (!on[i].name.empty()) {
+            out.push_back(on[i].name);
         }
     }
     return out;
