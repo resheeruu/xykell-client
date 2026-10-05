@@ -193,6 +193,15 @@ int main() {
         assert(unknown[0].text.find(hud::kUnavailable) != std::string::npos);
     }
 
+    // --- misc.hide_hud: a real switch, not a stored setting nobody reads.
+    {
+        hud::RenderContext hidden = ctx;
+        hidden.hudVisible = false;
+        assert(hud::renderHud(mgr, hidden).empty());
+        // Default stays visible, so the switch is the only thing that hides it.
+        assert(!hud::renderHud(mgr, ctx).empty());
+    }
+
     std::cout << "test_hud_render: PASS\n";
     return 0;
 }

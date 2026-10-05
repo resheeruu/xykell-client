@@ -51,6 +51,8 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/packs/PackStore.kt"
     "$SRC/dev/xykell/client/runtime/performance/PerformanceStore.kt"
     "$SRC/dev/xykell/client/runtime/network/NetworkProbe.kt"
+    "$SRC/dev/xykell/client/runtime/privacy/PrivacySettings.kt"
+    "$SRC/dev/xykell/client/runtime/world/WaypointStore.kt"
     "$SRC/dev/xykell/client/runtime/ProfileManager.kt"
     "$SRC/dev/xykell/client/runtime/CrashGuard.kt"
     "$SRC/dev/xykell/client/runtime/Updater.kt"
@@ -88,10 +90,11 @@ SUITES=(
     dev.xykell.client.runtime.scripting.ScriptRuntimeTest
     dev.xykell.client.runtime.accounts.SecretBoxTest
     dev.xykell.client.runtime.network.NetworkProbeTest
+    dev.xykell.client.runtime.privacy.PrivacyAndWorldTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
     dev.xykell.client.runtime.observation.ObservedChatTest
 )
-EXPECTED_SUITES=20
+EXPECTED_SUITES=21
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -135,6 +138,7 @@ done
     "$TEST"/dev/xykell/client/runtime/scripting/ScriptRuntimeTest.kt \
     "$TEST"/dev/xykell/client/runtime/accounts/SecretBoxTest.kt \
     "$TEST"/dev/xykell/client/runtime/network/NetworkProbeTest.kt \
+    "$TEST"/dev/xykell/client/runtime/privacy/PrivacyAndWorldTest.kt \
     "$TEST"/dev/xykell/client/runtime/CrashGuardTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/performance/PerformanceStoreTest.kt \

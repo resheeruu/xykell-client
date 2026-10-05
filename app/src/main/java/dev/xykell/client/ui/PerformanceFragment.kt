@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dev.xykell.client.R
+import dev.xykell.client.runtime.performance.DeviceInfo
 import dev.xykell.client.runtime.performance.PerformanceStore
 
 /** App performance dashboard: real-time FPS, memory, storage,
@@ -84,6 +85,71 @@ class PerformanceFragment : Fragment(R.layout.fragment_performance) {
             getString(R.string.perf_uptime_label, uptimeMs / 1000)
         view?.findViewById<TextView>(R.id.perf_cpu)?.text =
             getString(R.string.perf_cpu_label, PerformanceStore.getCpuTimeMs())
+
+        updateDetailRows()
+    }
+
+    /** Long-lived facts: they change slowly, so they are read once. */
+    private fun updateDetailRows() {
+        val v = view ?: return
+        val ctx = requireContext()
+        val unknown = getString(R.string.perf_unknown)
+        fun s(x: Any?): String = x?.toString() ?: unknown
+
+        val mem = DeviceInfo.memory(ctx)
+        v.findViewById<TextView>(R.id.perf_memory_detail).text = buildString {
+            append(
+                getString(
+                    R.string.perf_memory_detail_fmt,
+                    s(mem.javaHeapUsedMB), s(mem.javaHeapTotalMB), s(mem.javaHeapMaxMB),
+                    s(mem.nativeHeapUsedMB), s(mem.nativeHeapSizeMB),
+                ),
+            ).append('\n')
+            append(
+                getString(
+                    R.string.perf_system_memory_fmt,
+                    s(mem.systemAvailableMB), s(mem.systemTotalMB),
+                    s(mem.systemLowMemory), s(mem.systemThresholdMB),
+                ),
+            ).append('\n')
+            append(
+                getString(
+                    R.string.perf_app_memory_fmt,
+                    s(mem.appMemoryClassMB), s(mem.appLowMemory),
+                    s(mem.storageFreeMB), s(mem.storageTotalMB),
+                ),
+            )
+        }
+
+        val cpu = DeviceInfo.cpu(PerformanceStore.getCpuTimeMs())
+        v.findViewById<TextView>(R.id.perf_cpu_detail).text = getString(
+            R.string.perf_cpu_detail_fmt,
+            cpu.coreCount, s(cpu.model), s(cpu.manufacturer), s(cpu.maxFrequencyKhz),
+        )
+
+        // GL reads are cheap but must not run before a surface context exists,
+        // so failures are folded into "unknown" rather than crashing.
+        val gpu = DeviceInfo.gpu(ctx)
+        v.findViewById<TextView>(R.id.perf_gpu_detail).text = buildString {
+            append(getString(R.string.perf_gpu_section)).append('\n')
+            append(getString(R.string.perf_gpu_renderer_fmt, s(gpu.renderer))).append('\n')
+            append(getString(R.string.perf_gpu_vendor_fmt, s(gpu.vendor))).append('\n')
+            append(
+                getString(
+                    R.string.perf_gpu_api_fmt,
+                    s(gpu.glVersion), s(gpu.shadingLanguageVersion),
+                ),
+            ).append('\n')
+            append(
+                getString(
+                    R.string.perf_gpu_limits_fmt,
+                    s(gpu.maxTextureSize), s(gpu.maxTextureUnits), s(gpu.maxVertexAttribs),
+                    s(gpu.vulkanSupportedByDevice),
+                ),
+            ).append('\n')
+            // Never a percentage: no public Android API exposes GPU load.
+            append(getString(R.string.perf_gpu_utilisation_fmt))
+        }
     }
 
     override fun onDestroyView() {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Minimum interactive row height, per the accessibility guidance for
+         touch targets. Used by the settings privacy toggles. -->
+    <dimen name="xykell_touch_target_min">48dp</dimen>
+</resources>

@@ -38,6 +38,10 @@ struct RenderContext {
     int notificationLines = 3;
     // Max arraylist entries drawn; 0 = use every enabled module.
     int arraylistLimit = 0;
+    // Global overlay switch, driven by the gui.hide_hud setting. When false the
+    // renderer draws nothing at all, including the footer, so a hidden overlay
+    // is genuinely absent rather than merely blank.
+    bool hudVisible = true;
 };
 
 // Enabled, non-quarantined module display names, deterministic order

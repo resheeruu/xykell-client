@@ -39,10 +39,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var container: LinearLayout
     private lateinit var error: TextView
 
+    // Privacy toggles live in the native config store so they share the same
+    // reset and export path as every other setting. The model is
+    // PrivacySettings; this is only its Android-backed persistence.
+    private lateinit var privacy: dev.xykell.client.runtime.privacy.PrivacySettings
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         container = view.findViewById(R.id.settings_container)
         error = view.findViewById(R.id.settings_error)
+        privacy = dev.xykell.client.runtime.privacy.PrivacySettings(nativePrivacyStore())
         view.findViewById<Button>(R.id.settings_reset_all).setOnClickListener {
             if (NativeSettings.reset(NativeSettings.root(requireContext()))) {
                 reload("")
@@ -59,6 +65,111 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
             })
         reload("")
+    }
+
+    /** Bridges the privacy model onto the existing native config store. */
+    private inner class NativePrivacyStore :
+        dev.xykell.client.runtime.privacy.PrivacySettings.Store {
+        override fun get(key: String): Boolean = try {
+            JSONObject(NativeSettings.getValues(NativeSettings.root(requireContext())))
+                .optJSONObject(SECTION)?.optBoolean(key, false) ?: false
+        } catch (e: Exception) {
+            false
+        }
+
+        override fun put(key: String, value: Boolean) {
+            NativeSettings.set(
+                NativeSettings.root(requireContext()), SECTION, key, value.toString(),
+            )
+        }
+
+        override fun all(): Map<String, Boolean> = mapOf(
+            dev.xykell.client.runtime.privacy.PrivacySettings.KEY_STREAMER to
+                privacyRead(dev.xykell.client.runtime.privacy.PrivacySettings.KEY_STREAMER),
+            dev.xykell.client.runtime.privacy.PrivacySettings.KEY_PRIVACY to
+                privacyRead(dev.xykell.client.runtime.privacy.PrivacySettings.KEY_PRIVACY),
+            dev.xykell.client.runtime.privacy.PrivacySettings.KEY_HIDE_HUD to
+                privacyRead(dev.xykell.client.runtime.privacy.PrivacySettings.KEY_HIDE_HUD),
+        )
+    }
+
+    private fun nativePrivacyStore() = NativePrivacyStore()
+
+    private companion object {
+        /** Matches a top-level section in the native config store defaults. */
+        const val SECTION = "gui"
+    }
+
+    private fun privacyRead(key: String): Boolean = try {
+        JSONObject(NativeSettings.getValues(NativeSettings.root(requireContext())))
+            .optJSONObject(SECTION)?.optBoolean(key, false) ?: false
+    } catch (e: Exception) {
+        false
+    }
+
+    /** Renders the three privacy toggles above the catalog rows. */
+    private fun addPrivacySection() {
+        val header = TextView(requireContext()).apply {
+            setText(R.string.settings_privacy_section)
+            contentDescription = getString(R.string.settings_privacy_section)
+        }
+        container.addView(header)
+
+        data class Toggle(
+            val key: String,
+            val labelRes: Int,
+            val descRes: Int,
+            val read: () -> Boolean,
+            val write: (Boolean) -> Unit,
+        )
+        val toggles = listOf(
+            Toggle(
+                dev.xykell.client.runtime.privacy.PrivacySettings.KEY_STREAMER,
+                R.string.settings_streamer_mode,
+                R.string.settings_streamer_mode_desc,
+                { privacy.streamerMode },
+                { privacy.streamerMode = it },
+            ),
+            Toggle(
+                dev.xykell.client.runtime.privacy.PrivacySettings.KEY_PRIVACY,
+                R.string.settings_privacy_mode,
+                R.string.settings_privacy_mode_desc,
+                { privacy.privacyMode },
+                { privacy.privacyMode = it },
+            ),
+            Toggle(
+                dev.xykell.client.runtime.privacy.PrivacySettings.KEY_HIDE_HUD,
+                R.string.settings_hide_hud,
+                R.string.settings_hide_hud_desc,
+                { privacy.hideHud },
+                { privacy.hideHud = it },
+            ),
+        )
+        for (t in toggles) {
+            val row = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                minimumHeight = resources.getDimensionPixelSize(R.dimen.xykell_touch_target_min)
+            }
+            val label = TextView(requireContext()).apply {
+                setText(t.labelRes)
+                contentDescription = getString(t.descRes)
+            }
+            val sw = Switch(requireContext()).apply {
+                isChecked = t.read()
+                contentDescription = getString(t.labelRes)
+                setOnCheckedChangeListener { _, on ->
+                    t.write(on)
+                    // A refused write must not leave the switch lying.
+                    if (t.read() != on) {
+                        isChecked = t.read()
+                    }
+                }
+            }
+            row.addView(label, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            row.addView(sw)
+            container.addView(row)
+        }
     }
 
     private fun loadRows(): List<Row> {
@@ -103,6 +214,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun reload(filter: String) {
         container.removeAllViews()
         error.text = ""
+        addPrivacySection()
         val allRows = loadRows()
         val rows = allRows.filter {
             filter.isBlank() ||

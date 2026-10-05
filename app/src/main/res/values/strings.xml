@@ -268,4 +268,25 @@
     <string name="scripts_exported">Exported.</string>
     <string name="scripts_export_failed">Export failed.</string>
     <string name="scripts_failed">That action was refused.</string>
+    <string name="perf_memory_detail_fmt">Heap %1$s/%2$s of %3$s \u00b7 native %4$s/%5$s</string>
+    <string name="perf_system_memory_fmt">System %1$s of %2$s free \u00b7 low-memory %3$s \u00b7 threshold %4$s</string>
+    <string name="perf_app_memory_fmt">App class %1$s \u00b7 low-RAM device %2$s \u00b7 storage %3$s of %4$s free</string>
+    <string name="perf_cpu_detail_fmt">%1$d core(s) \u00b7 %2$s \u00b7 %3$s \u00b7 max %4$s</string>
+    <string name="perf_gpu_detail_fmt">%1$s</string>
+    <string name="perf_gpu_renderer_fmt">Renderer: %1$s</string>
+    <string name="perf_gpu_vendor_fmt">Vendor: %1$s</string>
+    <string name="perf_gpu_api_fmt">API: %1$s \u00b7 GLSL: %2$s</string>
+    <string name="perf_gpu_limits_fmt">Max texture %1$s \u00b7 units %2$s \u00b7 attribs %3$s \u00b7 Vulkan %4$s</string>
+    <string name="perf_gpu_utilisation_fmt">GPU utilisation: unavailable on this API level</string>
+    <string name="perf_unknown">unknown</string>
+    <string name="perf_yes">yes</string>
+    <string name="perf_no">no</string>
+    <string name="perf_gpu_section">GPU information</string>
+    <string name="settings_privacy_section">Privacy and presentation</string>
+    <string name="settings_streamer_mode">Streamer mode</string>
+    <string name="settings_streamer_mode_desc">Hides the Xykell account name and device model from anything you share or export. It does not hide the game window or stop a third-party app photographing the display.</string>
+    <string name="settings_privacy_mode">Privacy mode</string>
+    <string name="settings_privacy_mode_desc">Withholds diagnostic detail and account identity from exports and shares. CrashGuard still collects crashes, because a report with nothing in it cannot be fixed.</string>
+    <string name="settings_hide_hud">Hide HUD</string>
+    <string name="settings_hide_hud_desc">Hides the Xykell overlay. Rules, settings and diagnostics keep running.</string>
 </resources>

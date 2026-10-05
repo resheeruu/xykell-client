@@ -116,6 +116,9 @@ std::vector<std::string> notificationLines(const ui::NotificationCenter& center,
 }
 
 std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx) {
+    if (!ctx.hudVisible) {
+        return {}; // hidden means absent, not "drawn with no content"
+    }
     const std::uint32_t textCol =
         ctx.theme != nullptr ? themeColor(ctx.theme->text) : 0xFFFFFFFF;
     const std::uint32_t mutedCol =
