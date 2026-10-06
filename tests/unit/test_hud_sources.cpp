@@ -10,6 +10,17 @@ using namespace xykell;
 using namespace xykell::hud;
 using namespace xykell::hud::sources;
 
+// Counts "label value" pairs separated by the two-space delimiter.
+static int fieldsIn(const std::string& s) {
+    int n = 0;
+    for (std::size_t i = 0; i + 1 < s.size(); ++i) {
+        if (s[i] == ' ' && s[i + 1] == ' ') {
+            ++n;
+        }
+    }
+    return n + 1;
+}
+
 int main() {
     // --- FrameTimer: exact window rate math ---
     {
@@ -82,6 +93,94 @@ int main() {
         mods.quarantine("xykell.hud.fps", "test reason");
         assert(!mods.setEnabled("xykell.hud.fps", true));  // quarantined stays off
         assert(mods.list().size() == 5);
+    }
+
+    // --- HardwareStats: deterministic, bounded, never fabricated ---
+    {
+        // Nothing measured: no line at all, never zeros.
+        assert(formatHardwareStats(HardwareStats()) == kUnavailable);
+
+        HardwareStats s;
+        s.cpuCores = 8;
+        s.javaHeapUsedMB = 128;
+        s.systemAvailableMB = 2048;
+        s.systemTotalMB = 8192;
+        s.storageFreeMB = 4096;
+        s.abi = "arm64-v8a";
+        assert(formatHardwareStats(s) ==
+               "CPU 8c  Heap 128MB  MEM 2048/8192MB  Store 4096MB  ABI arm64");
+
+        // Field order is fixed regardless of assignment order.
+        HardwareStats r;
+        r.abi = "armeabi-v7a";
+        r.cpuCores = 2;
+        assert(formatHardwareStats(r) == "CPU 2c  ABI armeabi-v7a");  // only -v8a shortens
+
+        // Unknown fields are omitted, never printed as 0.
+        HardwareStats partial;
+        partial.cpuCores = 4;
+        assert(formatHardwareStats(partial) == "CPU 4c");
+
+        // Low memory is visible in the label, not hidden.
+        HardwareStats low = partial;
+        low.systemLowMemory = true;
+        low.systemAvailableMB = 96;
+        low.systemTotalMB = 4096;
+        assert(formatHardwareStats(low) == "CPU 4c  MEM! 96/4096MB");
+
+        // Total-only (available unknown) is still reported.
+        HardwareStats tot;
+        tot.systemTotalMB = 2048;
+        assert(formatHardwareStats(tot) == "MEM /2048MB");
+
+        // ABI shortening: -v8a suffix stripped, other names untouched.
+        assert(shortAbi("arm64-v8a") == "arm64");
+        assert(shortAbi("x86_64") == "x86_64");
+        assert(shortAbi("armeabi-v7a") == "armeabi-v7a");
+        assert(shortAbi("") == "");
+
+        // Bounded output: no field count or length can run away.
+        HardwareStats big;
+        big.cpuCores = 16;
+        big.javaHeapUsedMB = 999999;
+        big.systemAvailableMB = 999999;
+        big.systemTotalMB = 999999;
+        big.storageFreeMB = 999999;
+        big.abi = "arm64-v8a";
+        const std::string bigText = formatHardwareStats(big);
+        assert(bigText.size() <= kHardwareStatsMaxText);
+        assert(fieldsIn(bigText) <= kHardwareStatsMaxFields);
+    }
+    // --- HardwareStats provider binding: unmeasured => unavailable ---
+    {
+        HudLayout layout;
+        HudElement el;
+        el.type = ElementType::HardwareStats;
+        layout.elements.push_back(el);
+        HudElement other;
+        other.type = ElementType::Watermark;
+        layout.elements.push_back(other);
+
+        // No provider at all: the element itself renders unavailable.
+        assert(layout.elements[0].text() == kUnavailable);
+
+        bindHardwareStatsProvider(layout, HardwareStats());
+        // An empty source still renders unavailable, not a zeroed line.
+        assert(layout.elements[0].text() == kUnavailable);
+
+        HardwareStats s;
+        s.cpuCores = 6;
+        bindHardwareStatsProvider(layout, s);
+        assert(layout.elements[0].text() == "CPU 6c");
+        // Binding must not touch other element types.
+        assert(layout.elements[1].text() == kUnavailable);
+    }
+    // --- Element type round-trips through its persisted name ---
+    {
+        ElementType t;
+        assert(typeFromName("hardware_stats", t));
+        assert(t == ElementType::HardwareStats);
+        assert(typeName(ElementType::HardwareStats) == "hardware_stats");
     }
 
     std::cout << "test_hud_sources: PASS\n";

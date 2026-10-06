@@ -26,6 +26,10 @@ enum class ElementType {
     Hunger,
     Keystrokes,
     TargetHud,
+    // App/device facts (cores, memory, storage, ABI). Data is supplied by a
+    // provider that read real measurements; with no provider it renders
+    // kUnavailable, so it never shows invented numbers.
+    HardwareStats,
 };
 
 std::string typeName(ElementType t);

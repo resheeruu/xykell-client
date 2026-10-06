@@ -15,6 +15,7 @@ std::string typeName(ElementType t) {
         case ElementType::Hunger: return "hunger";
         case ElementType::Keystrokes: return "keystrokes";
         case ElementType::TargetHud: return "target_hud";
+        case ElementType::HardwareStats: return "hardware_stats";
     }
     return "watermark";
 }
@@ -25,7 +26,7 @@ bool typeFromName(const std::string& name, ElementType& out) {
                                ElementType::ModuleList,     ElementType::Notifications,
                                ElementType::Armor,          ElementType::Health,
                                ElementType::Hunger,         ElementType::Keystrokes,
-                               ElementType::TargetHud};
+                               ElementType::TargetHud,      ElementType::HardwareStats};
     for (const auto t : all) {
         if (typeName(t) == name) {
             out = t;

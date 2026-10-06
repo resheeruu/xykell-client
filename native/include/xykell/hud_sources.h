@@ -115,6 +115,105 @@ inline void bindLocalProviders(HudLayout& layout, FrameTimer& frames, TapCounter
     }
 }
 
+// ---------------------------------------------------------------------------
+// Hardware stats (hud.hardware_stats)
+//
+// Device/app facts the HUD can show: CPU cores, heap, system memory, storage,
+// ABI. Every field is optional because the reader may genuinely not know one;
+// a missing field is omitted rather than rendered as zero.
+//
+// GPU *utilisation* is deliberately not representable. No public Android API
+// exposes it, so the struct has no field for it and no code path can print one.
+// Capability data (driver name, API level) is legitimate information and is
+// carried as strings by the host if it has read them.
+struct HardwareStats {
+    int cpuCores = 0;                 // 0 = unknown
+    long long javaHeapUsedMB = -1;    // <0 = unknown
+    long long systemAvailableMB = -1; // <0 = unknown
+    long long systemTotalMB = -1;     // <0 = unknown
+    long long storageFreeMB = -1;     // <0 = unknown
+    bool systemLowMemory = false;
+    std::string abi;                  // empty = unknown
+
+    bool anyKnown() const {
+        return cpuCores > 0 || javaHeapUsedMB >= 0 || systemAvailableMB >= 0 ||
+               systemTotalMB >= 0 || storageFreeMB >= 0 || !abi.empty();
+    }
+};
+
+// Appends "label value" when value is known. Deterministic order: core/heap/
+// memory/storage/ABI. Bounded to kHardwareStatsMaxFields entries.
+inline constexpr int kHardwareStatsMaxFields = 5;
+inline constexpr std::size_t kHardwareStatsMaxText = 96;
+
+// "arm64-v8a" -> "arm64"; anything else is passed through verbatim.
+inline std::string shortAbi(const std::string& abi) {
+    if (abi.size() > 4 && abi.compare(abi.size() - 4, 4, "-v8a") == 0) {
+        return abi.substr(0, abi.size() - 4);
+    }
+    return abi;
+}
+
+// Deterministic, bounded, never fabricated. Returns kUnavailable when the
+// struct carries nothing known, so a host that never measured shows "--"
+// instead of an empty or zeroed line.
+inline std::string formatHardwareStats(const HardwareStats& s) {
+    if (!s.anyKnown()) {
+        return kUnavailable;
+    }
+    std::string out;
+    int fields = 0;
+    auto add = [&](const char* label, const std::string& value) {
+        if (fields >= kHardwareStatsMaxFields || out.size() >= kHardwareStatsMaxText) {
+            return;
+        }
+        if (!out.empty()) {
+            out += "  ";
+        }
+        out += label;
+        out += " ";
+        out += value;
+        ++fields;
+    };
+    if (s.cpuCores > 0) {
+        add("CPU", std::to_string(s.cpuCores) + "c");
+    }
+    if (s.javaHeapUsedMB >= 0) {
+        add("Heap", std::to_string(s.javaHeapUsedMB) + "MB");
+    }
+    if (s.systemAvailableMB >= 0 || s.systemTotalMB >= 0) {
+        std::string v;
+        if (s.systemAvailableMB >= 0) {
+            v += std::to_string(s.systemAvailableMB) + "/" +
+                 std::to_string(s.systemTotalMB >= 0 ? s.systemTotalMB : 0) + "MB";
+        } else {
+            v = "/" + std::to_string(s.systemTotalMB) + "MB";
+        }
+        add(s.systemLowMemory ? "MEM!" : "MEM", v);
+    }
+    if (s.storageFreeMB >= 0) {
+        add("Store", std::to_string(s.storageFreeMB) + "MB");
+    }
+    if (!s.abi.empty()) {
+        add("ABI", shortAbi(s.abi));
+    }
+    if (out.size() > kHardwareStatsMaxText) {
+        out.resize(kHardwareStatsMaxText);
+    }
+    return out.empty() ? kUnavailable : out;
+}
+
+// Installs the hardware_stats provider on every HardwareStats element.
+// A default-constructed source installs an empty provider, so an unmeasured
+// element renders kUnavailable rather than a fabricated line.
+inline void bindHardwareStatsProvider(HudLayout& layout, const HardwareStats& stats) {
+    for (auto& el : layout.elements) {
+        if (el.type == ElementType::HardwareStats) {
+            el.provider = [stats]() { return formatHardwareStats(stats); };
+        }
+    }
+}
+
 // First real modules: toggleable descriptors bound to the providers above.
 // Returns the number actually registered (duplicates skipped safely).
 inline int registerLocalModules(ModuleManager& mods) {
