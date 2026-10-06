@@ -55,13 +55,13 @@ Legit (toggle sprint/sneak, status, HUD, speed/jump stats) — [PLANNED]. Advanc
 Coords/compass/biome/waypoints/minimap-arch/block/entity info/death/spawn/markers/container/structure — [PLANNED] (where accessible). AutoMine/TreeCapitator — framework [PLANNED], OFF default. Nuker/Scaffold — [EXPERIMENTAL], OFF default.
 
 ## Player/Utility
-AutoSprint/Sneak/Eat/Tool/Fish, inventory counters, durability/low-HP/low-hunger warnings, anti-AFK, pickup/container info, quick actions, screenshots, replay integration, session/playtime/death stats — [PLANNED]; replay/recording [PLATFORM-LIMITED].
+AutoSprint/Sneak/Eat/Tool/Fish, inventory counters, durability/low-HP/low-hunger warnings, anti-AFK, pickup/container info, quick actions, screenshots [PARTIAL], replay integration, session/playtime/death stats — [PLANNED]; replay/recording [PLATFORM-LIMITED].
 
 ## Network
 Ping/status/reconnect/server-info/packet-monitor/diagnostics/packet-log(dev)/latency-graph/quality — [PLANNED] where legal. Advanced network experiments isolated [EXPERIMENTAL]. Out of scope (never): credential theft, auth bypass, server compromise, DoS, packet attacks, account theft, protection bypasses.
 
 ## Social
-Friends/highlight/local nicknames/party-UI/chat-customize/timestamps/filtering/screenshot-share/Discord-RPC/streamer+privacy — [PLANNED]; RPC [PLATFORM-LIMITED] on mobile.
+Friends/highlight/local nicknames/party-UI/chat-customize/timestamps/filtering/screenshot-share [PARTIAL]/Discord-RPC/streamer+privacy — [PLANNED]; RPC [PLATFORM-LIMITED] on mobile.
 
 ## Cosmetics
 Original Xykell capes/wings/particles/emotes/badges/animated/profiles/local-only/optional-online-service — [PLANNED]. No Lunar/Flarial/Atlas copies.

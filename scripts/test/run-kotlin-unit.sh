@@ -72,6 +72,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/observation/ObservationCrypto.kt"
     "$SRC/dev/xykell/client/runtime/observation/LiveProducer.kt"
     "$SRC/dev/xykell/client/runtime/observation/LoopbackWebSocket.kt"
+    "$SRC/dev/xykell/client/runtime/capture/PixelPacker.kt"
 )
 SUITES=(
     dev.xykell.client.ui.SettingRowMapperTest
@@ -97,8 +98,9 @@ SUITES=(
     dev.xykell.client.runtime.observation.ObservationPipelineTest
     dev.xykell.client.runtime.observation.ObservedChatTest
     dev.xykell.client.runtime.observation.ChatPolicyTest
+    dev.xykell.client.runtime.capture.PixelPackerTest
 )
-EXPECTED_SUITES=23
+EXPECTED_SUITES=24
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -148,6 +150,7 @@ done
     "$TEST"/dev/xykell/client/runtime/CrashGuardTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/performance/PerformanceStoreTest.kt \
+    "$TEST"/dev/xykell/client/runtime/capture/PixelPackerTest.kt \
     2> "$WORK/kotlinc.log" || {
         echo "KOTLIN-UNIT: FAIL — kotlinc compile error" >&2
         cat "$WORK/kotlinc.log" >&2

@@ -62,6 +62,9 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         container.addView(action(R.string.nav_timer, R.string.nav_timer_desc) {
             openSub(SubScreen.Timer)
         })
+        container.addView(action(R.string.nav_screenshot, R.string.nav_screenshot_desc) {
+            openSub(SubScreen.Screenshot)
+        })
         container.addView(action(R.string.nav_about, R.string.nav_about_desc) {
             openSub(SubScreen.About)
         })
@@ -77,7 +80,7 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
      */
     enum class SubScreen {
         Versions, Modules, Settings, Keybinds, Themes, Performance,
-        Chat, Network, Waypoints, Timer, About;
+        Chat, Network, Waypoints, Timer, Screenshot, About;
 
         fun titleRes(): Int = when (this) {
             Versions -> R.string.nav_versions
@@ -90,6 +93,7 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
             Network -> R.string.nav_network
             Waypoints -> R.string.nav_waypoints
             Timer -> R.string.nav_timer
+            Screenshot -> R.string.nav_screenshot
             About -> R.string.nav_about
         }
     }
@@ -105,6 +109,7 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         SubScreen.Network -> NetworkFragment()
         SubScreen.Waypoints -> WaypointsFragment()
         SubScreen.Timer -> TimerFragment()
+        SubScreen.Screenshot -> ScreenshotFragment()
         SubScreen.About -> AboutFragment()
     }
 

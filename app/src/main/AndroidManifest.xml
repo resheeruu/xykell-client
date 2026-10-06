@@ -19,6 +19,11 @@
          other FGS type (Stage 19). Started only from the Activity. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- Screenshot capture: MediaProjection sessions must run inside a
+         mediaProjection typed foreground service when targeting Android 14+.
+         No storage permission: saves go through scoped-storage MediaStore
+         (API 29+) or the app's own folder (API 28). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
     <application
         android:label="Xykell Client"
@@ -41,6 +46,24 @@
             android:name=".runtime.observation.ObservationService"
             android:foregroundServiceType="specialUse"
             android:exported="false" />
+        <!-- One-shot screenshot owner: started only after the user approves
+             the system screen-capture dialog; never exported; never
+             auto-started. Type mediaProjection is required on Android 14+. -->
+        <service
+            android:name=".runtime.capture.CaptureService"
+            android:foregroundServiceType="mediaProjection"
+            android:exported="false" />
+        <!-- Serves the captured PNG to the share sheet only (cache path,
+             read grant handed out per Intent). No broad file access. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

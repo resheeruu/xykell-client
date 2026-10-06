@@ -1295,7 +1295,7 @@
       "name": "Hardware Stats",
       "category": "HUD",
       "description": "device mem/CPU via OS APIs",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1336,8 +1336,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Phase 5: native formatHardwareStats + provider install on every HardwareStats element; host test_hud_sources",
+      "notes": "Native formatHardwareStats plus the provider install on every HardwareStats HUD element; host test_hud_sources. Reads device memory/storage/ABI through OS APIs only. Not run on a device."
     },
     {
       "id": "xykell.hud.inventory_hud",
@@ -8524,7 +8524,7 @@
       "name": "Waypoints",
       "category": "WORLD",
       "description": "needs position source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8566,8 +8566,8 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "WaypointStore is implemented, validated and tested with schema versioning; no waypoint screen exists yet."
+      "evidence": "Phase 7: WaypointsFragment CRUD + fill from observed PlayerTravelled position; host PrivacyAndWorldTest WaypointStore cases; CI-compiled",
+      "notes": "Waypoints screen adds, removes and clears named coordinates with schema-versioned persistence, and can fill from the last observed PlayerTravelled sample. Host PrivacyAndWorldTest store cases. In-app list only: no in-game beacon is rendered."
     },
     {
       "id": "xykell.world.minimap",
@@ -8609,8 +8609,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "Position now exists (ObservedState.motion from PlayerTravelled), but there is no terrain, chunk or block source, so a minimap would have nothing to draw. Needs a Stage-20 world source first."
     },
     {
       "id": "xykell.world.world_markers",
@@ -8654,7 +8654,7 @@
         "Flarial"
       ],
       "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "notes": "Position now exists (ObservedState.motion from PlayerTravelled) and the distance/bearing arithmetic is ordinary app-side code, but there is no overlay surface: the app draws no window over the game, and in-game markers would need the native render path, which cannot be verified without a live session. Waypoints already store the same coordinates in-app."
     },
     {
       "id": "xykell.automation.auto_eat",
@@ -9569,8 +9569,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "No death observation exists. The JNI offer surface is PlayerMessage, PlayerTravelled and Unknown only: nothing observes the local player's death, health or respawn, so there are no death coordinates to log. Needs a Stage-20 death/health source first."
     },
     {
       "id": "xykell.automation.inventory_lock",
@@ -9666,8 +9666,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "No inventory observation exists. Nothing observes picked-up or dropped items, and chat does not carry inventory events, so a tracker would have nothing to count. Needs a Stage-20 inventory source first."
     },
     {
       "id": "xykell.automation.tnt_timer",
@@ -9715,8 +9715,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "No entity observation exists. Nothing observes a primed TNT entity, so the countdown has no start event. Needs a Stage-20 entity source first."
     },
     {
       "id": "xykell.automation.player_notifier",
@@ -9763,15 +9763,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "no read path; Stage-20 observation source absent",
+      "notes": "No player-list observation exists. Nothing observes joins, leaves or the current roster; matching a watched name in chat cannot tell whether a player is on the server. Needs a Stage-20 player-list source first."
     },
     {
       "id": "xykell.network.ping",
       "name": "Ping",
       "category": "NETWORK",
       "description": "needs packet/latency source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -9806,15 +9806,15 @@
         "WClient",
         "Nova"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "NetworkProbe.Prober measures a real TCP round trip to a user-chosen host; no screen starts a probe yet."
+      "evidence": "Phase 7: NetworkFragment starts NetworkProbe.Prober TCP connect, reports reachability not Bedrock latency; host NetworkProbeTest; CI-compiled",
+      "notes": "Network screen starts NetworkProbe.Prober against a user-chosen host and reports a real TCP connect round trip. It is TCP reachability, never Bedrock latency, and the port is left blank rather than prefilled. Host NetworkProbeTest."
     },
     {
       "id": "xykell.network.connection_status",
       "name": "Connection Status",
       "category": "NETWORK",
       "description": "needs connection source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -9848,15 +9848,15 @@
       "sourceReferences": [
         "WClient"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "NetworkDiagnostics.link() reads ConnectivityManager transport/metered/validated; no screen shows it yet."
+      "evidence": "Phase 7: NetworkFragment renders NetworkDiagnostics.link transport/metered/validated; CI-compiled",
+      "notes": "Network screen renders NetworkDiagnostics.link() transport/metered/validated straight from ConnectivityManager; Android-reported only, no server round trip implied."
     },
     {
       "id": "xykell.network.latency_graph",
       "name": "Latency Graph",
       "category": "NETWORK",
       "description": "needs latency source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -9890,15 +9890,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "NetworkProbe.LatencyHistory is a bounded ring with honest empty stats; no screen draws it yet."
+      "evidence": "Phase 7: NetworkFragment draws NetworkProbe.LatencyHistory bars with honest empty stats; host NetworkProbeTest; CI-compiled",
+      "notes": "Network screen draws NetworkProbe.LatencyHistory, a bounded ring with honest empty stats. Host NetworkProbeTest."
     },
     {
       "id": "xykell.network.network_diagnostics",
       "name": "Network Diagnostics",
       "category": "NETWORK",
       "description": "needs connection source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -9932,8 +9932,8 @@
       "sourceReferences": [
         "WClient"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "link() plus the prober cover the data; no diagnostics screen exists yet."
+      "evidence": "Phase 7: NetworkFragment combines link status, probe history and TCP-not-latency notice; host NetworkProbeTest; CI-compiled",
+      "notes": "Network screen combines link status, probe history and a plain statement that TCP connect is not Bedrock latency. Host NetworkProbeTest."
     },
     {
       "id": "xykell.network.packet_monitor",
@@ -10391,7 +10391,7 @@
       "name": "Chat Timestamps",
       "category": "MISC",
       "description": "needs chat source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10416,15 +10416,15 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Phase 7: ChatFragment over observed PlayerMessage with ChatPolicy showTimestamps; host ObservedChatTest + ChatPolicyTest; CI-compiled, live chat pending Stage-20",
+      "notes": "Chat screen renders observed PlayerMessage lines with optional UTC timestamps taken from the observed event, never the device clock; ChatPolicyTest round-trips the flag, ObservedChatTest covers the format. No observed chat until a Stage-20 session supplies it."
     },
     {
       "id": "xykell.misc.chat_filter",
       "name": "Chat Filter",
       "category": "MISC",
       "description": "needs chat source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10449,15 +10449,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Phase 7: ChatFragment rule editor over ChatFilter (hide/highlight, fail-open invalid patterns); host ObservedChatTest + ChatPolicyTest; CI-compiled",
+      "notes": "Chat screen edits hide/highlight rules; invalid patterns fail open so an unparseable rule can never hide a line. Host ObservedChatTest rule cases, ChatPolicyTest persistence. No observed chat until a Stage-20 session supplies it."
     },
     {
       "id": "xykell.misc.custom_nicknames",
       "name": "Custom Nicknames",
       "category": "MISC",
       "description": "local-only",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10482,15 +10482,15 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Phase 7: ChatFragment nickname editor over NicknameMap (validation, cap, display-only); host ObservedChatTest + ChatPolicyTest; CI-compiled",
+      "notes": "Chat screen edits display-name substitution; validation rejects injection shapes and caps entries, and substitution stays display-only. Host ObservedChatTest nickname cases. No observed chat until a Stage-20 session supplies it."
     },
     {
       "id": "xykell.misc.screenshot_share",
       "name": "Screenshot Share",
       "category": "MISC",
       "description": "needs capture path",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10515,8 +10515,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + cache PNG via androidx FileProvider + ACTION_SEND chooser; host PixelPackerTest",
+      "notes": "Screenshot screen starts a one-shot mediaProjection foreground service: the user approves Android's system consent dialog per capture, exactly one VirtualDisplay is created (Android 14+ rule), the frame goes to app cache and out through the androidx FileProvider into ACTION_SHARE. Consent is consumed once, never reused; no background recording, no storage permission. Host PixelPackerTest for row-stride repack; never run on a device."
     },
     {
       "id": "xykell.misc.quick_perspective",
@@ -10689,7 +10689,7 @@
       "name": "Screenshot Tools",
       "category": "MISC",
       "description": "needs capture path",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10714,8 +10714,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + scoped-storage MediaStore save; host PixelPackerTest",
+      "notes": "Screenshot screen starts the same one-shot mediaProjection foreground service and saves the PNG through scoped-storage MediaStore (Pictures/Xykell) on API 29+, or the app's own pictures folder on API 9 with that limitation stated on screen instead of requesting WRITE_EXTERNAL_STORAGE. Consent consumed once, no background recording. Host PixelPackerTest for row-stride repack; never run on a device."
     },
     {
       "id": "xykell.misc.fake_op",
@@ -10855,7 +10855,7 @@
       "name": "Timer",
       "category": "MISC",
       "description": "locality TBD",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10880,8 +10880,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "CountdownTimer is implemented and tested with an injected clock; no screen exposes start/stop yet."
+      "evidence": "Phase 7: TimerFragment start/stop/restart over CountdownTimer; host PrivacyAndWorldTest timer cases; CI-compiled",
+      "notes": "Timer screen drives CountdownTimer through start/stop/restart on its fixed deadline with an injected clock. Host PrivacyAndWorldTest timer cases. Runs only while the screen is resumed; not a background timer."
     },
     {
       "id": "xykell.misc.disabler",
@@ -11363,7 +11363,7 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "Batch E: Microsoft auth handoff scaffold with client_id config; tokens encrypted at rest with AES-256-GCM under an AndroidKeyStore-held non-exportable key; host test_secretbox",
+      "evidence": "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
       "notes": "Microsoft/Xbox auth handoff scaffold"
     }
   ]

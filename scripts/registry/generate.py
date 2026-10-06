@@ -380,7 +380,9 @@ RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
  inventory_manager death_position friend_alerts nickname mod_alerts
 """.split()} | {PREFIX + "misc." + s for s in """
  chat_timestamps chat_filter custom_nicknames shulker_tooltip death_lightning
-""".split()} | {PREFIX + "server." + s for s in "browser saved profile".split()}
+""".split()} | {PREFIX + "server." + s for s in "browser saved profile".split()} | {PREFIX + "automation." + s for s in """
+ death_logger item_tracker tnt_timer player_notifier
+""".split()} | {PREFIX + "world." + s for s in "minimap".split()}
 
 # NOT_IMPLEMENTED, but reachable with ordinary Android/app APIs and no game
 # internals. These are the real remaining build backlog, not external blockers.
@@ -394,9 +396,7 @@ APP_LEVEL_IDS = {PREFIX + "hud." + s for s in """
 """.split()} | {PREFIX + "performance." + s for s in """
  memory_info cpu_info gpu_info
 """.split()} | {PREFIX + "world." + s for s in """
- waypoints minimap world_markers
-""".split()} | {PREFIX + "automation." + s for s in """
- death_logger item_tracker tnt_timer player_notifier
+ waypoints world_markers
 """.split()}
 
 # Per-id notes where the generic reason is too coarse to be useful.
@@ -411,6 +411,43 @@ NOTES_BY_ID = {
         "Renderer prints a module on/total count, not the enabled-module list. "
         "Module state is known app-side, so this is a rendering change only."
     ),
+    # Phase 6 boundary: these four automation features and the minimap were
+    # catalogued as ordinary app-level build work. They are not. The JNI offer
+    # surface is PlayerMessage, PlayerTravelled and Unknown only, so the event
+    # each one needs to start from does not exist app-side at all.
+    PREFIX + "automation.death_logger": (
+        "No death observation exists. The JNI offer surface is PlayerMessage, "
+        "PlayerTravelled and Unknown only: nothing observes the local player's "
+        "death, health or respawn, so there are no death coordinates to log. "
+        "Needs a Stage-20 death/health source first."
+    ),
+    PREFIX + "automation.item_tracker": (
+        "No inventory observation exists. Nothing observes picked-up or dropped "
+        "items, and chat does not carry inventory events, so a tracker would "
+        "have nothing to count. Needs a Stage-20 inventory source first."
+    ),
+    PREFIX + "automation.tnt_timer": (
+        "No entity observation exists. Nothing observes a primed TNT entity, so "
+        "the countdown has no start event. Needs a Stage-20 entity source first."
+    ),
+    PREFIX + "automation.player_notifier": (
+        "No player-list observation exists. Nothing observes joins, leaves or "
+        "the current roster; matching a watched name in chat cannot tell whether "
+        "a player is on the server. Needs a Stage-20 player-list source first."
+    ),
+    PREFIX + "world.minimap": (
+        "Position now exists (ObservedState.motion from PlayerTravelled), but "
+        "there is no terrain, chunk or block source, so a minimap would have "
+        "nothing to draw. Needs a Stage-20 world source first."
+    ),
+    PREFIX + "world.world_markers": (
+        "Position now exists (ObservedState.motion from PlayerTravelled) and the "
+        "distance/bearing arithmetic is ordinary app-side code, but there is no "
+        "overlay surface: the app draws no window over the game, and in-game "
+        "markers would need the native render path, which cannot be verified "
+        "without a live session. Waypoints already store the same coordinates "
+        "in-app."
+    ),
 }
 
 REFERENCE_ONLY_NOTE = (
@@ -421,35 +458,70 @@ RUNTIME_GATED_NOTE = (
     "Value lives in the Bedrock client. No read path written yet, so there is "
     "nothing to live-validate; needs a Stage-20 observation source first."
 )
-# Logic is complete and tested, but nothing reaches a user surface yet, so
-# the feature stays NOT_IMPLEMENTED rather than being over-claimed.
-MODEL_ONLY_NOTE = {
+# Screen-and-model complete: written, compiled and host-tested, but never run
+# against a live session. PARTIAL is the honest status, and each note must
+# state the boundary the feature actually sits behind.
+PARTIAL_NOTES = {
+    PREFIX + "hud.hardware_stats":
+        "Native formatHardwareStats plus the provider install on every "
+        "HardwareStats HUD element; host test_hud_sources. Reads device "
+        "memory/storage/ABI through OS APIs only. Not run on a device.",
     PREFIX + "misc.chat_timestamps":
-        "ChatFilter/ObservedState implement it over observed PlayerMessage and are "
-        "tested, but no screen renders observed chat yet.",
+        "Chat screen renders observed PlayerMessage lines with optional UTC "
+        "timestamps taken from the observed event, never the device clock; "
+        "ChatPolicyTest round-trips the flag, ObservedChatTest covers the "
+        "format. No observed chat until a Stage-20 session supplies it.",
     PREFIX + "misc.chat_filter":
-        "Hide/highlight rules with fail-open invalid patterns are implemented and "
-        "tested, but no screen exposes the rule editor yet.",
+        "Chat screen edits hide/highlight rules; invalid patterns fail open so "
+        "an unparseable rule can never hide a line. Host ObservedChatTest "
+        "rule cases, ChatPolicyTest persistence. No observed chat until a "
+        "Stage-20 session supplies it.",
     PREFIX + "misc.custom_nicknames":
-        "NicknameMap display-name substitution is implemented and tested, but no "
-        "screen edits it yet.",
+        "Chat screen edits display-name substitution; validation rejects "
+        "injection shapes and caps entries, and substitution stays "
+        "display-only. Host ObservedChatTest nickname cases. No observed chat "
+        "until a Stage-20 session supplies it.",
     PREFIX + "network.ping":
-        "NetworkProbe.Prober measures a real TCP round trip to a user-chosen host; "
-        "no screen starts a probe yet.",
+        "Network screen starts NetworkProbe.Prober against a user-chosen host "
+        "and reports a real TCP connect round trip. It is TCP reachability, "
+        "never Bedrock latency, and the port is left blank rather than "
+        "prefilled. Host NetworkProbeTest.",
     PREFIX + "network.latency_graph":
-        "NetworkProbe.LatencyHistory is a bounded ring with honest empty stats; no "
-        "screen draws it yet.",
+        "Network screen draws NetworkProbe.LatencyHistory, a bounded ring with "
+        "honest empty stats. Host NetworkProbeTest.",
     PREFIX + "network.connection_status":
-        "NetworkDiagnostics.link() reads ConnectivityManager transport/metered/"
-        "validated; no screen shows it yet.",
+        "Network screen renders NetworkDiagnostics.link() transport/metered/"
+        "validated straight from ConnectivityManager; Android-reported only, "
+        "no server round trip implied.",
     PREFIX + "network.network_diagnostics":
-        "link() plus the prober cover the data; no diagnostics screen exists yet.",
+        "Network screen combines link status, probe history and a plain "
+        "statement that TCP connect is not Bedrock latency. Host "
+        "NetworkProbeTest.",
     PREFIX + "world.waypoints":
-        "WaypointStore is implemented, validated and tested with schema versioning; "
-        "no waypoint screen exists yet.",
+        "Waypoints screen adds, removes and clears named coordinates with "
+        "schema-versioned persistence, and can fill from the last observed "
+        "PlayerTravelled sample. Host PrivacyAndWorldTest store cases. In-app "
+        "list only: no in-game beacon is rendered.",
     PREFIX + "misc.timer":
-        "CountdownTimer is implemented and tested with an injected clock; no screen "
-        "exposes start/stop yet.",
+        "Timer screen drives CountdownTimer through start/stop/restart on its "
+        "fixed deadline with an injected clock. Host PrivacyAndWorldTest timer "
+        "cases. Runs only while the screen is resumed; not a background timer.",
+    PREFIX + "misc.screenshot_share":
+        "Screenshot screen starts a one-shot mediaProjection foreground "
+        "service: the user approves Android's system consent dialog per "
+        "capture, exactly one VirtualDisplay is created (Android 14+ rule), "
+        "the frame goes to app cache and out through the androidx FileProvider "
+        "into ACTION_SHARE. Consent is consumed once, never reused; no "
+        "background recording, no storage permission. Host PixelPackerTest for "
+        "row-stride repack; never run on a device.",
+    PREFIX + "misc.screenshot_tools":
+        "Screenshot screen starts the same one-shot mediaProjection "
+        "foreground service and saves the PNG through scoped-storage "
+        "MediaStore (Pictures/Xykell) on API 29+, or the app's own pictures "
+        "folder on API 9 with that limitation stated on screen instead of "
+        "requesting WRITE_EXTERNAL_STORAGE. Consent consumed once, no "
+        "background recording. Host PixelPackerTest for row-stride repack; "
+        "never run on a device.",
 }
 
 APP_LEVEL_NOTE = (
@@ -519,6 +591,20 @@ PROVEN = {
     ("HUD", "watermark"): PARTIAL,
     ("HUD", "coordinates"): PARTIAL,
     ("HUD", "movable_hud"): PARTIAL,
+    # Phase 5: native hardware-stats provider + formatHardwareStats.
+    ("HUD", "hardware_stats"): PARTIAL,
+    # Phase 7: screen-and-model complete, host-tested, never run live.
+    ("MISC", "chat_timestamps"): PARTIAL,
+    ("MISC", "chat_filter"): PARTIAL,
+    ("MISC", "custom_nicknames"): PARTIAL,
+    ("NETWORK", "ping"): PARTIAL,
+    ("NETWORK", "connection_status"): PARTIAL,
+    ("NETWORK", "latency_graph"): PARTIAL,
+    ("NETWORK", "network_diagnostics"): PARTIAL,
+    ("WORLD", "waypoints"): PARTIAL,
+    ("MISC", "timer"): PARTIAL,
+    ("MISC", "screenshot_share"): PARTIAL,
+    ("MISC", "screenshot_tools"): PARTIAL,
 }
 
 EVIDENCE = {
@@ -544,8 +630,6 @@ EVIDENCE = {
     ("LAUNCHER", "performance"): "Batch D: app performance dashboard (FPS, memory, storage, startup); host test_perfstore",
     ("LAUNCHER", "versions"): "Batch H: installed Minecraft detection via PackageManager + native verdicts; host test_versions",
     ("LAUNCHER", "settings"): "Batch H: native-backed settings catalog with search/validation/reset; host test_settings",
-    ("LAUNCHER", "worlds"): "Batch B: local world book with level.dat NBT import via SAF tree picker; host test_worldstore",
-    ("LAUNCHER", "packs"): "Batch C: local pack book with manifest.json import via SAF file picker; host test_packstore",
     ("SCRIPTING", "script_runtime"): "Batch Z2: ScriptRuntime lifecycle, dispatch, budget, re-entrancy guard, failure isolation; host test_scriptruntime",
     ("SCRIPTING", "script_sandbox"): "Batch Z2: explicit allowlists, limits, injection-shaped payload rejection, rolling budget; host test_scriptsandbox",
     ("SCRIPTING", "script_api"): "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
@@ -559,26 +643,22 @@ EVIDENCE = {
     ("MISC", "streamer_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
     ("MISC", "privacy_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
     ("MISC", "hide_hud"): "Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle",
+    ("MISC", "screenshot_share"): "Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + cache PNG via androidx FileProvider + ACTION_SEND chooser; host PixelPackerTest",
+    ("MISC", "screenshot_tools"): "Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + scoped-storage MediaStore save; host PixelPackerTest",
     ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
     ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
     ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; host test_accountstore",
     ("CLIENT", "profile_manager"): "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
-    ("SCRIPTING", "script_runtime"): "Batch Z2: ScriptRuntime lifecycle, dispatch, budget, re-entrancy guard, failure isolation; host test_scriptruntime",
-    ("SCRIPTING", "script_sandbox"): "Batch Z2: explicit allowlists, limits, injection-shaped payload rejection, rolling budget; host test_scriptsandbox",
-    ("SCRIPTING", "script_api"): "Batch Z2: typed capability-gated API over profile/settings/HUD/theme/modules/diagnostics/session/notify; host test_scriptapi",
-    ("SCRIPTING", "script_manager"): "Batch Z2: host wiring, CRUD, duplicate, import/export, v1 migration, persistence; host test_scriptruntime",
-    ("HUD", "watermark"): "Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render",
-    ("PERFORMANCE", "memory_info"): "Batch Z3: DeviceInfo.memory over ActivityManager/Runtime/Debug/StatFs; detail rows in PerformanceFragment",
-    ("PERFORMANCE", "cpu_info"): "Batch Z3: DeviceInfo.cpu - cores, ABI, device strings, max freq, process CPU via injected source",
-    ("PERFORMANCE", "gpu_info"): "Batch Z3: DeviceInfo.gpu - GL driver strings and capability limits; utilisation reported unavailable, never estimated",
-    ("HUD", "arraylist"): "Batch Z3: enabledModuleNames() renders real module names ordered by (category,id); host test_hud_render",
-    ("HUD", "notifications"): "Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render",
-    ("MISC", "streamer_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
-    ("MISC", "privacy_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle",
-    ("MISC", "hide_hud"): "Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle",
-    ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
-    ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
-    ("LAUNCHER", "accounts"): "Batch E: Microsoft auth handoff scaffold with client_id config; tokens encrypted at rest with AES-256-GCM under an AndroidKeyStore-held non-exportable key; host test_secretbox",
+    ("HUD", "hardware_stats"): "Phase 5: native formatHardwareStats + provider install on every HardwareStats element; host test_hud_sources",
+    ("MISC", "chat_timestamps"): "Phase 7: ChatFragment over observed PlayerMessage with ChatPolicy showTimestamps; host ObservedChatTest + ChatPolicyTest; CI-compiled, live chat pending Stage-20",
+    ("MISC", "chat_filter"): "Phase 7: ChatFragment rule editor over ChatFilter (hide/highlight, fail-open invalid patterns); host ObservedChatTest + ChatPolicyTest; CI-compiled",
+    ("MISC", "custom_nicknames"): "Phase 7: ChatFragment nickname editor over NicknameMap (validation, cap, display-only); host ObservedChatTest + ChatPolicyTest; CI-compiled",
+    ("NETWORK", "ping"): "Phase 7: NetworkFragment starts NetworkProbe.Prober TCP connect, reports reachability not Bedrock latency; host NetworkProbeTest; CI-compiled",
+    ("NETWORK", "connection_status"): "Phase 7: NetworkFragment renders NetworkDiagnostics.link transport/metered/validated; CI-compiled",
+    ("NETWORK", "latency_graph"): "Phase 7: NetworkFragment draws NetworkProbe.LatencyHistory bars with honest empty stats; host NetworkProbeTest; CI-compiled",
+    ("NETWORK", "network_diagnostics"): "Phase 7: NetworkFragment combines link status, probe history and TCP-not-latency notice; host NetworkProbeTest; CI-compiled",
+    ("WORLD", "waypoints"): "Phase 7: WaypointsFragment CRUD + fill from observed PlayerTravelled position; host PrivacyAndWorldTest WaypointStore cases; CI-compiled",
+    ("MISC", "timer"): "Phase 7: TimerFragment start/stop/restart over CountdownTimer; host PrivacyAndWorldTest timer cases; CI-compiled",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -744,6 +824,9 @@ def main() -> None:
     for e in entries:
         fid = e["id"]
         if e["status"] == PARTIAL:
+            # Built and host-tested, but not run against a live session. The
+            # note must state the boundary, not repeat the feature pitch.
+            e["notes"] = PARTIAL_NOTES.get(fid, e["notes"])
             continue  # already proven by PROVEN/EVIDENCE above
         if e["category"] in PROHIBITED_CATEGORIES or fid in PROHIBITED_IDS:
             e["status"] = "REFERENCE_ONLY"
@@ -759,11 +842,11 @@ def main() -> None:
         elif fid in RUNTIME_GATED_IDS:
             e["status"] = "NOT_IMPLEMENTED"
             e["evidence"] = "no read path; Stage-20 observation source absent"
-            e["notes"] = RUNTIME_GATED_NOTE
+            e["notes"] = NOTES_BY_ID.get(fid) or RUNTIME_GATED_NOTE
         elif fid in APP_LEVEL_IDS:
             e["status"] = "NOT_IMPLEMENTED"
             e["evidence"] = "app-level APIs available; feature not written"
-            e["notes"] = NOTES_BY_ID.get(fid) or MODEL_ONLY_NOTE.get(fid) or APP_LEVEL_NOTE
+            e["notes"] = NOTES_BY_ID.get(fid) or APP_LEVEL_NOTE
         else:
             e["status"] = "NOT_IMPLEMENTED"
             e["notes"] = "not implemented"

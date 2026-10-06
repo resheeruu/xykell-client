@@ -401,4 +401,21 @@
     <string name="timer_started">Timer started.</string>
     <string name="timer_stopped">Timer stopped.</string>
     <string name="timer_no_previous">No previous duration to restart.</string>
+    <string name="nav_screenshot">Screenshot</string>
+    <string name="nav_screenshot_desc">Capture the screen: save or share.</string>
+    <string name="screenshot_title">Screenshot</string>
+    <string name="screenshot_body">Captures the screen with Android's own consent dialog. Each capture asks once and the approval is used once — there is no background recording.</string>
+    <string name="screenshot_save">Save to gallery</string>
+    <string name="screenshot_share">Share</string>
+    <string name="screenshot_idle">No capture yet.</string>
+    <string name="screenshot_waiting">Waiting for consent — approve the system dialog.</string>
+    <string name="screenshot_denied">Screen capture denied. Nothing was recorded.</string>
+    <string name="screenshot_capturing">Capturing…</string>
+    <string name="screenshot_saved">Saved to the Xykell pictures folder.</string>
+    <string name="screenshot_saved_app_folder">Saved to the app's own pictures folder (Android 9 cannot write to the shared gallery without a storage permission, and none is requested).</string>
+    <string name="screenshot_shared">Share sheet opened.</string>
+    <string name="screenshot_error">Capture failed: %1$s</string>
+    <string name="capture_channel_name">Screen capture</string>
+    <string name="capture_notification_title">Capturing screen</string>
+    <string name="capture_notification_text">One screen capture is in progress.</string>
 </resources>
