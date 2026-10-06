@@ -68,6 +68,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/observation/ObservationStateMachine.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservedState.kt"
     "$SRC/dev/xykell/client/runtime/observation/ChatFilter.kt"
+    "$SRC/dev/xykell/client/runtime/observation/ChatPolicy.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationCrypto.kt"
     "$SRC/dev/xykell/client/runtime/observation/LiveProducer.kt"
     "$SRC/dev/xykell/client/runtime/observation/LoopbackWebSocket.kt"
@@ -95,8 +96,9 @@ SUITES=(
     dev.xykell.client.runtime.NativeBridgeStatusTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
     dev.xykell.client.runtime.observation.ObservedChatTest
+    dev.xykell.client.runtime.observation.ChatPolicyTest
 )
-EXPECTED_SUITES=22
+EXPECTED_SUITES=23
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -130,6 +132,7 @@ done
     "${MAIN_SOURCES[@]}" "$TEST"/dev/xykell/client/ui/*Test.kt \
     "$TEST"/dev/xykell/client/runtime/observation/ObservationPipelineTest.kt \
     "$TEST"/dev/xykell/client/runtime/observation/ObservedChatTest.kt \
+    "$TEST"/dev/xykell/client/runtime/observation/ChatPolicyTest.kt \
     "$TEST"/dev/xykell/client/runtime/servers/ServerStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/UpdaterTest.kt \
     "$TEST"/dev/xykell/client/runtime/worlds/WorldStoreTest.kt \

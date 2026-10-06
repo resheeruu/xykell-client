@@ -50,6 +50,18 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         container.addView(action(R.string.nav_performance, R.string.nav_performance_desc) {
             openSub(SubScreen.Performance)
         })
+        container.addView(action(R.string.nav_chat, R.string.nav_chat_desc) {
+            openSub(SubScreen.Chat)
+        })
+        container.addView(action(R.string.nav_network, R.string.nav_network_desc) {
+            openSub(SubScreen.Network)
+        })
+        container.addView(action(R.string.nav_waypoints, R.string.nav_waypoints_desc) {
+            openSub(SubScreen.Waypoints)
+        })
+        container.addView(action(R.string.nav_timer, R.string.nav_timer_desc) {
+            openSub(SubScreen.Timer)
+        })
         container.addView(action(R.string.nav_about, R.string.nav_about_desc) {
             openSub(SubScreen.About)
         })
@@ -64,7 +76,8 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
      * buttons were reachable; the screens behind them were not.
      */
     enum class SubScreen {
-        Versions, Modules, Settings, Keybinds, Themes, Performance, About;
+        Versions, Modules, Settings, Keybinds, Themes, Performance,
+        Chat, Network, Waypoints, Timer, About;
 
         fun titleRes(): Int = when (this) {
             Versions -> R.string.nav_versions
@@ -73,6 +86,10 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
             Keybinds -> R.string.nav_keybinds
             Themes -> R.string.nav_themes
             Performance -> R.string.nav_performance
+            Chat -> R.string.nav_chat
+            Network -> R.string.nav_network
+            Waypoints -> R.string.nav_waypoints
+            Timer -> R.string.nav_timer
             About -> R.string.nav_about
         }
     }
@@ -84,6 +101,10 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         SubScreen.Keybinds -> KeybindsFragment()
         SubScreen.Themes -> ThemesFragment()
         SubScreen.Performance -> PerformanceFragment()
+        SubScreen.Chat -> ChatFragment()
+        SubScreen.Network -> NetworkFragment()
+        SubScreen.Waypoints -> WaypointsFragment()
+        SubScreen.Timer -> TimerFragment()
         SubScreen.About -> AboutFragment()
     }
 

@@ -73,6 +73,7 @@ class ObservationService : Service() {
         travelCount = 0
         malformedDropped = 0
         producer.clear()
+        Companion.observed.clear()
         syncCompanion()
         socket = LoopbackWebSocket(Handler(), LoopbackWebSocket::defaultClient)
         socket?.start()
@@ -125,6 +126,24 @@ class ObservationService : Service() {
             is ChatMessage -> chatCount++
             is Travelled -> travelCount++
             is UnknownFrame -> Unit
+        }
+        // Kotlin-side state first: pure memory, always available even when the
+        // native bridge is missing, so the UI read path never depends on it.
+        try {
+            when (item) {
+                is ChatMessage -> Companion.observed.onPlayerMessage(
+                    item.eventId, item.observedAtMs, item.sender, item.message,
+                )
+                is Travelled -> Companion.observed.onPlayerTravelled(
+                    item.eventId, item.observedAtMs,
+                    item.x, item.y, item.z, item.yawDegrees,
+                    item.metersTravelled, item.travelMethod,
+                )
+                is UnknownFrame -> Unit
+            }
+        } catch (_: Exception) {
+            // Bounded state rejects malformed input by contract; never let a
+            // bad frame stop the session or the notification counters.
         }
         try {
             when (item) {
@@ -236,5 +255,20 @@ class ObservationService : Service() {
             "Observation: $state" +
                 (if (statusDetail.isNotEmpty()) " ($statusDetail)" else "") +
                 "\nEndpoint: fixed localhost (no setting)"
+
+        /**
+         * Read side of the observation stream for the UI.
+         *
+         * Exists so the chat/motion state that the translator already produces
+         * is reachable without a native round trip. The native consumer is a
+         * write-only sink (no read-back API), so before this the state was
+         * assembled nowhere in production: ObservedState had test callers only.
+         *
+         * Cleared when a session starts, matching the counters. Kept after the
+         * session ends so a stopped session can still be read.
+         */
+        private val observed = ObservedState()
+
+        fun observedState(): ObservedState = observed
     }
 }

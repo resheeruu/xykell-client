@@ -301,4 +301,104 @@
     <string name="settings_privacy_mode_desc">Withholds diagnostic detail and account identity from exports and shares. CrashGuard still collects crashes, because a report with nothing in it cannot be fixed.</string>
     <string name="settings_hide_hud">Hide HUD</string>
     <string name="settings_hide_hud_desc">Hides the Xykell overlay. Rules, settings and diagnostics keep running.</string>
+
+    <!-- Chat sub-screen -->
+    <string name="nav_chat">Chat</string>
+    <string name="nav_chat_desc">Timestamps, filters and nicknames for observed chat.</string>
+    <string name="chat_title">Chat</string>
+    <string name="chat_body">Chat observed on this device and presented locally. Timestamps, filters and nicknames change only what Xykell shows here. Nothing is sent back to the game.</string>
+    <string name="chat_status_format">Observation: %1$s · observed %2$d · shown %3$d</string>
+    <string name="chat_empty">No chat observed yet. Lines appear once a session is observing PlayerMessage events.</string>
+    <string name="chat_no_rules">No rules.</string>
+    <string name="chat_no_nicknames">No nicknames.</string>
+    <string name="chat_section_display">Display</string>
+    <string name="chat_section_rules">Filter rules</string>
+    <string name="chat_section_nicknames">Local nicknames</string>
+    <string name="chat_timestamps_label">Show timestamps</string>
+    <string name="chat_rule_pattern_hint">Pattern to match in the message</string>
+    <string name="chat_rule_hide">Hide</string>
+    <string name="chat_rule_highlight">Highlight</string>
+    <string name="chat_rules_clear">Clear all rules</string>
+    <string name="chat_nick_sender_hint">Sender</string>
+    <string name="chat_nick_display_hint">Display name</string>
+    <string name="chat_nick_set">Set nickname</string>
+    <string name="chat_rule_added">Rule added.</string>
+    <string name="chat_rule_invalid">Rule not added. Check pattern length and the rule limit.</string>
+    <string name="chat_nickname_set">Nickname set.</string>
+    <string name="chat_nickname_invalid">Nickname rejected. Use 1 to 32 characters, with no control characters or path separators.</string>
+    <string name="chat_rules_cleared">Rules cleared.</string>
+
+    <!-- Network sub-screen -->
+    <string name="nav_network">Network</string>
+    <string name="nav_network_desc">Connection status, reachability probe and latency history.</string>
+    <string name="network_title">Network</string>
+    <string name="network_body">Connectivity as reported by Android, plus an opt-in reachability probe that you start yourself.</string>
+    <string name="network_tcp_notice">A probe measures a TCP connect to a host you choose. It is not Bedrock latency and is never labelled as game latency.</string>
+    <string name="network_section_status">Connection status</string>
+    <string name="network_refresh">Refresh</string>
+    <string name="network_section_probe">Reachability probe</string>
+    <string name="network_host_hint">Host</string>
+    <string name="network_port_hint">Port (1 to 65535)</string>
+    <string name="network_probe">Probe</string>
+    <string name="network_probe_running">Probing…</string>
+    <string name="network_probe_result_ok">%1$s reachable, %2$d ms round trip</string>
+    <string name="network_probe_result_fail">%1$s not reachable: %2$s</string>
+    <string name="network_invalid_port">port must be 1 to 65535</string>
+    <string name="network_label_status">Status</string>
+    <string name="network_label_transport">Transport</string>
+    <string name="network_label_metered">Metered</string>
+    <string name="network_label_validated">Validated</string>
+    <string name="network_label_interface">Interface</string>
+    <string name="network_label_reason">Reason</string>
+    <string name="network_connected">connected</string>
+    <string name="network_disconnected">disconnected</string>
+    <string name="network_yes">yes</string>
+    <string name="network_no">no</string>
+    <string name="network_unknown">unknown</string>
+    <string name="network_section_history">Latency history</string>
+    <string name="network_graph_empty">No completed probes yet.</string>
+    <string name="network_graph_stats">last %1$d ms · avg %2$d · min %3$d · max %4$d · %5$d samples</string>
+    <string name="network_history_clear">Clear history</string>
+
+    <!-- Waypoints sub-screen -->
+    <string name="nav_waypoints">Waypoints</string>
+    <string name="nav_waypoints_desc">Save coordinates you enter, or take from an observed position.</string>
+    <string name="waypoints_title">Waypoints</string>
+    <string name="waypoints_body">Points you enter yourself, or take from the last observed position. Coordinates are never read out of the game.</string>
+    <string name="waypoints_section_add">Add waypoint</string>
+    <string name="waypoints_name_hint">Name</string>
+    <string name="waypoints_dimension_hint">Dimension (overworld, nether, end)</string>
+    <string name="waypoints_x_hint">X</string>
+    <string name="waypoints_y_hint">Y</string>
+    <string name="waypoints_z_hint">Z</string>
+    <string name="waypoints_use_position">Use observed position</string>
+    <string name="waypoints_add">Add</string>
+    <string name="waypoints_section_list">Saved waypoints</string>
+    <string name="waypoints_empty">No waypoints saved.</string>
+    <string name="waypoints_clear_all">Clear all</string>
+    <string name="waypoints_no_position">No observed position yet.</string>
+    <string name="waypoints_position_filled">Filled from the last observed position.</string>
+    <string name="waypoints_added">Waypoint saved.</string>
+    <string name="waypoints_invalid">Waypoint rejected. Check the name, dimension and coordinates.</string>
+    <string name="waypoints_failed">Could not save the waypoint.</string>
+    <string name="waypoints_cleared">All waypoints cleared.</string>
+    <string name="waypoint_row_format">%1$s (%2$s)  %3$.1f, %4$.1f, %5$.1f</string>
+    <string name="waypoint_remove">Remove</string>
+
+    <!-- Timer sub-screen -->
+    <string name="nav_timer">Timer</string>
+    <string name="nav_timer_desc">A countdown with a real deadline.</string>
+    <string name="timer_title">Timer</string>
+    <string name="timer_body">A countdown with a fixed end time. It is either running, finished, or idle — there is no half-started state to drift.</string>
+    <string name="timer_minutes_hint">Minutes</string>
+    <string name="timer_start">Start</string>
+    <string name="timer_stop">Stop</string>
+    <string name="timer_restart">Restart</string>
+    <string name="timer_state_idle">Idle</string>
+    <string name="timer_state_running">Running</string>
+    <string name="timer_state_finished">Finished</string>
+    <string name="timer_invalid_duration">Enter a whole number of minutes between 1 and 1440.</string>
+    <string name="timer_started">Timer started.</string>
+    <string name="timer_stopped">Timer stopped.</string>
+    <string name="timer_no_previous">No previous duration to restart.</string>
 </resources>
