@@ -1,10 +1,7 @@
 package dev.xykell.client.ui
 
-import android.app.ActivityManager
 import android.os.Bundle
 import android.os.Debug
-import android.os.Environment
-import android.os.StatFs
 import android.os.SystemClock
 import android.view.View
 import android.widget.LinearLayout
@@ -59,19 +56,15 @@ class PerformanceFragment : Fragment(R.layout.fragment_performance) {
 
     private fun updateUI() {
         val uptimeMs = SystemClock.elapsedRealtime()
-        val metrics = PerformanceStore.getMetrics(uptimeMs, System.currentTimeMillis() - startupTimeMs)
-        // Storage
-        val statFs = StatFs(Environment.getDataDirectory().absolutePath)
-        val blockSize = statFs.blockSizeLong
-        val freeBlocks = statFs.availableBlocksLong
-        val totalBlocks = statFs.blockCountLong
-        val storageFreeMB = (freeBlocks * statFs.blockSizeLong) / 1024 / 1024
-        val storageTotalMB = (totalBlocks * blockSize) / 1024 / 1024
-        // Memory
-        val memInfo = ActivityManager.MemoryInfo()
-        requireActivity().getSystemService(ActivityManager::class.java).getMemoryInfo(memInfo)
-        val availMB = memInfo.availMem / 1024 / 1024
-        val totalMB = memInfo.totalMem / 1024 / 1024
+        val ctx = requireContext()
+        // Memory and storage come from DeviceInfo, the same reader the HUD
+        // hardware-stats path uses. This screen used to re-read StatFs and
+        // ActivityManager itself, which meant two sources that could disagree.
+        val mem = DeviceInfo.memory(ctx)
+        val availMB = mem.systemAvailableMB
+        val totalMB = mem.systemTotalMB
+        val storageFreeMB = mem.storageFreeMB
+        val storageTotalMB = mem.storageTotalMB
         // Update views
         view?.findViewById<TextView>(R.id.perf_fps)?.text =
             String.format("%.1f FPS (%.1f ms/frame)", PerformanceStore.getFps(), PerformanceStore.getFrameTimeMs())
@@ -86,17 +79,16 @@ class PerformanceFragment : Fragment(R.layout.fragment_performance) {
         view?.findViewById<TextView>(R.id.perf_cpu)?.text =
             getString(R.string.perf_cpu_label, PerformanceStore.getCpuTimeMs())
 
-        updateDetailRows()
+        updateDetailRows(mem)
     }
 
     /** Long-lived facts: they change slowly, so they are read once. */
-    private fun updateDetailRows() {
+    private fun updateDetailRows(mem: DeviceInfo.Memory) {
         val v = view ?: return
         val ctx = requireContext()
         val unknown = getString(R.string.perf_unknown)
         fun s(x: Any?): String = x?.toString() ?: unknown
 
-        val mem = DeviceInfo.memory(ctx)
         v.findViewById<TextView>(R.id.perf_memory_detail).text = buildString {
             append(
                 getString(
