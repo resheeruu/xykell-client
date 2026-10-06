@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="HUD Editor" />
+        android:text="@string/ui_hud_editor" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -21,20 +21,22 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Profile name"
-            android:text="Default" />
+            android:hint="@string/ui_profile_name"
+            android:text="@string/ui_default" />
 
         <Button
+        android:minHeight="48dp"
             android:id="@+id/hud_load"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOAD" />
+            android:text="@string/ui_load" />
 
         <Button
+        android:minHeight="48dp"
             android:id="@+id/hud_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RESET" />
+            android:text="@string/ui_reset" />
     </LinearLayout>
 
     <TextView
@@ -42,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="Preview (structural)" />
+        android:text="@string/ui_preview_structural" />
 
     <TextView
         android:id="@+id/hud_preview"
@@ -53,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="Modules" />
+        android:text="@string/ui_modules" />
 
     <LinearLayout
         android:id="@+id/hud_modules"
@@ -65,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="Elements (touch drag with snap available in-game)" />
+        android:text="@string/ui_elements_touch_drag_with_snap_available_in_game" />
 
     <ScrollView
         android:layout_width="match_parent"

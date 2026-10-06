@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CURRENT VERSION"
+            android:text="@string/ui_current_version"
             android:textSize="12sp"
             android:textStyle="bold"
             android:letterSpacing="0.15"
@@ -67,6 +67,7 @@
             android:visibility="gone" />
 
         <Button
+        android:minHeight="48dp"
             android:id="@+id/update_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

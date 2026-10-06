@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="Settings"
+        android:text="@string/ui_settings"
         android:layout_marginTop="16dp" />
 
     <SearchView
@@ -33,10 +33,11 @@
     </ScrollView>
 
     <Button
+        android:minHeight="48dp"
         android:id="@+id/settings_reset_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="RESET ALL SETTINGS" />
+        android:text="@string/ui_reset_all_settings" />
 
     <TextView
         android:id="@+id/settings_error"
