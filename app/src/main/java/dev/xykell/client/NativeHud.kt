@@ -4,6 +4,9 @@ package dev.xykell.client
  *  Confined to HUD/profile editing: validated layout JSON, bounded
  *  element edits, module enable flags. NOT a generic bridge. All calls
  *  exception-safe: failure surfaces as false/empty, never a crash. */
+import dev.xykell.client.ui.HudLine
+import dev.xykell.client.ui.HudOverlayLines
+
 object NativeHud {
     init {
         System.loadLibrary("xykellcore")
@@ -22,6 +25,17 @@ object NativeHud {
     ): Boolean
     external fun resetHudLayout(root: String, profile: String): Boolean
     external fun setProfileModule(root: String, profile: String, id: String, enabled: Boolean): Boolean
+
+    /**
+     * Render the HUD in this process. Returns null when no layout could be
+     * read, and the caller must then draw nothing rather than a made-up frame.
+     */
+    external fun renderHudLines(root: String, profile: String): String?
+
+    fun lines(root: String, profile: String): List<HudLine> =
+        guard("renderHudLines") { renderHudLines(root, profile) }
+            ?.let { HudOverlayLines.parse(it) }
+            ?: emptyList()
 
     fun layout(root: String, profile: String): String =
         guard { getHudLayout(root, profile) } ?: "{}"

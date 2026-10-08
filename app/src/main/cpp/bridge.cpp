@@ -15,11 +15,18 @@
 #include "xykell/runtime_observation_consumer.h"
 #include "xykell/config_store.h"
 #include "xykell/hud_model.h"
+#include "xykell/hud_renderer.h"
+#include "xykell/hud_sources.h"
 #include "xykell/settings.h"
 #include "xykell/theme.h"
 #include "xykell/keybind_store.h"
 
 namespace {
+
+// The observation consumer now lives in its declared namespace (see below) so
+// the header's inline sharedObservationSnapshot() links; this keeps every
+// existing call site below readable and unqualified.
+using xykell::runtime::sharedObservationConsumer;
 
 std::string toStd(JNIEnv* env, jstring s) {
     if (s == nullptr) {
@@ -55,15 +62,24 @@ std::string jsonEscape(const std::string& s) {
     return out;
 }
 
+} // namespace
+
 // Process-wide observation consumer for Stage-20 field-only offers.
 // Kotlin never sees a native pointer: primitives/strings in, bool out.
 // No JSON, envelopes, bytes, keys, ciphertext, or commands cross here.
-xykell::runtime::ObservationConsumer& sharedObservationConsumer() {
-    static xykell::runtime::ObservationConsumer consumer;
+//
+// Defined in the namespace the header declares, NOT inside the anonymous one
+// above: sharedObservationSnapshot() is an inline header function that calls
+// this by qualified name, and an anonymous-namespace definition would mangle
+// differently and fail to link.
+namespace xykell::runtime {
+
+ObservationConsumer& sharedObservationConsumer() {
+    static ObservationConsumer consumer;
     return consumer;
 }
 
-} // namespace
+} // namespace xykell::runtime
 
 extern "C" {
 
@@ -840,6 +856,64 @@ Java_dev_xykell_client_NativeKeybinds_keybindReset(JNIEnv* env, jclass, jstring 
         return env->NewStringUTF("");
     } catch (...) {
         return toJni(env, std::string("keybind reset failed"));
+    }
+}
+
+// Render the HUD in this process and return the draw lines as JSON, so the
+// Android overlay window can paint the exact output the native renderer
+// produces (test_motion_hud pins that text). Same layout, same providers,
+// same honesty rule: an unobserved field renders kUnavailable, never a zero.
+//
+// Returns null when no profile/layout can be read -- the caller must then show
+// nothing rather than a fabricated frame.
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_NativeHud_renderHudLines(JNIEnv* env, jobject, jstring root,
+                                                jstring profile) {
+    try {
+        xykell::Profile p;
+        std::string err;
+        if (!loadHud(toStd(env, root), toStd(env, profile), p, err)) {
+            return nullptr;
+        }
+        const auto layoutJson = xykell::json::parse(xykell::json::stringify(p.hudLayout));
+        xykell::hud::HudManager mgr;
+        if (layoutJson.ok) {
+            std::string layoutErr;
+            if (!mgr.loadLayout(layoutJson.value, layoutErr)) {
+                mgr.resetToDefaults();  // corrupt layout -> defaults, not a blank HUD
+            }
+        }
+        // Providers read the same process-wide consumer the observation offers
+        // feed, so the overlay shows what the relay actually observed.
+        const auto& snap = xykell::runtime::sharedObservationSnapshot();
+        xykell::hud::sources::bindMotionProviders(mgr.layout(), &snap);
+        xykell::hud::sources::bindVitalsProviders(mgr.layout(), &snap);
+        xykell::hud::sources::bindPopulationProviders(mgr.layout(), &snap);
+
+        xykell::ui::Theme theme;
+        if (!xykell::ui::ThemeManager::find("Xykell Dark", theme)) {
+            theme = xykell::ui::Theme{};
+        }
+        xykell::hud::RenderContext ctx;
+        ctx.theme = &theme;
+        ctx.modules = nullptr;  // no ModuleManager in this process; arraylist stays out
+        ctx.versionLine = "XYKELL";
+        const auto lines = xykell::hud::renderHud(mgr, ctx);
+
+        xykell::json::Array arr;
+        arr.reserve(lines.size());
+        for (const auto& l : lines) {
+            xykell::json::Object o;
+            o.emplace("text", l.text);
+            o.emplace("x", l.x);
+            o.emplace("y", l.y);
+            o.emplace("size", l.size);
+            o.emplace("color", static_cast<double>(l.color));
+            arr.push_back(xykell::json::Value(std::move(o)));
+        }
+        return toJni(env, xykell::json::stringify(xykell::json::Value(std::move(arr))));
+    } catch (...) {
+        return nullptr;
     }
 }
 

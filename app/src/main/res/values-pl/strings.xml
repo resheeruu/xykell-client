@@ -561,4 +561,10 @@
     <string name="ac_service_off">Uruchomienie nie powiodło się: usługa dotyku nie jest połączona</string>
     <string name="ac_fab_desc">Przełącz autoclicker</string>
     <string name="ac_service_description">Xykell Touch wstrzykuje stuknięcia dla autoclickera Xykell i odtwarzania makra stuknięć. Wykonuje wyłącznie gesty: nigdy nie czyta zawartości ekranu.</string>
+    <string name="hud_overlay_stopped">Nakładka wyłączona</string>
+    <string name="hud_overlay_running">Nakładka włączona (rysowana na grze)</string>
+    <string name="hud_overlay_start">Uruchom</string>
+    <string name="hud_overlay_stop">Zatrzymaj</string>
+    <string name="hud_overlay_grant">Przyznaj uprawnienie</string>
+    <string name="hud_overlay_needs_permission">Zezwól na „wyświetlanie nad innymi aplikacjami”, aby rysować HUD na grze.</string>
 </resources>

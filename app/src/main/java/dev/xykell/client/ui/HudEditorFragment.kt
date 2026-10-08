@@ -1,6 +1,9 @@
 package dev.xykell.client.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -39,6 +42,9 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
     private lateinit var preview: TextView
     private lateinit var error: TextView
     private lateinit var profileField: EditText
+    private var overlayStatus: TextView? = null
+    private var overlayToggle: Button? = null
+    private var overlayGrant: Button? = null
 
     private fun root(): String = NativeProfiles.root(requireContext())
     private fun profile(): String = profileField.text.toString().ifBlank { "Default" }
@@ -55,11 +61,76 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         } catch (e: Exception) {
         }
         view.findViewById<Button>(R.id.hud_load).setOnClickListener { reload() }
+        wireOverlay(view)
         view.findViewById<Button>(R.id.hud_reset).setOnClickListener {
             if (NativeHud.reset(root(), profile())) reload()
             else error.text = getString(R.string.hud_layout_reset_failed)
         }
         reload()
+    }
+
+    /**
+     * The overlay is the only way HUD values reach a real session, so it gets a
+     * control here rather than hiding behind a service flag. State is reported
+     * from what actually happened (the service is running, the permission is
+     * granted) -- never from a preference that could drift from reality.
+     */
+    private fun wireOverlay(view: View) {
+        val status = view.findViewById<TextView>(R.id.hud_overlay_status)
+        val toggle = view.findViewById<Button>(R.id.hud_overlay_toggle)
+        val grant = view.findViewById<Button>(R.id.hud_overlay_grant)
+
+        overlayStatus = status
+        overlayToggle = toggle
+        overlayGrant = grant
+        refreshOverlay()
+
+        grant.setOnClickListener {
+            // The special permission cannot be requested inline: the user has to
+            // flip it in system settings, so send them there and re-check on
+            // return instead of pretending it was granted.
+            try {
+                startActivity(
+                    Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:${requireContext().packageName}"),
+                    ),
+                )
+            } catch (e: Exception) {
+                error.text = getString(R.string.hud_overlay_needs_permission)
+            }
+        }
+        toggle.setOnClickListener {
+            val ctx = requireContext()
+            if (!HudOverlayService.canDraw(ctx)) {
+                error.text = getString(R.string.hud_overlay_needs_permission)
+                return@setOnClickListener
+            }
+            if (HudOverlayService.isRunning()) HudOverlayService.stop(ctx)
+            else HudOverlayService.start(ctx)
+            refreshOverlay()
+        }
+    }
+
+    /** Re-reads the real overlay state: granted permission + live service. */
+    private fun refreshOverlay() {
+        val ctx = context ?: return
+        val granted = HudOverlayService.canDraw(ctx)
+        val running = granted && HudOverlayService.isRunning()
+        overlayStatus?.text = getString(
+            if (running) R.string.hud_overlay_running else R.string.hud_overlay_stopped,
+        )
+        overlayToggle?.text = getString(
+            if (running) R.string.hud_overlay_stop else R.string.hud_overlay_start,
+        )
+        overlayGrant?.visibility = if (granted) View.GONE else View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // The permission was granted in system settings, not here, so re-read
+        // the real answer rather than trusting the state from onViewCreated.
+        refreshOverlay()
     }
 
     private fun layoutJson(): JSONObject {

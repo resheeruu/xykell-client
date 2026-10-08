@@ -11,6 +11,37 @@
         android:textStyle="bold"
         android:text="@string/ui_hud_editor" />
 
+    <!-- Overlay control: the HUD only paints over the game once the user grants
+         "display over other apps" and turns it on here. -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/hud_overlay_status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:gravity="center_vertical"
+            android:text="@string/hud_overlay_stopped" />
+
+        <Button
+            android:minHeight="48dp"
+            android:id="@+id/hud_overlay_grant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hud_overlay_grant" />
+
+        <Button
+            android:minHeight="48dp"
+            android:id="@+id/hud_overlay_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hud_overlay_start" />
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

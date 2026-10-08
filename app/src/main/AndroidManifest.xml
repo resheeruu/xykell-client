@@ -25,6 +25,13 @@
          (API 29+) or the app's own folder (API 28). -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
+    <!-- HUD overlay: a TYPE_APPLICATION_OVERLAY window that paints the rendered
+         HUD lines above the game. The permission is special (Settings, Apps,
+         Special app access, Display over other apps) and is only ever requested
+         by sending the user there, never silently assumed. Declared so the
+         system can grant it; nothing starts without canDrawOverlays. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:label="Xykell Client"
         android:icon="@android:drawable/sym_def_app_icon"
@@ -71,6 +78,13 @@
         <service
             android:name=".runtime.relay.RelayService"
             android:foregroundServiceType="specialUse"
+            android:exported="false" />
+        <!-- HUD overlay window above the game. Started/stopped only from the
+             HUD screen, and only once Settings.canDrawOverlays is true; never
+             exported, never auto-started, and not a foreground service (it
+             draws, it does not own the user's session). -->
+        <service
+            android:name=".ui.HudOverlayService"
             android:exported="false" />
         <!-- Serves the captured PNG to the share sheet only (cache path,
              read grant handed out per Intent). No broad file access. -->

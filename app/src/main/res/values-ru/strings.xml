@@ -554,4 +554,10 @@
     <string name="ac_service_off">Запуск не удался: служба касаний не подключена</string>
     <string name="ac_fab_desc">Включить или выключить автокликер</string>
     <string name="ac_service_description">Xykell Touch выполняет нажатия для автокликера Xykell и воспроизведения тап-макросов. Оно выполняет только жесты: содержимое экрана никогда не читается.</string>
+    <string name="hud_overlay_stopped">Оверлей выключен</string>
+    <string name="hud_overlay_running">Оверлей включён (рисуется поверх игры)</string>
+    <string name="hud_overlay_start">Запустить</string>
+    <string name="hud_overlay_stop">Остановить</string>
+    <string name="hud_overlay_grant">Выдать разрешение</string>
+    <string name="hud_overlay_needs_permission">Разрешите «Отображение поверх других приложений», чтобы рисовать HUD поверх игры.</string>
 </resources>

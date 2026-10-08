@@ -3,6 +3,26 @@
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [Unreleased]
+- **The HUD is now actually drawn over the game.** Until now `HudPreview` was
+  structural text in the launcher and there was no overlay window at all, so no
+  HUD value had ever been visible in a session. `HudOverlayService` paints a
+  `TYPE_APPLICATION_OVERLAY` canvas at 4 Hz, fed by a new
+  `NativeHud.renderHudLines` JNI export that renders through the *same* tested
+  C++ renderer the game-side overlay uses and returns the lines as JSON. The
+  provider snapshot is the same `ObservationConsumer` the JNI offers feed, so an
+  unobserved value renders `--` and is pinned as such. Started and stopped by
+  hand from the HUD screen; the special `SYSTEM_ALERT_WINDOW` grant is sent to
+  system settings and re-read on resume rather than assumed. This adds draw
+  calls *above* the game and cannot change what the game itself renders — xray,
+  `gui_scale`, shaders, `free_cam` and the other renderer-side ids stay
+  `REFERENCE_ONLY`.
+- **Three input-gesture ids delivered** (`combat.afk_clicker`,
+  `combat.double_click`, `misc.quick_drop`). Their `IMPOSSIBLE` reasons all named
+  a missing *input surface*, which the tap runner made false. `MacroStep` gained
+  an explicit `holdMs`: "wait then tap" and "press for N ms" are different
+  instructions, and overloading one delay field would have made them the same
+  number. `MacroStore` encodes the hold and still decodes the old 3-field format
+  as a plain tap, so recorded macros keep replaying.
 - **Relay now terminates both Bedrock legs at runtime.** `RelayService` drives a
   `RelaySession` through a new `RelaySessionDriver` (SERVER role toward the game,
   CLIENT upstream) instead of the transparent pipe, and installs a

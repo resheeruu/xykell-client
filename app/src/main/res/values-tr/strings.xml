@@ -561,4 +561,10 @@
     <string name="ac_service_off">Başlatma başarısız: dokunma hizmeti bağlı değil</string>
     <string name="ac_fab_desc">Otomatik tıklayıcıyı aç/kapat</string>
     <string name="ac_service_description">Xykell Touch, Xykell otomatik tıklayıcısı ve tık-makro oynatması için dokunmaları enjekte eder. Yalnızca hareket gerçekleştirir: ekran içeriğini asla okumaz.</string>
+    <string name="hud_overlay_stopped">Katman kapalı</string>
+    <string name="hud_overlay_running">Katman açık (oyunun üzerine çiziliyor)</string>
+    <string name="hud_overlay_start">Başlat</string>
+    <string name="hud_overlay_stop">Durdur</string>
+    <string name="hud_overlay_grant">İzin ver</string>
+    <string name="hud_overlay_needs_permission">HUD’yu oyunun üzerine çizmek için "diğer uygulamaların üzerinde göster" iznini verin.</string>
 </resources>

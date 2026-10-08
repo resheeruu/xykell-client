@@ -42,6 +42,8 @@ step() { echo "BUILD-APK: $* ..."; }
 
 # --- 1. native: libxykellcore.so (cross-compile against NDK sysroot) -------
 step "native libxykellcore.so"
+# The HUD renderer is platform-free (no portal backend), so it links here as
+# well as in the game module: HudOverlayService draws the same lines.
 clang++ -shared -fPIC -O2 -std=c++17 -Wl,-z,defs -L"$CLUNW" \
     --target=aarch64-linux-android28 --sysroot="$SYS" \
     -I native/include \
@@ -49,6 +51,8 @@ clang++ -shared -fPIC -O2 -std=c++17 -Wl,-z,defs -L"$CLUNW" \
     native/src/xykell_json_min.cpp native/src/xykell_file_util.cpp \
     native/src/xykell_profile_manager.cpp native/src/xykell_config_store.cpp \
     native/src/xykell_hud_model.cpp native/src/xykell_theme.cpp \
+    native/src/xykell_hud_renderer.cpp native/src/xykell_module_manager.cpp \
+    native/src/xykell_notifications.cpp \
     native/src/xykell_keybinds.cpp native/src/xykell_keybind_store.cpp \
     native/src/xykell_version_adapter.cpp native/src/xykell_detection.cpp \
     native/src/xykell_runtime_provider.cpp native/src/xykell_runtime_session.cpp \
@@ -56,10 +60,13 @@ clang++ -shared -fPIC -O2 -std=c++17 -Wl,-z,defs -L"$CLUNW" \
     -o "$WORK/lib/arm64-v8a/libxykellcore.so" 2> "$WORK/native.log" \
     || { tail -5 "$WORK/native.log"; fail "native link (see $WORK/native.log)"; }
 JNI_EXPORTS=$(nm -D --defined-only "$WORK/lib/arm64-v8a/libxykellcore.so" | grep -c "Java_dev" || true)
-# 42: nativeOfferVitals (observed SetHealth 0x2A / SetTime 0x0A) and
+# 43: NativeHud.renderHudLines, which renders the HUD through the same tested
+# C++ renderer the game-side overlay uses and hands the lines to the Android
+# overlay window (HudOverlayService).
+# 42 before it: nativeOfferVitals (observed SetHealth 0x2A / SetTime 0x0A) and
 # nativeOfferPopulation (relay entity counts), both added with the observation
 # path that made hud.health / low_health / entity_counter / tps deliverable.
-[ "$JNI_EXPORTS" -eq 42 ] || fail "expected 42 Java_dev* exports, got $JNI_EXPORTS"
+[ "$JNI_EXPORTS" -eq 43 ] || fail "expected 43 Java_dev* exports, got $JNI_EXPORTS"
 
 # --- 2. assets: registry catalog (mirrors gradle copyRegistry) -------------
 step "assets registry"

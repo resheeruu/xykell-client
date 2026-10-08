@@ -5,8 +5,10 @@
 #include <vector>
 
 #include "xykell/hud_renderer.h"
+#include "xykell/hud_sources.h"
 #include "xykell/notifications.h"
 #include "xykell/profile_manager.h"
+#include "xykell/runtime_observation_consumer.h"
 
 int main() {
     using namespace xykell;
@@ -200,6 +202,35 @@ int main() {
         assert(hud::renderHud(mgr, hidden).empty());
         // Default stays visible, so the switch is the only thing that hides it.
         assert(!hud::renderHud(mgr, ctx).empty());
+    }
+
+    // --- the overlay path (HudOverlayService) exactly as the JNI bridge
+    // performs it: fresh manager, providers bound to a snapshot, render.
+    //
+    // The risk this pins: an overlay draws over a live game, so a provider
+    // that silently defaulted to 0 would paint "hp: 0" the moment the relay
+    // observed nothing. Every unobserved field must stay kUnavailable.
+    {
+        const xykell::runtime::RuntimeObservationSnapshot empty;
+        hud::HudManager overlay;
+        hud::sources::bindMotionProviders(overlay.layout(), &empty);
+        hud::sources::bindVitalsProviders(overlay.layout(), &empty);
+        hud::sources::bindPopulationProviders(overlay.layout(), &empty);
+        hud::RenderContext oc;
+        oc.theme = &theme;
+        oc.modules = nullptr;  // no ModuleManager in the app process
+        const auto out = hud::renderHud(overlay, oc);
+        assert(!out.empty());
+        bool sawUnavailable = false;
+        for (const auto& l : out) {
+            // No line may claim a numeric reading off an empty snapshot.
+            assert(l.text.find("hp: 0") == std::string::npos);
+            assert(l.text.find("tps: 0") == std::string::npos);
+            if (l.text.find(hud::kUnavailable) != std::string::npos) {
+                sawUnavailable = true;
+            }
+        }
+        assert(sawUnavailable);
     }
 
     std::cout << "test_hud_render: PASS\n";

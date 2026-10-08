@@ -561,4 +561,10 @@
     <string name="ac_service_off">Error al iniciar: servicio Touch no conectado</string>
     <string name="ac_fab_desc">Alternar autoclic</string>
     <string name="ac_service_description">Xykell Touch inyecta toques para el autoclic de Xykell y la reproducción de macros de toque. Solo realiza gestos: nunca lee el contenido de la pantalla.</string>
+    <string name="hud_overlay_stopped">Superposición apagada</string>
+    <string name="hud_overlay_running">Superposición encendida (dibujada sobre el juego)</string>
+    <string name="hud_overlay_start">Iniciar</string>
+    <string name="hud_overlay_stop">Detener</string>
+    <string name="hud_overlay_grant">Conceder permiso</string>
+    <string name="hud_overlay_needs_permission">Permite «mostrar sobre otras aplicaciones» para dibujar el HUD sobre el juego.</string>
 </resources>

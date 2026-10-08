@@ -561,4 +561,10 @@
     <string name="ac_service_off">Start fehlgeschlagen: Touch-Dienst nicht verbunden</string>
     <string name="ac_fab_desc">Autoklicker umschalten</string>
     <string name="ac_service_description">Xykell Touch löst Tipps für den Xykell-Autoklicker und die Wiedergabe von Tipp-Makros aus. Es führt nur Geste aus: Es liest niemals den Bildschirminhalt.</string>
+    <string name="hud_overlay_stopped">Overlay aus</string>
+    <string name="hud_overlay_running">Overlay an (über dem Spiel gezeichnet)</string>
+    <string name="hud_overlay_start">Starten</string>
+    <string name="hud_overlay_stop">Stoppen</string>
+    <string name="hud_overlay_grant">Berechtigung erteilen</string>
+    <string name="hud_overlay_needs_permission">Erlaube „Über andere Apps anzeigen“, um das HUD über dem Spiel zu zeichnen.</string>
 </resources>

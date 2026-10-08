@@ -561,4 +561,10 @@
     <string name="ac_service_off">Échec du démarrage : service tactile non connecté</string>
     <string name="ac_fab_desc">Activer ou désactiver l\'auto-cliqueur</string>
     <string name="ac_service_description">Xykell Touch injecte des appuis pour l\'auto-cliqueur Xykell et la lecture des macros d\'appui. Elle n\'effectue que des gestes : elle ne lit jamais le contenu de l\'écran.</string>
+    <string name="hud_overlay_stopped">Superposition désactivée</string>
+    <string name="hud_overlay_running">Superposition activée (dessinée par-dessus le jeu)</string>
+    <string name="hud_overlay_start">Démarrer</string>
+    <string name="hud_overlay_stop">Arrêter</string>
+    <string name="hud_overlay_grant">Accorder la permission</string>
+    <string name="hud_overlay_needs_permission">Autorisez « Afficher par-dessus les autres applications » pour dessiner le HUD sur le jeu.</string>
 </resources>

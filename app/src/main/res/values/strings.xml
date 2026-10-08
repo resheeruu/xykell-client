@@ -561,4 +561,10 @@
     <string name="ac_service_off">Start failed: touch service not connected</string>
     <string name="ac_fab_desc">Toggle autoclicker</string>
     <string name="ac_service_description">Xykell Touch injects taps for the Xykell autoclicker and tap-macro replay. It performs gestures only: it never reads screen content.</string>
+    <string name="hud_overlay_stopped">Overlay off</string>
+    <string name="hud_overlay_running">Overlay on (drawn over the game)</string>
+    <string name="hud_overlay_start">Start</string>
+    <string name="hud_overlay_stop">Stop</string>
+    <string name="hud_overlay_grant">Grant permission</string>
+    <string name="hud_overlay_needs_permission">Allow "display over other apps" to draw the HUD on top of the game.</string>
 </resources>

@@ -114,7 +114,17 @@ def _kotlin_params(text: str, after: int) -> list[str]:
 
 def jni_symbols() -> list[dict]:
     out = []
-    for f in sorted(NATIVE_SRC.glob("*.cpp")):
+    # Both real JNI layers: native/src/xykell_jni*.cpp (the game module's
+    # surface) and app/src/main/cpp/bridge.cpp (what the launcher actually
+    # links). Scanning only the former let an app-only export pass as MISSING
+    # even though it shipped. Duplicates of the same symbol are expected --
+    # the two layers implement the same surface for different processes -- so
+    # they are keyed by symbol name below.
+    sources = sorted(NATIVE_SRC.glob("*.cpp")) + [APP_MAIN / "cpp" / "bridge.cpp"]
+    seen: set[str] = set()
+    for f in sources:
+        if not f.is_file():
+            continue
         text = f.read_text(encoding="utf-8", errors="replace")
         for ret, p1, p2, name, params in JNIEXPORT_RE.findall(text):
             # Receiver is the 2nd C parameter: jclass => @JvmStatic,
@@ -136,9 +146,18 @@ def jni_symbols() -> list[dict]:
                     if jt in part:
                         jni_types.append(jt)
                         break
+            symbol = f"Java_{p1}_{p2}_{name}"
+            # The two layers implement the same surface for different
+            # processes, so a symbol found in the canonical layer first is not
+            # re-reported from the app layer. An export that exists ONLY in the
+            # app layer still gets checked, which is the case that used to slip
+            # through as MISSING.
+            if symbol in seen:
+                continue
+            seen.add(symbol)
             out.append({
                 "file": f.name,
-                "symbol": f"Java_{p1}_{p2}_{name}",
+                "symbol": symbol,
                 "ret": ret,
                 "receiver": receiver,
                 # JNIEnv and the receiver dropped; what remains is the payload.
@@ -179,11 +198,20 @@ def main() -> int:
     # explicitly) but is absent from the Android .so, so it fails only at
     # Android link time. xykell_keybind_store.cpp sat in exactly that state.
     all_src = sorted(p.name for p in NATIVE_SRC.glob("*.cpp"))
+    # (bridge.cpp is scanned above as the app's JNI layer; it is not a
+    # native/src file and so is never expected in the game CMakeLists.)
     orphaned = [f for f in all_src if f"src/{f}" not in cmake]
 
-    # CMake must compile every file that defines a symbol we rely on.
-    defining = sorted({s["file"] for s in syms})
+    # CMake must compile every file that defines a symbol we rely on. bridge.cpp
+    # is excluded because it belongs to the app's CMakeLists, not the game
+    # module's; its presence there is checked by the app build itself.
+    app_layer = APP_MAIN / "cpp" / "bridge.cpp"
+    defining = sorted({s["file"] for s in syms if s["file"] != app_layer.name})
     not_registered = [f for f in defining if f"src/{f}" not in cmake]
+    if app_layer.is_file() and "bridge.cpp" not in (
+        APP_MAIN / "cpp" / "CMakeLists.txt"
+    ).read_text(encoding="utf-8"):
+        not_registered.append(app_layer.name)
 
     print("=== JNI coverage ===")
     print(f"TOTAL_KOTLIN_EXTERNALS={len(decls)}")

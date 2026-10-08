@@ -43,6 +43,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/ui/ModuleCatalog.kt"
     "$SRC/dev/xykell/client/ui/ThemeColors.kt"
     "$SRC/dev/xykell/client/ui/HudPreview.kt"
+    "$SRC/dev/xykell/client/ui/HudOverlayLines.kt"
     "$SRC/dev/xykell/client/ui/KeyLabels.kt"
     "$SRC/dev/xykell/client/ui/HomeStatus.kt"
     "$SRC/dev/xykell/client/runtime/servers/ServerStore.kt"
@@ -110,6 +111,7 @@ MAIN_SOURCES=(
 SUITES=(
     dev.xykell.client.ui.SettingRowMapperTest
     dev.xykell.client.ui.HudPreviewTest
+    dev.xykell.client.ui.HudOverlayLinesTest
     dev.xykell.client.ui.ThemeColorsTest
     dev.xykell.client.ui.ModuleCatalogTest
     dev.xykell.client.ui.KeyLabelsTest
@@ -162,7 +164,7 @@ SUITES=(
     dev.xykell.client.runtime.modules.ModuleFlagsTest
     dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=53
+EXPECTED_SUITES=54
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
