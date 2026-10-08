@@ -59,7 +59,24 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
                         view.findViewById<TextView>(R.id.update_changelog).visibility = View.VISIBLE
                     }
                     if (url.isNotBlank()) {
-                        view.findViewById<android.widget.Button>(R.id.update_download).visibility = View.VISIBLE
+                        val button =
+                            view.findViewById<android.widget.Button>(R.id.update_download)
+                        button.visibility = View.VISIBLE
+                        button.setOnClickListener {
+                            // Open the update page in the browser; never
+                            // download or execute anything from here.
+                            val intent =
+                                android.content.Intent(
+                                    android.content.Intent.ACTION_VIEW,
+                                    android.net.Uri.parse(url)
+                                )
+                            try {
+                                startActivity(intent)
+                            } catch (e: Exception) {
+                                view.findViewById<TextView>(R.id.update_status).text =
+                                    getString(R.string.update_open_failed)
+                            }
+                        }
                     }
                 }
             } catch (e: Exception) {

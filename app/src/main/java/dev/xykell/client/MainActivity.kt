@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateTitleAndIndicator(position: Int) {
         screenTitle.text = adapter.getTitle(position)
-        pageIndicator.text = "${position + 1} / ${adapter.count}"
+        pageIndicator.text = getString(R.string.page_indicator, position + 1, adapter.count)
         pageIndicator.visibility = View.VISIBLE
     }
 

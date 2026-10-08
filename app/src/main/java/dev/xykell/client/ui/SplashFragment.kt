@@ -57,7 +57,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             // Reduced motion: instant transition
             logo.alpha = 1f
             subtitle.alpha = 1f
-            status.text = "Ready"
+            status.text = getString(R.string.splash_ready)
             status.alpha = 1f
             handler.postDelayed({ advanceToHome() }, 100)
         } else {

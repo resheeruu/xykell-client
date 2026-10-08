@@ -78,6 +78,27 @@ class CrashGuardTest {
         assertEquals(short, CrashGuard.truncateToMaxLength(short))
     }
 
+    @Test
+    fun isReportFileName_acceptsStoredNameShape() {
+        assertTrue(CrashGuard.isReportFileName("crash_20261006_123456_789.txt"))
+    }
+
+    @Test
+    fun isReportFileName_rejectsTraversalAndSeparators() {
+        assertTrue(!CrashGuard.isReportFileName("../secrets.txt"))
+        assertTrue(!CrashGuard.isReportFileName("crash_20261006_123456_789.txt/../../x"))
+        assertTrue(!CrashGuard.isReportFileName("/data/data/dev.xykell/crash/a.txt"))
+        assertTrue(!CrashGuard.isReportFileName("crash_20261006_123456_789.txt.bak"))
+        assertTrue(!CrashGuard.isReportFileName(""))
+    }
+
+    @Test
+    fun isReportFileName_rejectsWrongDigits() {
+        assertTrue(!CrashGuard.isReportFileName("crash_2026100_123456_789.txt"))
+        assertTrue(!CrashGuard.isReportFileName("crash_20261006_12345_789.txt"))
+        assertTrue(!CrashGuard.isReportFileName("crash_20261006_123456_78.txt"))
+    }
+
     // Note: These tests use package-private functions from CrashGuard for testing.
     // In a real scenario, these would be internal or we'd test via public API.
     // The redaction logic is tested here; Android-specific parts need instrumented tests.

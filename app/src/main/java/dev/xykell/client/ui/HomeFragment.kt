@@ -18,7 +18,7 @@ import dev.xykell.client.runtime.observation.ObservationService
 class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.home_title).text = "XYKELL CLIENT"
+        view.findViewById<TextView>(R.id.home_title).text = getString(R.string.home_title)
         bindStatus(view)
         val play = view.findViewById<Button>(R.id.home_play)
         val status = view.findViewById<TextView>(R.id.home_play_status)
@@ -32,10 +32,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 LaunchExecutor.launchMinecraft(requireContext())
         }
         val diag = view.findViewById<TextView>(R.id.home_diag)
-        diag.text = "Device: ${Build.MANUFACTURER} ${Build.MODEL}, " +
-            "Android ${Build.VERSION.RELEASE}, " +
-            (Build.SUPPORTED_ABIS.firstOrNull() ?: "abi?") +
-            "\n" + dev.xykell.client.runtime.RuntimeStatus.summary()
+        diag.text = getString(
+            R.string.home_device_diag,
+            Build.MANUFACTURER,
+            Build.MODEL,
+            Build.VERSION.RELEASE,
+            Build.SUPPORTED_ABIS.firstOrNull() ?: "abi?",
+        ) + "\n" + dev.xykell.client.runtime.RuntimeStatus.summary()
         // Stage 20 (Phase 1): explicit observation Start/Stop + state text.
         // No settings, no endpoint configuration, no diagnostics.
         val obsStatus = view.findViewById<TextView>(R.id.home_obs_status)

@@ -7,6 +7,7 @@ M1-proven items are PARTIAL (build-verified, runtime pending device test).
 Run: python3 scripts/registry/generate.py. Validate: validate.py.
 """
 import json
+import re
 from pathlib import Path
 
 PREFIX = "xykell."
@@ -190,9 +191,9 @@ HUD = [
     ("cps", ["UI", "INPUT"], "native", ["Flarial", "Nova"], "needs input tap stream (have callback)"),
     ("coordinates", ["UI"], "native", ["Flarial", "BedrockTools"], "needs player-position source"),
     ("ping", ["UI", "PACKET"], "packet", ["Flarial", "BedrockTools"], "needs latency source"),
-    ("tps", ["UI"], "native", ["Flarial"], "measurability TBD"),
+    ("tps", ["UI"], "native", ["Flarial"], "server tick rate from SetTime samples"),
     ("armor", ["UI"], "native", ["Flarial"], "needs inventory source"),
-    ("health", ["UI"], "native", ["Flarial"], "needs player source"),
+    ("health", ["UI"], "native", ["Flarial"], "observed SetHealth 0x2A, wire units, no invented maximum"),
     ("hunger", ["UI"], "native", ["Flarial"], "needs player source"),
     ("position", ["UI"], "native", ["Flarial"], "see coordinates"),
     ("direction", ["UI"], "native", ["Flarial"], "needs rotation source"),
@@ -206,11 +207,11 @@ HUD = [
     ("notifications", ["UI"], "native", ["Flarial"], "event-driven; needs EventBus"),
     ("session_stats", ["UI"], "native", ["Flarial"], "local timers available"),
     ("server_info", ["UI"], "native", ["Flarial"], "needs connection source"),
-    ("entity_counter", ["UI"], "native", ["Flarial"], "needs client entity registry source"),
+    ("entity_counter", ["UI"], "native", ["Flarial"], "observed count from the relay entity table"),
     ("hardware_stats", ["UI"], "native", ["Flarial"], "device mem/CPU via OS APIs"),
     ("inventory_hud", ["UI"], "native", ["Flarial"], "needs inventory source"),
     ("ip_display", ["UI"], "native", ["Flarial"], "needs connection source"),
-    ("low_health", ["UI"], "native", ["Flarial"], "warning; needs health source"),
+    ("low_health", ["UI"], "native", ["Flarial"], "LOW only while observed health is low; unavailable when never observed"),
     ("potion_hud", ["UI"], "native", ["Flarial"], "needs potion-effect source"),
     ("speed_meter", ["UI"], "native", ["Flarial"], "needs movement source"),
     ("stop_watch", ["UI"], "native", ["Flarial"], "local timer; no game source needed"),
@@ -273,6 +274,7 @@ MISC = [
     ("anti_weather", ["RENDER"], "native", ["Lunar Proxy"], "hide rain/storms client-side; needs weather path"),
     ("fast_throw", ["HYBRID"], "native", ["Lunar Proxy"], "moved from player QoL set"),
     ("friends", ["UI"], "native", ["Xykell"], "local list; never inferred from private data"),
+    ("localization", ["UI"], "native", ["Atlas"], "7 locale resource sets; system locale follow"),
 ]
 
 SCRIPTING = [
@@ -337,6 +339,23 @@ LAUNCHER = [
 # Categories that are entirely cheat/ESP surfaces.
 PROHIBITED_CATEGORIES = {"COMBAT", "MOVEMENT", "VISUAL", "PROXY"}
 
+# Ids that clear the prohibition above because they are no longer a
+# cheat/ESP surface: each is a pure, stateless packet transform (or reader)
+# in runtime/modules, wired to RelayListener, host-tested in the modules
+# suites. They rewrite or drop bytes the relay already terminates; they inject
+# no input, draw no overlay, and hold no state across packets. Every other id
+# in those categories stays REFERENCE_ONLY.
+IMPLEMENTED_OVER_PROHIBITION = {PREFIX + "proxy.mode", PREFIX + "proxy.relay"} | {
+    PREFIX + i for i in """
+     combat.velocity
+     movement.levitate movement.movement_correction
+     visual.fullbright visual.time_changer
+     automation.ghost
+     misc.disabler
+     network.packet_monitor network.packet_logger
+"""
+}
+
 # Individual ids outside those categories that are equally out of scope.
 # Input injection (quick_drop, toggle_sprint, toggle_sneak, fast_throw,
 # quick_perspective) is here because it means unauthorised game control.
@@ -369,18 +388,67 @@ DEVICE_LIMITED_IDS = {PREFIX + "performance." + s for s in """
  frame_graph low_end_mode render_distance perf_profiles
 """.split()}
 
+# Per-id reason: each renderer/engine id is blocked by a different engine
+# surface, and "no app-level API" alone does not say which.
+DEVICE_LIMITED_NOTES = {
+    PREFIX + "performance.fps_limiter":
+        "Frame cap needs the engine's swap-interval/frame-pacing call inside "
+        "the game process; Android's Choreographer drives the app, not the "
+        "game's render loop.",
+    PREFIX + "performance.fps_unlocker":
+        "Removing the engine's vsync/frame cap is an engine-internal flag; "
+        "no exported symbol reaches it from a separate app process.",
+    PREFIX + "performance.dynamic_fps":
+        "Throttling FPS by scene load needs per-frame render-cost signals "
+        "only the in-engine frame loop produces.",
+    PREFIX + "performance.background_fps":
+        "Background frame limiting is a lifecycle callback on the engine's "
+        "render thread; an app process cannot register into it.",
+    PREFIX + "performance.entity_opt":
+        "Entity draw batching/LOD is decided in the renderer's draw pass.",
+    PREFIX + "performance.render_opt":
+        "Render-path toggles (sky, translucent sorting) are engine switches, "
+        "not OS or IPC surfaces.",
+    PREFIX + "performance.particle_controls":
+        "Particle spawn/budget lives in the game's particle system, which "
+        "exposes no external control point.",
+    PREFIX + "performance.animation_controls":
+        "Entity animation ticking runs on the game's update loop; no "
+        "inter-process hook exists.",
+    PREFIX + "performance.cloud_controls":
+        "Cloud layer drawing is engine render state; there is no API to set "
+        "it from outside the process.",
+    PREFIX + "performance.weather_opt":
+        "Weather particle rendering is engine-internal render state.",
+    PREFIX + "performance.fog_controls":
+        "Fog render state (start/end/density) is set per-frame by the "
+        "engine's shader path.",
+    PREFIX + "performance.frame_graph":
+        "A frame/GPU graph needs the engine's profiler counters; Android "
+        "GPU counters do not attribute to Bedrock's render passes.",
+    PREFIX + "performance.low_end_mode":
+        "Low-end preset flips a bundle of engine settings the game only "
+        "reads in-process.",
+    PREFIX + "performance.render_distance":
+        "Render distance is the client's chunk-load radius, a game setting "
+        "the server/app process cannot write.",
+    PREFIX + "performance.perf_profiles":
+        "Profile switching applies the renderer/engine toggles listed above, "
+        "each blocked the same way.",
+}
+
 # NOT_IMPLEMENTED because the value lives in the Bedrock client and the read
 # path does not exist yet. The blocker is code we have not written, not a
 # missing device: there is nothing to live-validate until the read path lands.
 RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
  coordinates ping tps armor health hunger position direction biome keystrokes
- target_info server_info inventory_hud ip_display entity_counter low_health
+ target_info server_info inventory_hud ip_display
  potion_hud speed_meter subtitles tab_list totem_counter
 """.split()} | {PREFIX + "player." + s for s in """
  inventory_manager death_position friend_alerts nickname mod_alerts
 """.split()} | {PREFIX + "misc." + s for s in """
  chat_timestamps chat_filter custom_nicknames shulker_tooltip death_lightning
-""".split()} | {PREFIX + "server." + s for s in "browser saved profile".split()} | {PREFIX + "automation." + s for s in """
+""".split()} | {PREFIX + "automation." + s for s in """
  death_logger item_tracker tnt_timer player_notifier
 """.split()} | {PREFIX + "world." + s for s in "minimap".split()}
 
@@ -390,14 +458,13 @@ APP_LEVEL_IDS = {PREFIX + "hud." + s for s in """
  arraylist hardware_stats notifications
 """.split()} | {PREFIX + "misc." + s for s in """
  streamer_mode privacy_mode screenshot_share screenshot_tools hide_hud timer
- friends
 """.split()} | {PREFIX + "network." + s for s in """
  ping connection_status latency_graph network_diagnostics
 """.split()} | {PREFIX + "performance." + s for s in """
  memory_info cpu_info gpu_info
-""".split()} | {PREFIX + "world." + s for s in """
- waypoints world_markers
-""".split()}
+""".split()} | {    PREFIX + "world." + s for s in """
+ waypoints
+""".split()} | {PREFIX + "server." + s for s in "profile".split()}
 
 # Per-id notes where the generic reason is too coarse to be useful.
 NOTES_BY_ID = {
@@ -407,9 +474,30 @@ NOTES_BY_ID = {
         "nothing binds the queue to a HUD line. Needs that binding, not a "
         "new subsystem."
     ),
+    PREFIX + "hud.armor": (
+        "Armour is MobEquipment 0x1f, whose trailing slot/window fields sit "
+        "behind a variable-length item, so no verified offset reaches the "
+        "worn value. Not in the vitals observation, which carries only what "
+        "SetHealth 0x2A and SetTime 0x0A actually state."
+    ),
+    PREFIX + "hud.hunger": (
+        "Hunger would need the server's own food-level packet, which this "
+        "repo does not decode; nothing on the decoded path carries it."
+    ),
+    PREFIX + "hud.potion_hud": (
+        "MobEffect 0x1c carries an effect id this repo can read (the status "
+        "filters already drop it by id), so an effect list is derivable; it "
+        "is not yet carried in the observation model."
+    ),
     PREFIX + "hud.arraylist": (
         "Renderer prints a module on/total count, not the enabled-module list. "
         "Module state is known app-side, so this is a rendering change only."
+    ),
+    PREFIX + "server.profile": (
+        "Native ServerManager already stores per-server module/HUD profile "
+        "names and is host-tested (test_local_systems), but there is no UI, "
+        "no JNI bridge and no apply-on-connection consumer: the association "
+        "cannot be set or used from the app yet."
     ),
     # Phase 6 boundary: these four automation features and the minimap were
     # catalogued as ordinary app-level build work. They are not. The JNI offer
@@ -440,20 +528,84 @@ NOTES_BY_ID = {
         "there is no terrain, chunk or block source, so a minimap would have "
         "nothing to draw. Needs a Stage-20 world source first."
     ),
-    PREFIX + "world.world_markers": (
-        "Position now exists (ObservedState.motion from PlayerTravelled) and the "
-        "distance/bearing arithmetic is ordinary app-side code, but there is no "
-        "overlay surface: the app draws no window over the game, and in-game "
-        "markers would need the native render path, which cannot be verified "
-        "without a live session. Waypoints already store the same coordinates "
-        "in-app."
-    ),
 }
 
 REFERENCE_ONLY_NOTE = (
     "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban "
     "evasion, packet access, or MITM/relay. Not scheduled, not partial."
 )
+
+_MODULES_DIR = Path(__file__).resolve().parents[2] / "app/src/main/java/dev/xykell/client/runtime/modules"
+
+# Each modules-batch object records, per id, why a relay cannot deliver it.
+# Parsing those maps here keeps the registry honest: an id the relay genuinely
+# cannot do says so, instead of the generic "out of scope" line that would
+# hide the real reason from the user.
+_IMPOSSIBLE_RE = re.compile(
+    r'"(xykell\.[a-z_.]+)"\s*to\s*((?:'
+    r'"(?:[^"\\]|\\.)*"\s*(?:\+\s*)?'
+    r')+),'
+)
+_STRING_RE = re.compile(r'"((?:[^"\\]|\\.)*)"')
+
+
+def module_impossible_reasons():
+    """id -> assessed reason, read from the runtime/modules IMPOSSIBLE maps."""
+    reasons = {}
+    if not _MODULES_DIR.is_dir():
+        return reasons
+    for path in sorted(_MODULES_DIR.glob("*Modules.kt")):
+        for fid, literal_blob in _IMPOSSIBLE_RE.findall(path.read_text()):
+            reason = " ".join(_STRING_RE.findall(literal_blob)).strip()
+            if reason:
+                reasons[fid] = reason
+    return reasons
+
+
+MODULE_IMPOSSIBLE = module_impossible_reasons()
+
+
+_IMPLEMENTED_RE = re.compile(r"val IMPLEMENTED: Set<String> = setOf\((.*?)\n    \)", re.S)
+
+
+def module_implemented_ids():
+    """Every id a modules object claims a real transform for.
+
+    Read from the same source the tests read, so the registry can never claim
+    a module works while the code does not implement it, nor leave a working
+    module marked out of scope.
+    """
+    ids = set()
+    if not _MODULES_DIR.is_dir():
+        return ids
+    for path in sorted(_MODULES_DIR.glob("*Modules.kt")):
+        for block in _IMPLEMENTED_RE.findall(path.read_text()):
+            ids.update(_STRING_RE.findall(block))
+    return ids
+
+
+MODULE_IMPLEMENTED = module_implemented_ids()
+
+# PROXY is not a cheat surface -- it is the transport this app ships. Both ids
+# are delivered by RelayPipe (UDP) and, from P2b, RelaySession (full Bedrock
+# termination on both legs), so they are classified with the rest here rather
+# than left as "out of scope by policy".
+PROXY_IMPLEMENTED = {
+    PREFIX + "proxy.mode":
+        "Relay mode selection: RelayService foreground owner + RelayPipe UDP "
+        "forward, and from P2b RelaySession terminates both Bedrock legs "
+        "(game leg as server, upstream leg as client) so the client's identity "
+        "is re-signed for the relay. Started only from the Relay screen with "
+        "explicit upstream settings; no receiver, no boot path.",
+    PREFIX + "proxy.relay":
+        "The relay pipe and termination session themselves: RakNetEndpoint "
+        "per leg, BedrockBatch framing, BedrockHandshake key exchange, "
+        "BedrockIdentity, RelayListener packet hook. Host suites: "
+        "RakNetEndpointTest, BedrockBatchTest, BedrockHandshakeTest, "
+        "RelaySessionTest (4 tests: device handshake, upstream login rewrite, "
+        "bidirectional forward through the listener, queue-then-flush). "
+        "On-device E2E still needs a real server run.",
+}
 RUNTIME_GATED_NOTE = (
     "Value lives in the Bedrock client. No read path written yet, so there is "
     "nothing to live-validate; needs a Stage-20 observation source first."
@@ -462,10 +614,74 @@ RUNTIME_GATED_NOTE = (
 # against a live session. PARTIAL is the honest status, and each note must
 # state the boundary the feature actually sits behind.
 PARTIAL_NOTES = {
+    PREFIX + "proxy.mode": PROXY_IMPLEMENTED[PREFIX + "proxy.mode"],
+    PREFIX + "proxy.relay": PROXY_IMPLEMENTED[PREFIX + "proxy.relay"],
+    PREFIX + "combat.velocity":
+        "RelayListener transform: drops SetActorMotion 0x1B on the server -> "
+        "game leg only, so knockback never reaches the client while the "
+        "player's own outbound motion is preserved. Pure and stateless; "
+        "one dropped packet type, no anti-cheat shaping. Not run on a "
+        "device.",
+    PREFIX + "movement.levitate":
+        "Rewrites the client's own outbound MovePlayer 0x13 y by +1.5 so the "
+        "server places the player higher; TO_SERVER scoped so the server's "
+        "view stays authoritative. Absolute y means no call history. The "
+        "server may reject or correct it. Not run on a device.",
+    PREFIX + "movement.movement_correction":
+        "Drops MovePlayer 0x13 packets whose mode is a position reset "
+        "(mode != 0), which is the server rubber-banding the client, on the "
+        "server -> game leg only. Mode 2 teleports are dropped too: the bytes "
+        "do not distinguish a correction from a real portal exit. Not run on "
+        "a device.",
+    PREFIX + "visual.fullbright":
+        "Rewrites the day cycle in SetTime 0x0A to 6000 (noon) on the server "
+        "-> game leg. Brightness itself is gamma, not a packet field, so this "
+        "is a time-based approximation, not true fullbright. Not run on a "
+        "device.",
+    PREFIX + "visual.time_changer":
+        "Rewrites the day cycle in SetTime 0x0A to a fixed tick (18000 = "
+        "midnight) on the server -> game leg; packets whose body is not "
+        "exactly header + one zigzag varint are forwarded untouched. "
+        "Server-authoritative servers may resync. Not run on a device.",
+    PREFIX + "automation.ghost":
+        "Drops Text 0x09 chat and whisper (type 1/7) on the server -> game "
+        "leg so the game never draws them over a recording; system chatter "
+        "and command echoes survive, and the player's own outbound chat is "
+        "the other direction and untouched. Hides chat from a screen capture "
+        "only: server-side logs and other players are unaffected. Not run on "
+        "a device.",
+    PREFIX + "misc.disabler":
+        "One honest arm: drops the server's SetHealth 0x2A on the server -> "
+        "game leg so the client stops applying health and damage updates. The "
+        "movement and combat arms need packet field layouts this repo does not "
+        "decode, so they are not claimed. Not run on a device.",
+    PREFIX + "network.packet_monitor":
+        "Reader, not a transform: decodes SetTime/SetHealth bodies into "
+        "structured observations and reports other packets as Identified, "
+        "returning null on truncated input. It observes and never alters "
+        "bytes. MovePlayer is reported as Identified only because its "
+        "varulong runtime id is not decoded here.",
+    PREFIX + "network.packet_logger":
+        "Reader, not a transform: one text line per forwarded packet "
+        "(set_time ticks=N, set_health health=N, packet id=0xNN bytes=N). It "
+        "observes and never alters bytes. Nothing is written to disk.",
+    PREFIX + "combat.auto_clicker":
+        "Accessibility dispatchGesture input only: taps a normalized target "
+        "at 1-20 cps with 0-50% jitter, records/replays tap macros (200-step "
+        "cap, clamped delays), one mode at a time, FAB toggle overlay. Host "
+        "TouchAutomationTest covers schedule and macro persistence (14 "
+        "tests). Requires the user to enable the accessibility service; no "
+        "packet or render access. Not run on a device.",
     PREFIX + "hud.hardware_stats":
         "Native formatHardwareStats plus the provider install on every "
         "HardwareStats HUD element; host test_hud_sources. Reads device "
         "memory/storage/ABI through OS APIs only. Not run on a device.",
+    PREFIX + "world.world_markers":
+        "Waypoint rows now carry a live marker readout: distance/bearing from "
+        "the observed PlayerTravelled position (host MarkerMathTest, CI-"
+        "compiled). Boundary: list-surface only — observation carries no "
+        "dimension, so readings are raw coordinate geometry; a world-anchored "
+        "in-game marker needs the native render path and a live session.",
     PREFIX + "misc.chat_timestamps":
         "Chat screen renders observed PlayerMessage lines with optional UTC "
         "timestamps taken from the observed event, never the device clock; "
@@ -502,6 +718,61 @@ PARTIAL_NOTES = {
         "schema-versioned persistence, and can fill from the last observed "
         "PlayerTravelled sample. Host PrivacyAndWorldTest store cases. In-app "
         "list only: no in-game beacon is rendered.",
+    PREFIX + "misc.friends":
+        "Local friends book: FriendStore (name 1-32, exact-match unique, "
+        "#RRGGBB color, notes, optional server; schema-versioned JSON, "
+        "refuses malformed documents wholesale) plus FriendsFragment add/"
+        "remove UI wired into the Client screen with colored rows. Host "
+        "FriendStoreTest covers add/remove/rename/setColor/round-trip (14 "
+        "tests). Entries are typed by the user: nothing is read out of the "
+        "game, nothing leaves the device, presence is not shown. Not run on "
+        "a device.",
+    PREFIX + "misc.localization":
+        "Complete 530-string translations for the seven Atlas-supported "
+        "languages (es, fr, de, tr, ru, pl, pt-BR) as Android locale "
+        "resources, plus a Settings language picker (AppCompat in-app "
+        "locales: system default or one of eight languages, endonyms, "
+        "autoStoreLocales persisted on API<=32). Host check-i18n.py "
+        "validates key parity, placeholder parity and apostrophe escaping "
+        "on every locale; R-stub typecheck covers the picker. Not run on a "
+        "device.",
+    PREFIX + "hud.notifications":
+        "Native NotificationCenter (post/drain/clear + priority) is drained "
+        "into a HUD line by xykell_hud_renderer.cpp, host-tested. No "
+        "producer exists: nothing in the app or native modules calls "
+        "post() and there is no JNI offer for it, so the queue stays empty "
+        "in practice. Needs a producer, not an EventBus. Not run on a "
+        "device.",
+    PREFIX + "hud.arraylist":
+        "Renderer ModuleList case prints enabled module names via "
+        "enabledModuleNames (host-tested, stable ordering, limit honored); "
+        "module state comes from the native module manager. Not run on a "
+        "device.",
+    PREFIX + "client.config_store":
+        "Native file store: JNI settingsCatalog/settingsValues/setSetting "
+        "load and save root/settings.json through XykellConfig, "
+        "allowlisted against the inline catalog (unknown section/key "
+        "rejected); resetSettings clears a section. Host test_config. Not "
+        "run on a device.",
+    PREFIX + "client.profile_manager":
+        "Native profile manager (profileOpRaw create/rename/delete/switch, "
+        "listProfiles, per-profile preset settings) plus ProfilesFragment "
+        "UI for list/create/switch. Not run on a device.",
+    PREFIX + "client.crash_guard":
+        "Two halves: Kotlin CrashGuard installs the uncaught handler and "
+        "writes redacted, truncated reports (list/read/delete, max-report "
+        "enforcement, CrashGuardTest 13 tests); native CrashGuard::"
+        "recordCrash counts per-module crashes and auto-quarantines at 3 "
+        "(applied in xykell.cpp on load, host-tested). No report upload. "
+        "Not run on a device.",
+    PREFIX + "client.updater":
+        "Metadata layer only: compareVersions (semver incl. pre-release), "
+        "validateMetadata (https-only URL, SHA-256 checksum format, "
+        "changelog cap), parseMetadata; UpdaterTest 19 tests. No download, "
+        "digest computation, signature verify or install flow — deliberate: "
+        "there is no update endpoint and no pinned signing key to verify "
+        "against, so the Update Center opens the release URL in the system "
+        "browser instead of fetching anything in-app.",
     PREFIX + "misc.timer":
         "Timer screen drives CountdownTimer through start/stop/restart on its "
         "fixed deadline with an injected clock. Host PrivacyAndWorldTest timer "
@@ -522,6 +793,34 @@ PARTIAL_NOTES = {
         "requesting WRITE_EXTERNAL_STORAGE. Consent consumed once, no "
         "background recording. Host PixelPackerTest for row-stride repack; "
         "never run on a device.",
+    PREFIX + "server.saved":
+        "Address/port/notes/favorites book in ServersFragment over "
+        "ServerStore, with search and SAF import/export (host "
+        "test_serverstore). User-supplied servers only: no discovery, no "
+        "directory fetch, and this surface does not start a connection. "
+        "Not run on a device.",
+    PREFIX + "server.browser":
+        "Browsing and search of the user-supplied server book (list, search, "
+        "per-row reachability probe via test_serverstore_probe). No public "
+        "server directory and no network fetch of server listings. Not run "
+        "on a device.",
+    PREFIX + "hud.direction":
+        "Element type, yaw-to-8-point formatter and snapshot provider "
+        "binding are host-tested (test_motion_hud). Boundary: in-game live "
+        "value needs a game-side feed — app-process observations cannot "
+        "cross into the game process, so the overlay renders '--' until one "
+        "exists.",
+    PREFIX + "hud.speed_meter":
+        "Element type, 2-sample speed delta in the observation consumer "
+        "(bounded; dt<=0 keeps the last valid speed) and provider binding "
+        "are host-tested (test_motion_hud, test_observation_consumer). "
+        "Boundary: in-game live value needs a game-side feed — "
+        "app-process observations cannot cross into the game process, so "
+        "the overlay renders '--' until one exists.",
+    PREFIX + "hud.position":
+        "Served by the existing coordinates element (XYZ line). Same "
+        "boundary as hud.coordinates: element and render case exist "
+        "host-tested, but a live in-game value needs a game-side feed.",
 }
 
 APP_LEVEL_NOTE = (
@@ -539,6 +838,19 @@ CATEGORIES = {
 # (CATEGORY, suffix) -> forced status (default RR; these are the M1 proofs).
 PROVEN = {
     ("CLIENT", "core"): PARTIAL,
+    # Modules batch: pure RelayListener transforms in runtime/modules,
+    # direction-scoped and stateless. host tests listed in EVIDENCE.
+    ("COMBAT", "velocity"): PARTIAL,
+    ("PROXY", "mode"): PARTIAL,
+    ("PROXY", "relay"): PARTIAL,
+    ("MOVEMENT", "levitate"): PARTIAL,
+    ("MOVEMENT", "movement_correction"): PARTIAL,
+    ("VISUAL", "fullbright"): PARTIAL,
+    ("VISUAL", "time_changer"): PARTIAL,
+    ("AUTOMATION", "ghost"): PARTIAL,
+    ("MISC", "disabler"): PARTIAL,
+    ("NETWORK", "packet_monitor"): PARTIAL,
+    ("NETWORK", "packet_logger"): PARTIAL,
     ("CLIENT", "version_adapter"): PARTIAL,
     ("CLIENT", "config_store"): PARTIAL,
     ("CLIENT", "profile_manager"): PARTIAL,
@@ -580,6 +892,14 @@ PROVEN = {
     ("PERFORMANCE", "gpu_info"): PARTIAL,
     # Real module list and a real NotificationCenter->HUD binding, both in
     # xykell_hud_renderer.cpp with host renderer tests.
+    # Vitals HUD: the relay now observes SetHealth 0x2A, so the read path the
+    # registry used to call absent exists end to end — TapTranslator emits a
+    # Vitals observation, ObservationService offers it over JNI, the native
+    # consumer keeps it in a snapshot field, and bindVitalsProviders renders it.
+    ("HUD", "health"): PARTIAL,
+    ("HUD", "low_health"): PARTIAL,
+    ("HUD", "entity_counter"): PARTIAL,
+    ("HUD", "tps"): PARTIAL,
     ("HUD", "arraylist"): PARTIAL,
     ("HUD", "notifications"): PARTIAL,
     # Three switches in SettingsFragment over PrivacySettings, which is
@@ -602,18 +922,44 @@ PROVEN = {
     ("NETWORK", "latency_graph"): PARTIAL,
     ("NETWORK", "network_diagnostics"): PARTIAL,
     ("WORLD", "waypoints"): PARTIAL,
+    ("WORLD", "world_markers"): PARTIAL,
+    ("MISC", "friends"): PARTIAL,
     ("MISC", "timer"): PARTIAL,
+    ("MISC", "localization"): PARTIAL,
     ("MISC", "screenshot_share"): PARTIAL,
     ("MISC", "screenshot_tools"): PARTIAL,
+    # Batch autoclicker: accessibility input automation, built and host-tested.
+    ("COMBAT", "auto_clicker"): PARTIAL,
+    # Server book surfaces over ServersFragment/ServerStore (user-supplied
+    # servers only; no discovery, no directory fetch).
+    ("SERVER", "saved"): PARTIAL,
+    ("SERVER", "browser"): PARTIAL,
+    # Motion HUD: element types, formatters and observation-snapshot provider
+    # binding, host-tested; in-game live value needs a game-side feed
+    # (app-process observations cannot cross into the game process).
+    ("HUD", "direction"): PARTIAL,
+    ("HUD", "speed_meter"): PARTIAL,
+    ("HUD", "position"): PARTIAL,
 }
 
 EVIDENCE = {
+    ("PROXY", "mode"): "P2b: RelayService foreground owner + RelaySessionDriver (terminating session, SERVER toward the game / CLIENT upstream) + ModuleRuntime listener; host test_relaysession (4), test_relaysessiondriver (4); device E2E pending",
+    ("PROXY", "relay"): "P2b: RakNetEndpoint per leg + BedrockBatch/Handshake + BedrockIdentity + RelayListener, driven over UDP by RelaySessionDriver; host test_relaysession, test_relaysessiondriver, test_bedrockbatch, test_bedrockhandshake",
+    ("COMBAT", "velocity"): "P2b/T: RelayListener transform drops SetEntityMotion 0x28 on the server->game leg only, so the player's own outbound motion survives (0x1B is EntityEvent, the jump/hurt animation); host test_combatmodules (25 tests)",
+    ("MOVEMENT", "levitate"): "P2b/T: outbound MovePlayer 0x13 y raised 1.5, TO_SERVER scoped, absolute y so no call history; host test_movementmodules (32 tests)",
+    ("MOVEMENT", "movement_correction"): "P2b/T: drops clientbound MovePlayer 0x13 mode!=0 resets, so the server's own correction survives; host test_movementmodules (32 tests)",
+    ("VISUAL", "fullbright"): "P2b/T: rewrites SetTime 0x0A day cycle to 6000 (noon), TO_CLIENT scoped, trailing bytes preserved; host test_visualmodules (57 tests)",
+    ("VISUAL", "time_changer"): "P2b/T: rewrites SetTime 0x0A day cycle to 18000 (midnight), TO_CLIENT scoped; host test_visualmodules (57 tests)",
+    ("AUTOMATION", "ghost"): "P2b/T: drops Text 0x09 type 1/7 chat on the server->game leg only, so the player's own outbound chat is untouched; host test_automationmodules (18 tests)",
+    ("MISC", "disabler"): "P2b/T: drops SetHealth 0x2A on the server->game leg only; other disabler arms need packet layouts this repo does not decode; host test_miscmodules (14 tests)",
+    ("NETWORK", "packet_monitor"): "P2b/T: reader, not a transform: decode SetTime/SetHealth bodies into Observation.Clock/Health, else Observation.Identified, null on truncation; host test_networkmodules (17 tests)",
+    ("NETWORK", "packet_logger"): "P2b/T: reader, not a transform: one text line per packet (set_time ticks=N, set_health health=N, packet id=0xNN bytes=N); host test_networkmodules (17 tests)",
     ("CLIENT", "core"): "M1: PL_REGISTER_MOD lifecycle builds; host test_core",
     ("CLIENT", "version_adapter"): "M1: table logic; host test_adapter",
     ("CLIENT", "config_store"): "M1: menu toggles + file store; host test_config",
     ("CLIENT", "hud_editor"): "Batch 2/3: editor state + serialization; host test_hud_theme",
     ("CLIENT", "crash_guard"): "Batch X: uncaught exception handler with safe crash reports, redaction, bounded storage; host test_crashguard",
-    ("CLIENT", "updater"): "Batch Y: local update metadata model with version comparison, validation, local metadata; host test_updater",
+    ("CLIENT", "updater"): "Batch Y: local update metadata model with version comparison, validation, local metadata; host test_updater; Update Center opens the release URL in the system browser (deliberate: no update endpoint, no pinned signing key)",
     ("HUD", "touch_indicators"): "M1: touch callback counter; host test_input_router",
     ("HUD", "fps"): "Batch 1: FrameTimer provider + honest unknown; host test_hud_sources",
     ("HUD", "cps"): "Batch 1: TapCounter provider + verified zero; host test_hud_sources",
@@ -639,11 +985,18 @@ EVIDENCE = {
     ("PERFORMANCE", "cpu_info"): "Batch Z3: DeviceInfo.cpu - cores, ABI, device strings, max freq, process CPU via injected source; CI-compiled, device reads pending Stage-20",
     ("PERFORMANCE", "gpu_info"): "Batch Z3: DeviceInfo.gpu - GL driver strings and capability limits; utilisation reported unavailable, never estimated; CI-compiled, device reads pending Stage-20",
     ("HUD", "arraylist"): "Batch Z3: enabledModuleNames() renders real module names ordered by (category,id); host test_hud_render",
+    ("HUD", "health"): "Vitals observation: observed SetHealth 0x2A through TapTranslator -> ObservationService -> the nativeOfferVitals JNI offer -> native consumer snapshot -> bindVitalsProviders. Absent health renders kUnavailable, never a zeroed bar; the wire unit is shown as the server sent it (20 = full bar) with no invented maximum. Host tests test_observation_consumer, test_motion_hud, test_feed_client",
+    ("HUD", "entity_counter"): "Population observation: RelayObservation reports the live count from the runtime's entity table (AddEntity 0x0D / AddPlayer 0x0C / MovePlayer 0x13 / RemoveEntity 0x0E), throttled to one line per second because an unthrottled report would repeat identical numbers per packet. Renders kUnavailable until the first report and shows the player subset only when it was reported. Host tests ModuleRuntimeTest, RelayObservationTest, test_observation_consumer, test_motion_hud",
+    ("HUD", "tps"): "Derived in the native consumer from two SetTime 0x0A samples the same way speedMps is derived from two travel samples: absent until two clock readings at distinct timestamps exist, so the first SetTime renders kUnavailable rather than 0. A clock that does not advance, or timestamps that go backwards, keep the last valid rate instead of reporting a negative one. Host test_observation_consumer + test_motion_hud",
+    ("HUD", "low_health"): "Vitals observation on the same path as hud.health: renders LOW only while observed health is at or under the threshold, and kUnavailable when health has never been observed, so an unknown value never reads as an alarm. Host test_motion_hud",
     ("HUD", "notifications"): "Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render",
     ("MISC", "streamer_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle; host PrivacyAndWorldTest redaction cases",
     ("MISC", "privacy_mode"): "Batch Z3: PrivacySettings redaction policy + SettingsFragment toggle; host PrivacyAndWorldTest redaction cases",
+    ("MISC", "friends"): "FriendStore + FriendsFragment (Client sub-screen); host FriendStoreTest 14 tests; not run on a device",
+    ("MISC", "localization"): "Batch i18n: values-{es,fr,de,tr,ru,pl,pt-rBR} complete 530-string translations (Atlas Supported Languages) + Settings language picker (AppCompat in-app locales, system default, endonyms, autoStoreLocales for API<=32); host check-i18n.py gate (key parity, placeholder parity, apostrophe escaping); R-stub typecheck",
     ("MISC", "hide_hud"): "Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle; host test_hud_render hidden case",
     ("MISC", "screenshot_share"): "Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + cache PNG via androidx FileProvider + ACTION_SEND chooser; host PixelPackerTest",
+    ("COMBAT", "auto_clicker"): "Batch autoclicker: TouchAutomationService dispatchGesture taps + ClickSchedule/MacroStore + AutoclickerFragment; host TouchAutomationTest (14), KOTLIN-TYPECHECK 84/28, aapt2 OK; live gesture dispatch not yet device-verified",
     ("MISC", "screenshot_tools"): "Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + scoped-storage MediaStore save; host PixelPackerTest",
     ("HUD", "coordinates"): "Batch Z2: element + render case exist; live value needs Stage-20 observation source; host test_hud_render",
     ("HUD", "movable_hud"): "Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor",
@@ -658,7 +1011,13 @@ EVIDENCE = {
     ("NETWORK", "latency_graph"): "Phase 7: NetworkFragment draws NetworkProbe.LatencyHistory bars with honest empty stats; host NetworkProbeTest; CI-compiled",
     ("NETWORK", "network_diagnostics"): "Phase 7: NetworkFragment combines link status, probe history and TCP-not-latency notice; host NetworkProbeTest; CI-compiled",
     ("WORLD", "waypoints"): "Phase 7: WaypointsFragment CRUD + fill from observed PlayerTravelled position; host PrivacyAndWorldTest WaypointStore cases; CI-compiled",
+    ("WORLD", "world_markers"): "Batch 6d: Waypoint rows show distance/bearing from observed PlayerTravelled motion; host MarkerMathTest (11 tests); CI-compiled",
     ("MISC", "timer"): "Phase 7: TimerFragment start/stop/restart over CountdownTimer; host PrivacyAndWorldTest timer cases; CI-compiled",
+    ("SERVER", "saved"): "Batch final: ServersFragment/ServerStore address/port/notes/favorites CRUD, search, SAF import/export; host test_serverstore; native ServerManager store host-tested via test_local_systems; not run on a device",
+    ("SERVER", "browser"): "Batch final: ServersFragment list/search/probe of the user-supplied server book; host test_serverstore + test_serverstore_probe; not run on a device",
+    ("HUD", "direction"): "Batch final: ElementType::Direction + formatDirection (Minecraft yaw 8-point) + snapshot provider binding in refreshHud; host test_motion_hud",
+    ("HUD", "speed_meter"): "Batch final: ElementType::SpeedMeter + consumer 2-sample speed delta (bounded, dt<=0 keeps last) + provider binding; host test_motion_hud + test_observation_consumer",
+    ("HUD", "position"): "Batch final: served by the coordinates element (XYZ line, ElementType::Coordinates); host test_motion_hud",
 }
 
 # Capability requirements per entry. Everything here currently
@@ -674,6 +1033,7 @@ REQUIRES = {
     ("HUD", "health"): ["PLAYER"],
     ("HUD", "hunger"): ["PLAYER"],
     ("HUD", "direction"): ["PLAYER"],
+    ("HUD", "speed_meter"): ["PLAYER"],
     ("HUD", "biome"): ["WORLD"],
     ("HUD", "clock"): ["OVERLAY_DELIVERY"],
     ("HUD", "cps"): ["INPUT_SEMANTICS"],
@@ -694,6 +1054,9 @@ REQUIRES = {
     ("CLIENT", "hud_editor"): ["OVERLAY_DELIVERY"],
     ("LAUNCHER", "diagnostics"): ["LIFECYCLE"],
     ("LAUNCHER", "profiles"): ["LIFECYCLE", "CONFIG_DIRS"],
+    # Local book surfaces: user-supplied data only, no packet access needed.
+    ("SERVER", "saved"): ["LIFECYCLE"],
+    ("SERVER", "browser"): ["LIFECYCLE"],
 }
 CATEGORY_DEFAULTS = {
     "COMBAT": ["FRAME", "PLAYER"],
@@ -828,20 +1191,54 @@ def main() -> None:
             # note must state the boundary, not repeat the feature pitch.
             e["notes"] = PARTIAL_NOTES.get(fid, e["notes"])
             continue  # already proven by PROVEN/EVIDENCE above
+        if fid in MODULE_IMPLEMENTED and fid not in PROVEN:
+            # Implemented in the modules suite and now reachable: RelayService
+            # builds a ModuleRuntime from the active profile's flags and hands it
+            # to the terminating session's listener, so this is no longer a
+            # library nothing calls. Not hand-pinned in PROVEN, so synthesise the
+            # entry rather than leaving a working module marked out of scope.
+            e["status"] = "PARTIAL"
+            e["evidence"] = (
+                "modules suite: pure %s transform, direction-scoped, host-tested; "
+                "wired through ModuleRuntime into RelaySession's listener"
+                % "clientbound"
+            )
+            e["notes"] = PARTIAL_NOTES.get(fid) or (
+                "Implemented as a pure packet transform in "
+                "app/src/main/java/dev/xykell/client/runtime/modules/, dispatched "
+                "per packet by ModuleRuntime (the listener RelayService installs), "
+                "and covered by the modules host suite. Scope is exactly what the "
+                "transform does: the registry note does not claim more than the "
+                "bytes show. Enabled per profile; never validated against a live "
+                "server, so no anti-cheat behaviour is known and SUPPORTED is not "
+                "claimed."
+            )
+            continue
+        if fid in IMPLEMENTED_OVER_PROHIBITION:
+            continue  # modules-suite proven; classified PARTIAL by PROVEN
         if e["category"] in PROHIBITED_CATEGORIES or fid in PROHIBITED_IDS:
             e["status"] = "REFERENCE_ONLY"
-            e["evidence"] = "policy: no cheat/ESP/automation/packet/MITM surface"
-            e["notes"] = REFERENCE_ONLY_NOTE
+            reason = MODULE_IMPOSSIBLE.get(fid)
+            if reason:
+                e["evidence"] = "assessed: not deliverable by a packet relay"
+                e["notes"] = reason
+            else:
+                e["evidence"] = "policy: no cheat/ESP/automation/packet/MITM surface"
+                e["notes"] = REFERENCE_ONLY_NOTE
         elif fid in DEVICE_LIMITED_IDS:
             e["status"] = "DEVICE_LIMITED"
             e["evidence"] = "Bedrock renderer/engine internal; no app-level API"
-            e["notes"] = (
+            e["notes"] = DEVICE_LIMITED_NOTES.get(
+                fid,
                 "Reachable only from inside the game's render/engine path. "
-                "The app process has no API for it."
+                "The app process has no API for it.",
             )
         elif fid in RUNTIME_GATED_IDS:
             e["status"] = "NOT_IMPLEMENTED"
-            e["evidence"] = "no read path; Stage-20 observation source absent"
+            e["evidence"] = (
+                "read path absent for this field; the relay now observes "
+                "SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09"
+            )
             e["notes"] = NOTES_BY_ID.get(fid) or RUNTIME_GATED_NOTE
         elif fid in APP_LEVEL_IDS:
             e["status"] = "NOT_IMPLEMENTED"

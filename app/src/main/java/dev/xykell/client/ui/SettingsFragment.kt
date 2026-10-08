@@ -11,6 +11,9 @@ import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import dev.xykell.client.NativeSettings
 import dev.xykell.client.R
@@ -53,7 +56,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             if (NativeSettings.reset(NativeSettings.root(requireContext()))) {
                 reload("")
             } else {
-                error.text = "Reset failed (native bridge unavailable?)"
+                error.text = getString(R.string.settings_reset_failed_bridge)
             }
         }
         view.findViewById<SearchView>(R.id.settings_search)
@@ -172,6 +175,73 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    /**
+     * In-app language picker (misc.localization). Language names are shown as
+     * endonyms (never translated); AppCompat persists the pick and recreates
+     * the activity, so the new locale applies immediately.
+     */
+    private fun addLanguageSection() {
+        val locales = listOf(
+            null to getString(R.string.settings_language_system),
+            "en" to "English",
+            "de" to "Deutsch",
+            "es" to "Español",
+            "fr" to "Français",
+            "pl" to "Polski",
+            "pt-BR" to "Português (Brasil)",
+            "ru" to "Русский",
+            "tr" to "Türkçe",
+        )
+        fun labelFor(tag: String?): String =
+            locales.firstOrNull { it.first == tag }?.second
+                ?: getString(R.string.settings_language_system)
+
+        container.addView(
+            TextView(requireContext()).apply {
+                setText(R.string.settings_language_section)
+                contentDescription = getString(R.string.settings_language_section)
+            },
+        )
+        val row = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = android.view.Gravity.CENTER_VERTICAL
+            minimumHeight = resources.getDimensionPixelSize(R.dimen.xykell_touch_target_min)
+            contentDescription = getString(R.string.settings_language_desc)
+        }
+        val current = AppCompatDelegate.getApplicationLocales()
+        val currentTag = if (current.isEmpty) null else current[0]?.toLanguageTag()
+        row.setOnClickListener {
+            val names = locales.map { it.second }.toTypedArray()
+            val checked = locales.indexOfFirst { it.first == currentTag }
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.settings_language)
+                .setSingleChoiceItems(names, checked) { dialog, which ->
+                    val tag = locales[which].first
+                    AppCompatDelegate.setApplicationLocales(
+                        if (tag == null) {
+                            LocaleListCompat.getEmptyLocaleList()
+                        } else {
+                            LocaleListCompat.forLanguageTags(tag)
+                        },
+                    )
+                    dialog.dismiss()
+                }
+                .show()
+        }
+        row.addView(
+            TextView(requireContext()).apply {
+                setText(R.string.settings_language)
+            },
+            LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f),
+        )
+        row.addView(
+            TextView(requireContext()).apply {
+                text = labelFor(currentTag)
+            },
+        )
+        container.addView(row)
+    }
+
     private fun loadRows(): List<Row> {
         val out = mutableListOf<Row>()
         try {
@@ -215,6 +285,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         container.removeAllViews()
         error.text = ""
         addPrivacySection()
+        addLanguageSection()
         val allRows = loadRows()
         val rows = allRows.filter {
             filter.isBlank() ||
@@ -245,7 +316,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         for (missing in listOf("Appearance", "Modules", "Controls", "Performance", "Advanced", "About")) {
             if (rows.none { SettingRowMapper.displaySection(it.section) == missing }) {
                 val note = TextView(requireContext())
-                note.text = "$missing\nNOT WIRED — no settings declared for this section yet."
+                note.text = getString(R.string.settings_section_not_wired, missing)
                 container.addView(note)
             }
         }
@@ -259,12 +330,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         title.text = display
         title.textSize = 18f
         val reset = Button(context)
-        reset.text = "RESET"
+        reset.text = getString(R.string.ui_reset)
         reset.setOnClickListener {
             if (NativeSettings.reset(NativeSettings.root(context), native)) {
                 reload("")
             } else {
-                error.text = "Section reset failed"
+                error.text = getString(R.string.settings_section_reset_failed)
             }
         }
         box.addView(title)
@@ -292,7 +363,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         )
                     ) {
                         sw.isChecked = !checked
-                        error.text = "Rejected: ${row.section}.${row.key}"
+                        error.text = getString(R.string.settings_rejected, row.section, row.key)
                     } else {
                         error.text = ""
                     }
@@ -323,7 +394,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                                 NativeSettings.root(context), row.section, row.key, json,
                             )
                         ) {
-                            error.text = "Rejected: ${row.section}.${row.key}"
+                            error.text = getString(R.string.settings_rejected, row.section, row.key)
                         } else {
                             error.text = ""
                         }
@@ -341,7 +412,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 spinner.setSelection(row.options.indexOf(cur).coerceAtLeast(0))
                 box.addView(spinner)
                 val apply = Button(context)
-                apply.text = "APPLY"
+                apply.text = getString(R.string.settings_apply)
                 apply.setOnClickListener {
                     val chosen = row.options[spinner.selectedItemPosition]
                     if (!NativeSettings.set(
@@ -349,7 +420,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                             JSONObject.quote(chosen),
                         )
                     ) {
-                        error.text = "Rejected: ${row.section}.${row.key}"
+                        error.text = getString(R.string.settings_rejected, row.section, row.key)
                     } else {
                         error.text = ""
                     }
@@ -361,14 +432,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 edit.setText(current?.optString(row.key, "") ?: "")
                 box.addView(edit)
                 val apply = Button(context)
-                apply.text = "APPLY"
+                apply.text = getString(R.string.settings_apply)
                 apply.setOnClickListener {
                     if (!NativeSettings.set(
                             NativeSettings.root(context), row.section, row.key,
                             JSONObject.quote(edit.text.toString()),
                         )
                     ) {
-                        error.text = "Rejected: ${row.section}.${row.key}"
+                        error.text = getString(R.string.settings_rejected, row.section, row.key)
                     } else {
                         error.text = ""
                     }
@@ -377,12 +448,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
         val resetOne = Button(context)
-        resetOne.text = "RESET THIS"
+        resetOne.text = getString(R.string.settings_reset_this)
         resetOne.setOnClickListener {
             if (NativeSettings.reset(NativeSettings.root(context), row.section)) {
                 reload("")
             } else {
-                error.text = "Reset failed"
+                error.text = getString(R.string.settings_reset_failed)
             }
         }
         box.addView(resetOne)

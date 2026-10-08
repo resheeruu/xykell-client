@@ -13,16 +13,16 @@ IMPLEMENTED, never reproduced.
 | HUD modules (FPS/coords/CPS/clock) | overlay widgets + editor | modules page + AGPL slice | local-data providers first, game data only when sourced | hud_sources (FPS/CPS/clock/session) | test_hud_sources/host | smoke render | IMPLEMENTED |
 | ClickGUI (search/fav/toggles) | touch module browser | modules page | gui_controller + ClickGUI model | native GUI stack | host suites | smoke touch | IMPLEMENTED |
 | Keystrokes/CPS overlay | input display | modules page | tap stream → CPS (positions need stream) | TapCounter; keystrokes display pending | host | smoke touch | SPECIFIED |
-| Zoom, Fullbright, Freelook | FOV/light/camera prefs | modules page | legitimate prefs where technically possible | none yet | none | per-version sigs | RESEARCH_REQUIRED |
-| Waypoints, compass | world markers | modules page | needs continuous position (absent) | waypoints.h math only | host (math) | source first | RESEARCH_REQUIRED |
-| Scripts/automation | sandboxed scripting | modules page | future sandboxed scripts | none | none | — | RESEARCH_REQUIRED |
-| Combat automation | target/attack automation | modules page | EXCLUDED (cheat-class) | never | — | — | REFERENCE-ONLY / NOT IMPLEMENTED |
+| Zoom, Fullbright, Freelook | FOV/light/camera prefs | modules page | legitimate prefs where technically possible | Fullbright + time_changer implemented as SetTime 0x0A day-cycle rewrites (VisualModules); zoom is camera FOV, no packet field; freelook needs the server's prior body yaw, so cross-packet | host VisualModulesTest (15 tests) | device relay run pending | Fullbright/time_changer PARTIAL; zoom/freelook NOT DELIVERABLE BY A RELAY |
+| Waypoints, compass | world markers | modules page | position now observed (PlayerTravelled); marker readout = distance/bearing on waypoint rows | WaypointStore + MarkerMath + WaypointsFragment | host MarkerMathTest | source first (in-game anchor) | PARTIAL (in-game anchor device-gated) |
+| Scripts/automation | sandboxed scripting | modules page | sandboxed scripts (engine-limited) | ScriptEngine + sandbox + API (host-tested) | host suites | device sandbox review | PARTIAL |
+| Combat automation | target/attack automation | modules page | Assessed id by id rather than excluded wholesale: a stateless packet rewrite of bytes the relay already terminates is in scope; input injection and target selection are not | velocity (drops clientbound SetEntityMotion 0x28); the other 29 COMBAT ids carry a per-id reason | host CombatModulesTest (25 tests) + ModuleRuntimeTest (15) | device run pending | velocity PARTIAL; remaining 29 assessed not-deliverable |
 
 ## Lunar Proxy (101-module catalog, closed commercial)
 
 | Feature | Observed behavior | Evidence | Xykell interpretation | Implementation | Tests/CI | Device | Status |
 |---|---|---|---|---|---|---|---|
-| Module catalog breadth (101) | category-organized modules | authoritative catalog 2026-10-02 | registry taxonomy source | registry 255 entries | validate.py | — | RESEARCHED |
+| Module catalog breadth (101) | category-organized modules | authoritative catalog 2026-10-02 | registry taxonomy source | registry 258 entries | validate.py | — | RESEARCHED |
 | Target HUD, armor/potion HUD | game-state widgets | catalog | providers when sourced | hud_model types exist, "--" | host | source first | RESEARCH_REQUIRED |
 | KillAura/combat automation | automated combat | catalog | EXCLUDED | never | — | — | REFERENCE-ONLY / NOT IMPLEMENTED |
 | Packet modules | packet monitor/control | catalog | monitor RESEARCH; control EXCLUDED | none | none | no packet API | RESEARCH_REQUIRED |
@@ -33,7 +33,7 @@ IMPLEMENTED, never reproduced.
 |---|---|---|---|---|---|---|---|
 | Performance dashboard | FPS/memory/CPU/graphs | public docs | OS+frame-timer profiler | SPECIFIED (not built) | none yet | measured | RESEARCHED |
 | Cosmetics (own identity) | capes/particles/emotes | public docs | original Xykell cosmetics only | none yet | none | — | SPECIFIED |
-| Friends/social | lists/presence | public docs | local friends list exists; backend-gated rest | friends.h | host | BACKEND_REQUIRED for online | SPECIFIED |
+| Friends/social | lists/presence | public docs | local friends list exists; backend-gated rest | FriendStore + FriendsFragment + friends.h | FriendStoreTest 14 | BACKEND_REQUIRED for online | IMPLEMENTED (local; presence not claimed) |
 
 ## Atlas (60+ QoL, closed)
 
@@ -47,7 +47,7 @@ IMPLEMENTED, never reproduced.
 | Feature | Observed behavior | Evidence | Xykell interpretation | Implementation | Tests/CI | Device | Status |
 |---|---|---|---|---|---|---|---|
 | JSON config | file-based config | archive behavior | config_store schema | native | host | — | IMPLEMENTED |
-| Packet MITM | proxy interception | archive behavior | EXCLUDED (interception class) | never | — | — | REFERENCE-ONLY / NOT IMPLEMENTED |
+| Packet MITM | proxy interception | archive behavior | Shipped as the app's own relay, not as packet inspection: RelaySession terminates both Bedrock legs and forwards plaintext, so the client's identity is re-signed rather than any traffic being read out | RelayService + RelayPipe + RakNetEndpoint + BedrockBatch + BedrockHandshake + BedrockIdentity + RelayListener | host test_relaysession (4), test_raknetendpoint, test_bedrockbatch, test_bedrockhandshake | on-device E2E against a real server pending (MIUI blocks CLI install) | IMPLEMENTED (proxy.mode / proxy.relay PARTIAL; observation-only, nothing logged to disk) |
 
 ## LeviLauncher (Apache-2.0 OSS, APK verified on-device)
 

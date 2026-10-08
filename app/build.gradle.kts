@@ -35,7 +35,8 @@ android {
     }
 
     // Shared native core (same ProfileManager sources as the game module).
-    // Built by CI's NDK; phone never builds APKs (aapt2 is x86-64).
+    // Built by CI's NDK. Local on-device builds use scripts/build-apk.sh
+    // (termux aapt2/d8 are aarch64; the SDK's own aapt2 is x86-64).
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")

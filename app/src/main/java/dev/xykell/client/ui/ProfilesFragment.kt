@@ -196,17 +196,17 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
             val active = NativeProfiles.getActive(root())
             val json = NativeProfiles.getProfileJson(root(), active)
             if (json == null) {
-                statusView.text = "Export failed: no readable active profile"
+                statusView.text = getString(R.string.profiles_export_failed_active)
                 return
             }
             val dir = File(requireContext().getExternalFilesDir(null), "Xykell")
             if (!dir.exists() && !dir.mkdirs()) {
-                statusView.text = "Export failed: cannot create Xykell dir"
+                statusView.text = getString(R.string.profiles_export_failed_dir)
                 return
             }
             val file = File(dir, "profile-$active.json")
             file.writeText(json)
-            refresh(view, "Exported to ${file.absolutePath}")
+            refresh(view, getString(R.string.profiles_exported_to, file.absolutePath))
         } catch (e: Exception) {
             refresh(view, "Export failed: ${e.message}")
         }

@@ -273,7 +273,7 @@ class WorldsFragment : Fragment(R.layout.fragment_worlds) {
 
         if (entry.worldPath.isNotBlank()) {
             val path = TextView(context)
-            path.text = "Path: " + entry.worldPath.take(80)
+            path.text = getString(R.string.path_label, entry.worldPath.take(80))
             path.textSize = 12f
             path.setTextColor(
                 androidx.core.content.ContextCompat.getColor(

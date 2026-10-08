@@ -4,6 +4,7 @@
 #include "xykell/config_store.h"
 #include "xykell/core.h"
 #include "xykell/crash_guard.h"
+#include "xykell/feed_client.h"
 #include "xykell/file_util.h"
 #include "xykell/load_stages.h"
 #include "xykell/portal.h"
@@ -151,6 +152,13 @@ class XykellMod {
                 ctx.logger().info("{}: runtime-active marker FAILED ({})", XYKELL_NAME,
                                  activeErr);
             }
+            // App->game observation feed (Phase F): fills the consumer so
+            // in-game HUD shows live values instead of "--". Safe mode
+            // stays feed-off: new thread in a quarantined process is risk
+            // without benefit (HUD itself is off there).
+            xykell::feed::start();
+            ctx.logger().info("{}: observation feed {} (127.0.0.1:{})", XYKELL_NAME,
+                               "started", xykell::feed::kDefaultPort);
             stages.mark(xykell::LoadStage::Ready, "load chain complete");
             ctx.logger().info("{}", stages.report());
         }
@@ -182,6 +190,7 @@ class XykellMod {
         if (!cfg.save(cfgErr)) {
             ctx.logger().info("{}: config save FAILED", XYKELL_NAME);
         }
+        xykell::feed::stop();
         runtimeModules().setEnabled(xykell::kHudModuleId, false);
         runtimeModules().setEnabled(xykell::kMenuModuleId, false);
         xykell::unregisterClickGuiModule();

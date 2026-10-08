@@ -11,6 +11,7 @@
 #include "xykell/core.h"
 #include "xykell/gui_controller.h"
 #include "xykell/hud_renderer.h"
+#include "xykell/hud_sources.h"
 #include "xykell/input_router.h"
 #include "xykell/module_manager.h"
 #include "xykell/portal.h"
@@ -58,6 +59,18 @@ void refreshHud() {
     ctx.taps = gTaps.load();
     const auto& info = XykellCore::instance().info();
     ctx.versionLine = std::string("XYKELL ") + XYKELL_VERSION + " | mc=" + info.minecraftVersion;
+    // Motion providers re-bind every refresh: cheap (few elements), always
+    // consistent with the current observation snapshot. Empty feed -> "--".
+    hud::sources::bindMotionProviders(gHudMgr.layout(),
+                                      &runtime::sharedObservationSnapshot());
+    // Vitals come from the same snapshot (observed SetHealth 0x2A), so they bind
+    // in the same refresh; absent health renders "--", never a zeroed bar.
+    hud::sources::bindVitalsProviders(gHudMgr.layout(),
+                                      &runtime::sharedObservationSnapshot());
+    // Entity count and tick rate ride the same snapshot (relay population +
+    // SetTime delta), so they bind in the same refresh.
+    hud::sources::bindPopulationProviders(gHudMgr.layout(),
+                                          &runtime::sharedObservationSnapshot());
     std::vector<portal::OverlayLine> lines;
     // Proof banner first: only present when code runs in-process.
     if (!gDataDir.empty() && isRuntimeActive(gDataDir)) {

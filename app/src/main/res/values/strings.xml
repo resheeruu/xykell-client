@@ -37,16 +37,16 @@
     <!-- Module catalog (Batch 12) -->
     <string name="modules_title">Modules</string>
     <string name="modules_search_hint">Search modules…</string>
-    <string name="modules_hint">Statuses are authoritative. Switches store profile preferences for in-game use — nothing runs from this app; support status governs what actually operates.</string>
+    <string name="modules_hint">Statuses are authoritative. Switches enable each module in the active profile; the relay applies them to live traffic while it runs.</string>
     <string name="modules_unavailable">Registry unavailable — catalog not loaded.</string>
     <string name="modules_count_line">%1$d modules · %2$d categories · tap a row for detail</string>
     <string name="modules_no_match">No modules match \"%1$s\".</string>
     <string name="modules_detail_format">id: %1$s · implementation: %2$s · risk: %3$s\ncapabilities: %4$s\nsettings: %5$s\nevidence: %6$s</string>
-    <string name="modules_pref_saved">Saved preference for \"%1$s\": %2$s</string>
+    <string name="modules_pref_saved">Enabled %1$s for this profile: %2$s</string>
     <string name="modules_pref_failed">Could not save preference for \"%1$s\" — reverted.</string>
     <string name="modules_pref_unavailable">Profile store unavailable — preference not saved.</string>
-    <string name="modules_switch_desc">Preference for %1$s (profile)</string>
-    <string name="modules_hint_switch_label">profile preference</string>
+    <string name="modules_switch_desc">Enable %1$s in this profile</string>
+    <string name="modules_hint_switch_label">enabled</string>
 
     <!-- Keybinds (Batch 13) -->
     <string name="nav_keybinds">Keybinds</string>
@@ -238,9 +238,10 @@
     <string name="update_title">Update Center</string>
     <string name="update_body">Current version and update status. No remote update service configured — showing local metadata only.</string>
     <string name="update_current_version">Xykell %1$s (native %2$s)\nLevi target: %3$s, preloader: %4$s</string>
-    <string name="update_status_none">No update metadata available</string>
+    <string name="update_status_none">NO REMOTE UPDATE SOURCE CONFIGURED</string>
     <string name="update_status_available">Update available: %1$s</string>
-    <string name="update_download">CHECK FOR UPDATE</string>
+    <string name="update_download">OPEN UPDATE PAGE</string>
+    <string name="update_open_failed">Could not open update page</string>
 
     <string name="session_title">Session</string>
     <string name="session_body">Pre-launch configuration: profile, theme, runtime, observation, and launch readiness.</string>
@@ -294,6 +295,10 @@
     <string name="perf_yes">yes</string>
     <string name="perf_no">no</string>
     <string name="perf_gpu_section">GPU information</string>
+    <string name="settings_language_section">App language</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">Choose the interface language. System default follows the device.</string>
+    <string name="settings_language_system">System default</string>
     <string name="settings_privacy_section">Privacy and presentation</string>
     <string name="settings_streamer_mode">Streamer mode</string>
     <string name="settings_streamer_mode_desc">Hides the Xykell account name and device model from anything you share or export. It does not hide the game window or stop a third-party app photographing the display.</string>
@@ -383,7 +388,25 @@
     <string name="waypoints_failed">Could not save the waypoint.</string>
     <string name="waypoints_cleared">All waypoints cleared.</string>
     <string name="waypoint_row_format">%1$s (%2$s)  %3$.1f, %4$.1f, %5$.1f</string>
+    <string name="waypoint_row_distance">  ·  %1$s</string>
     <string name="waypoint_remove">Remove</string>
+
+    <!-- Friends sub-screen -->
+    <string name="nav_friends">Friends</string>
+    <string name="nav_friends_desc">A local friends list you type yourself. Never synced.</string>
+    <string name="friends_title">Friends</string>
+    <string name="friends_body">A local list you enter yourself. Names are never read out of the game and nothing leaves this device. Online presence is not shown.</string>
+    <string name="friends_section_add">Add friend</string>
+    <string name="friends_name_hint">Name (up to 32 chars)</string>
+    <string name="friends_color_hint">Color (#RRGGBB)</string>
+    <string name="friends_notes_hint">Notes (optional)</string>
+    <string name="friends_add">Add</string>
+    <string name="friends_section_list">Saved friends</string>
+    <string name="friends_empty">No friends saved.</string>
+    <string name="friends_added">Friend saved.</string>
+    <string name="friends_invalid">Rejected. Check the name (1-32 chars, not already listed) and color (#RRGGBB).</string>
+    <string name="friend_row_format">%1$s — %2$s</string>
+    <string name="friend_remove">Remove</string>
 
     <!-- Timer sub-screen -->
     <string name="nav_timer">Timer</string>
@@ -449,4 +472,93 @@
     <string name="ui_theme">Theme</string>
     <string name="ui_xykell_version">Xykell Version</string>
     <string name="ui_launch_status">LAUNCH STATUS</string>
+
+    <!-- Localization of previously hardcoded UI strings -->
+    <string name="home_title">XYKELL CLIENT</string>
+    <string name="home_device_diag">Device: %1$s %2$s, Android %3$s, %4$s</string>
+    <string name="profiles_export_failed_active">Export failed: no readable active profile</string>
+    <string name="profiles_export_failed_dir">Export failed: cannot create Xykell dir</string>
+    <string name="profiles_exported_to">Exported to %1$s</string>
+    <string name="settings_reset_failed_bridge">Reset failed (native bridge unavailable?)</string>
+    <string name="settings_section_not_wired">%1$s\nNOT WIRED — no settings declared for this section yet.</string>
+    <string name="settings_section_reset_failed">Section reset failed</string>
+    <string name="settings_rejected">Rejected: %1$s.%2$s</string>
+    <string name="settings_apply">APPLY</string>
+    <string name="settings_reset_this">RESET THIS</string>
+    <string name="settings_reset_failed">Reset failed</string>
+    <string name="hud_layout_reset_failed">Layout reset failed</string>
+    <string name="hud_empty_layout">No elements in this profile layout.</string>
+    <string name="hud_module_toggle_failed">Module toggle failed: %1$s</string>
+    <string name="hud_visible">Visible</string>
+    <string name="hud_pos_scale">x=%1$d y=%2$d scale=%3$.2f</string>
+    <string name="hud_step_x_minus">X-8</string>
+    <string name="hud_step_x_plus">X+8</string>
+    <string name="hud_step_y_minus">Y-8</string>
+    <string name="hud_step_y_plus">Y+8</string>
+    <string name="hud_commit">COMMIT ELEMENT</string>
+    <string name="hud_commit_rejected">Element commit rejected (index %1$d)</string>
+    <string name="hud_element_title">%1$s #%2$d</string>
+    <string name="path_label">Path: %1$s</string>
+    <string name="packs_type_badge">  [%1$s]</string>
+    <string name="splash_ready">Ready</string>
+    <string name="page_indicator">%1$d / %2$d</string>
+
+    <!-- Diagnostics screen (Client hub) -->
+    <string name="nav_diagnostics">Diagnostics</string>
+    <string name="nav_diagnostics_desc">Crash reports, observation counters, bridge health, versions</string>
+    <string name="diag_title">DIAGNOSTICS</string>
+    <string name="diag_version_header">VERSION</string>
+    <string name="diag_bridge_header">BRIDGE HEALTH</string>
+    <string name="diag_observation_header">OBSERVATION</string>
+    <string name="diag_observation_native">Native: %1$s</string>
+    <string name="diag_observation_native_down">Native: unavailable (bridge not loaded)</string>
+    <string name="diag_crash_header">CRASH REPORTS</string>
+    <string name="diag_crash_count">Reports: %1$d (max 10, 64 KB each)</string>
+    <string name="diag_crash_empty">No crash reports stored</string>
+    <string name="diag_crash_export">EXPORT ALL</string>
+    <string name="diag_crash_delete_all">DELETE ALL</string>
+    <string name="diag_crash_view">VIEW</string>
+    <string name="diag_crash_delete">DELETE</string>
+    <string name="diag_crash_meta">%1$d bytes, %2$s</string>
+    <string name="diag_crash_view_title">Crash report: %1$s</string>
+    <string name="diag_crash_view_failed">Cannot read that report</string>
+    <string name="diag_crash_deleted">Deleted %1$s</string>
+    <string name="diag_crash_deleted_all">Deleted %1$d report(s)</string>
+    <string name="diag_crash_exported">Exported %1$d report(s) to Xykell/crash</string>
+    <string name="diag_crash_export_failed_dir">Export failed: cannot create Xykell dir</string>
+    <string name="nav_autoclicker">Autoclicker</string>
+    <string name="nav_autoclicker_desc">Tap automation: target point, CPS, jitter, tap-macro record and replay</string>
+    <string name="nav_relay">Relay</string>
+    <string name="nav_relay_desc">Local proxy: play through this device, forward to a real server</string>
+    <string name="relay_title">RELAY</string>
+    <string name="relay_body">Forwards Minecraft traffic through this device, byte for byte. Start it, then add 127.0.0.1 as the address and the local listen port as the port in your Minecraft server list, with the real server below as upstream. Nothing is read or logged.</string>
+    <string name="relay_host_hint">Upstream host (e.g. play.example.net)</string>
+    <string name="relay_upstream_port_hint">Upstream port (e.g. 19132)</string>
+    <string name="relay_listen_port_hint">Local listen port (e.g. 19133)</string>
+    <string name="relay_start">Start relay</string>
+    <string name="relay_stop">Stop relay</string>
+    <string name="relay_invalid">Invalid host or port (1-65535)</string>
+    <string name="ac_title">AUTOCLICKER</string>
+    <string name="ac_body">Real input automation through the Android accessibility gesture API. It taps the game screen itself: no injection, no packets, works on any server. Enable the Xykell Touch service in system settings first, set the target, then switch to the game and press start.</string>
+    <string name="ac_service_header">SERVICE</string>
+    <string name="ac_service_disabled">Touch service disabled — enable Xykell Touch in accessibility settings</string>
+    <string name="ac_service_enabled">Touch service connected</string>
+    <string name="ac_open_settings">OPEN ACCESSIBILITY SETTINGS</string>
+    <string name="ac_rate_header">RATE</string>
+    <string name="ac_cps_value">Speed: %1$d CPS</string>
+    <string name="ac_jitter_value">Jitter: %1$d%%</string>
+    <string name="ac_target_header">TARGET</string>
+    <string name="ac_target_hint">Tap the pad to place the tap point. The service scales it to the real screen at dispatch time.</string>
+    <string name="ac_macro_header">TAP MACRO</string>
+    <string name="ac_macro_status">Saved steps: %1$d / %2$d</string>
+    <string name="ac_record">RECORD MACRO</string>
+    <string name="ac_stop_record">STOP RECORDING</string>
+    <string name="ac_replay">REPLAY LOOP</string>
+    <string name="ac_stop_replay">STOP REPLAY</string>
+    <string name="ac_start_clicker">START CLICKER</string>
+    <string name="ac_stop_clicker">STOP CLICKER</string>
+    <string name="ac_recording_count">%1$d / %2$d steps</string>
+    <string name="ac_service_off">Start failed: touch service not connected</string>
+    <string name="ac_fab_desc">Toggle autoclicker</string>
+    <string name="ac_service_description">Xykell Touch injects taps for the Xykell autoclicker and tap-macro replay. It performs gestures only: it never reads screen content.</string>
 </resources>

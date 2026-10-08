@@ -3,6 +3,7 @@
 // Pure C++, deterministic, no I/O.
 #include <cassert>
 #include <iostream>
+#include <optional>
 #include <string>
 
 #include "xykell/runtime_observation_consumer.h"
@@ -25,6 +26,20 @@ PlayerTravelObservation travel(const std::string& id, std::uint64_t at, double x
 
 UnknownObservation unknown(const std::string& id, std::uint64_t at, std::uint64_t wire) {
     auto o = makeUnknown(id, at, wire, "non-json-plaintext");
+    assert(o.has_value());
+    return *o;
+}
+
+VitalsObservation vitals(const std::string& id, std::uint64_t at, std::optional<int> health,
+                         std::optional<int> ticks) {
+    auto o = makeVitals(id, at, health, ticks);
+    assert(o.has_value());
+    return *o;
+}
+
+EntityPopulationObservation population(const std::string& id, std::uint64_t at,
+                                       std::uint64_t entities, std::uint64_t players) {
+    auto o = makeEntityPopulation(id, at, entities, players);
     assert(o.has_value());
     return *o;
 }
@@ -113,6 +128,116 @@ int main() {
                                    const RuntimeObservationSnapshot&>::value,
                       "snapshot must be const-access only");
     }
+    // --- speed: derived from consecutive travel positions, bounded ---
+    {
+        ObservationConsumer c;
+        assert(!c.snapshot().speedMps.has_value()); // nothing observed yet
+        c.consume(RuntimeObservation{travel("s1", 100ULL, 1.0, 0)});
+        assert(!c.snapshot().speedMps.has_value()); // one sample: no delta
+        c.consume(RuntimeObservation{travel("s2", 600ULL, 4.0, 0)});
+        assert(c.snapshot().speedMps.has_value());
+        // |4.0 - 1.0| = 3 m over 500 ms -> 6.0 m/s.
+        assert(c.snapshot().speedMps.value() > 5.99 && c.snapshot().speedMps.value() < 6.01);
+        // Equal timestamps: division by zero never happens, last speed kept.
+        c.consume(RuntimeObservation{travel("s3", 600ULL, 10.0, 0)});
+        assert(c.snapshot().speedMps.value() > 5.99 && c.snapshot().speedMps.value() < 6.01);
+        // Backward timestamp: ignored, last valid speed kept.
+        c.consume(RuntimeObservation{travel("s4", 100ULL, 50.0, 0)});
+        assert(c.snapshot().speedMps.value() > 5.99 && c.snapshot().speedMps.value() < 6.01);
+        // Zero movement over 1 s -> exactly 0 m/s (observed, not fabricated).
+        ObservationConsumer still;
+        still.consume(RuntimeObservation{travel("z1", 0ULL, 7.0, 0)});
+        still.consume(RuntimeObservation{travel("z2", 1000ULL, 7.0, 0)});
+        assert(still.snapshot().speedMps.has_value());
+        assert(still.snapshot().speedMps.value() == 0.0);
+    }
+    // --- vitals: each field merges independently, never defaulted to zero ---
+    {
+        ObservationConsumer c;
+        assert(!c.snapshot().latestHealth.has_value());
+        assert(!c.snapshot().latestTimeTicks.has_value());
+        // SetHealth 0x2A: health only.
+        c.consume(RuntimeObservation{vitals("h1", 10ULL, 16, std::nullopt)});
+        assert(c.snapshot().latestHealth.value() == 16);
+        assert(!c.snapshot().latestTimeTicks.has_value());  // still unknown
+        // SetTime 0x0A: clock only. It MUST NOT clear the health already seen.
+        c.consume(RuntimeObservation{vitals("t1", 20ULL, std::nullopt, 4321)});
+        assert(c.snapshot().latestHealth.value() == 16);
+        assert(c.snapshot().latestTimeTicks.value() == 4321);
+        assert(c.snapshot().vitalsCount == 2);
+        // A later health value replaces it.
+        c.consume(RuntimeObservation{vitals("h2", 30ULL, 4, std::nullopt)});
+        assert(c.snapshot().latestHealth.value() == 4);
+        assert(c.snapshot().latestTimeTicks.value() == 4321);
+    }
+    // --- vitals: an empty observation is rejected, never stored ---
+    {
+        assert(!makeVitals("", 1ULL, 20, std::nullopt).has_value());  // empty id
+        assert(!makeVitals("v", 1ULL, std::nullopt, std::nullopt).has_value());  // neither
+        assert(!makeVitals("v", 1ULL, -1, std::nullopt).has_value());  // negative health
+        assert(!makeVitals("v", 1ULL, std::nullopt, -5).has_value());  // negative ticks
+        // Zero is a legitimate observation (a real 0 health / tick 0).
+        assert(makeVitals("v", 1ULL, 0, std::nullopt).has_value());
+    }
+    // --- vitals never manufacture message or travel state ---
+    {
+        ObservationConsumer c;
+        c.consume(RuntimeObservation{vitals("v", 1ULL, 20, 99)});
+        assert(!c.snapshot().latestMessage.has_value());
+        assert(!c.snapshot().latestTravel.has_value());
+        assert(c.snapshot().unknownCount == 0);
+        assert(kindOf(RuntimeObservation{vitals("v", 1ULL, 20, 99)}) == ObservationKind::Vitals);
+    }
+    // --- population: observed counts, and an impossible pair rejected ---
+    {
+        ObservationConsumer c;
+        assert(!c.snapshot().latestEntityCount.has_value());
+        assert(!c.snapshot().latestPlayerCount.has_value());
+        c.consume(RuntimeObservation{population("p1", 5ULL, 7, 2)});
+        assert(c.snapshot().latestEntityCount.value() == 7);
+        assert(c.snapshot().latestPlayerCount.value() == 2);
+        assert(c.snapshot().populationCount == 1);
+        // A later count replaces both; it is never merged field-by-field, so a
+        // population with no players cannot leave a stale player count behind.
+        c.consume(RuntimeObservation{population("p2", 6ULL, 1, 1)});
+        assert(c.snapshot().latestEntityCount.value() == 1);
+        assert(c.snapshot().latestPlayerCount.value() == 1);
+        // players > entities is a caller bug, never stored.
+        assert(!makeEntityPopulation("bad", 7ULL, 2, 5).has_value());
+        assert(!makeEntityPopulation("", 7ULL, 2, 1).has_value());
+        assert(makeEntityPopulation("ok", 7ULL, 0, 0).has_value());
+        assert(kindOf(RuntimeObservation{population("p3", 8ULL, 0, 0)}) ==
+               ObservationKind::EntityPopulation);
+        // Population never manufactures message, travel or vitals state.
+        assert(!c.snapshot().latestMessage.has_value());
+        assert(!c.snapshot().latestTravel.has_value());
+        assert(!c.snapshot().latestHealth.has_value());
+    }
+    // --- ticks per second: derived only from two distinct clock samples ---
+    {
+        ObservationConsumer c;
+        assert(!c.snapshot().ticksPerSecond.has_value());
+        // One SetTime is not a rate: no division by nothing.
+        c.consume(RuntimeObservation{vitals("t1", 1000ULL, std::nullopt, 20)});
+        assert(!c.snapshot().ticksPerSecond.has_value());
+        // 40 ticks over 1 second.
+        c.consume(RuntimeObservation{vitals("t2", 2000ULL, std::nullopt, 60)});
+        assert(c.snapshot().ticksPerSecond.value() > 39.99 &&
+               c.snapshot().ticksPerSecond.value() < 40.01);
+        // A clock that does not advance keeps the last valid rate rather than
+        // reporting a negative one.
+        c.consume(RuntimeObservation{vitals("t3", 3000ULL, std::nullopt, 60)});
+        assert(c.snapshot().ticksPerSecond.value() > 39.99 &&
+               c.snapshot().ticksPerSecond.value() < 40.01);
+        // Backward timestamps are ignored, not divided.
+        c.consume(RuntimeObservation{vitals("t4", 500ULL, std::nullopt, 61)});
+        assert(c.snapshot().ticksPerSecond.value() > 39.99 &&
+               c.snapshot().ticksPerSecond.value() < 40.01);
+        // A health-only observation must not disturb the rate.
+        c.consume(RuntimeObservation{vitals("h9", 4000ULL, 12, std::nullopt)});
+        assert(c.snapshot().ticksPerSecond.value() > 39.99 &&
+               c.snapshot().ticksPerSecond.value() < 40.01);
+    }
     // --- boundedness: fixed-size state regardless of volume ---
     {
         ObservationConsumer c;
@@ -120,11 +245,14 @@ int main() {
             c.consume(RuntimeObservation{msg("m", 1ULL, "x")});
             c.consume(RuntimeObservation{travel("t", 1ULL, 1.0, 0)});
             c.consume(RuntimeObservation{unknown("u", 1ULL, 9)});
+            c.consume(RuntimeObservation{vitals("v", 1ULL, 20, std::nullopt)});
+            c.consume(RuntimeObservation{population("p", 1ULL, 3, 1)});
         }
         const auto& s = c.snapshot();
         assert(s.messageCount == 1000 && s.travelCount == 1000 && s.unknownCount == 1000);
-        assert(c.totalConsumed() == 3000);
-        // Constant shape: two optionals + five scalars + one short string.
+        assert(s.vitalsCount == 1000 && s.populationCount == 1000);
+        assert(c.totalConsumed() == 5000);
+        // Constant shape: optionals + scalars + one short string.
         assert(sizeof(RuntimeObservationSnapshot) < 512);
     }
 

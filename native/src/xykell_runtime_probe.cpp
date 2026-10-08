@@ -71,8 +71,12 @@ ProbeReport RuntimeProbe::collect(const std::string& xykellVersion,
          "file logic unit-tested; device paths pending first Levi load"},
         {"PROFILE_STORE", CapState::Partial, "same as CONFIG_STORE"},
         {"CRASHGUARD", CapState::Partial, "persistence unit-tested; device pending"},
-        {"SCRIPTING", CapState::NotImplemented, "docs/SCRIPTING.md design only"},
-        {"PROXY", CapState::NotImplemented, "proxy design pending (Batch 4)"},
+        {"SCRIPTING", CapState::Partial,
+         "app-side runtime/sandbox/api/manager implemented + unit-tested; "
+         "in-game script bridge pending device"},
+        {"PROXY", CapState::NotImplemented,
+         "no packet API in pinned SDK headers (GAP-ANALYSIS); proxy ids are "
+         "REFERENCE_ONLY"},
     };
     return r;
 }

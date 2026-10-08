@@ -1,0 +1,6855 @@
+{
+ "AddBehaviorTree": {
+  "bound": "client",
+  "fields": [
+   [
+    "behaviortree",
+    "string"
+   ]
+  ],
+  "hex": "0x59",
+  "id": 89,
+  "name": "AddBehaviorTree",
+  "packet": "packet_add_behavior_tree",
+  "toClient": true,
+  "toServer": false
+ },
+ "AddEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "unique_id",
+    "zigzag64"
+   ],
+   [
+    "runtime_id",
+    "varint64"
+   ],
+   [
+    "entity_type",
+    "string"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "velocity",
+    "vec3f"
+   ],
+   [
+    "pitch",
+    "lf32"
+   ],
+   [
+    "yaw",
+    "lf32"
+   ],
+   [
+    "head_yaw",
+    "lf32"
+   ],
+   [
+    "body_yaw",
+    "lf32"
+   ],
+   [
+    "attributes",
+    "EntityAttributes"
+   ],
+   [
+    "metadata",
+    "MetadataDictionary"
+   ],
+   [
+    "properties",
+    "EntityProperties"
+   ],
+   [
+    "links",
+    "Links"
+   ]
+  ],
+  "hex": "0x0d",
+  "id": 13,
+  "name": "AddEntity",
+  "packet": "packet_add_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "AddItemEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_id_self",
+    "zigzag64"
+   ],
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "item",
+    "ItemV4"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "velocity",
+    "vec3f"
+   ],
+   [
+    "metadata",
+    "MetadataDictionary"
+   ],
+   [
+    "is_from_fishing",
+    "bool"
+   ]
+  ],
+  "hex": "0x0f",
+  "id": 15,
+  "name": "AddItemEntity",
+  "packet": "packet_add_item_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "AddPainting": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_id_self",
+    "zigzag64"
+   ],
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "coordinates",
+    "vec3f"
+   ],
+   [
+    "direction",
+    "zigzag32"
+   ],
+   [
+    "title",
+    "string"
+   ]
+  ],
+  "hex": "0x16",
+  "id": 22,
+  "name": "AddPainting",
+  "packet": "packet_add_painting",
+  "toClient": true,
+  "toServer": false
+ },
+ "AddPlayer": {
+  "bound": "client",
+  "fields": [
+   [
+    "uuid",
+    "uuid"
+   ],
+   [
+    "username",
+    "string"
+   ],
+   [
+    "runtime_id",
+    "varint64"
+   ],
+   [
+    "platform_chat_id",
+    "string"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "velocity",
+    "vec3f"
+   ],
+   [
+    "pitch",
+    "lf32"
+   ],
+   [
+    "yaw",
+    "lf32"
+   ],
+   [
+    "head_yaw",
+    "lf32"
+   ],
+   [
+    "held_item",
+    "ItemV4"
+   ],
+   [
+    "gamemode",
+    "GameMode"
+   ],
+   [
+    "metadata",
+    "MetadataDictionary"
+   ],
+   [
+    "properties",
+    "EntityProperties"
+   ],
+   [
+    "unique_id",
+    "li64"
+   ],
+   [
+    "permission_level",
+    "PermissionLevel"
+   ],
+   [
+    "command_permission",
+    "CommandPermissionLevel"
+   ],
+   [
+    "abilities",
+    "AbilityLayers[]u8"
+   ],
+   [
+    "links",
+    "Links"
+   ],
+   [
+    "device_id",
+    "string"
+   ],
+   [
+    "device_os",
+    "'[\"optionalOnRemaining\", { \"type\": \"DeviceOS\" }]'"
+   ]
+  ],
+  "hex": "0x0c",
+  "id": 12,
+  "name": "AddPlayer",
+  "packet": "packet_add_player",
+  "toClient": true,
+  "toServer": false
+ },
+ "AddVolumeEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_id",
+    "varint64"
+   ],
+   [
+    "nbt",
+    "nbt"
+   ],
+   [
+    "encoding_identifier",
+    "string"
+   ],
+   [
+    "instance_name",
+    "string"
+   ],
+   [
+    "bounds",
+    " "
+   ],
+   [
+    "min",
+    "BlockCoordinates"
+   ],
+   [
+    "max",
+    "BlockCoordinates"
+   ],
+   [
+    "dimension",
+    "zigzag32"
+   ],
+   [
+    "engine_version",
+    "string"
+   ]
+  ],
+  "hex": "0xa6",
+  "id": 166,
+  "name": "AddVolumeEntity",
+  "packet": "packet_add_volume_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "AdventureSettings": {
+  "bound": "both",
+  "fields": [
+   [
+    "flags",
+    "AdventureFlags"
+   ],
+   [
+    "command_permission",
+    "CommandPermissionLevelVarint"
+   ],
+   [
+    "action_permissions",
+    "ActionPermissions"
+   ],
+   [
+    "permission_level",
+    "PermissionLevel"
+   ],
+   [
+    "custom_stored_permissions",
+    "varint"
+   ],
+   [
+    "user_id",
+    "li64"
+   ]
+  ],
+  "hex": "0x37",
+  "id": 55,
+  "name": "AdventureSettings",
+  "packet": "packet_adventure_settings",
+  "toClient": true,
+  "toServer": true
+ },
+ "AgentAction": {
+  "bound": "client",
+  "fields": [
+   [
+    "request_id",
+    "string"
+   ],
+   [
+    "action_type",
+    "zigzag32 =>"
+   ],
+   [
+    "body",
+    "string"
+   ]
+  ],
+  "hex": "0xb5",
+  "id": 181,
+  "name": "AgentAction",
+  "packet": "packet_agent_action",
+  "toClient": true,
+  "toServer": false
+ },
+ "AgentAnimation": {
+  "bound": "client",
+  "fields": [
+   [
+    "animation",
+    "u8 =>"
+   ],
+   [
+    "entity_runtime_id",
+    "varint64"
+   ]
+  ],
+  "hex": "0x130",
+  "id": 304,
+  "name": "AgentAnimation",
+  "packet": "packet_agent_animation",
+  "toClient": true,
+  "toServer": false
+ },
+ "Animate": {
+  "bound": "both",
+  "fields": [
+   [
+    "action_id",
+    "u8 =>"
+   ],
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "data",
+    "lf32"
+   ],
+   [
+    "has_swing_source",
+    "bool"
+   ],
+   [
+    "swing_source",
+    "has_swing_source ?"
+   ]
+  ],
+  "hex": "0x2c",
+  "id": 44,
+  "name": "Animate",
+  "packet": "packet_animate",
+  "toClient": true,
+  "toServer": true
+ },
+ "AnimateEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "animation",
+    "string"
+   ],
+   [
+    "next_state",
+    "string"
+   ],
+   [
+    "stop_condition",
+    "string"
+   ],
+   [
+    "stop_condition_version",
+    "li32"
+   ],
+   [
+    "controller",
+    "string"
+   ],
+   [
+    "blend_out_time",
+    "lf32"
+   ],
+   [
+    "runtime_entity_ids",
+    "varint64[]varint"
+   ]
+  ],
+  "hex": "0x9e",
+  "id": 158,
+  "name": "AnimateEntity",
+  "packet": "packet_animate_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "AnvilDamage": {
+  "bound": "server",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ]
+  ],
+  "hex": "0x8d",
+  "id": 141,
+  "name": "AnvilDamage",
+  "packet": "packet_anvil_damage",
+  "toClient": false,
+  "toServer": true
+ },
+ "AvailableCommands": {
+  "bound": "client",
+  "fields": [
+   [
+    "values_len",
+    "varint"
+   ],
+   [
+    "enum_values",
+    "string[]$values_len"
+   ],
+   [
+    "chained_subcommand_values",
+    "string[]varint"
+   ],
+   [
+    "suffixes",
+    "string[]varint"
+   ],
+   [
+    "enums",
+    "[]varint"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "values",
+    "lu32[]varint"
+   ],
+   [
+    "chained_subcommands",
+    "[]varint"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "values",
+    "[]varint"
+   ],
+   [
+    "index",
+    "varint"
+   ],
+   [
+    "value",
+    "varint"
+   ],
+   [
+    "command_data",
+    "[]varint"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "description",
+    "string"
+   ],
+   [
+    "flags",
+    "lu16"
+   ],
+   [
+    "permission_level",
+    "string"
+   ],
+   [
+    "alias",
+    "li32"
+   ],
+   [
+    "chained_subcommand_offsets",
+    "lu32[]varint"
+   ],
+   [
+    "overloads",
+    "[]varint"
+   ],
+   [
+    "chaining",
+    "bool"
+   ],
+   [
+    "parameters",
+    "[]varint"
+   ],
+   [
+    "parameter_name",
+    "string"
+   ],
+   [
+    "value_type",
+    "lu16 =>"
+   ],
+   [
+    "enum_type",
+    "lu16 =>"
+   ],
+   [
+    "optional",
+    "bool"
+   ],
+   [
+    "options",
+    "CommandFlags"
+   ],
+   [
+    "dynamic_enums",
+    "[]varint"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "values",
+    "string[]varint"
+   ],
+   [
+    "enum_constraints",
+    "[]varint"
+   ],
+   [
+    "value_index",
+    "li32"
+   ],
+   [
+    "enum_index",
+    "li32"
+   ],
+   [
+    "constraints",
+    "[]varint"
+   ],
+   [
+    "constraint",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x4c",
+  "id": 76,
+  "name": "AvailableCommands",
+  "packet": "packet_available_commands",
+  "toClient": true,
+  "toServer": false
+ },
+ "AvailableEntityIdentifiers": {
+  "bound": "client",
+  "fields": [
+   [
+    "nbt",
+    "nbt"
+   ]
+  ],
+  "hex": "0x77",
+  "id": 119,
+  "name": "AvailableEntityIdentifiers",
+  "packet": "packet_available_entity_identifiers",
+  "toClient": true,
+  "toServer": false
+ },
+ "AwardAchievement": {
+  "bound": "client",
+  "fields": [
+   [
+    "achievement_id",
+    "li32"
+   ]
+  ],
+  "hex": "0x135",
+  "id": 309,
+  "name": "AwardAchievement",
+  "packet": "packet_award_achievement",
+  "toClient": true,
+  "toServer": false
+ },
+ "BiomeDefinitionList": {
+  "bound": "client",
+  "fields": [
+   [
+    "biome_definitions",
+    "BiomeDefinition[]varint"
+   ],
+   [
+    "string_list",
+    "string[]varint"
+   ]
+  ],
+  "hex": "0x7a",
+  "id": 122,
+  "name": "BiomeDefinitionList",
+  "packet": "packet_biome_definition_list",
+  "toClient": true,
+  "toServer": false
+ },
+ "BlockEntityData": {
+  "bound": "both",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "nbt",
+    "nbt"
+   ]
+  ],
+  "hex": "0x38",
+  "id": 56,
+  "name": "BlockEntityData",
+  "packet": "packet_block_entity_data",
+  "toClient": true,
+  "toServer": true
+ },
+ "BlockEvent": {
+  "bound": "client",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "type",
+    "zigzag32 =>"
+   ],
+   [
+    "data",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x1a",
+  "id": 26,
+  "name": "BlockEvent",
+  "packet": "packet_block_event",
+  "toClient": true,
+  "toServer": false
+ },
+ "BlockPickRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "x",
+    "zigzag32"
+   ],
+   [
+    "y",
+    "zigzag32"
+   ],
+   [
+    "z",
+    "zigzag32"
+   ],
+   [
+    "add_user_data",
+    "bool"
+   ],
+   [
+    "selected_slot",
+    "u8"
+   ]
+  ],
+  "hex": "0x22",
+  "id": 34,
+  "name": "BlockPickRequest",
+  "packet": "packet_block_pick_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "BookEdit": {
+  "bound": "server",
+  "fields": [
+   [
+    "inventory_slot",
+    "zigzag32"
+   ],
+   [
+    "type",
+    "varint =>"
+   ],
+   [
+    "_",
+    "type?"
+   ],
+   [
+    "page_number",
+    "zigzag32"
+   ],
+   [
+    "text",
+    "string"
+   ],
+   [
+    "photo_name",
+    "string"
+   ],
+   [
+    "page_number",
+    "zigzag32"
+   ],
+   [
+    "page1",
+    "zigzag32"
+   ],
+   [
+    "page2",
+    "zigzag32"
+   ],
+   [
+    "title",
+    "string"
+   ],
+   [
+    "author",
+    "string"
+   ],
+   [
+    "xuid",
+    "string"
+   ]
+  ],
+  "hex": "0x61",
+  "id": 97,
+  "name": "BookEdit",
+  "packet": "packet_book_edit",
+  "toClient": false,
+  "toServer": true
+ },
+ "BossEvent": {
+  "bound": "both",
+  "fields": [
+   [
+    "target_entity_id",
+    "zigzag64"
+   ],
+   [
+    "player_id",
+    "zigzag64"
+   ],
+   [
+    "type",
+    "u8 =>"
+   ],
+   [
+    "title",
+    "string"
+   ],
+   [
+    "filtered_title",
+    "string"
+   ],
+   [
+    "progress",
+    "lf32"
+   ],
+   [
+    "color",
+    "u8 =>"
+   ],
+   [
+    "overlay",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x4a",
+  "id": 74,
+  "name": "BossEvent",
+  "packet": "packet_boss_event",
+  "toClient": true,
+  "toServer": true
+ },
+ "Camera": {
+  "bound": "client",
+  "fields": [
+   [
+    "camera_entity_unique_id",
+    "zigzag64"
+   ],
+   [
+    "target_player_unique_id",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x49",
+  "id": 73,
+  "name": "Camera",
+  "packet": "packet_camera",
+  "toClient": true,
+  "toServer": false
+ },
+ "CameraAimAssist": {
+  "bound": "server",
+  "fields": [
+   [
+    "preset_id",
+    "string"
+   ],
+   [
+    "view_angle",
+    "vec2f"
+   ],
+   [
+    "distance",
+    "lf32"
+   ],
+   [
+    "target_mode",
+    "u8 =>"
+   ],
+   [
+    "action",
+    "u8 =>"
+   ],
+   [
+    "show_debug_render",
+    "bool"
+   ]
+  ],
+  "hex": "0x13C",
+  "id": 316,
+  "name": "CameraAimAssist",
+  "packet": "packet_camera_aim_assist",
+  "toClient": false,
+  "toServer": true
+ },
+ "CameraAimAssistActorPriority": {
+  "bound": "client",
+  "fields": [
+   [
+    "priority_data",
+    "CameraAimAssistActorPriorityData[]varint"
+   ]
+  ],
+  "hex": "0x153",
+  "id": 339,
+  "name": "CameraAimAssistActorPriority",
+  "packet": "packet_camera_aim_assist_actor_priority",
+  "toClient": true,
+  "toServer": false
+ },
+ "CameraAimAssistPresets": {
+  "bound": "client",
+  "fields": [
+   [
+    "categories",
+    "[]varint"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "entity_priorities",
+    "[]varint"
+   ],
+   [
+    "id",
+    "string"
+   ],
+   [
+    "priority",
+    "li32"
+   ],
+   [
+    "block_priorities",
+    "[]varint"
+   ],
+   [
+    "id",
+    "string"
+   ],
+   [
+    "priority",
+    "li32"
+   ],
+   [
+    "block_tags",
+    "varint[]varint"
+   ],
+   [
+    "entity_type_families",
+    "[]varint"
+   ],
+   [
+    "id",
+    "string"
+   ],
+   [
+    "priority",
+    "li32"
+   ],
+   [
+    "presets",
+    "[]varint"
+   ],
+   [
+    "id",
+    "string"
+   ],
+   [
+    "blocks",
+    "string[]varint"
+   ],
+   [
+    "entities",
+    "string[]varint"
+   ],
+   [
+    "block_tags",
+    "string[]varint"
+   ],
+   [
+    "entity_type_families",
+    "string[]varint"
+   ],
+   [
+    "target_liquids",
+    "string[]varint"
+   ],
+   [
+    "item_settings",
+    "[]varint"
+   ],
+   [
+    "id",
+    "string"
+   ],
+   [
+    "category",
+    "string"
+   ],
+   [
+    "operation",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x140",
+  "id": 320,
+  "name": "CameraAimAssistPresets",
+  "packet": "packet_camera_aim_assist_presets",
+  "toClient": true,
+  "toServer": false
+ },
+ "CameraInstruction": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_id",
+    "li32"
+   ],
+   [
+    "type",
+    "EaseType"
+   ],
+   [
+    "duration",
+    "lf32"
+   ],
+   [
+    "remove_ignore_starting_values",
+    "bool"
+   ],
+   [
+    "fade_in_duration",
+    "lf32"
+   ],
+   [
+    "wait_duration",
+    "lf32"
+   ],
+   [
+    "fade_out_duration",
+    "lf32"
+   ],
+   [
+    "color_rgb",
+    "vec3f"
+   ],
+   [
+    "entity_unique_id",
+    "li64"
+   ],
+   [
+    "field_of_view",
+    "lf32"
+   ],
+   [
+    "ease_time",
+    "lf32"
+   ],
+   [
+    "ease_type",
+    "EaseType"
+   ],
+   [
+    "clear",
+    "bool"
+   ]
+  ],
+  "hex": "0x12c",
+  "id": 300,
+  "name": "CameraInstruction",
+  "packet": "packet_camera_instruction",
+  "toClient": true,
+  "toServer": false
+ },
+ "CameraPresets": {
+  "bound": "client",
+  "fields": [
+   [
+    "presets",
+    "CameraPresets[]varint"
+   ]
+  ],
+  "hex": "0xc6",
+  "id": 198,
+  "name": "CameraPresets",
+  "packet": "packet_camera_presets",
+  "toClient": true,
+  "toServer": false
+ },
+ "CameraShake": {
+  "bound": "client",
+  "fields": [
+   [
+    "intensity",
+    "lf32"
+   ],
+   [
+    "duration",
+    "lf32"
+   ],
+   [
+    "type",
+    "u8"
+   ],
+   [
+    "action",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x9f",
+  "id": 159,
+  "name": "CameraShake",
+  "packet": "packet_camera_shake",
+  "toClient": true,
+  "toServer": false
+ },
+ "CameraSpline": {
+  "bound": "client",
+  "fields": [
+   [
+    "splines",
+    "CameraSplineDefinition[]varint"
+   ]
+  ],
+  "hex": "0x152",
+  "id": 338,
+  "name": "CameraSpline",
+  "packet": "packet_camera_spline",
+  "toClient": true,
+  "toServer": false
+ },
+ "ChangeDimension": {
+  "bound": "client",
+  "fields": [
+   [
+    "dimension",
+    "zigzag32"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "respawn",
+    "bool"
+   ]
+  ],
+  "hex": "0x3d",
+  "id": 61,
+  "name": "ChangeDimension",
+  "packet": "packet_change_dimension",
+  "toClient": true,
+  "toServer": false
+ },
+ "ChangeMobProperty": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_unique_id",
+    "zigzag64"
+   ],
+   [
+    "property",
+    "string"
+   ],
+   [
+    "bool_value",
+    "bool"
+   ],
+   [
+    "string_value",
+    "string"
+   ],
+   [
+    "int_value",
+    "zigzag32"
+   ],
+   [
+    "float_value",
+    "lf32"
+   ]
+  ],
+  "hex": "0xb6",
+  "id": 182,
+  "name": "ChangeMobProperty",
+  "packet": "packet_change_mob_property",
+  "toClient": true,
+  "toServer": false
+ },
+ "ChunkRadiusUpdate": {
+  "bound": "client",
+  "fields": [
+   [
+    "chunk_radius",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x46",
+  "id": 70,
+  "name": "ChunkRadiusUpdate",
+  "packet": "packet_chunk_radius_update",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientCacheBlobStatus": {
+  "bound": "server",
+  "fields": [
+   [
+    "missing",
+    "lu64[]varint"
+   ],
+   [
+    "have",
+    "lu64[]varint"
+   ]
+  ],
+  "hex": "0x87",
+  "id": 135,
+  "name": "ClientCacheBlobStatus",
+  "packet": "packet_client_cache_blob_status",
+  "toClient": false,
+  "toServer": true
+ },
+ "ClientCacheMissResponse": {
+  "bound": "client",
+  "fields": [
+   [
+    "blobs",
+    "Blob[]varint"
+   ]
+  ],
+  "hex": "0x88",
+  "id": 136,
+  "name": "ClientCacheMissResponse",
+  "packet": "packet_client_cache_miss_response",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientCacheStatus": {
+  "bound": "both",
+  "fields": [
+   [
+    "enabled",
+    "bool"
+   ]
+  ],
+  "hex": "0x81",
+  "id": 129,
+  "name": "ClientCacheStatus",
+  "packet": "packet_client_cache_status",
+  "toClient": true,
+  "toServer": true
+ },
+ "ClientCameraAimAssist": {
+  "bound": "both",
+  "fields": [
+   [
+    "preset_id",
+    "string"
+   ],
+   [
+    "action",
+    "u8 =>"
+   ],
+   [
+    "allow_aim_assist",
+    "bool"
+   ]
+  ],
+  "hex": "0x141",
+  "id": 321,
+  "name": "ClientCameraAimAssist",
+  "packet": "packet_client_camera_aim_assist",
+  "toClient": true,
+  "toServer": true
+ },
+ "ClientCheatAbility": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_unique_id",
+    "li64"
+   ],
+   [
+    "permission_level",
+    "PermissionLevel"
+   ],
+   [
+    "command_permission",
+    "CommandPermissionLevel"
+   ],
+   [
+    "abilities",
+    "AbilityLayers[]u8"
+   ]
+  ],
+  "hex": "0xc5",
+  "id": 197,
+  "name": "ClientCheatAbility",
+  "packet": "packet_client_cheat_ability",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientMovementPredictionSync": {
+  "bound": "both",
+  "fields": [
+   [
+    "data_flags",
+    "varint128 # TODO - figure out flags"
+   ],
+   [
+    "scale",
+    "lf32"
+   ],
+   [
+    "width",
+    "lf32"
+   ],
+   [
+    "height",
+    "lf32"
+   ],
+   [
+    "movement_speed",
+    "lf32"
+   ],
+   [
+    "underwater_movement_speed",
+    "lf32"
+   ],
+   [
+    "lava_movement_speed",
+    "lf32"
+   ],
+   [
+    "jump_strength",
+    "lf32"
+   ],
+   [
+    "health",
+    "lf32"
+   ],
+   [
+    "hunger",
+    "lf32"
+   ],
+   [
+    "unknown_attribute_1",
+    "lf32"
+   ],
+   [
+    "unknown_attribute_2",
+    "lf32"
+   ],
+   [
+    "unknown_attribute_3",
+    "lf32"
+   ],
+   [
+    "entity_runtime_id",
+    "varint64"
+   ],
+   [
+    "is_flying",
+    "bool"
+   ]
+  ],
+  "hex": "0x142",
+  "id": 322,
+  "name": "ClientMovementPredictionSync",
+  "packet": "packet_client_movement_prediction_sync",
+  "toClient": true,
+  "toServer": true
+ },
+ "ClientStartItemCooldown": {
+  "bound": "server",
+  "fields": [
+   [
+    "category",
+    "string"
+   ],
+   [
+    "duration",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0xb0",
+  "id": 176,
+  "name": "ClientStartItemCooldown",
+  "packet": "packet_client_start_item_cooldown",
+  "toClient": false,
+  "toServer": true
+ },
+ "ClientToServerHandshake": {
+  "bound": "server",
+  "fields": [],
+  "hex": "0x04",
+  "id": 4,
+  "name": "ClientToServerHandshake",
+  "packet": "packet_client_to_server_handshake",
+  "toClient": false,
+  "toServer": true
+ },
+ "ClientboundAttributeLayerSync": {
+  "bound": "client",
+  "fields": [
+   [
+    "payload_type",
+    "varint =>"
+   ],
+   [
+    "_",
+    "payload_type ?"
+   ],
+   [
+    "layers",
+    "AttributeLayerData[]varint"
+   ],
+   [
+    "layer_name",
+    "string"
+   ],
+   [
+    "dimension_id",
+    "zigzag32"
+   ],
+   [
+    "settings",
+    "AttributeLayerSettings"
+   ],
+   [
+    "layer_name",
+    "string"
+   ],
+   [
+    "dimension_id",
+    "zigzag32"
+   ],
+   [
+    "environment_attributes",
+    "EnvironmentAttributeData[]varint"
+   ],
+   [
+    "layer_name",
+    "string"
+   ],
+   [
+    "dimension_id",
+    "zigzag32"
+   ],
+   [
+    "remove_attribute_names",
+    "string[]varint"
+   ]
+  ],
+  "hex": "0x159",
+  "id": 345,
+  "name": "ClientboundAttributeLayerSync",
+  "packet": "packet_clientbound_attribute_layer_sync",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundCloseForm": {
+  "bound": "client",
+  "fields": [],
+  "hex": "0x136",
+  "id": 310,
+  "name": "ClientboundCloseForm",
+  "packet": "packet_clientbound_close_form",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundControlsScheme": {
+  "bound": "client",
+  "fields": [
+   [
+    "scheme",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x147",
+  "id": 327,
+  "name": "ClientboundControlsScheme",
+  "packet": "packet_clientbound_controls_scheme",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundDataDrivenUiCloseScreen": {
+  "bound": "client",
+  "fields": [],
+  "hex": "0x14e",
+  "id": 334,
+  "name": "ClientboundDataDrivenUiCloseScreen",
+  "packet": "packet_clientbound_data_driven_ui_close_screen",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundDataDrivenUiReload": {
+  "bound": "client",
+  "fields": [],
+  "hex": "0x14f",
+  "id": 335,
+  "name": "ClientboundDataDrivenUiReload",
+  "packet": "packet_clientbound_data_driven_ui_reload",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundDataDrivenUiShowScreen": {
+  "bound": "client",
+  "fields": [
+   [
+    "screen_id",
+    "string"
+   ],
+   [
+    "form_id",
+    "lu32"
+   ]
+  ],
+  "hex": "0x14d",
+  "id": 333,
+  "name": "ClientboundDataDrivenUiShowScreen",
+  "packet": "packet_clientbound_data_driven_ui_show_screen",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundDataStore": {
+  "bound": "client",
+  "fields": [
+   [
+    "updates",
+    "DataStoreChangeEntry[]varint"
+   ]
+  ],
+  "hex": "0x14a",
+  "id": 330,
+  "name": "ClientboundDataStore",
+  "packet": "packet_clientbound_data_store",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundMapItemData": {
+  "bound": "client",
+  "fields": [
+   [
+    "map_id",
+    "zigzag64"
+   ],
+   [
+    "dimension",
+    "u8"
+   ],
+   [
+    "locked",
+    "bool"
+   ],
+   [
+    "origin",
+    "vec3i"
+   ]
+  ],
+  "hex": "0x43",
+  "id": 67,
+  "name": "ClientboundMapItemData",
+  "packet": "packet_clientbound_map_item_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundTextureShift": {
+  "bound": "client",
+  "fields": [
+   [
+    "action",
+    "u8 =>"
+   ],
+   [
+    "collection_name",
+    "string"
+   ],
+   [
+    "from_step",
+    "string"
+   ],
+   [
+    "to_step",
+    "string"
+   ],
+   [
+    "all_steps",
+    "string[]varint"
+   ],
+   [
+    "current_length_ticks",
+    "varint64"
+   ],
+   [
+    "total_length_ticks",
+    "varint64"
+   ],
+   [
+    "enabled",
+    "bool"
+   ]
+  ],
+  "hex": "0x150",
+  "id": 336,
+  "name": "ClientboundTextureShift",
+  "packet": "packet_clientbound_texture_shift",
+  "toClient": true,
+  "toServer": false
+ },
+ "ClientboundUpdateSoundData": {
+  "bound": "client",
+  "fields": [
+   [
+    "server_sound_handle",
+    "ServerSoundHandle"
+   ],
+   [
+    "unused",
+    "varint"
+   ],
+   [
+    "unused",
+    "varint"
+   ],
+   [
+    "volume",
+    "lf32"
+   ],
+   [
+    "unused",
+    "varint"
+   ],
+   [
+    "pitch",
+    "lf32"
+   ],
+   [
+    "unused",
+    "varint"
+   ],
+   [
+    "target_volume",
+    "lf32"
+   ],
+   [
+    "duration",
+    "lf32"
+   ],
+   [
+    "unused",
+    "varint"
+   ],
+   [
+    "seconds",
+    "lf32"
+   ],
+   [
+    "unused",
+    "varint"
+   ],
+   [
+    "unused",
+    "varint"
+   ]
+  ],
+  "hex": "0x15c",
+  "id": 348,
+  "name": "ClientboundUpdateSoundData",
+  "packet": "packet_clientbound_update_sound_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "CodeBuilder": {
+  "bound": "client",
+  "fields": [
+   [
+    "url",
+    "string"
+   ],
+   [
+    "should_open_code_builder",
+    "bool"
+   ]
+  ],
+  "hex": "0x96",
+  "id": 150,
+  "name": "CodeBuilder",
+  "packet": "packet_code_builder",
+  "toClient": true,
+  "toServer": false
+ },
+ "CodeBuilderSource": {
+  "bound": "server",
+  "fields": [
+   [
+    "operation",
+    "u8 =>"
+   ],
+   [
+    "category",
+    "u8 =>"
+   ],
+   [
+    "code_status",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0xb2",
+  "id": 178,
+  "name": "CodeBuilderSource",
+  "packet": "packet_code_builder_source",
+  "toClient": false,
+  "toServer": true
+ },
+ "CommandBlockUpdate": {
+  "bound": "server",
+  "fields": [
+   [
+    "is_block",
+    "bool"
+   ],
+   [
+    "_",
+    "is_block ?"
+   ],
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "mode",
+    "varint =>"
+   ],
+   [
+    "needs_redstone",
+    "bool"
+   ],
+   [
+    "conditional",
+    "bool"
+   ],
+   [
+    "minecart_entity_runtime_id",
+    "varint64"
+   ],
+   [
+    "command",
+    "string"
+   ],
+   [
+    "last_output",
+    "string"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "filtered_name",
+    "string"
+   ],
+   [
+    "should_track_output",
+    "bool"
+   ],
+   [
+    "tick_delay",
+    "li32"
+   ],
+   [
+    "execute_on_first_tick",
+    "bool"
+   ]
+  ],
+  "hex": "0x4e",
+  "id": 78,
+  "name": "CommandBlockUpdate",
+  "packet": "packet_command_block_update",
+  "toClient": false,
+  "toServer": true
+ },
+ "CommandOutput": {
+  "bound": "client",
+  "fields": [
+   [
+    "origin",
+    "CommandOrigin"
+   ],
+   [
+    "output_type",
+    "string"
+   ],
+   [
+    "success_count",
+    "lu32"
+   ],
+   [
+    "output",
+    "[]varint"
+   ],
+   [
+    "message_id",
+    "string"
+   ],
+   [
+    "success",
+    "bool"
+   ],
+   [
+    "parameters",
+    "string[]varint"
+   ],
+   [
+    "has_data",
+    "bool"
+   ],
+   [
+    "data",
+    "has_data ?"
+   ]
+  ],
+  "hex": "0x4f",
+  "id": 79,
+  "name": "CommandOutput",
+  "packet": "packet_command_output",
+  "toClient": true,
+  "toServer": false
+ },
+ "CommandRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "command",
+    "string"
+   ],
+   [
+    "origin",
+    "CommandOrigin"
+   ],
+   [
+    "internal",
+    "bool"
+   ],
+   [
+    "version",
+    "string"
+   ]
+  ],
+  "hex": "0x4d",
+  "id": 77,
+  "name": "CommandRequest",
+  "packet": "packet_command_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "CompletedUsingItem": {
+  "bound": "client",
+  "fields": [
+   [
+    "used_item_id",
+    "li16"
+   ],
+   [
+    "use_method",
+    "li32 =>"
+   ]
+  ],
+  "hex": "0x8e",
+  "id": 142,
+  "name": "CompletedUsingItem",
+  "packet": "packet_completed_using_item",
+  "toClient": true,
+  "toServer": false
+ },
+ "CompressedBiomeDefinitions": {
+  "bound": "client",
+  "fields": [
+   [
+    "raw_payload",
+    "ByteArray"
+   ]
+  ],
+  "hex": "0x12d",
+  "id": 301,
+  "name": "CompressedBiomeDefinitions",
+  "packet": "packet_compressed_biome_definitions",
+  "toClient": true,
+  "toServer": false
+ },
+ "ContainerClose": {
+  "bound": "both",
+  "fields": [
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "window_type",
+    "WindowType"
+   ],
+   [
+    "server",
+    "bool"
+   ]
+  ],
+  "hex": "0x2f",
+  "id": 47,
+  "name": "ContainerClose",
+  "packet": "packet_container_close",
+  "toClient": true,
+  "toServer": true
+ },
+ "ContainerOpen": {
+  "bound": "client",
+  "fields": [
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "window_type",
+    "WindowType"
+   ],
+   [
+    "coordinates",
+    "BlockCoordinates"
+   ],
+   [
+    "runtime_entity_id",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x2e",
+  "id": 46,
+  "name": "ContainerOpen",
+  "packet": "packet_container_open",
+  "toClient": true,
+  "toServer": false
+ },
+ "ContainerRegistryCleanup": {
+  "bound": "client",
+  "fields": [
+   [
+    "removed_containers",
+    "FullContainerName[]varint"
+   ]
+  ],
+  "hex": "0x13D",
+  "id": 317,
+  "name": "ContainerRegistryCleanup",
+  "packet": "packet_container_registry_cleanup",
+  "toClient": true,
+  "toServer": false
+ },
+ "ContainerSetData": {
+  "bound": "client",
+  "fields": [
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "property",
+    "zigzag32"
+   ],
+   [
+    "value",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x33",
+  "id": 51,
+  "name": "ContainerSetData",
+  "packet": "packet_container_set_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "CorrectPlayerMovePrediction": {
+  "bound": "client",
+  "fields": [
+   [
+    "prediction_type",
+    "u8 =>"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "delta",
+    "vec3f"
+   ],
+   [
+    "rotation",
+    "vec2f"
+   ],
+   [
+    "on_ground",
+    "bool"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0xa1",
+  "id": 161,
+  "name": "CorrectPlayerMovePrediction",
+  "packet": "packet_correct_player_move_prediction",
+  "toClient": true,
+  "toServer": false
+ },
+ "CraftingData": {
+  "bound": "client",
+  "fields": [
+   [
+    "shaped_recipes",
+    "ShapedRecipe[]varint"
+   ],
+   [
+    "shapeless_recipes",
+    "ShapelessRecipe[]varint"
+   ],
+   [
+    "multi_recipes",
+    "MultiRecipe[]varint"
+   ],
+   [
+    "shulker_box_recipes",
+    "ShapelessRecipe[]varint"
+   ],
+   [
+    "shapeless_chemistry_recipes",
+    "ShapelessRecipe[]varint"
+   ],
+   [
+    "shaped_chemistry_recipes",
+    "ShapedRecipe[]varint"
+   ],
+   [
+    "smithing_transform_recipes",
+    "SmithingTransformRecipe[]varint"
+   ],
+   [
+    "smithing_trim_recipes",
+    "SmithingTrimRecipe[]varint"
+   ],
+   [
+    "potion_type_recipes",
+    "PotionTypeRecipes"
+   ],
+   [
+    "potion_container_recipes",
+    "PotionContainerChangeRecipes"
+   ],
+   [
+    "material_reducers",
+    "MaterialReducer[]varint"
+   ],
+   [
+    "clear_recipes",
+    "bool"
+   ]
+  ],
+  "hex": "0x34",
+  "id": 52,
+  "name": "CraftingData",
+  "packet": "packet_crafting_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "CraftingEvent": {
+  "bound": "both",
+  "fields": [
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "recipe_type",
+    "zigzag32 =>"
+   ],
+   [
+    "recipe_id",
+    "uuid"
+   ],
+   [
+    "input",
+    "ItemV4[]varint"
+   ],
+   [
+    "result",
+    "ItemV4[]varint"
+   ]
+  ],
+  "hex": "0x35",
+  "id": 53,
+  "name": "CraftingEvent",
+  "packet": "packet_crafting_event",
+  "toClient": true,
+  "toServer": true
+ },
+ "CreatePhoto": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_unique_id",
+    "li64"
+   ],
+   [
+    "photo_name",
+    "string"
+   ],
+   [
+    "item_name",
+    "string"
+   ]
+  ],
+  "hex": "0xab",
+  "id": 171,
+  "name": "CreatePhoto",
+  "packet": "packet_create_photo",
+  "toClient": true,
+  "toServer": false
+ },
+ "CreativeContent": {
+  "bound": "client",
+  "fields": [
+   [
+    "groups",
+    "[]varint"
+   ],
+   [
+    "category",
+    "u8 =>"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "icon_item",
+    "ItemLegacy"
+   ],
+   [
+    "items",
+    "[]varint"
+   ],
+   [
+    "entry_id",
+    "varint"
+   ],
+   [
+    "item",
+    "ItemLegacy"
+   ],
+   [
+    "group_index",
+    "varint"
+   ]
+  ],
+  "hex": "0x91",
+  "id": 145,
+  "name": "CreativeContent",
+  "packet": "packet_creative_content",
+  "toClient": true,
+  "toServer": false
+ },
+ "CurrentStructureFeature": {
+  "bound": "client",
+  "fields": [
+   [
+    "current_feature",
+    "string"
+   ]
+  ],
+  "hex": "0x13A",
+  "id": 314,
+  "name": "CurrentStructureFeature",
+  "packet": "packet_current_structure_feature",
+  "toClient": true,
+  "toServer": false
+ },
+ "DeathInfo": {
+  "bound": "client",
+  "fields": [
+   [
+    "cause",
+    "string"
+   ],
+   [
+    "messages",
+    "string[]varint"
+   ]
+  ],
+  "hex": "0xbd",
+  "id": 189,
+  "name": "DeathInfo",
+  "packet": "packet_death_info",
+  "toClient": true,
+  "toServer": false
+ },
+ "DebugInfo": {
+  "bound": "client",
+  "fields": [
+   [
+    "player_unique_id",
+    "zigzag64"
+   ],
+   [
+    "data",
+    "ByteArray"
+   ]
+  ],
+  "hex": "0x9b",
+  "id": 155,
+  "name": "DebugInfo",
+  "packet": "packet_debug_info",
+  "toClient": true,
+  "toServer": false
+ },
+ "DimensionData": {
+  "bound": "client",
+  "fields": [
+   [
+    "definitions",
+    "[]varint"
+   ],
+   [
+    "id",
+    "string"
+   ],
+   [
+    "max_height",
+    "zigzag32"
+   ],
+   [
+    "min_height",
+    "zigzag32"
+   ],
+   [
+    "generator",
+    "zigzag32 =>"
+   ],
+   [
+    "dimension_type",
+    "zigzag32"
+   ],
+   [
+    "pack_id",
+    "uuid"
+   ]
+  ],
+  "hex": "0xb4",
+  "id": 180,
+  "name": "DimensionData",
+  "packet": "packet_dimension_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "Disconnect": {
+  "bound": "client",
+  "fields": [
+   [
+    "reason",
+    "DisconnectFailReason"
+   ],
+   [
+    "hide_disconnect_reason",
+    "bool"
+   ],
+   [
+    "_",
+    "hide_disconnect_reason ?"
+   ],
+   [
+    "message",
+    "string"
+   ],
+   [
+    "filtered_message",
+    "string"
+   ]
+  ],
+  "hex": "0x05",
+  "id": 5,
+  "name": "Disconnect",
+  "packet": "packet_disconnect",
+  "toClient": true,
+  "toServer": false
+ },
+ "EditorNetwork": {
+  "bound": "client",
+  "fields": [
+   [
+    "route_to_manager",
+    "bool"
+   ],
+   [
+    "payload",
+    "nbt"
+   ]
+  ],
+  "hex": "0xbe",
+  "id": 190,
+  "name": "EditorNetwork",
+  "packet": "packet_editor_network",
+  "toClient": true,
+  "toServer": false
+ },
+ "EduUriResourcePacket": {
+  "bound": "both",
+  "fields": [
+   [
+    "resource",
+    "EducationSharedResourceURI"
+   ]
+  ],
+  "hex": "0xaa",
+  "id": 170,
+  "name": "EduUriResourcePacket",
+  "packet": "packet_edu_uri_resource_packet",
+  "toClient": true,
+  "toServer": true
+ },
+ "EducationSettings": {
+  "bound": "client",
+  "fields": [
+   [
+    "CodeBuilderDefaultURI",
+    "string"
+   ],
+   [
+    "CodeBuilderTitle",
+    "string"
+   ],
+   [
+    "CanResizeCodeBuilder",
+    "bool"
+   ],
+   [
+    "disable_legacy_title_bar",
+    "bool"
+   ],
+   [
+    "post_process_filter",
+    "string"
+   ],
+   [
+    "screenshot_border_path",
+    "string"
+   ],
+   [
+    "has_agent_capabilities",
+    "bool"
+   ],
+   [
+    "agent_capabilities",
+    "has_agent_capabilities ?"
+   ],
+   [
+    "has",
+    "bool"
+   ],
+   [
+    "can_modify_blocks",
+    "bool"
+   ],
+   [
+    "HasOverrideURI",
+    "bool"
+   ],
+   [
+    "OverrideURI",
+    "HasOverrideURI?"
+   ],
+   [
+    "HasQuiz",
+    "bool"
+   ],
+   [
+    "has_external_link_settings",
+    "bool"
+   ],
+   [
+    "external_link_settings",
+    "has_external_link_settings ?"
+   ],
+   [
+    "has",
+    "bool"
+   ],
+   [
+    "url",
+    "string"
+   ],
+   [
+    "display_name",
+    "string"
+   ]
+  ],
+  "hex": "0x89",
+  "id": 137,
+  "name": "EducationSettings",
+  "packet": "packet_education_settings",
+  "toClient": true,
+  "toServer": false
+ },
+ "Emote": {
+  "bound": "both",
+  "fields": [
+   [
+    "entity_id",
+    "varint64"
+   ],
+   [
+    "emote_id",
+    "string"
+   ],
+   [
+    "emote_length_ticks",
+    "varint"
+   ],
+   [
+    "xuid",
+    "string"
+   ],
+   [
+    "platform_id",
+    "string"
+   ],
+   [
+    "flags",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x8a",
+  "id": 138,
+  "name": "Emote",
+  "packet": "packet_emote",
+  "toClient": true,
+  "toServer": true
+ },
+ "EmoteList": {
+  "bound": "server",
+  "fields": [
+   [
+    "player_id",
+    "varint64"
+   ],
+   [
+    "emote_pieces",
+    "uuid[]varint"
+   ]
+  ],
+  "hex": "0x98",
+  "id": 152,
+  "name": "EmoteList",
+  "packet": "packet_emote_list",
+  "toClient": false,
+  "toServer": true
+ },
+ "EntityEvent": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "event_id",
+    "u8 =>"
+   ],
+   [
+    "data",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x1b",
+  "id": 27,
+  "name": "EntityEvent",
+  "packet": "packet_entity_event",
+  "toClient": true,
+  "toServer": true
+ },
+ "EntityPickRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "lu64"
+   ],
+   [
+    "selected_slot",
+    "u8"
+   ],
+   [
+    "with_data",
+    "bool"
+   ]
+  ],
+  "hex": "0x23",
+  "id": 35,
+  "name": "EntityPickRequest",
+  "packet": "packet_entity_pick_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "Event": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_id",
+    "varint64"
+   ],
+   [
+    "event_type",
+    "zigzag32 =>"
+   ],
+   [
+    "use_player_id",
+    "u8"
+   ],
+   [
+    "event_data",
+    "restBuffer # Unknown data, TODO: add"
+   ]
+  ],
+  "hex": "0x41",
+  "id": 65,
+  "name": "Event",
+  "packet": "packet_event",
+  "toClient": true,
+  "toServer": false
+ },
+ "FeatureRegistry": {
+  "bound": "client",
+  "fields": [
+   [
+    "features",
+    "[]varint"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "options",
+    "string"
+   ]
+  ],
+  "hex": "0xbf",
+  "id": 191,
+  "name": "FeatureRegistry",
+  "packet": "packet_feature_registry",
+  "toClient": true,
+  "toServer": false
+ },
+ "FilterTextPacket": {
+  "bound": "both",
+  "fields": [
+   [
+    "text",
+    "string"
+   ],
+   [
+    "from_server",
+    "bool"
+   ]
+  ],
+  "hex": "0xa3",
+  "id": 163,
+  "name": "FilterTextPacket",
+  "packet": "packet_filter_text_packet",
+  "toClient": true,
+  "toServer": true
+ },
+ "GameRulesChanged": {
+  "bound": "client",
+  "fields": [
+   [
+    "rules",
+    "GameRuleI32[]varint"
+   ]
+  ],
+  "hex": "0x48",
+  "id": 72,
+  "name": "GameRulesChanged",
+  "packet": "packet_game_rules_changed",
+  "toClient": true,
+  "toServer": false
+ },
+ "GameTestRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "max_tests_per_batch",
+    "varint"
+   ],
+   [
+    "repetitions",
+    "varint"
+   ],
+   [
+    "rotation",
+    "u8 =>"
+   ],
+   [
+    "stop_on_error",
+    "bool"
+   ],
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "tests_per_row",
+    "varint"
+   ],
+   [
+    "name",
+    "string"
+   ]
+  ],
+  "hex": "0xc2",
+  "id": 194,
+  "name": "GameTestRequest",
+  "packet": "packet_game_test_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "GameTestResults": {
+  "bound": "client",
+  "fields": [
+   [
+    "succeeded",
+    "bool"
+   ],
+   [
+    "error",
+    "string"
+   ],
+   [
+    "name",
+    "string"
+   ]
+  ],
+  "hex": "0xc3",
+  "id": 195,
+  "name": "GameTestResults",
+  "packet": "packet_game_test_results",
+  "toClient": true,
+  "toServer": false
+ },
+ "GraphicsOverrideParameter": {
+  "bound": "client",
+  "fields": [
+   [
+    "values",
+    "ParameterKeyframeValue[]varint"
+   ],
+   [
+    "biome_identifier",
+    "string"
+   ],
+   [
+    "parameter_type",
+    "GraphicsOverrideParameterType"
+   ],
+   [
+    "reset",
+    "bool"
+   ]
+  ],
+  "hex": "0x14b",
+  "id": 331,
+  "name": "GraphicsOverrideParameter",
+  "packet": "packet_graphics_override_parameter",
+  "toClient": true,
+  "toServer": false
+ },
+ "GuiDataPickItem": {
+  "bound": "client",
+  "fields": [
+   [
+    "item_name",
+    "string"
+   ],
+   [
+    "item_effects",
+    "string"
+   ],
+   [
+    "hotbar_slot",
+    "li32"
+   ]
+  ],
+  "hex": "0x36",
+  "id": 54,
+  "name": "GuiDataPickItem",
+  "packet": "packet_gui_data_pick_item",
+  "toClient": true,
+  "toServer": false
+ },
+ "HurtArmor": {
+  "bound": "client",
+  "fields": [
+   [
+    "cause",
+    "zigzag32"
+   ],
+   [
+    "damage",
+    "zigzag32"
+   ],
+   [
+    "armor_slots",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x26",
+  "id": 38,
+  "name": "HurtArmor",
+  "packet": "packet_hurt_armor",
+  "toClient": true,
+  "toServer": false
+ },
+ "InitiateWebSocketConnection": {
+  "bound": "client",
+  "fields": [
+   [
+    "server",
+    "string"
+   ]
+  ],
+  "hex": "0x5f",
+  "id": 95,
+  "name": "InitiateWebSocketConnection",
+  "packet": "packet_initiate_web_socket_connection",
+  "toClient": true,
+  "toServer": false
+ },
+ "Interact": {
+  "bound": "both",
+  "fields": [
+   [
+    "action_id",
+    "u8 =>"
+   ],
+   [
+    "target_entity_id",
+    "varint64"
+   ],
+   [
+    "has_position",
+    "bool"
+   ],
+   [
+    "position",
+    "has_position ?"
+   ]
+  ],
+  "hex": "0x21",
+  "id": 33,
+  "name": "Interact",
+  "packet": "packet_interact",
+  "toClient": true,
+  "toServer": true
+ },
+ "InventoryContent": {
+  "bound": "both",
+  "fields": [
+   [
+    "window_id",
+    "WindowIDVarint"
+   ],
+   [
+    "input",
+    "ItemV4s"
+   ],
+   [
+    "container",
+    "FullContainerName"
+   ],
+   [
+    "storage_item",
+    "ItemV4"
+   ]
+  ],
+  "hex": "0x31",
+  "id": 49,
+  "name": "InventoryContent",
+  "packet": "packet_inventory_content",
+  "toClient": true,
+  "toServer": true
+ },
+ "InventorySlot": {
+  "bound": "both",
+  "fields": [
+   [
+    "window_id",
+    "WindowIDVarint"
+   ],
+   [
+    "slot",
+    "varint"
+   ],
+   [
+    "item",
+    "ItemV4"
+   ]
+  ],
+  "hex": "0x32",
+  "id": 50,
+  "name": "InventorySlot",
+  "packet": "packet_inventory_slot",
+  "toClient": true,
+  "toServer": true
+ },
+ "InventoryTransaction": {
+  "bound": "both",
+  "fields": [
+   [
+    "transaction",
+    "Transaction"
+   ]
+  ],
+  "hex": "0x1e",
+  "id": 30,
+  "name": "InventoryTransaction",
+  "packet": "packet_inventory_transaction",
+  "toClient": true,
+  "toServer": true
+ },
+ "ItemRegistry": {
+  "bound": "client",
+  "fields": [
+   [
+    "itemstates",
+    "Itemstates"
+   ]
+  ],
+  "hex": "0xa2",
+  "id": 162,
+  "name": "ItemRegistry",
+  "packet": "packet_item_registry",
+  "toClient": true,
+  "toServer": false
+ },
+ "ItemStackRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "requests",
+    "ItemStackRequest[]varint"
+   ]
+  ],
+  "hex": "0x93",
+  "id": 147,
+  "name": "ItemStackRequest",
+  "packet": "packet_item_stack_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "ItemStackResponse": {
+  "bound": "client",
+  "fields": [
+   [
+    "responses",
+    "ItemStackResponses"
+   ]
+  ],
+  "hex": "0x94",
+  "id": 148,
+  "name": "ItemStackResponse",
+  "packet": "packet_item_stack_response",
+  "toClient": true,
+  "toServer": false
+ },
+ "JigsawStructureData": {
+  "bound": "client",
+  "fields": [
+   [
+    "structure_data",
+    "nbt"
+   ]
+  ],
+  "hex": "0x139",
+  "id": 313,
+  "name": "JigsawStructureData",
+  "packet": "packet_jigsaw_structure_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "LabTable": {
+  "bound": "both",
+  "fields": [
+   [
+    "action_type",
+    "u8 =>"
+   ],
+   [
+    "position",
+    "vec3i"
+   ],
+   [
+    "reaction_type",
+    "u8"
+   ]
+  ],
+  "hex": "0x6d",
+  "id": 109,
+  "name": "LabTable",
+  "packet": "packet_lab_table",
+  "toClient": true,
+  "toServer": true
+ },
+ "LecternUpdate": {
+  "bound": "server",
+  "fields": [
+   [
+    "page",
+    "u8"
+   ],
+   [
+    "page_count",
+    "u8"
+   ],
+   [
+    "position",
+    "vec3i"
+   ]
+  ],
+  "hex": "0x7d",
+  "id": 125,
+  "name": "LecternUpdate",
+  "packet": "packet_lectern_update",
+  "toClient": false,
+  "toServer": true
+ },
+ "LessonProgress": {
+  "bound": "client",
+  "fields": [
+   [
+    "action",
+    "u8"
+   ],
+   [
+    "score",
+    "zigzag32"
+   ],
+   [
+    "identifier",
+    "string"
+   ]
+  ],
+  "hex": "0xb7",
+  "id": 183,
+  "name": "LessonProgress",
+  "packet": "packet_lesson_progress",
+  "toClient": true,
+  "toServer": false
+ },
+ "LevelChunk": {
+  "bound": "client",
+  "fields": [
+   [
+    "x",
+    "zigzag32"
+   ],
+   [
+    "z",
+    "zigzag32"
+   ],
+   [
+    "dimension",
+    "zigzag32"
+   ],
+   [
+    "sub_chunk_count",
+    "varint"
+   ],
+   [
+    "cache_enabled",
+    "bool"
+   ],
+   [
+    "blobs",
+    "lu64[]varint"
+   ],
+   [
+    "payload",
+    "ByteArray"
+   ]
+  ],
+  "hex": "0x3a",
+  "id": 58,
+  "name": "LevelChunk",
+  "packet": "packet_level_chunk",
+  "toClient": true,
+  "toServer": false
+ },
+ "LevelEvent": {
+  "bound": "client",
+  "fields": [
+   [
+    "event",
+    "zigzag32 =>"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "data",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x19",
+  "id": 25,
+  "name": "LevelEvent",
+  "packet": "packet_level_event",
+  "toClient": true,
+  "toServer": false
+ },
+ "LevelEventGeneric": {
+  "bound": "client",
+  "fields": [
+   [
+    "event_id",
+    "varint"
+   ],
+   [
+    "nbt",
+    "nbtLoop"
+   ]
+  ],
+  "hex": "0x7c",
+  "id": 124,
+  "name": "LevelEventGeneric",
+  "packet": "packet_level_event_generic",
+  "toClient": true,
+  "toServer": false
+ },
+ "LevelSoundEvent": {
+  "bound": "both",
+  "fields": [
+   [
+    "sound_id",
+    "SoundEventIdentifier"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "extra_data",
+    "zigzag32"
+   ],
+   [
+    "entity_type",
+    "string"
+   ],
+   [
+    "is_baby_mob",
+    "bool"
+   ],
+   [
+    "is_global",
+    "bool"
+   ],
+   [
+    "entity_unique_id",
+    "li64"
+   ]
+  ],
+  "hex": "0x7b",
+  "id": 123,
+  "name": "LevelSoundEvent",
+  "packet": "packet_level_sound_event",
+  "toClient": true,
+  "toServer": true
+ },
+ "LevelSoundEventOld": {
+  "bound": "both",
+  "fields": [
+   [
+    "sound_id",
+    "u8"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "block_id",
+    "zigzag32"
+   ],
+   [
+    "entity_type",
+    "zigzag32"
+   ],
+   [
+    "is_baby_mob",
+    "bool"
+   ],
+   [
+    "is_global",
+    "bool"
+   ]
+  ],
+  "hex": "0x18",
+  "id": 24,
+  "name": "LevelSoundEventOld",
+  "packet": "packet_level_sound_event_old",
+  "toClient": true,
+  "toServer": true
+ },
+ "LevelSoundEventV2": {
+  "bound": "both",
+  "fields": [
+   [
+    "sound_id",
+    "u8"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "block_id",
+    "zigzag32"
+   ],
+   [
+    "entity_type",
+    "string"
+   ],
+   [
+    "is_baby_mob",
+    "bool"
+   ],
+   [
+    "is_global",
+    "bool"
+   ]
+  ],
+  "hex": "0x78",
+  "id": 120,
+  "name": "LevelSoundEventV2",
+  "packet": "packet_level_sound_event_v2",
+  "toClient": true,
+  "toServer": true
+ },
+ "LocatorBar": {
+  "bound": "client",
+  "fields": [
+   [
+    "waypoints",
+    "LocatorBarWaypoint[]varint"
+   ]
+  ],
+  "hex": "0x155",
+  "id": 341,
+  "name": "LocatorBar",
+  "packet": "packet_locator_bar",
+  "toClient": true,
+  "toServer": false
+ },
+ "Login": {
+  "bound": "server",
+  "fields": [
+   [
+    "protocol_version",
+    "i32"
+   ],
+   [
+    "tokens",
+    "'[\"encapsulated\", { \"lengthType\": \"varint\", \"type\": \"LoginTokens\" }]'"
+   ]
+  ],
+  "hex": "0x01",
+  "id": 1,
+  "name": "Login",
+  "packet": "packet_login",
+  "toClient": false,
+  "toServer": true
+ },
+ "MapCreateLockedCopy": {
+  "bound": "client",
+  "fields": [
+   [
+    "original_map_id",
+    "zigzag64"
+   ],
+   [
+    "new_map_id",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x83",
+  "id": 131,
+  "name": "MapCreateLockedCopy",
+  "packet": "packet_map_create_locked_copy",
+  "toClient": true,
+  "toServer": false
+ },
+ "MapInfoRequest": {
+  "bound": "both",
+  "fields": [
+   [
+    "map_id",
+    "zigzag64"
+   ],
+   [
+    "client_pixels",
+    "[]lu32"
+   ],
+   [
+    "rgba",
+    "li32"
+   ],
+   [
+    "index",
+    "lu16"
+   ]
+  ],
+  "hex": "0x44",
+  "id": 68,
+  "name": "MapInfoRequest",
+  "packet": "packet_map_info_request",
+  "toClient": true,
+  "toServer": true
+ },
+ "MobArmorEquipment": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "helmet",
+    "ItemV4"
+   ],
+   [
+    "chestplate",
+    "ItemV4"
+   ],
+   [
+    "leggings",
+    "ItemV4"
+   ],
+   [
+    "boots",
+    "ItemV4"
+   ],
+   [
+    "body",
+    "ItemV4"
+   ]
+  ],
+  "hex": "0x20",
+  "id": 32,
+  "name": "MobArmorEquipment",
+  "packet": "packet_mob_armor_equipment",
+  "toClient": true,
+  "toServer": true
+ },
+ "MobEffect": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "event_id",
+    "u8 =>"
+   ],
+   [
+    "effect_id",
+    "zigzag32"
+   ],
+   [
+    "amplifier",
+    "zigzag32"
+   ],
+   [
+    "particles",
+    "bool"
+   ],
+   [
+    "duration",
+    "zigzag32"
+   ],
+   [
+    "tick",
+    "varint64"
+   ],
+   [
+    "ambient",
+    "bool"
+   ]
+  ],
+  "hex": "0x1c",
+  "id": 28,
+  "name": "MobEffect",
+  "packet": "packet_mob_effect",
+  "toClient": true,
+  "toServer": false
+ },
+ "MobEquipment": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "item",
+    "ItemV4"
+   ],
+   [
+    "slot",
+    "u8"
+   ],
+   [
+    "selected_slot",
+    "u8"
+   ],
+   [
+    "window_id",
+    "WindowID"
+   ]
+  ],
+  "hex": "0x1f",
+  "id": 31,
+  "name": "MobEquipment",
+  "packet": "packet_mob_equipment",
+  "toClient": true,
+  "toServer": true
+ },
+ "ModalFormRequest": {
+  "bound": "client",
+  "fields": [
+   [
+    "form_id",
+    "varint"
+   ],
+   [
+    "data",
+    "string"
+   ]
+  ],
+  "hex": "0x64",
+  "id": 100,
+  "name": "ModalFormRequest",
+  "packet": "packet_modal_form_request",
+  "toClient": true,
+  "toServer": false
+ },
+ "ModalFormResponse": {
+  "bound": "server",
+  "fields": [
+   [
+    "form_id",
+    "varint"
+   ],
+   [
+    "has_response_data",
+    "bool"
+   ],
+   [
+    "data",
+    "has_response_data ?"
+   ],
+   [
+    "has_cancel_reason",
+    "bool"
+   ],
+   [
+    "_",
+    "has_cancel_reason ?"
+   ],
+   [
+    "cancel_reason",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x65",
+  "id": 101,
+  "name": "ModalFormResponse",
+  "packet": "packet_modal_form_response",
+  "toClient": false,
+  "toServer": true
+ },
+ "MotionPredictionHints": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_runtime_id",
+    "varint64"
+   ],
+   [
+    "velocity",
+    "vec3f"
+   ],
+   [
+    "on_ground",
+    "bool"
+   ]
+  ],
+  "hex": "0x9d",
+  "id": 157,
+  "name": "MotionPredictionHints",
+  "packet": "packet_motion_prediction_hints",
+  "toClient": true,
+  "toServer": false
+ },
+ "MoveEntity": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "flags",
+    "u8"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "rotation",
+    "Rotation"
+   ]
+  ],
+  "hex": "0x12",
+  "id": 18,
+  "name": "MoveEntity",
+  "packet": "packet_move_entity",
+  "toClient": true,
+  "toServer": true
+ },
+ "MoveEntityDelta": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "on_ground",
+    "bool"
+   ],
+   [
+    "force_move",
+    "bool"
+   ],
+   [
+    "force_move_local_entity",
+    "bool"
+   ],
+   [
+    "force_completion",
+    "bool"
+   ]
+  ],
+  "hex": "0x6f",
+  "id": 111,
+  "name": "MoveEntityDelta",
+  "packet": "packet_move_entity_delta",
+  "toClient": true,
+  "toServer": false
+ },
+ "MovePlayer": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_id",
+    "varint"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "pitch",
+    "lf32"
+   ],
+   [
+    "yaw",
+    "lf32"
+   ],
+   [
+    "head_yaw",
+    "lf32"
+   ],
+   [
+    "mode",
+    "u8 =>"
+   ],
+   [
+    "on_ground",
+    "bool"
+   ],
+   [
+    "ridden_runtime_id",
+    "varint"
+   ],
+   [
+    "cause",
+    "li32 =>"
+   ],
+   [
+    "source_entity_type",
+    "LegacyEntityType"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0x13",
+  "id": 19,
+  "name": "MovePlayer",
+  "packet": "packet_move_player",
+  "toClient": true,
+  "toServer": true
+ },
+ "MovementEffect": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_id",
+    "varint64"
+   ],
+   [
+    "effect_type",
+    "MovementEffectType"
+   ],
+   [
+    "effect_duration",
+    "varint"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0x13E",
+  "id": 318,
+  "name": "MovementEffect",
+  "packet": "packet_movement_effect",
+  "toClient": true,
+  "toServer": false
+ },
+ "MultiplayerSettings": {
+  "bound": "server",
+  "fields": [
+   [
+    "action_type",
+    "zigzag32 =>"
+   ]
+  ],
+  "hex": "0x8b",
+  "id": 139,
+  "name": "MultiplayerSettings",
+  "packet": "packet_multiplayer_settings",
+  "toClient": false,
+  "toServer": true
+ },
+ "NetworkChunkPublisherUpdate": {
+  "bound": "client",
+  "fields": [
+   [
+    "coordinates",
+    "BlockCoordinates"
+   ],
+   [
+    "radius",
+    "varint"
+   ],
+   [
+    "saved_chunks",
+    "[]lu32"
+   ],
+   [
+    "x",
+    "zigzag32"
+   ],
+   [
+    "z",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x79",
+  "id": 121,
+  "name": "NetworkChunkPublisherUpdate",
+  "packet": "packet_network_chunk_publisher_update",
+  "toClient": true,
+  "toServer": false
+ },
+ "NetworkSettings": {
+  "bound": "client",
+  "fields": [
+   [
+    "compression_threshold",
+    "lu16"
+   ],
+   [
+    "compression_algorithm",
+    "lu16 =>"
+   ],
+   [
+    "client_throttle",
+    "bool"
+   ],
+   [
+    "client_throttle_threshold",
+    "u8"
+   ],
+   [
+    "client_throttle_scalar",
+    "lf32"
+   ]
+  ],
+  "hex": "0x8f",
+  "id": 143,
+  "name": "NetworkSettings",
+  "packet": "packet_network_settings",
+  "toClient": true,
+  "toServer": false
+ },
+ "NetworkStackLatency": {
+  "bound": "both",
+  "fields": [
+   [
+    "timestamp",
+    "lu64"
+   ],
+   [
+    "needs_response",
+    "u8"
+   ]
+  ],
+  "hex": "0x73",
+  "id": 115,
+  "name": "NetworkStackLatency",
+  "packet": "packet_network_stack_latency",
+  "toClient": true,
+  "toServer": true
+ },
+ "NpcDialogue": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_id",
+    "lu64"
+   ],
+   [
+    "action_type",
+    "varint =>"
+   ],
+   [
+    "dialogue",
+    "string"
+   ],
+   [
+    "screen_name",
+    "string"
+   ],
+   [
+    "npc_name",
+    "string"
+   ],
+   [
+    "action_json",
+    "string"
+   ]
+  ],
+  "hex": "0xa9",
+  "id": 169,
+  "name": "NpcDialogue",
+  "packet": "packet_npc_dialogue",
+  "toClient": true,
+  "toServer": false
+ },
+ "NpcRequest": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "request_type",
+    "u8 =>"
+   ],
+   [
+    "command",
+    "string"
+   ],
+   [
+    "action_type",
+    "u8 =>"
+   ],
+   [
+    "scene_name",
+    "string"
+   ]
+  ],
+  "hex": "0x62",
+  "id": 98,
+  "name": "NpcRequest",
+  "packet": "packet_npc_request",
+  "toClient": true,
+  "toServer": true
+ },
+ "OnScreenTextureAnimation": {
+  "bound": "client",
+  "fields": [
+   [
+    "animation_type",
+    "lu32"
+   ]
+  ],
+  "hex": "0x82",
+  "id": 130,
+  "name": "OnScreenTextureAnimation",
+  "packet": "packet_on_screen_texture_animation",
+  "toClient": true,
+  "toServer": false
+ },
+ "OpenSign": {
+  "bound": "client",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "is_front",
+    "bool"
+   ]
+  ],
+  "hex": "0x12f",
+  "id": 303,
+  "name": "OpenSign",
+  "packet": "packet_open_sign",
+  "toClient": true,
+  "toServer": false
+ },
+ "PacketViolationWarning": {
+  "bound": "server",
+  "fields": [
+   [
+    "violation_type",
+    "zigzag32 =>"
+   ],
+   [
+    "severity",
+    "zigzag32 =>"
+   ],
+   [
+    "packet_id",
+    "zigzag32"
+   ],
+   [
+    "reason",
+    "string"
+   ]
+  ],
+  "hex": "0x9c",
+  "id": 156,
+  "name": "PacketViolationWarning",
+  "packet": "packet_packet_violation_warning",
+  "toClient": false,
+  "toServer": true
+ },
+ "PartyChanged": {
+  "bound": "client",
+  "fields": [],
+  "hex": "0x156",
+  "id": 342,
+  "name": "PartyChanged",
+  "packet": "packet_party_changed",
+  "toClient": true,
+  "toServer": false
+ },
+ "PartyDestinationCookieResponse": {
+  "bound": "server",
+  "fields": [
+   [
+    "cookie",
+    "string"
+   ],
+   [
+    "accepted",
+    "bool"
+   ]
+  ],
+  "hex": "0x15e",
+  "id": 350,
+  "name": "PartyDestinationCookieResponse",
+  "packet": "packet_party_destination_cookie_response",
+  "toClient": false,
+  "toServer": true
+ },
+ "PhotoInfoRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "photo_id",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0xad",
+  "id": 173,
+  "name": "PhotoInfoRequest",
+  "packet": "packet_photo_info_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "PhotoTransfer": {
+  "bound": "server",
+  "fields": [
+   [
+    "image_name",
+    "string"
+   ],
+   [
+    "image_data",
+    "string"
+   ],
+   [
+    "book_id",
+    "string"
+   ],
+   [
+    "photo_type",
+    "u8"
+   ],
+   [
+    "source_type",
+    "u8"
+   ],
+   [
+    "owner_entity_unique_id",
+    "li64"
+   ],
+   [
+    "new_photo_name",
+    "string"
+   ]
+  ],
+  "hex": "0x63",
+  "id": 99,
+  "name": "PhotoTransfer",
+  "packet": "packet_photo_transfer",
+  "toClient": false,
+  "toServer": true
+ },
+ "PlaySound": {
+  "bound": "client",
+  "fields": [
+   [
+    "name",
+    "string"
+   ],
+   [
+    "coordinates",
+    "BlockCoordinates"
+   ],
+   [
+    "volume",
+    "lf32"
+   ],
+   [
+    "pitch",
+    "lf32"
+   ],
+   [
+    "loop_count",
+    "varint"
+   ]
+  ],
+  "hex": "0x56",
+  "id": 86,
+  "name": "PlaySound",
+  "packet": "packet_play_sound",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayStatus": {
+  "bound": "client",
+  "fields": [
+   [
+    "status",
+    "i32 =>"
+   ]
+  ],
+  "hex": "0x02",
+  "id": 2,
+  "name": "PlayStatus",
+  "packet": "packet_play_status",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerAction": {
+  "bound": "server",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "action",
+    "Action"
+   ],
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "result_position",
+    "BlockCoordinates"
+   ],
+   [
+    "face",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x24",
+  "id": 36,
+  "name": "PlayerAction",
+  "packet": "packet_player_action",
+  "toClient": false,
+  "toServer": true
+ },
+ "PlayerArmorDamage": {
+  "bound": "client",
+  "fields": [
+   [
+    "entries",
+    "ArmorDamageEntry[]varint"
+   ]
+  ],
+  "hex": "0x95",
+  "id": 149,
+  "name": "PlayerArmorDamage",
+  "packet": "packet_player_armor_damage",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerAuthInput": {
+  "bound": "server",
+  "fields": [
+   [
+    "pitch",
+    "lf32"
+   ],
+   [
+    "yaw",
+    "lf32"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "move_vector",
+    "vec2f"
+   ],
+   [
+    "head_yaw",
+    "lf32"
+   ],
+   [
+    "input_mode",
+    "varint =>"
+   ],
+   [
+    "play_mode",
+    "varint =>"
+   ],
+   [
+    "interaction_model",
+    "zigzag32 =>"
+   ],
+   [
+    "interact_rotation",
+    "vec2f"
+   ],
+   [
+    "tick",
+    "varint64"
+   ],
+   [
+    "delta",
+    "vec3f"
+   ],
+   [
+    "transaction_presence",
+    "bool"
+   ],
+   [
+    "legacy",
+    "TransactionLegacy"
+   ],
+   [
+    "actions_presence",
+    "bool"
+   ],
+   [
+    "data",
+    "TransactionUseItem"
+   ],
+   [
+    "item_stack_request_presence",
+    "bool"
+   ],
+   [
+    "block_action_presence",
+    "bool"
+   ],
+   [
+    "action",
+    "Action"
+   ],
+   [
+    "position",
+    "vec3i"
+   ],
+   [
+    "face",
+    "zigzag32"
+   ],
+   [
+    "vehicle_rotation_presence",
+    "bool"
+   ],
+   [
+    "predicted_vehicle_presence",
+    "bool"
+   ],
+   [
+    "analogue_move_vector",
+    "vec2f"
+   ],
+   [
+    "camera_orientation",
+    "vec3f"
+   ],
+   [
+    "raw_move_vector",
+    "vec2f"
+   ]
+  ],
+  "hex": "0x90",
+  "id": 144,
+  "name": "PlayerAuthInput",
+  "packet": "packet_player_auth_input",
+  "toClient": false,
+  "toServer": true
+ },
+ "PlayerEnchantOptions": {
+  "bound": "client",
+  "fields": [
+   [
+    "options",
+    "EnchantOption[]varint"
+   ]
+  ],
+  "hex": "0x92",
+  "id": 146,
+  "name": "PlayerEnchantOptions",
+  "packet": "packet_player_enchant_options",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerFog": {
+  "bound": "client",
+  "fields": [
+   [
+    "stack",
+    "string[]varint"
+   ]
+  ],
+  "hex": "0xa0",
+  "id": 160,
+  "name": "PlayerFog",
+  "packet": "packet_player_fog",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerHotbar": {
+  "bound": "both",
+  "fields": [
+   [
+    "selected_slot",
+    "varint"
+   ],
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "select_slot",
+    "bool"
+   ]
+  ],
+  "hex": "0x30",
+  "id": 48,
+  "name": "PlayerHotbar",
+  "packet": "packet_player_hotbar",
+  "toClient": true,
+  "toServer": true
+ },
+ "PlayerInput": {
+  "bound": "server",
+  "fields": [
+   [
+    "motion_x",
+    "lf32"
+   ],
+   [
+    "motion_z",
+    "lf32"
+   ],
+   [
+    "jumping",
+    "bool"
+   ],
+   [
+    "sneaking",
+    "bool"
+   ]
+  ],
+  "hex": "0x39",
+  "id": 57,
+  "name": "PlayerInput",
+  "packet": "packet_player_input",
+  "toClient": false,
+  "toServer": true
+ },
+ "PlayerList": {
+  "bound": "client",
+  "fields": [
+   [
+    "records",
+    "PlayerRecords"
+   ]
+  ],
+  "hex": "0x3f",
+  "id": 63,
+  "name": "PlayerList",
+  "packet": "packet_player_list",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerLocation": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_unique_id",
+    "zigzag64"
+   ],
+   [
+    "type",
+    "varint =>"
+   ],
+   [
+    "unused",
+    "zigzag32"
+   ],
+   [
+    "position",
+    "type ?"
+   ]
+  ],
+  "hex": "0x146",
+  "id": 326,
+  "name": "PlayerLocation",
+  "packet": "packet_player_location",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerSkin": {
+  "bound": "both",
+  "fields": [
+   [
+    "uuid",
+    "uuid"
+   ],
+   [
+    "skin",
+    "Skin"
+   ],
+   [
+    "skin_name",
+    "string"
+   ],
+   [
+    "old_skin_name",
+    "string"
+   ]
+  ],
+  "hex": "0x5d",
+  "id": 93,
+  "name": "PlayerSkin",
+  "packet": "packet_player_skin",
+  "toClient": true,
+  "toServer": true
+ },
+ "PlayerUpdateEntityOverrides": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_id",
+    "varint64"
+   ],
+   [
+    "property_index",
+    "varint"
+   ],
+   [
+    "type",
+    "varint =>"
+   ],
+   [
+    "legacy_type",
+    "u8"
+   ],
+   [
+    "value",
+    "type ?"
+   ]
+  ],
+  "hex": "0x145",
+  "id": 325,
+  "name": "PlayerUpdateEntityOverrides",
+  "packet": "packet_player_update_entity_overrides",
+  "toClient": true,
+  "toServer": false
+ },
+ "PlayerVideoCapture": {
+  "bound": "client",
+  "fields": [
+   [
+    "action",
+    "u8 =>"
+   ],
+   [
+    "_",
+    "action ?"
+   ],
+   [
+    "frame_rate",
+    "li32"
+   ],
+   [
+    "file_prefix",
+    "string"
+   ]
+  ],
+  "hex": "0x144",
+  "id": 324,
+  "name": "PlayerVideoCapture",
+  "packet": "packet_player_video_capture",
+  "toClient": true,
+  "toServer": false
+ },
+ "PositionTrackingDbBroadcast": {
+  "bound": "client",
+  "fields": [
+   [
+    "broadcast_action",
+    "u8 =>"
+   ],
+   [
+    "tracking_id",
+    "zigzag32"
+   ],
+   [
+    "nbt",
+    "nbt"
+   ]
+  ],
+  "hex": "0x99",
+  "id": 153,
+  "name": "PositionTrackingDbBroadcast",
+  "packet": "packet_position_tracking_db_broadcast",
+  "toClient": true,
+  "toServer": false
+ },
+ "PositionTrackingDbRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "action",
+    "u8 =>"
+   ],
+   [
+    "tracking_id",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x9a",
+  "id": 154,
+  "name": "PositionTrackingDbRequest",
+  "packet": "packet_position_tracking_db_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "PrimitiveShapes": {
+  "bound": "client",
+  "fields": [
+   [
+    "shapes",
+    "PrimitiveShape[]varint"
+   ]
+  ],
+  "hex": "0xa4",
+  "id": 164,
+  "name": "PrimitiveShapes",
+  "packet": "packet_primitive_shapes",
+  "toClient": true,
+  "toServer": false
+ },
+ "PurchaseReceipt": {
+  "bound": "server",
+  "fields": [
+   [
+    "receipts",
+    "string[]varint"
+   ]
+  ],
+  "hex": "0x5c",
+  "id": 92,
+  "name": "PurchaseReceipt",
+  "packet": "packet_purchase_receipt",
+  "toClient": false,
+  "toServer": true
+ },
+ "RefreshEntitlements": {
+  "bound": "server",
+  "fields": [],
+  "hex": "0x131",
+  "id": 305,
+  "name": "RefreshEntitlements",
+  "packet": "packet_refresh_entitlements",
+  "toClient": false,
+  "toServer": true
+ },
+ "RemoveEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_id_self",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x0e",
+  "id": 14,
+  "name": "RemoveEntity",
+  "packet": "packet_remove_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "RemoveObjective": {
+  "bound": "client",
+  "fields": [
+   [
+    "objective_name",
+    "string"
+   ]
+  ],
+  "hex": "0x6a",
+  "id": 106,
+  "name": "RemoveObjective",
+  "packet": "packet_remove_objective",
+  "toClient": true,
+  "toServer": false
+ },
+ "RemoveVolumeEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_id",
+    "varint64"
+   ]
+  ],
+  "hex": "0xa7",
+  "id": 167,
+  "name": "RemoveVolumeEntity",
+  "packet": "packet_remove_volume_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "RequestAbility": {
+  "bound": "server",
+  "fields": [
+   [
+    "ability",
+    "zigzag32 =>"
+   ],
+   [
+    "value_type",
+    "u8 =>"
+   ],
+   [
+    "bool_value",
+    "bool"
+   ],
+   [
+    "float_val",
+    "lf32"
+   ]
+  ],
+  "hex": "0xb8",
+  "id": 184,
+  "name": "RequestAbility",
+  "packet": "packet_request_ability",
+  "toClient": false,
+  "toServer": true
+ },
+ "RequestChunkRadius": {
+  "bound": "both",
+  "fields": [
+   [
+    "chunk_radius",
+    "zigzag32"
+   ],
+   [
+    "max_radius",
+    "u8"
+   ]
+  ],
+  "hex": "0x45",
+  "id": 69,
+  "name": "RequestChunkRadius",
+  "packet": "packet_request_chunk_radius",
+  "toClient": true,
+  "toServer": true
+ },
+ "RequestNetworkSettings": {
+  "bound": "server",
+  "fields": [
+   [
+    "client_protocol",
+    "i32"
+   ]
+  ],
+  "hex": "0xc1",
+  "id": 193,
+  "name": "RequestNetworkSettings",
+  "packet": "packet_request_network_settings",
+  "toClient": false,
+  "toServer": true
+ },
+ "RequestPermissions": {
+  "bound": "server",
+  "fields": [
+   [
+    "entity_unique_id",
+    "li64"
+   ],
+   [
+    "permission_level",
+    "PermissionLevel"
+   ],
+   [
+    "requested_permissions",
+    "RequestPermissions"
+   ]
+  ],
+  "hex": "0xb9",
+  "id": 185,
+  "name": "RequestPermissions",
+  "packet": "packet_request_permissions",
+  "toClient": false,
+  "toServer": true
+ },
+ "ResourcePackChunkData": {
+  "bound": "client",
+  "fields": [
+   [
+    "pack_id",
+    "string"
+   ],
+   [
+    "chunk_index",
+    "lu32"
+   ],
+   [
+    "progress",
+    "lu64"
+   ],
+   [
+    "payload",
+    "ByteArray"
+   ]
+  ],
+  "hex": "0x53",
+  "id": 83,
+  "name": "ResourcePackChunkData",
+  "packet": "packet_resource_pack_chunk_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "ResourcePackChunkRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "pack_id",
+    "string"
+   ],
+   [
+    "chunk_index",
+    "lu32"
+   ]
+  ],
+  "hex": "0x54",
+  "id": 84,
+  "name": "ResourcePackChunkRequest",
+  "packet": "packet_resource_pack_chunk_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "ResourcePackClientResponse": {
+  "bound": "server",
+  "fields": [
+   [
+    "response_status",
+    "varint =>"
+   ],
+   [
+    "response_status_name",
+    "string"
+   ],
+   [
+    "resourcepackids",
+    "response_status ?"
+   ],
+   [
+    "default",
+    "void"
+   ]
+  ],
+  "hex": "0x08",
+  "id": 8,
+  "name": "ResourcePackClientResponse",
+  "packet": "packet_resource_pack_client_response",
+  "toClient": false,
+  "toServer": true
+ },
+ "ResourcePackDataInfo": {
+  "bound": "client",
+  "fields": [
+   [
+    "pack_id",
+    "string"
+   ],
+   [
+    "max_chunk_size",
+    "lu32"
+   ],
+   [
+    "chunk_count",
+    "lu32"
+   ],
+   [
+    "size",
+    "lu64"
+   ],
+   [
+    "hash",
+    "ByteArray"
+   ],
+   [
+    "is_premium",
+    "bool"
+   ],
+   [
+    "pack_type",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x52",
+  "id": 82,
+  "name": "ResourcePackDataInfo",
+  "packet": "packet_resource_pack_data_info",
+  "toClient": true,
+  "toServer": false
+ },
+ "ResourcePackStack": {
+  "bound": "client",
+  "fields": [
+   [
+    "must_accept",
+    "bool"
+   ],
+   [
+    "resource_packs",
+    "ResourcePackIdVersions"
+   ],
+   [
+    "game_version",
+    "string"
+   ],
+   [
+    "experiments",
+    "Experiments # ??? such random fields"
+   ],
+   [
+    "experiments_previously_used",
+    "bool"
+   ],
+   [
+    "has_editor_packs",
+    "bool"
+   ]
+  ],
+  "hex": "0x07",
+  "id": 7,
+  "name": "ResourcePackStack",
+  "packet": "packet_resource_pack_stack",
+  "toClient": true,
+  "toServer": false
+ },
+ "ResourcePacksInfo": {
+  "bound": "client",
+  "fields": [
+   [
+    "must_accept",
+    "bool"
+   ],
+   [
+    "has_addons",
+    "bool"
+   ],
+   [
+    "has_scripts",
+    "bool"
+   ],
+   [
+    "disable_vibrant_visuals",
+    "bool"
+   ],
+   [
+    "uuid",
+    "uuid"
+   ],
+   [
+    "version",
+    "string"
+   ],
+   [
+    "texture_packs",
+    "TexturePackInfos"
+   ]
+  ],
+  "hex": "0x06",
+  "id": 6,
+  "name": "ResourcePacksInfo",
+  "packet": "packet_resource_packs_info",
+  "toClient": true,
+  "toServer": false
+ },
+ "ResourcePacksReadyForValidation": {
+  "bound": "server",
+  "fields": [],
+  "hex": "0x154",
+  "id": 340,
+  "name": "ResourcePacksReadyForValidation",
+  "packet": "packet_resource_packs_ready_for_validation",
+  "toClient": false,
+  "toServer": true
+ },
+ "Respawn": {
+  "bound": "both",
+  "fields": [
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "state",
+    "u8"
+   ],
+   [
+    "runtime_entity_id",
+    "varint64"
+   ]
+  ],
+  "hex": "0x2d",
+  "id": 45,
+  "name": "Respawn",
+  "packet": "packet_respawn",
+  "toClient": true,
+  "toServer": true
+ },
+ "RiderJump": {
+  "bound": "both",
+  "fields": [
+   [
+    "jump_strength",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x14",
+  "id": 20,
+  "name": "RiderJump",
+  "packet": "packet_rider_jump",
+  "toClient": true,
+  "toServer": true
+ },
+ "ScriptCustomEvent": {
+  "bound": "both",
+  "fields": [
+   [
+    "event_name",
+    "string"
+   ],
+   [
+    "event_data",
+    "string"
+   ]
+  ],
+  "hex": "0x75",
+  "id": 117,
+  "name": "ScriptCustomEvent",
+  "packet": "packet_script_custom_event",
+  "toClient": true,
+  "toServer": true
+ },
+ "ScriptMessage": {
+  "bound": "server",
+  "fields": [
+   [
+    "message_id",
+    "string"
+   ],
+   [
+    "data",
+    "string"
+   ]
+  ],
+  "hex": "0xb1",
+  "id": 177,
+  "name": "ScriptMessage",
+  "packet": "packet_script_message",
+  "toClient": false,
+  "toServer": true
+ },
+ "SendPartyDestinationCookie": {
+  "bound": "client",
+  "fields": [
+   [
+    "cookie",
+    "string"
+   ],
+   [
+    "intent",
+    "string"
+   ],
+   [
+    "destination_name",
+    "string"
+   ]
+  ],
+  "hex": "0x15d",
+  "id": 349,
+  "name": "SendPartyDestinationCookie",
+  "packet": "packet_send_party_destination_cookie",
+  "toClient": true,
+  "toServer": false
+ },
+ "ServerPostMove": {
+  "bound": "both",
+  "fields": [
+   [
+    "position",
+    "vec3f"
+   ]
+  ],
+  "hex": "0x10",
+  "id": 16,
+  "name": "ServerPostMove",
+  "packet": "packet_server_post_move",
+  "toClient": true,
+  "toServer": true
+ },
+ "ServerPresenceInfo": {
+  "bound": "client",
+  "fields": [],
+  "hex": "0x15b",
+  "id": 347,
+  "name": "ServerPresenceInfo",
+  "packet": "packet_server_presence_info",
+  "toClient": true,
+  "toServer": false
+ },
+ "ServerScriptDebugDrawer": {
+  "bound": "server",
+  "fields": [
+   [
+    "shapes",
+    "[]varint"
+   ],
+   [
+    "network_id",
+    "varint64"
+   ]
+  ],
+  "hex": "0x148",
+  "id": 328,
+  "name": "ServerScriptDebugDrawer",
+  "packet": "packet_server_script_debug_drawer",
+  "toClient": false,
+  "toServer": true
+ },
+ "ServerSettingsRequest": {
+  "bound": "server",
+  "fields": [],
+  "hex": "0x66",
+  "id": 102,
+  "name": "ServerSettingsRequest",
+  "packet": "packet_server_settings_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "ServerSettingsResponse": {
+  "bound": "client",
+  "fields": [
+   [
+    "form_id",
+    "varint"
+   ],
+   [
+    "data",
+    "string"
+   ]
+  ],
+  "hex": "0x67",
+  "id": 103,
+  "name": "ServerSettingsResponse",
+  "packet": "packet_server_settings_response",
+  "toClient": true,
+  "toServer": false
+ },
+ "ServerStats": {
+  "bound": "client",
+  "fields": [
+   [
+    "server_time",
+    "lf32"
+   ],
+   [
+    "network_time",
+    "lf32"
+   ]
+  ],
+  "hex": "0xc0",
+  "id": 192,
+  "name": "ServerStats",
+  "packet": "packet_server_stats",
+  "toClient": true,
+  "toServer": false
+ },
+ "ServerStoreInfo": {
+  "bound": "client",
+  "fields": [],
+  "hex": "0x15a",
+  "id": 346,
+  "name": "ServerStoreInfo",
+  "packet": "packet_server_store_info",
+  "toClient": true,
+  "toServer": false
+ },
+ "ServerToClientHandshake": {
+  "bound": "client",
+  "fields": [
+   [
+    "token",
+    "string"
+   ]
+  ],
+  "hex": "0x03",
+  "id": 3,
+  "name": "ServerToClientHandshake",
+  "packet": "packet_server_to_client_handshake",
+  "toClient": true,
+  "toServer": false
+ },
+ "ServerboundDataDrivenScreenClosed": {
+  "bound": "server",
+  "fields": [
+   [
+    "close_reason",
+    "string"
+   ]
+  ],
+  "hex": "0x157",
+  "id": 343,
+  "name": "ServerboundDataDrivenScreenClosed",
+  "packet": "packet_serverbound_data_driven_screen_closed",
+  "toClient": false,
+  "toServer": true
+ },
+ "ServerboundDataStore": {
+  "bound": "server",
+  "fields": [
+   [
+    "name",
+    "string"
+   ],
+   [
+    "property",
+    "string"
+   ],
+   [
+    "path",
+    "string"
+   ],
+   [
+    "data_type",
+    "lu32 =>"
+   ],
+   [
+    "data",
+    "data_type ?"
+   ],
+   [
+    "update_count",
+    "lu32"
+   ],
+   [
+    "path_update_count",
+    "lu32"
+   ]
+  ],
+  "hex": "0x14c",
+  "id": 332,
+  "name": "ServerboundDataStore",
+  "packet": "packet_serverbound_data_store",
+  "toClient": false,
+  "toServer": true
+ },
+ "ServerboundDiagnostics": {
+  "bound": "server",
+  "fields": [
+   [
+    "average_frames_per_second",
+    "lf32"
+   ],
+   [
+    "average_server_sim_tick_time",
+    "lf32"
+   ],
+   [
+    "average_client_sim_tick_time",
+    "lf32"
+   ],
+   [
+    "average_begin_frame_time",
+    "lf32"
+   ],
+   [
+    "average_input_time",
+    "lf32"
+   ],
+   [
+    "average_render_time",
+    "lf32"
+   ],
+   [
+    "average_end_frame_time",
+    "lf32"
+   ],
+   [
+    "average_remainder_time_percent",
+    "lf32"
+   ],
+   [
+    "average_unaccounted_time_percent",
+    "lf32"
+   ],
+   [
+    "memory_category_values",
+    "MemoryCategoryCounter[]varint"
+   ],
+   [
+    "entity_diagnostics",
+    "EntityDiagnosticTimingInfo[]varint"
+   ],
+   [
+    "system_diagnostics",
+    "SystemDiagnosticTimingInfo[]varint"
+   ],
+   [
+    "system_categories",
+    "SystemCategory[]varint"
+   ],
+   [
+    "whisker_scopes",
+    "WhiskerScopeDataSummary[]varint"
+   ]
+  ],
+  "hex": "0x13B",
+  "id": 315,
+  "name": "ServerboundDiagnostics",
+  "packet": "packet_serverbound_diagnostics",
+  "toClient": false,
+  "toServer": true
+ },
+ "ServerboundLoadingScreen": {
+  "bound": "server",
+  "fields": [
+   [
+    "type",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x138",
+  "id": 312,
+  "name": "ServerboundLoadingScreen",
+  "packet": "packet_serverbound_loading_screen",
+  "toClient": false,
+  "toServer": true
+ },
+ "ServerboundPackSettingChange": {
+  "bound": "server",
+  "fields": [
+   [
+    "pack_id",
+    "uuid"
+   ],
+   [
+    "name",
+    "string"
+   ],
+   [
+    "type",
+    "varint =>"
+   ],
+   [
+    "value",
+    "type ?"
+   ]
+  ],
+  "hex": "0x149",
+  "id": 329,
+  "name": "ServerboundPackSettingChange",
+  "packet": "packet_serverbound_pack_setting_change",
+  "toClient": false,
+  "toServer": true
+ },
+ "SetCommandsEnabled": {
+  "bound": "client",
+  "fields": [
+   [
+    "enabled",
+    "bool"
+   ]
+  ],
+  "hex": "0x3b",
+  "id": 59,
+  "name": "SetCommandsEnabled",
+  "packet": "packet_set_commands_enabled",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetDefaultGameType": {
+  "bound": "server",
+  "fields": [
+   [
+    "gamemode",
+    "GameMode"
+   ]
+  ],
+  "hex": "0x69",
+  "id": 105,
+  "name": "SetDefaultGameType",
+  "packet": "packet_set_default_game_type",
+  "toClient": false,
+  "toServer": true
+ },
+ "SetDifficulty": {
+  "bound": "client",
+  "fields": [
+   [
+    "difficulty",
+    "varint"
+   ]
+  ],
+  "hex": "0x3c",
+  "id": 60,
+  "name": "SetDifficulty",
+  "packet": "packet_set_difficulty",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetDisplayObjective": {
+  "bound": "client",
+  "fields": [
+   [
+    "display_slot",
+    "string"
+   ],
+   [
+    "objective_name",
+    "string"
+   ],
+   [
+    "display_name",
+    "string"
+   ],
+   [
+    "criteria_name",
+    "string"
+   ],
+   [
+    "sort_order",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x6b",
+  "id": 107,
+  "name": "SetDisplayObjective",
+  "packet": "packet_set_display_objective",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetEntityData": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "metadata",
+    "MetadataDictionary"
+   ],
+   [
+    "properties",
+    "EntityProperties"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0x27",
+  "id": 39,
+  "name": "SetEntityData",
+  "packet": "packet_set_entity_data",
+  "toClient": true,
+  "toServer": true
+ },
+ "SetEntityLink": {
+  "bound": "client",
+  "fields": [
+   [
+    "link",
+    "Link"
+   ]
+  ],
+  "hex": "0x29",
+  "id": 41,
+  "name": "SetEntityLink",
+  "packet": "packet_set_entity_link",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetEntityMotion": {
+  "bound": "both",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "velocity",
+    "vec3f"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0x28",
+  "id": 40,
+  "name": "SetEntityMotion",
+  "packet": "packet_set_entity_motion",
+  "toClient": true,
+  "toServer": true
+ },
+ "SetHealth": {
+  "bound": "client",
+  "fields": [
+   [
+    "health",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x2a",
+  "id": 42,
+  "name": "SetHealth",
+  "packet": "packet_set_health",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetHud": {
+  "bound": "both",
+  "fields": [
+   [
+    "elements",
+    "Element[]varint"
+   ],
+   [
+    "visibility",
+    "varint =>"
+   ]
+  ],
+  "hex": "0x134",
+  "id": 308,
+  "name": "SetHud",
+  "packet": "packet_set_hud",
+  "toClient": true,
+  "toServer": true
+ },
+ "SetLastHurtBy": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_type",
+    "varint"
+   ]
+  ],
+  "hex": "0x60",
+  "id": 96,
+  "name": "SetLastHurtBy",
+  "packet": "packet_set_last_hurt_by",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetLocalPlayerAsInitialized": {
+  "bound": "server",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ]
+  ],
+  "hex": "0x71",
+  "id": 113,
+  "name": "SetLocalPlayerAsInitialized",
+  "packet": "packet_set_local_player_as_initialized",
+  "toClient": false,
+  "toServer": true
+ },
+ "SetMovementAuthority": {
+  "bound": "client",
+  "fields": [
+   [
+    "movement_authority",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x13F",
+  "id": 319,
+  "name": "SetMovementAuthority",
+  "packet": "packet_set_movement_authority",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetPlayerGameType": {
+  "bound": "both",
+  "fields": [
+   [
+    "gamemode",
+    "GameMode"
+   ]
+  ],
+  "hex": "0x3e",
+  "id": 62,
+  "name": "SetPlayerGameType",
+  "packet": "packet_set_player_game_type",
+  "toClient": true,
+  "toServer": true
+ },
+ "SetPlayerInventoryOptions": {
+  "bound": "both",
+  "fields": [
+   [
+    "left_tab",
+    "zigzag32 =>"
+   ],
+   [
+    "right_tab",
+    "zigzag32 =>"
+   ],
+   [
+    "filtering",
+    "bool"
+   ],
+   [
+    "layout",
+    "zigzag32 =>"
+   ],
+   [
+    "crafting_layout",
+    "zigzag32 =>"
+   ]
+  ],
+  "hex": "0x133",
+  "id": 307,
+  "name": "SetPlayerInventoryOptions",
+  "packet": "packet_set_player_inventory_options",
+  "toClient": true,
+  "toServer": true
+ },
+ "SetScore": {
+  "bound": "client",
+  "fields": [
+   [
+    "entries",
+    "[]varint"
+   ],
+   [
+    "entry_type",
+    "varint =>"
+   ],
+   [
+    "entry_type_name",
+    "string"
+   ],
+   [
+    "scoreboard_id",
+    "zigzag64"
+   ],
+   [
+    "_",
+    "entry_type ?"
+   ],
+   [
+    "objective_name",
+    "string"
+   ],
+   [
+    "score",
+    "li32"
+   ],
+   [
+    "custom_name",
+    "string"
+   ],
+   [
+    "objective_name",
+    "string"
+   ],
+   [
+    "score",
+    "li32"
+   ],
+   [
+    "entity_unique_id",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x6c",
+  "id": 108,
+  "name": "SetScore",
+  "packet": "packet_set_score",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetScoreboardIdentity": {
+  "bound": "client",
+  "fields": [
+   [
+    "action",
+    "i8 =>"
+   ],
+   [
+    "entries",
+    "[]varint"
+   ],
+   [
+    "scoreboard_id",
+    "zigzag64"
+   ]
+  ],
+  "hex": "0x70",
+  "id": 112,
+  "name": "SetScoreboardIdentity",
+  "packet": "packet_set_scoreboard_identity",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetSpawnPosition": {
+  "bound": "client",
+  "fields": [
+   [
+    "spawn_type",
+    "zigzag32 =>"
+   ],
+   [
+    "player_position",
+    "BlockCoordinates"
+   ],
+   [
+    "dimension",
+    "zigzag32"
+   ],
+   [
+    "world_position",
+    "BlockCoordinates"
+   ]
+  ],
+  "hex": "0x2b",
+  "id": 43,
+  "name": "SetSpawnPosition",
+  "packet": "packet_set_spawn_position",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetTime": {
+  "bound": "client",
+  "fields": [
+   [
+    "time",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x0a",
+  "id": 10,
+  "name": "SetTime",
+  "packet": "packet_set_time",
+  "toClient": true,
+  "toServer": false
+ },
+ "SetTitle": {
+  "bound": "client",
+  "fields": [
+   [
+    "type",
+    "zigzag32 =>"
+   ],
+   [
+    "text",
+    "string"
+   ],
+   [
+    "fade_in_time",
+    "zigzag32"
+   ],
+   [
+    "stay_time",
+    "zigzag32"
+   ],
+   [
+    "fade_out_time",
+    "zigzag32"
+   ],
+   [
+    "xuid",
+    "string"
+   ],
+   [
+    "platform_online_id",
+    "string"
+   ],
+   [
+    "filtered_message",
+    "string"
+   ]
+  ],
+  "hex": "0x58",
+  "id": 88,
+  "name": "SetTitle",
+  "packet": "packet_set_title",
+  "toClient": true,
+  "toServer": false
+ },
+ "SettingsCommand": {
+  "bound": "server",
+  "fields": [
+   [
+    "command_line",
+    "string"
+   ],
+   [
+    "suppress_output",
+    "bool"
+   ]
+  ],
+  "hex": "0x8c",
+  "id": 140,
+  "name": "SettingsCommand",
+  "packet": "packet_settings_command",
+  "toClient": false,
+  "toServer": true
+ },
+ "ShowCredits": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "status",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x4b",
+  "id": 75,
+  "name": "ShowCredits",
+  "packet": "packet_show_credits",
+  "toClient": true,
+  "toServer": false
+ },
+ "ShowProfile": {
+  "bound": "client",
+  "fields": [
+   [
+    "xuid",
+    "string"
+   ]
+  ],
+  "hex": "0x68",
+  "id": 104,
+  "name": "ShowProfile",
+  "packet": "packet_show_profile",
+  "toClient": true,
+  "toServer": false
+ },
+ "ShowStoreOffer": {
+  "bound": "client",
+  "fields": [
+   [
+    "offer_uuid",
+    "uuid"
+   ],
+   [
+    "redirect_type",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x5b",
+  "id": 91,
+  "name": "ShowStoreOffer",
+  "packet": "packet_show_store_offer",
+  "toClient": true,
+  "toServer": false
+ },
+ "SimpleEvent": {
+  "bound": "client",
+  "fields": [
+   [
+    "event_type",
+    "lu16 =>"
+   ]
+  ],
+  "hex": "0x40",
+  "id": 64,
+  "name": "SimpleEvent",
+  "packet": "packet_simple_event",
+  "toClient": true,
+  "toServer": false
+ },
+ "SimulationType": {
+  "bound": "both",
+  "fields": [
+   [
+    "type",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0xa8",
+  "id": 168,
+  "name": "SimulationType",
+  "packet": "packet_simulation_type",
+  "toClient": true,
+  "toServer": true
+ },
+ "SpawnExperienceOrb": {
+  "bound": "client",
+  "fields": [
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "count",
+    "zigzag32"
+   ]
+  ],
+  "hex": "0x42",
+  "id": 66,
+  "name": "SpawnExperienceOrb",
+  "packet": "packet_spawn_experience_orb",
+  "toClient": true,
+  "toServer": false
+ },
+ "SpawnParticleEffect": {
+  "bound": "client",
+  "fields": [
+   [
+    "dimension",
+    "u8"
+   ],
+   [
+    "entity_id",
+    "zigzag64"
+   ],
+   [
+    "position",
+    "vec3f"
+   ],
+   [
+    "particle_name",
+    "string"
+   ]
+  ],
+  "hex": "0x76",
+  "id": 118,
+  "name": "SpawnParticleEffect",
+  "packet": "packet_spawn_particle_effect",
+  "toClient": true,
+  "toServer": false
+ },
+ "StartGame": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_id",
+    "zigzag64"
+   ],
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "player_gamemode",
+    "GameMode"
+   ],
+   [
+    "player_position",
+    "vec3f"
+   ],
+   [
+    "rotation",
+    "vec2f"
+   ],
+   [
+    "seed",
+    "lu64"
+   ],
+   [
+    "biome_type",
+    "li16"
+   ],
+   [
+    "biome_name",
+    "string"
+   ],
+   [
+    "dimension",
+    "zigzag32 =>"
+   ],
+   [
+    "generator",
+    "zigzag32"
+   ],
+   [
+    "world_gamemode",
+    "GameMode"
+   ],
+   [
+    "hardcore",
+    "bool"
+   ],
+   [
+    "difficulty",
+    "zigzag32"
+   ],
+   [
+    "spawn_position",
+    "BlockCoordinates"
+   ],
+   [
+    "achievements_disabled",
+    "bool"
+   ],
+   [
+    "editor_world_type",
+    "zigzag32 =>"
+   ],
+   [
+    "created_in_editor",
+    "bool"
+   ],
+   [
+    "exported_from_editor",
+    "bool"
+   ],
+   [
+    "day_cycle_stop_time",
+    "zigzag32"
+   ],
+   [
+    "edu_offer",
+    "varint"
+   ],
+   [
+    "edu_features_enabled",
+    "bool"
+   ],
+   [
+    "edu_product_uuid",
+    "string"
+   ],
+   [
+    "rain_level",
+    "lf32"
+   ],
+   [
+    "lightning_level",
+    "lf32"
+   ],
+   [
+    "has_confirmed_platform_locked_content",
+    "bool"
+   ],
+   [
+    "is_multiplayer",
+    "bool"
+   ],
+   [
+    "broadcast_to_lan",
+    "bool"
+   ],
+   [
+    "xbox_live_broadcast_mode",
+    "varint"
+   ],
+   [
+    "platform_broadcast_mode",
+    "varint"
+   ],
+   [
+    "enable_commands",
+    "bool"
+   ],
+   [
+    "is_texturepacks_required",
+    "bool"
+   ],
+   [
+    "gamerules",
+    "GameRuleI32[]varint"
+   ],
+   [
+    "experiments",
+    "Experiments"
+   ],
+   [
+    "experiments_previously_used",
+    "bool"
+   ],
+   [
+    "bonus_chest",
+    "bool"
+   ],
+   [
+    "map_enabled",
+    "bool"
+   ],
+   [
+    "permission_level",
+    "PermissionLevel"
+   ],
+   [
+    "server_chunk_tick_range",
+    "li32"
+   ],
+   [
+    "has_locked_behavior_pack",
+    "bool"
+   ],
+   [
+    "has_locked_resource_pack",
+    "bool"
+   ],
+   [
+    "is_from_locked_world_template",
+    "bool"
+   ],
+   [
+    "msa_gamertags_only",
+    "bool"
+   ],
+   [
+    "is_from_world_template",
+    "bool"
+   ],
+   [
+    "is_world_template_option_locked",
+    "bool"
+   ],
+   [
+    "only_spawn_v1_villagers",
+    "bool"
+   ],
+   [
+    "persona_disabled",
+    "bool"
+   ],
+   [
+    "custom_skins_disabled",
+    "bool"
+   ],
+   [
+    "emote_chat_muted",
+    "bool"
+   ],
+   [
+    "game_version",
+    "string"
+   ],
+   [
+    "limited_world_width",
+    "li32"
+   ],
+   [
+    "limited_world_length",
+    "li32"
+   ],
+   [
+    "is_new_nether",
+    "bool"
+   ],
+   [
+    "edu_resource_uri",
+    "EducationSharedResourceURI"
+   ],
+   [
+    "experimental_gameplay_override",
+    "bool"
+   ],
+   [
+    "chat_restriction_level",
+    "u8 =>"
+   ],
+   [
+    "disable_player_interactions",
+    "bool"
+   ],
+   [
+    "server_editor_connection_policy",
+    "zigzag32"
+   ],
+   [
+    "allow_anonymous_block_drops_in_editor_worlds",
+    "bool"
+   ],
+   [
+    "level_id",
+    "string"
+   ],
+   [
+    "world_name",
+    "string"
+   ],
+   [
+    "premium_world_template_id",
+    "string"
+   ],
+   [
+    "is_trial",
+    "bool"
+   ],
+   [
+    "rewind_history_size",
+    "zigzag32"
+   ],
+   [
+    "server_authoritative_block_breaking",
+    "bool"
+   ],
+   [
+    "current_tick",
+    "li64"
+   ],
+   [
+    "enchantment_seed",
+    "zigzag32"
+   ],
+   [
+    "block_properties",
+    "BlockProperties"
+   ],
+   [
+    "multiplayer_correlation_id",
+    "string"
+   ],
+   [
+    "server_authoritative_inventory",
+    "bool"
+   ],
+   [
+    "engine",
+    "string"
+   ],
+   [
+    "property_data",
+    "nbt"
+   ],
+   [
+    "block_pallette_checksum",
+    "lu64"
+   ],
+   [
+    "world_template_id",
+    "uuid"
+   ],
+   [
+    "client_side_generation",
+    "bool"
+   ],
+   [
+    "block_network_ids_are_hashes",
+    "bool"
+   ],
+   [
+    "server_controlled_sound",
+    "bool"
+   ],
+   [
+    "has_server_join_info",
+    "bool"
+   ],
+   [
+    "server_join_info",
+    "has_server_join_info ?"
+   ],
+   [
+    "server_identifier",
+    "string"
+   ],
+   [
+    "scenario_identifier",
+    "string"
+   ],
+   [
+    "world_identifier",
+    "string"
+   ],
+   [
+    "owner_identifier",
+    "string"
+   ]
+  ],
+  "hex": "0x0b",
+  "id": 11,
+  "name": "StartGame",
+  "packet": "packet_start_game",
+  "toClient": true,
+  "toServer": false
+ },
+ "StopSound": {
+  "bound": "client",
+  "fields": [
+   [
+    "name",
+    "string"
+   ],
+   [
+    "stop_all",
+    "bool"
+   ],
+   [
+    "stop_music_legacy",
+    "bool"
+   ]
+  ],
+  "hex": "0x57",
+  "id": 87,
+  "name": "StopSound",
+  "packet": "packet_stop_sound",
+  "toClient": true,
+  "toServer": false
+ },
+ "StructureBlockUpdate": {
+  "bound": "client",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "structure_name",
+    "string"
+   ],
+   [
+    "filtered_structure_name",
+    "string"
+   ],
+   [
+    "data_field",
+    "string"
+   ],
+   [
+    "include_players",
+    "bool"
+   ],
+   [
+    "show_bounding_box",
+    "bool"
+   ],
+   [
+    "structure_block_type",
+    "zigzag32"
+   ],
+   [
+    "settings",
+    "StructureBlockSettings"
+   ],
+   [
+    "redstone_save_mode",
+    "u8"
+   ],
+   [
+    "should_trigger",
+    "bool"
+   ],
+   [
+    "water_logged",
+    "bool"
+   ]
+  ],
+  "hex": "0x5a",
+  "id": 90,
+  "name": "StructureBlockUpdate",
+  "packet": "packet_structure_block_update",
+  "toClient": true,
+  "toServer": false
+ },
+ "StructureTemplateDataExportRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "name",
+    "string"
+   ],
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "settings",
+    "StructureBlockSettings"
+   ],
+   [
+    "request_type",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x84",
+  "id": 132,
+  "name": "StructureTemplateDataExportRequest",
+  "packet": "packet_structure_template_data_export_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "StructureTemplateDataExportResponse": {
+  "bound": "client",
+  "fields": [
+   [
+    "name",
+    "string"
+   ],
+   [
+    "success",
+    "bool"
+   ],
+   [
+    "nbt",
+    "success ?"
+   ],
+   [
+    "response_type",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x85",
+  "id": 133,
+  "name": "StructureTemplateDataExportResponse",
+  "packet": "packet_structure_template_data_export_response",
+  "toClient": true,
+  "toServer": false
+ },
+ "SubClientLogin": {
+  "bound": "server",
+  "fields": [
+   [
+    "tokens",
+    "'[\"encapsulated\", { \"lengthType\": \"varint\", \"type\": \"LoginTokens\" }]'"
+   ]
+  ],
+  "hex": "0x5e",
+  "id": 94,
+  "name": "SubClientLogin",
+  "packet": "packet_sub_client_login",
+  "toClient": false,
+  "toServer": true
+ },
+ "Subchunk": {
+  "bound": "client",
+  "fields": [
+   [
+    "cache_enabled",
+    "bool"
+   ],
+   [
+    "dimension",
+    "zigzag32"
+   ],
+   [
+    "origin",
+    "vec3li"
+   ],
+   [
+    "entries",
+    "SubChunkEntry"
+   ]
+  ],
+  "hex": "0xae",
+  "id": 174,
+  "name": "Subchunk",
+  "packet": "packet_subchunk",
+  "toClient": true,
+  "toServer": false
+ },
+ "SubchunkRequest": {
+  "bound": "server",
+  "fields": [
+   [
+    "dimension",
+    "zigzag32"
+   ],
+   [
+    "requests",
+    "vec3i8[]varint"
+   ],
+   [
+    "origin",
+    "vec3li"
+   ]
+  ],
+  "hex": "0xaf",
+  "id": 175,
+  "name": "SubchunkRequest",
+  "packet": "packet_subchunk_request",
+  "toClient": false,
+  "toServer": true
+ },
+ "SyncEntityProperty": {
+  "bound": "client",
+  "fields": [
+   [
+    "nbt",
+    "nbt"
+   ]
+  ],
+  "hex": "0xa5",
+  "id": 165,
+  "name": "SyncEntityProperty",
+  "packet": "packet_sync_entity_property",
+  "toClient": true,
+  "toServer": false
+ },
+ "SyncWorldClocks": {
+  "bound": "client",
+  "fields": [
+   [
+    "payload_type",
+    "varint =>"
+   ],
+   [
+    "_",
+    "payload_type ?"
+   ],
+   [
+    "sync_states",
+    "SyncWorldClockStateData[]varint"
+   ],
+   [
+    "clocks",
+    "WorldClockData[]varint"
+   ],
+   [
+    "add_clock_id",
+    "varint64"
+   ],
+   [
+    "add_time_markers",
+    "TimeMarkerData[]varint"
+   ],
+   [
+    "remove_clock_id",
+    "varint64"
+   ],
+   [
+    "remove_time_marker_ids",
+    "varint64[]varint"
+   ]
+  ],
+  "hex": "0x158",
+  "id": 344,
+  "name": "SyncWorldClocks",
+  "packet": "packet_sync_world_clocks",
+  "toClient": true,
+  "toServer": false
+ },
+ "TakeItemEntity": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "target",
+    "varint"
+   ]
+  ],
+  "hex": "0x11",
+  "id": 17,
+  "name": "TakeItemEntity",
+  "packet": "packet_take_item_entity",
+  "toClient": true,
+  "toServer": false
+ },
+ "Text": {
+  "bound": "both",
+  "fields": [
+   [
+    "needs_translation",
+    "bool"
+   ],
+   [
+    "category",
+    "u8 =>"
+   ],
+   [
+    "type",
+    "u8 =>"
+   ],
+   [
+    "_",
+    "type?"
+   ],
+   [
+    "source_name",
+    "string"
+   ],
+   [
+    "message",
+    "string"
+   ],
+   [
+    "message",
+    "string"
+   ],
+   [
+    "message",
+    "string"
+   ],
+   [
+    "parameters",
+    "string[]varint"
+   ],
+   [
+    "xuid",
+    "string"
+   ],
+   [
+    "platform_chat_id",
+    "string"
+   ],
+   [
+    "has_filtered_message",
+    "bool"
+   ],
+   [
+    "filtered_message",
+    "has_filtered_message ?"
+   ]
+  ],
+  "hex": "0x09",
+  "id": 9,
+  "name": "Text",
+  "packet": "packet_text",
+  "toClient": true,
+  "toServer": true
+ },
+ "TickSync": {
+  "bound": "both",
+  "fields": [
+   [
+    "request_time",
+    "li64"
+   ],
+   [
+    "response_time",
+    "li64"
+   ]
+  ],
+  "hex": "0x17",
+  "id": 23,
+  "name": "TickSync",
+  "packet": "packet_tick_sync",
+  "toClient": true,
+  "toServer": true
+ },
+ "TickingAreasLoadStatus": {
+  "bound": "client",
+  "fields": [
+   [
+    "preload",
+    "bool"
+   ]
+  ],
+  "hex": "0xb3",
+  "id": 179,
+  "name": "TickingAreasLoadStatus",
+  "packet": "packet_ticking_areas_load_status",
+  "toClient": true,
+  "toServer": false
+ },
+ "ToastRequest": {
+  "bound": "client",
+  "fields": [
+   [
+    "title",
+    "string"
+   ],
+   [
+    "message",
+    "string"
+   ]
+  ],
+  "hex": "0xba",
+  "id": 186,
+  "name": "ToastRequest",
+  "packet": "packet_toast_request",
+  "toClient": true,
+  "toServer": false
+ },
+ "ToggleCrafterSlotRequest": {
+  "bound": "both",
+  "fields": [
+   [
+    "position",
+    "vec3li"
+   ],
+   [
+    "slot",
+    "u8"
+   ],
+   [
+    "disabled",
+    "bool"
+   ]
+  ],
+  "hex": "0x132",
+  "id": 306,
+  "name": "ToggleCrafterSlotRequest",
+  "packet": "packet_toggle_crafter_slot_request",
+  "toClient": true,
+  "toServer": true
+ },
+ "Transfer": {
+  "bound": "client",
+  "fields": [
+   [
+    "server_address",
+    "string"
+   ],
+   [
+    "port",
+    "lu16"
+   ],
+   [
+    "reload_world",
+    "bool"
+   ]
+  ],
+  "hex": "0x55",
+  "id": 85,
+  "name": "Transfer",
+  "packet": "packet_transfer",
+  "toClient": true,
+  "toServer": false
+ },
+ "TrimData": {
+  "bound": "client",
+  "fields": [
+   [
+    "patterns",
+    "[]varint"
+   ],
+   [
+    "item_name",
+    "string"
+   ],
+   [
+    "pattern",
+    "string"
+   ],
+   [
+    "materials",
+    "[]varint"
+   ],
+   [
+    "material",
+    "string"
+   ],
+   [
+    "color",
+    "string"
+   ],
+   [
+    "item_name",
+    "string"
+   ]
+  ],
+  "hex": "0x12e",
+  "id": 302,
+  "name": "TrimData",
+  "packet": "packet_trim_data",
+  "toClient": true,
+  "toServer": false
+ },
+ "UnlockedRecipes": {
+  "bound": "client",
+  "fields": [
+   [
+    "unlock_type",
+    "lu32 =>"
+   ],
+   [
+    "recipes",
+    "string[]varint"
+   ]
+  ],
+  "hex": "0xc7",
+  "id": 199,
+  "name": "UnlockedRecipes",
+  "packet": "packet_unlocked_recipes",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateAbilities": {
+  "bound": "client",
+  "fields": [
+   [
+    "entity_unique_id",
+    "li64"
+   ],
+   [
+    "permission_level",
+    "PermissionLevel"
+   ],
+   [
+    "command_permission",
+    "CommandPermissionLevel"
+   ],
+   [
+    "abilities",
+    "AbilityLayers[]u8"
+   ]
+  ],
+  "hex": "0xbb",
+  "id": 187,
+  "name": "UpdateAbilities",
+  "packet": "packet_update_abilities",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateAdventureSettings": {
+  "bound": "client",
+  "fields": [
+   [
+    "no_pvm",
+    "bool"
+   ],
+   [
+    "no_mvp",
+    "bool"
+   ],
+   [
+    "immutable_world",
+    "bool"
+   ],
+   [
+    "show_name_tags",
+    "bool"
+   ],
+   [
+    "auto_jump",
+    "bool"
+   ]
+  ],
+  "hex": "0xbc",
+  "id": 188,
+  "name": "UpdateAdventureSettings",
+  "packet": "packet_update_adventure_settings",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateAttributes": {
+  "bound": "client",
+  "fields": [
+   [
+    "runtime_entity_id",
+    "varint64"
+   ],
+   [
+    "attributes",
+    "PlayerAttributes"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0x1d",
+  "id": 29,
+  "name": "UpdateAttributes",
+  "packet": "packet_update_attributes",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateBlock": {
+  "bound": "client",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "block_runtime_id",
+    "varint"
+   ],
+   [
+    "flags",
+    "UpdateBlockFlags"
+   ],
+   [
+    "layer",
+    "varint"
+   ]
+  ],
+  "hex": "0x15",
+  "id": 21,
+  "name": "UpdateBlock",
+  "packet": "packet_update_block",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateBlockProperties": {
+  "bound": "client",
+  "fields": [
+   [
+    "nbt",
+    "nbt"
+   ]
+  ],
+  "hex": "0x86",
+  "id": 134,
+  "name": "UpdateBlockProperties",
+  "packet": "packet_update_block_properties",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateBlockSynced": {
+  "bound": "client",
+  "fields": [
+   [
+    "position",
+    "BlockCoordinates"
+   ],
+   [
+    "block_runtime_id",
+    "varint"
+   ],
+   [
+    "flags",
+    "UpdateBlockFlags"
+   ],
+   [
+    "layer",
+    "varint"
+   ],
+   [
+    "entity_unique_id",
+    "zigzag64"
+   ],
+   [
+    "transition_type",
+    "varint => TransitionType"
+   ]
+  ],
+  "hex": "0x6e",
+  "id": 110,
+  "name": "UpdateBlockSynced",
+  "packet": "packet_update_block_synced",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateClientInputLocks": {
+  "bound": "client",
+  "fields": [
+   [
+    "locks",
+    "InputLockFlags"
+   ]
+  ],
+  "hex": "0xc4",
+  "id": 196,
+  "name": "UpdateClientInputLocks",
+  "packet": "packet_update_client_input_locks",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateClientOptions": {
+  "bound": "both",
+  "fields": [],
+  "hex": "0x143",
+  "id": 323,
+  "name": "UpdateClientOptions",
+  "packet": "packet_update_client_options",
+  "toClient": true,
+  "toServer": true
+ },
+ "UpdateEquipment": {
+  "bound": "client",
+  "fields": [
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "window_type",
+    "WindowType"
+   ],
+   [
+    "size",
+    "u8"
+   ],
+   [
+    "entity_id",
+    "zigzag64"
+   ],
+   [
+    "inventory",
+    "nbt"
+   ]
+  ],
+  "hex": "0x51",
+  "id": 81,
+  "name": "UpdateEquipment",
+  "packet": "packet_update_equipment",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdatePlayerGameType": {
+  "bound": "client",
+  "fields": [
+   [
+    "gamemode",
+    "GameMode"
+   ],
+   [
+    "player_unique_id",
+    "zigzag64"
+   ],
+   [
+    "tick",
+    "varint64"
+   ]
+  ],
+  "hex": "0x97",
+  "id": 151,
+  "name": "UpdatePlayerGameType",
+  "packet": "packet_update_player_game_type",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateSoftEnum": {
+  "bound": "client",
+  "fields": [
+   [
+    "enum_type",
+    "string"
+   ],
+   [
+    "options",
+    "string[]varint"
+   ],
+   [
+    "action_type",
+    "u8 =>"
+   ]
+  ],
+  "hex": "0x72",
+  "id": 114,
+  "name": "UpdateSoftEnum",
+  "packet": "packet_update_soft_enum",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateSubchunkBlocks": {
+  "bound": "client",
+  "fields": [
+   [
+    "x",
+    "zigzag32"
+   ],
+   [
+    "y",
+    "zigzag32"
+   ],
+   [
+    "z",
+    "zigzag32"
+   ],
+   [
+    "blocks",
+    "BlockUpdate[]varint"
+   ],
+   [
+    "extra",
+    "BlockUpdate[]varint"
+   ]
+  ],
+  "hex": "0xac",
+  "id": 172,
+  "name": "UpdateSubchunkBlocks",
+  "packet": "packet_update_subchunk_blocks",
+  "toClient": true,
+  "toServer": false
+ },
+ "UpdateTrade": {
+  "bound": "client",
+  "fields": [
+   [
+    "window_id",
+    "WindowID"
+   ],
+   [
+    "window_type",
+    "WindowType"
+   ],
+   [
+    "size",
+    "varint"
+   ],
+   [
+    "trade_tier",
+    "varint"
+   ],
+   [
+    "villager_unique_id",
+    "varint64"
+   ],
+   [
+    "entity_unique_id",
+    "varint64"
+   ],
+   [
+    "display_name",
+    "string"
+   ],
+   [
+    "new_trading_ui",
+    "bool"
+   ],
+   [
+    "economic_trades",
+    "bool"
+   ],
+   [
+    "offers",
+    "nbt"
+   ]
+  ],
+  "hex": "0x50",
+  "id": 80,
+  "name": "UpdateTrade",
+  "packet": "packet_update_trade",
+  "toClient": true,
+  "toServer": false
+ },
+ "VideoStreamConnect": {
+  "bound": "client",
+  "fields": [
+   [
+    "server_uri",
+    "string"
+   ],
+   [
+    "frame_send_frequency",
+    "lf32"
+   ],
+   [
+    "action",
+    "u8 =>"
+   ],
+   [
+    "resolution_x",
+    "li32"
+   ],
+   [
+    "resolution_y",
+    "li32"
+   ]
+  ],
+  "hex": "0x7e",
+  "id": 126,
+  "name": "VideoStreamConnect",
+  "packet": "packet_video_stream_connect",
+  "toClient": true,
+  "toServer": false
+ },
+ "VoxelShapes": {
+  "bound": "client",
+  "fields": [
+   [
+    "shapes",
+    "VoxelShape[]varint"
+   ],
+   [
+    "name_map",
+    "VoxelShapeNameEntry[]varint"
+   ],
+   [
+    "custom_shape_count",
+    "lu16"
+   ]
+  ],
+  "hex": "0x151",
+  "id": 337,
+  "name": "VoxelShapes",
+  "packet": "packet_voxel_shapes",
+  "toClient": true,
+  "toServer": false
+ }
+}

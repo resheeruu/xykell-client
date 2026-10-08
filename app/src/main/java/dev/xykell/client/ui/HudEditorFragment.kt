@@ -57,7 +57,7 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         view.findViewById<Button>(R.id.hud_load).setOnClickListener { reload() }
         view.findViewById<Button>(R.id.hud_reset).setOnClickListener {
             if (NativeHud.reset(root(), profile())) reload()
-            else error.text = "Layout reset failed"
+            else error.text = getString(R.string.hud_layout_reset_failed)
         }
         reload()
     }
@@ -87,7 +87,7 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         elementsBox.removeAllViews()
         if (elements.length() == 0) {
             val empty = TextView(requireContext())
-            empty.text = "No elements in this profile layout."
+            empty.text = getString(R.string.hud_empty_layout)
             elementsBox.addView(empty)
         }
         for (i in 0 until elements.length()) {
@@ -111,7 +111,7 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
             sw.setOnCheckedChangeListener { _, checked ->
                 if (!NativeHud.toggleModule(root(), profile(), id, checked)) {
                     sw.isChecked = !checked
-                    error.text = "Module toggle failed: $id"
+                    error.text = getString(R.string.hud_module_toggle_failed, id)
                 } else {
                     error.text = ""
                     reload()
@@ -127,17 +127,17 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         val box = LinearLayout(context)
         box.orientation = LinearLayout.VERTICAL
         val title = TextView(context)
-        title.text = "${o.optString("type", "element")} #$index"
+        title.text = getString(R.string.hud_element_title, o.optString("type", "element"), index)
         box.addView(title)
         val vis = Switch(context)
-        vis.text = "Visible"
+        vis.text = getString(R.string.hud_visible)
         vis.isChecked = o.optBoolean("visible", true)
         box.addView(vis)
         val pos = TextView(context)
         var x = o.optDouble("x", 16.0)
         var y = o.optDouble("y", 48.0)
         var scale = o.optDouble("scale", 1.0).coerceIn(0.1, 10.0)
-        pos.text = "x=${x.toInt()} y=${y.toInt()} scale=%.2f".format(scale)
+        pos.text = getString(R.string.hud_pos_scale, x.toInt(), y.toInt(), scale)
         box.addView(pos)
         val step = LinearLayout(context)
         step.orientation = LinearLayout.HORIZONTAL
@@ -148,10 +148,10 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
             step.addView(b)
             return b
         }
-        stepper("X-8", { x -= it; pos.text = "x=${x.toInt()} y=${y.toInt()} scale=%.2f".format(scale) })
-        stepper("X+8", { x += it; pos.text = "x=${x.toInt()} y=${y.toInt()} scale=%.2f".format(scale) })
-        stepper("Y-8", { y -= it; pos.text = "x=${x.toInt()} y=${y.toInt()} scale=%.2f".format(scale) })
-        stepper("Y+8", { y += it; pos.text = "x=${x.toInt()} y=${y.toInt()} scale=%.2f".format(scale) })
+        stepper(getString(R.string.hud_step_x_minus), { x -= it; pos.text = getString(R.string.hud_pos_scale, x.toInt(), y.toInt(), scale) })
+        stepper(getString(R.string.hud_step_x_plus), { x += it; pos.text = getString(R.string.hud_pos_scale, x.toInt(), y.toInt(), scale) })
+        stepper(getString(R.string.hud_step_y_minus), { y -= it; pos.text = getString(R.string.hud_pos_scale, x.toInt(), y.toInt(), scale) })
+        stepper(getString(R.string.hud_step_y_plus), { y += it; pos.text = getString(R.string.hud_pos_scale, x.toInt(), y.toInt(), scale) })
         box.addView(step)
         val bar = SeekBar(context)
         bar.max = 290
@@ -159,20 +159,20 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(b: SeekBar?, p: Int, fromUser: Boolean) {
                 scale = 0.1 + 2.9 * p / 290.0
-                pos.text = "x=${x.toInt()} y=${y.toInt()} scale=%.2f".format(scale)
+                pos.text = getString(R.string.hud_pos_scale, x.toInt(), y.toInt(), scale)
             }
             override fun onStartTrackingTouch(b: SeekBar?) = Unit
             override fun onStopTrackingTouch(b: SeekBar?) = Unit
         })
         box.addView(bar)
         val commit = Button(context)
-        commit.text = "COMMIT ELEMENT"
+        commit.text = getString(R.string.hud_commit)
         commit.setOnClickListener {
             if (NativeHud.move(root(), profile(), index, x, y, scale, vis.isChecked)) {
                 error.text = ""
                 reload()
             } else {
-                error.text = "Element commit rejected (index $index)"
+                error.text = getString(R.string.hud_commit_rejected, index)
             }
         }
         box.addView(commit)

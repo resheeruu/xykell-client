@@ -3,7 +3,7 @@
     "format": 1,
     "product": "Xykell Client",
     "generated_by": "scripts/registry/generate.py",
-    "count": 257
+    "count": 258
   },
   "features": [
     {
@@ -107,7 +107,7 @@
         "WClient"
       ],
       "evidence": "M1: menu toggles + file store; host test_config",
-      "notes": "M1 menu proof; file store pending"
+      "notes": "Native file store: JNI settingsCatalog/settingsValues/setSetting load and save root/settings.json through XykellConfig, allowlisted against the inline catalog (unknown section/key rejected); resetSettings clears a section. Host test_config. Not run on a device."
     },
     {
       "id": "xykell.client.profile_manager",
@@ -142,7 +142,7 @@
         "Xykell"
       ],
       "evidence": "Batch 7: JNI bridge + native-backed CRUD + UI; host test_profiles",
-      "notes": "Default only in M1.5 shell"
+      "notes": "Native profile manager (profileOpRaw create/rename/delete/switch, listProfiles, per-profile preset settings) plus ProfilesFragment UI for list/create/switch. Not run on a device."
     },
     {
       "id": "xykell.client.crash_guard",
@@ -176,7 +176,7 @@
         "Xykell"
       ],
       "evidence": "Batch X: uncaught exception handler with safe crash reports, redaction, bounded storage; host test_crashguard",
-      "notes": "quarantine design pending"
+      "notes": "Two halves: Kotlin CrashGuard installs the uncaught handler and writes redacted, truncated reports (list/read/delete, max-report enforcement, CrashGuardTest 13 tests); native CrashGuard::recordCrash counts per-module crashes and auto-quarantines at 3 (applied in xykell.cpp on load, host-tested). No report upload. Not run on a device."
     },
     {
       "id": "xykell.client.updater",
@@ -209,8 +209,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "Batch Y: local update metadata model with version comparison, validation, local metadata; host test_updater",
-      "notes": "signed+checksum design pending"
+      "evidence": "Batch Y: local update metadata model with version comparison, validation, local metadata; host test_updater; Update Center opens the release URL in the system browser (deliberate: no update endpoint, no pinned signing key)",
+      "notes": "Metadata layer only: compareVersions (semver incl. pre-release), validateMetadata (https-only URL, SHA-256 checksum format, changelog cap), parseMetadata; UpdaterTest 19 tests. No download, digest computation, signature verify or install flow \u2014 deliberate: there is no update endpoint and no pinned signing key to verify against, so the Update Center opens the release URL in the system browser instead of fetching anything in-app."
     },
     {
       "id": "xykell.client.hud_editor",
@@ -451,15 +451,15 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.tps",
       "name": "Tps",
       "category": "HUD",
-      "description": "measurability TBD",
-      "status": "NOT_IMPLEMENTED",
+      "description": "server tick rate from SetTime samples",
+      "status": "PARTIAL",
       "requires": [
         "FRAME"
       ],
@@ -500,8 +500,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Derived in the native consumer from two SetTime 0x0A samples the same way speedMps is derived from two travel samples: absent until two clock readings at distinct timestamps exist, so the first SetTime renders kUnavailable rather than 0. A clock that does not advance, or timestamps that go backwards, keep the last valid rate instead of reporting a negative one. Host test_observation_consumer + test_motion_hud",
+      "notes": "server tick rate from SetTime samples"
     },
     {
       "id": "xykell.hud.armor",
@@ -549,15 +549,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
+      "notes": "Armour is MobEquipment 0x1f, whose trailing slot/window fields sit behind a variable-length item, so no verified offset reaches the worn value. Not in the vitals observation, which carries only what SetHealth 0x2A and SetTime 0x0A actually state."
     },
     {
       "id": "xykell.hud.health",
       "name": "Health",
       "category": "HUD",
-      "description": "needs player source",
-      "status": "NOT_IMPLEMENTED",
+      "description": "observed SetHealth 0x2A, wire units, no invented maximum",
+      "status": "PARTIAL",
       "requires": [
         "PLAYER"
       ],
@@ -598,8 +598,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Vitals observation: observed SetHealth 0x2A through TapTranslator -> ObservationService -> the nativeOfferVitals JNI offer -> native consumer snapshot -> bindVitalsProviders. Absent health renders kUnavailable, never a zeroed bar; the wire unit is shown as the server sent it (20 = full bar) with no invented maximum. Host tests test_observation_consumer, test_motion_hud, test_feed_client",
+      "notes": "observed SetHealth 0x2A, wire units, no invented maximum"
     },
     {
       "id": "xykell.hud.hunger",
@@ -647,15 +647,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
+      "notes": "Hunger would need the server's own food-level packet, which this repo does not decode; nothing on the decoded path carries it."
     },
     {
       "id": "xykell.hud.position",
       "name": "Position",
       "category": "HUD",
       "description": "see coordinates",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "PLAYER"
       ],
@@ -696,15 +696,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Batch final: served by the coordinates element (XYZ line, ElementType::Coordinates); host test_motion_hud",
+      "notes": "Served by the existing coordinates element (XYZ line). Same boundary as hud.coordinates: element and render case exist host-tested, but a live in-game value needs a game-side feed."
     },
     {
       "id": "xykell.hud.direction",
       "name": "Direction",
       "category": "HUD",
       "description": "needs rotation source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "PLAYER"
       ],
@@ -745,8 +745,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Batch final: ElementType::Direction + formatDirection (Minecraft yaw 8-point) + snapshot provider binding in refreshHud; host test_motion_hud",
+      "notes": "Element type, yaw-to-8-point formatter and snapshot provider binding are host-tested (test_motion_hud). Boundary: in-game live value needs a game-side feed \u2014 app-process observations cannot cross into the game process, so the overlay renders '--' until one exists."
     },
     {
       "id": "xykell.hud.biome",
@@ -794,7 +794,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -894,7 +894,7 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -993,7 +993,7 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -1043,7 +1043,7 @@
         "Lunar Proxy"
       ],
       "evidence": "Batch Z3: enabledModuleNames() renders real module names ordered by (category,id); host test_hud_render",
-      "notes": "module-list display"
+      "notes": "Renderer ModuleList case prints enabled module names via enabledModuleNames (host-tested, stable ordering, limit honored); module state comes from the native module manager. Not run on a device."
     },
     {
       "id": "xykell.hud.watermark",
@@ -1141,7 +1141,7 @@
         "Flarial"
       ],
       "evidence": "Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render",
-      "notes": "event-driven; needs EventBus"
+      "notes": "Native NotificationCenter (post/drain/clear + priority) is drained into a HUD line by xykell_hud_renderer.cpp, host-tested. No producer exists: nothing in the app or native modules calls post() and there is no JNI offer for it, so the queue stays empty in practice. Needs a producer, not an EventBus. Not run on a device."
     },
     {
       "id": "xykell.hud.session_stats",
@@ -1238,15 +1238,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.entity_counter",
       "name": "Entity Counter",
       "category": "HUD",
-      "description": "needs client entity registry source",
-      "status": "NOT_IMPLEMENTED",
+      "description": "observed count from the relay entity table",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1287,8 +1287,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Population observation: RelayObservation reports the live count from the runtime's entity table (AddEntity 0x0D / AddPlayer 0x0C / MovePlayer 0x13 / RemoveEntity 0x0E), throttled to one line per second because an unthrottled report would repeat identical numbers per packet. Renders kUnavailable until the first report and shows the player subset only when it was reported. Host tests ModuleRuntimeTest, RelayObservationTest, test_observation_consumer, test_motion_hud",
+      "notes": "observed count from the relay entity table"
     },
     {
       "id": "xykell.hud.hardware_stats",
@@ -1385,7 +1385,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -1434,15 +1434,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
       "id": "xykell.hud.low_health",
       "name": "Low Health",
       "category": "HUD",
-      "description": "warning; needs health source",
-      "status": "NOT_IMPLEMENTED",
+      "description": "LOW only while observed health is low; unavailable when never observed",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1483,8 +1483,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Vitals observation on the same path as hud.health: renders LOW only while observed health is at or under the threshold, and kUnavailable when health has never been observed, so an unknown value never reads as an alarm. Host test_motion_hud",
+      "notes": "LOW only while observed health is low; unavailable when never observed"
     },
     {
       "id": "xykell.hud.potion_hud",
@@ -1532,17 +1532,17 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
+      "notes": "MobEffect 0x1c carries an effect id this repo can read (the status filters already drop it by id), so an effect list is derivable; it is not yet carried in the observation model."
     },
     {
       "id": "xykell.hud.speed_meter",
       "name": "Speed Meter",
       "category": "HUD",
       "description": "needs movement source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
-        "OVERLAY_DELIVERY"
+        "PLAYER"
       ],
       "settings": [
         {
@@ -1581,8 +1581,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Batch final: ElementType::SpeedMeter + consumer 2-sample speed delta (bounded, dt<=0 keeps last) + provider binding; host test_motion_hud + test_observation_consumer",
+      "notes": "Element type, 2-sample speed delta in the observation consumer (bounded; dt<=0 keeps the last valid speed) and provider binding are host-tested (test_motion_hud, test_observation_consumer). Boundary: in-game live value needs a game-side feed \u2014 app-process observations cannot cross into the game process, so the overlay renders '--' until one exists."
     },
     {
       "id": "xykell.hud.stop_watch",
@@ -1679,7 +1679,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -1728,7 +1728,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -1777,7 +1777,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -1862,7 +1862,7 @@
         "Flarial"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Frame cap needs the engine's swap-interval/frame-pacing call inside the game process; Android's Choreographer drives the app, not the game's render loop."
     },
     {
       "id": "xykell.performance.fps_unlocker",
@@ -1897,7 +1897,7 @@
         "BedrockTools"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Removing the engine's vsync/frame cap is an engine-internal flag; no exported symbol reaches it from a separate app process."
     },
     {
       "id": "xykell.performance.dynamic_fps",
@@ -1930,7 +1930,7 @@
         "Flarial"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Throttling FPS by scene load needs per-frame render-cost signals only the in-engine frame loop produces."
     },
     {
       "id": "xykell.performance.background_fps",
@@ -1963,7 +1963,7 @@
         "Flarial"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Background frame limiting is a lifecycle callback on the engine's render thread; an app process cannot register into it."
     },
     {
       "id": "xykell.performance.frame_graph",
@@ -1996,7 +1996,7 @@
         "Xykell"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "A frame/GPU graph needs the engine's profiler counters; Android GPU counters do not attribute to Bedrock's render passes."
     },
     {
       "id": "xykell.performance.entity_opt",
@@ -2029,7 +2029,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Entity draw batching/LOD is decided in the renderer's draw pass."
     },
     {
       "id": "xykell.performance.render_opt",
@@ -2063,7 +2063,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Render-path toggles (sky, translucent sorting) are engine switches, not OS or IPC surfaces."
     },
     {
       "id": "xykell.performance.particle_controls",
@@ -2096,7 +2096,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Particle spawn/budget lives in the game's particle system, which exposes no external control point."
     },
     {
       "id": "xykell.performance.animation_controls",
@@ -2129,7 +2129,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Entity animation ticking runs on the game's update loop; no inter-process hook exists."
     },
     {
       "id": "xykell.performance.cloud_controls",
@@ -2162,7 +2162,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Cloud layer drawing is engine render state; there is no API to set it from outside the process."
     },
     {
       "id": "xykell.performance.weather_opt",
@@ -2195,7 +2195,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Weather particle rendering is engine-internal render state."
     },
     {
       "id": "xykell.performance.fog_controls",
@@ -2229,7 +2229,7 @@
         "BedrockTools"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Fog render state (start/end/density) is set per-frame by the engine's shader path."
     },
     {
       "id": "xykell.performance.memory_info",
@@ -2361,7 +2361,7 @@
         "Xykell"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Profile switching applies the renderer/engine toggles listed above, each blocked the same way."
     },
     {
       "id": "xykell.performance.low_end_mode",
@@ -2394,7 +2394,7 @@
         "Atlas"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Low-end preset flips a bundle of engine settings the game only reads in-process."
     },
     {
       "id": "xykell.performance.render_distance",
@@ -2428,14 +2428,14 @@
         "Flarial"
       ],
       "evidence": "Bedrock renderer/engine internal; no app-level API",
-      "notes": "Reachable only from inside the game's render/engine path. The app process has no API for it."
+      "notes": "Render distance is the client's chunk-load radius, a game setting the server/app process cannot write."
     },
     {
       "id": "xykell.visual.esp",
       "name": "Esp",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2481,15 +2481,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.player_esp",
       "name": "Player Esp",
       "category": "VISUAL",
       "description": "needs entity source",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2530,15 +2530,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.entity_esp",
       "name": "Entity Esp",
       "category": "VISUAL",
       "description": "needs entity source",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2578,15 +2578,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.item_esp",
       "name": "Item Esp",
       "category": "VISUAL",
       "description": "needs entity source",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2626,15 +2626,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.tracers",
       "name": "Tracers",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2674,15 +2674,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.block_tracers",
       "name": "Block Tracers",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2722,8 +2722,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.free_look",
@@ -2771,8 +2771,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "decoupling the camera from the body needs the server's copy of the body yaw, which  lives only in the previous packets; MovePlayer 0x13 already carries pitch/yaw and  head_yaw separately, so a stateless rewrite can only turn the body with the camera"
     },
     {
       "id": "xykell.visual.free_cam",
@@ -2820,8 +2820,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs a detached camera fed by local input; the relay forwards gameplay packets  and has no input or camera state"
     },
     {
       "id": "xykell.visual.xray",
@@ -2870,15 +2870,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "block visibility is decided by the client chunk renderer, not by any packet; a  derived view can see that a block changed (UpdateBlock 0x15) but cannot change  whether the renderer draws it, so the render half is unreachable from here"
     },
     {
       "id": "xykell.visual.fullbright",
       "name": "Fullbright",
       "category": "VISUAL",
       "description": "needs lighting path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -2920,8 +2920,8 @@
         "Apollon",
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: rewrites SetTime 0x0A day cycle to 6000 (noon), TO_CLIENT scoped, trailing bytes preserved; host test_visualmodules (57 tests)",
+      "notes": "Rewrites the day cycle in SetTime 0x0A to 6000 (noon) on the server -> game leg. Brightness itself is gamma, not a packet field, so this is a time-based approximation, not true fullbright. Not run on a device."
     },
     {
       "id": "xykell.visual.no_invisible",
@@ -2968,8 +2968,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "invisibility is an entity metadata flag, and metadata is an opaque type in both  the vendored proto and the registry: AddPlayer 0x0C/AddEntity 0x0D name  MetadataDictionary with no field layout, so the flag has no offset to filter on;  dropping the whole spawn packet would remove the entity rather than its alpha"
     },
     {
       "id": "xykell.visual.no_fire",
@@ -3016,15 +3016,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the burning overlay is driven by the ONFIRE entity metadata flag, which is  undecodable for the same reason as no_invisible, and neither LevelEvent 0x19 nor  EntityEvent 0x1B carries a fire event in the vendored enum, so no packet this repo  can read says the player is on fire"
     },
     {
       "id": "xykell.visual.no_weather",
       "name": "No Weather",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3064,15 +3064,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.no_blindness",
       "name": "No Blindness",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3112,15 +3112,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.no_nausea",
       "name": "No Nausea",
       "category": "VISUAL",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3160,15 +3160,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.chunk_borders",
       "name": "Chunk Borders",
       "category": "VISUAL",
       "description": "see world.chunk_borders",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3210,15 +3210,15 @@
         "Lunar Proxy",
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.new_chunks",
       "name": "New Chunks",
       "category": "VISUAL",
       "description": "see world.new_chunks",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3259,8 +3259,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.hole_esp",
@@ -3308,8 +3308,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a hole is an air pocket in the decoded sub-chunk block array; chunk data reaches  this repo only as the opaque LevelChunk 0x3A payload, so there is nothing to scan  and only the client's renderer could draw the result"
     },
     {
       "id": "xykell.visual.spawner_esp",
@@ -3357,8 +3357,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a mob spawner is identified by the block at a position, and UpdateBlock 0x15  carries only a numeric block_runtime_id with no runtime-id-to-name palette anywhere  in this repo, so the relay cannot tell a spawner from any other block"
     },
     {
       "id": "xykell.visual.spawner_ping",
@@ -3406,8 +3406,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "world interaction: pinging a spawner is a client action with no packet a relay  could originate, and its position is unknowable for the reason spawner_esp gives"
     },
     {
       "id": "xykell.visual.sus_chunk_finder",
@@ -3455,8 +3455,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "flagging a chunk means knowing when it was generated, and no clientbound packet  carries a generation time or the generator that produced a specific chunk;  StartGame 0x0B names the generator once for the whole world and this repo decodes  none of its payload"
     },
     {
       "id": "xykell.visual.bed_esp",
@@ -3504,15 +3504,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a bed is a block identified by name, so it hits the same wall as spawner_esp:  0x15 gives a runtime id and no palette maps it to a bed"
     },
     {
       "id": "xykell.visual.waypoints",
       "name": "Waypoints",
       "category": "VISUAL",
       "description": "see world.waypoints",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -3554,8 +3554,8 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.minimap",
@@ -3603,8 +3603,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a terrain minimap needs a rendered surface plus block sampling per column, and  block sampling needs the decoded sub-chunk array the relay does not hold; entity  positions alone cannot draw terrain"
     },
     {
       "id": "xykell.visual.schematic",
@@ -3652,8 +3652,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "world fill: requires injecting held-item/block changes as client-bound input the  relay cannot author"
     },
     {
       "id": "xykell.visual.view_model",
@@ -3701,8 +3701,8 @@
         "Atlas",
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "first-person arm/hand rendering and item transform are client renderer state"
     },
     {
       "id": "xykell.visual.zoom",
@@ -3760,8 +3760,8 @@
         "Flarial",
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "camera FOV is applied by the client camera, which the relay cannot read or change"
     },
     {
       "id": "xykell.visual.motion_blur",
@@ -3808,8 +3808,8 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "post-process render effect with no packet representation"
     },
     {
       "id": "xykell.visual.shader_loader",
@@ -3856,8 +3856,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "resource-pack/shader install is a client resource pipeline task, not a relayed packet"
     },
     {
       "id": "xykell.visual.custom_crosshair",
@@ -3906,8 +3906,8 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "HUD overlay drawn by the client crosshair renderer"
     },
     {
       "id": "xykell.visual.hit_effects",
@@ -3954,15 +3954,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "render effect plus local input timing; neither exists in the packet stream"
     },
     {
       "id": "xykell.visual.particle_controls",
       "name": "Particle Controls",
       "category": "VISUAL",
       "description": "needs particle path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4002,15 +4002,15 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.fog_controls",
       "name": "Fog Controls",
       "category": "VISUAL",
       "description": "needs fog path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4051,8 +4051,8 @@
         "Atlas",
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.camera_controls",
@@ -4099,8 +4099,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "camera state is client-side and no packet carries it; only the rotation-only rewrite  freeLook would need is claimable, and that is itself unreachable above"
     },
     {
       "id": "xykell.visual.block_outline",
@@ -4147,8 +4147,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a selection outline is the renderer highlighting whatever block the client's own  look-at raycast found; the relay can decode UpdateBlock 0x15 (which is what  block_tracers draws) but it never learns which block the player is aiming at"
     },
     {
       "id": "xykell.visual.item_physics",
@@ -4195,15 +4195,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "SetEntityMotion 0x28 names a runtime id and a velocity but never the entity's type,  so item motion can only be singled out by remembering which ids an earlier  AddItemEntity 0x0F spawned \u2014 state across calls, and 0x0F's position is unreachable  past its undecodable ItemV4"
     },
     {
       "id": "xykell.visual.nametag",
       "name": "Nametag",
       "category": "VISUAL",
       "description": "third-person self nametag; needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4243,8 +4243,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.visual.gui_scale",
@@ -4292,15 +4292,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "GUI scale is a client UI setting with no packet representation"
     },
     {
       "id": "xykell.visual.time_changer",
       "name": "Time Changer",
       "category": "VISUAL",
       "description": "client-side presentation; needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4340,15 +4340,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: rewrites SetTime 0x0A day cycle to 18000 (midnight), TO_CLIENT scoped; host test_visualmodules (57 tests)",
+      "notes": "Rewrites the day cycle in SetTime 0x0A to a fixed tick (18000 = midnight) on the server -> game leg; packets whose body is not exactly header + one zigzag varint are forwarded untouched. Server-authoritative servers may resync. Not run on a device."
     },
     {
       "id": "xykell.visual.weather_changer",
       "name": "Weather Changer",
       "category": "VISUAL",
       "description": "client-side presentation; needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -4388,8 +4388,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.inventory_manager",
@@ -4431,7 +4431,7 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -4439,7 +4439,7 @@
       "name": "Fast Eat",
       "category": "PLAYER",
       "description": "Fast Eat (PLAYER).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4473,15 +4473,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.fast_interact",
       "name": "Fast Interact",
       "category": "PLAYER",
       "description": "Fast Interact (PLAYER).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4515,15 +4515,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.haste",
       "name": "Haste",
       "category": "PLAYER",
       "description": "Haste (PLAYER).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4557,8 +4557,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.slow_mine",
@@ -4599,15 +4599,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Slowing a break is a longer hold, and the only wire trace of a break is  PlayerAction 0x24 \u2014 whose Action ordinals the vendored proto.yml names  as 'the constants above' and never lists, so the relay cannot even read  which action a packet carries, let alone extend one. The break  progress itself is server-accumulated and validated there."
     },
     {
       "id": "xykell.player.no_fall",
       "name": "No Fall",
       "category": "PLAYER",
       "description": "No Fall (PLAYER).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4641,15 +4641,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.no_blindness",
       "name": "No Blindness",
       "category": "PLAYER",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4683,15 +4683,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.no_nausea",
       "name": "No Nausea",
       "category": "PLAYER",
       "description": "needs render path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -4725,8 +4725,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.no_fire",
@@ -4767,8 +4767,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The fire overlay is drawn from the actor's flame flag, which arrives as  an entry inside SetActorData 0x27's MetadataDictionary \u2014 a nested  varint-prefixed key/value blob with no fixed offsets, so there is no  verified byte to rewrite. MobEffect 0x1c cannot stand in for it:  Bedrock's Effect table has fire_resistance but no fire effect, because  the flame is an entity flag rather than a status effect."
     },
     {
       "id": "xykell.player.no_hurt_cam",
@@ -4810,8 +4810,8 @@
         "Lunar Proxy",
         "Atlas"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The hurt-camera shake is the renderer reacting to a health drop, so no  packet carries it. CameraShake 0x9f is the server's own scripted shake,  not the damage reaction, and dropping it would not remove the hurt cam."
     },
     {
       "id": "xykell.player.anti_immobile",
@@ -4852,8 +4852,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The 1.26.45 InputData list in the vendored proto has 66 ordinals (0..65)  and none of them is an input-lock or immobilise flag, so PlayerAuthInput  0x90 carries nothing to clear; the server enforces immobilising by  rejecting movement, which no packet edit can talk the server out of."
     },
     {
       "id": "xykell.player.death_position",
@@ -4896,7 +4896,7 @@
         "Apollon",
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -4938,7 +4938,7 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -4980,7 +4980,7 @@
       "sourceReferences": [
         "BedrockTools"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -5022,8 +5022,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Registry: \\\"local display only\\\". The HUD renders values the server  broadcasts; there is no client-bound packet holding a display-only  counter to rewrite, and the relay has no render surface."
     },
     {
       "id": "xykell.player.spam",
@@ -5064,8 +5064,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The payload is chat text that exists in no packet, and the tap surface  injects single taps \u2014 it cannot type into the game's chat box. Sending  the Text 0x09 itself would be originating a packet the client never  sent, which is exactly the forgery this relay does not do."
     },
     {
       "id": "xykell.player.mod_alerts",
@@ -5106,7 +5106,7 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -5149,8 +5149,8 @@
         "Flarial",
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "sprint is the start_sprinting (25) / sprinting (20) entry of PlayerAuthInput 0x90's  input_data?: InputData[]varint; as of 1.26.40 that is an optional list rather than the  old bitfield and upstream specifies no presence byte or element framing, so the relay  cannot locate or write it without corrupting every field behind it."
     },
     {
       "id": "xykell.movement.auto_sprint",
@@ -5192,15 +5192,15 @@
         "Lunar Proxy",
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the forward-held trigger is readable (PlayerAuthInput 0x90 move_vector is a fixed  vec2f), but the effect is not: sprint is only expressible as an input_data entry, the  ambiguous optional list of InputData ordinals, and PlayerAction 0x24 has no sprint  action of its own."
     },
     {
       "id": "xykell.movement.speed",
       "name": "Speed",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5235,8 +5235,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.movement.no_slow",
@@ -5277,8 +5277,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the server derives the item-use slowdown from the use data carried in the same packet  and the factor depends on which item is held; no inventory packet is decoded here, so  the un-slowed distance is not derivable from the bytes."
     },
     {
       "id": "xykell.movement.step",
@@ -5319,8 +5319,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "step assist must know the block under the player's feet to know the step height; block  data arrives in LevelChunk/UpdateBlock packets this repo does not decode and the relay  keeps no world."
     },
     {
       "id": "xykell.movement.air_jump",
@@ -5361,15 +5361,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a mid-air jump is an impulse, and no outbound packet in this repo carries one:  MovePlayer 0x13 is an absolute position, PlayerAction 0x24's Action ordinals are not  even expanded in the vendored proto, and the jump itself is the start_jumping (31)  input_data entry the relay cannot write."
     },
     {
       "id": "xykell.movement.fly",
       "name": "Fly",
       "category": "MOVEMENT",
       "description": "server-visible risk; locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5404,15 +5404,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.movement.motion_fly",
       "name": "Motion Fly",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5446,8 +5446,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.movement.jetpack",
@@ -5488,8 +5488,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs the elytra-equipped input flag and a rising impulse held across ticks; the flag  is an input_data entry of the unwritable optional list and MovePlayer 0x13 has no  impulse field."
     },
     {
       "id": "xykell.movement.phase",
@@ -5530,8 +5530,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "walking through blocks is a client collision/physics property; it needs block data the  relay does not hold, and a position inside a solid block is a position the server  rubber-bands straight back."
     },
     {
       "id": "xykell.movement.glide",
@@ -5572,8 +5572,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "gliding is held input: descend (1) / ascend (0) in PlayerAuthInput 0x90's input_data  optional list, whose framing upstream leaves undefined, so the deploy and the sustained  descent toggle are both unwritable."
     },
     {
       "id": "xykell.movement.auto_elytra",
@@ -5614,8 +5614,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs to know the chest slot holds an elytra and to fire the launch impulse; the slot  contents live in inventory packets this repo does not decode and the impulse is not a  field of any packet it does decode."
     },
     {
       "id": "xykell.movement.auto_rocket",
@@ -5656,8 +5656,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs the firework rocket in the chest slot plus the moment to consume it; inventory  state is never decoded and the firework launch is a client-side impulse, not a field."
     },
     {
       "id": "xykell.movement.bunny_hop",
@@ -5699,15 +5699,15 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "auto-hop is two halves: the ground transition is now visible through ctx.selfOnGround,  but the jump it must fire on that transition is the start_jumping (31) input_data entry  in PlayerAuthInput 0x90, and no packet this repo decodes carries a jump impulse."
     },
     {
       "id": "xykell.movement.jump_boost",
       "name": "Jump Boost",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5741,15 +5741,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.movement.levitate",
       "name": "Levitate",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5783,15 +5783,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: outbound MovePlayer 0x13 y raised 1.5, TO_SERVER scoped, absolute y so no call history; host test_movementmodules (32 tests)",
+      "notes": "Rewrites the client's own outbound MovePlayer 0x13 y by +1.5 so the server places the player higher; TO_SERVER scoped so the server's view stays authoritative. Absolute y means no call history. The server may reject or correct it. Not run on a device."
     },
     {
       "id": "xykell.movement.slow_falling",
       "name": "Slow Falling",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5825,8 +5825,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.movement.water_walk",
@@ -5867,8 +5867,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "requires knowing the player stands in a water block; fluid state lives in chunk block  data this repo does not decode, so neither the trigger nor the surface height is known."
     },
     {
       "id": "xykell.movement.tap_tp",
@@ -5909,8 +5909,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a double-tap needs elapsed time between two taps, and ctx.tick is a logical counter with  no wall-clock mapping; the destination is equally missing, since no tracked field holds  a stored teleport target."
     },
     {
       "id": "xykell.movement.safe_walk",
@@ -5951,15 +5951,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "edge detection needs the block beside the player's feet, which arrives in chunk data  this repo does not decode; without it every tile edge looks identical to solid floor."
     },
     {
       "id": "xykell.movement.no_fall",
       "name": "No Fall",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5993,15 +5993,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.movement.movement_correction",
       "name": "Movement Correction",
       "category": "MOVEMENT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6036,8 +6036,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: drops clientbound MovePlayer 0x13 mode!=0 resets, so the server's own correction survives; host test_movementmodules (32 tests)",
+      "notes": "Drops MovePlayer 0x13 packets whose mode is a position reset (mode != 0), which is the server rubber-banding the client, on the server -> game leg only. Mode 2 teleports are dropped too: the bytes do not distinguish a correction from a real portal exit. Not run on a device."
     },
     {
       "id": "xykell.movement.timer",
@@ -6078,8 +6078,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a movement timer measures elapsed wall-clock time against a session start; ctx.tick is a  monotonic logical counter with no clock behind it, and a pure transform may not read  one."
     },
     {
       "id": "xykell.movement.ladder_fly",
@@ -6120,8 +6120,8 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs to know the player is on a ladder (block data this repo does not decode) plus a  sustained ascend (1) input_data entry, so both halves are unreachable."
     },
     {
       "id": "xykell.movement.block_fly",
@@ -6162,8 +6162,8 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "block fly must place a block and then climb; the placement needs the hotbar block id  from inventory state this repo never decodes, and the climb needs the ascend input  flag plus an impulse no decoded packet carries."
     },
     {
       "id": "xykell.combat.aim_assist",
@@ -6218,15 +6218,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the aim vector is the client's own rendered crosshair; ctx.entities does supply every  entity's position, but the view matrix and where the camera points exist only in the  renderer, so the angle to correct cannot be derived."
     },
     {
       "id": "xykell.combat.auto_clicker",
       "name": "Auto Clicker",
       "category": "COMBAT",
       "description": "Auto Clicker (COMBAT).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6276,8 +6276,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "Batch autoclicker: TouchAutomationService dispatchGesture taps + ClickSchedule/MacroStore + AutoclickerFragment; host TouchAutomationTest (14), KOTLIN-TYPECHECK 84/28, aapt2 OK; live gesture dispatch not yet device-verified",
+      "notes": "Accessibility dispatchGesture input only: taps a normalized target at 1-20 cps with 0-50% jitter, records/replays tap macros (200-step cap, clamped delays), one mode at a time, FAB toggle overlay. Host TouchAutomationTest covers schedule and macro persistence (14 tests). Requires the user to enable the accessibility service; no packet or render access. Not run on a device."
     },
     {
       "id": "xykell.combat.afk_clicker",
@@ -6332,8 +6332,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs held taps injected on a timer; a packet hook cannot synthesise touch input"
     },
     {
       "id": "xykell.combat.trigger_bot",
@@ -6388,8 +6388,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs to know when the crosshair is over a target; that raycast runs locally in the  client before any attack packet is emitted, so there is nothing on the wire to react to."
     },
     {
       "id": "xykell.combat.kill_aura",
@@ -6455,8 +6455,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "target selection is available from ctx.entities.nearest, but the attack itself lives in  InventoryTransaction 0x1e's Transaction body, and Transaction/TransactionUseItem/ UseItemOnEntityAction are not expanded anywhere in the vendored proto, so the relay  cannot read the action id it would have to rebuild."
     },
     {
       "id": "xykell.combat.tp_aura",
@@ -6511,8 +6511,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the outbound leg is rewritable and ctx.entities gives positions, but 'the target' is the  entity under the client's crosshair, chosen in the renderer; ctx holds no view direction,  so which entity to teleport to cannot be derived from the wire."
     },
     {
       "id": "xykell.combat.reach",
@@ -6568,8 +6568,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "reach is a client-side attack-distance check that runs locally before any packet is  emitted; no packet field carries it and moving the reported position only changes where  the server thinks the player is, not what the client allows it to hit."
     },
     {
       "id": "xykell.combat.hitbox",
@@ -6624,15 +6624,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs a widened AABB inside the client's own raycast; entity bounds never leave the game  and the local raycast runs before anything reaches the wire."
     },
     {
       "id": "xykell.combat.velocity",
       "name": "Velocity",
       "category": "COMBAT",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6681,15 +6681,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: RelayListener transform drops SetEntityMotion 0x28 on the server->game leg only, so the player's own outbound motion survives (0x1B is EntityEvent, the jump/hurt animation); host test_combatmodules (25 tests)",
+      "notes": "RelayListener transform: drops SetActorMotion 0x1B on the server -> game leg only, so knockback never reaches the client while the player's own outbound motion is preserved. Pure and stateless; one dropped packet type, no anti-cheat shaping. Not run on a device."
     },
     {
       "id": "xykell.combat.knockback",
       "name": "Knockback",
       "category": "COMBAT",
       "description": "Knockback (COMBAT).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6737,8 +6737,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.combat.knockback_delay",
@@ -6793,8 +6793,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs a timed queue between the two legs; a transform returns immediately and ctx has no  queue, only the last position and a logical tick."
     },
     {
       "id": "xykell.combat.backtrack",
@@ -6850,15 +6850,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs a per-target position *history* window: ctx.entities holds each entity's latest  position and overwrites it on every move, so an old position cannot be replayed, and  ModuleContext exposes no field in which a lookback ring could be kept."
     },
     {
       "id": "xykell.combat.auto_crit",
       "name": "Auto Crit",
       "category": "COMBAT",
       "description": "Auto Crit (COMBAT).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6906,8 +6906,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.combat.auto_totem",
@@ -6962,8 +6962,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs the offhand totem read from the inventory; no container packet is decoded"
     },
     {
       "id": "xykell.combat.auto_potion",
@@ -7018,8 +7018,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs the hotbar potion slot plus its use timing; no inventory state is visible"
     },
     {
       "id": "xykell.combat.auto_crystal",
@@ -7074,8 +7074,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs end-crystal entities and a place-block packet built from world geometry"
     },
     {
       "id": "xykell.combat.anti_crystal",
@@ -7130,8 +7130,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs crystal positions and the block/sound burst of an explosion; neither is decoded"
     },
     {
       "id": "xykell.combat.auto_cart",
@@ -7186,8 +7186,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs beacon entities plus placement geometry, none of it on the wire"
     },
     {
       "id": "xykell.combat.auto_web",
@@ -7242,8 +7242,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs a cobweb placement against a tracked target: ctx.entities gives the position, but  the placement needs the block id from inventory state and the unexpanded  InventoryTransaction action layout."
     },
     {
       "id": "xykell.combat.auto_switch",
@@ -7298,8 +7298,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs the hotbar slot index holding the wanted item; container state is never decoded"
     },
     {
       "id": "xykell.combat.mace_swap",
@@ -7354,8 +7354,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs to swap to a mace slot at attack time, which requires inventory slot contents"
     },
     {
       "id": "xykell.combat.mace_damage",
@@ -7410,8 +7410,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "mace damage is computed server-side from the fall distance the server tracks itself, so  no packet carries a multiplier; inflating it would mean falsifying the whole reported  fall, which needs the swing's timing and knowledge that a mace is held \u2014 inventory state  this repo never decodes."
     },
     {
       "id": "xykell.combat.shield_disabler",
@@ -7466,8 +7466,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs an axe swap timed on the target's block state; neither is visible to the relay"
     },
     {
       "id": "xykell.combat.anchor_aura",
@@ -7522,8 +7522,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs anchor entities, block states and placement timing from the world"
     },
     {
       "id": "xykell.combat.target_hud",
@@ -7579,8 +7579,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "client-side HUD overlay rendering; a packet hook has no render surface"
     },
     {
       "id": "xykell.combat.target_selector",
@@ -7636,8 +7636,8 @@
         "Lunar Proxy",
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "UI target picker; the choice is made in the client and never travels on the wire"
     },
     {
       "id": "xykell.combat.friend_filter",
@@ -7692,8 +7692,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "filters against the client's friend store, which a pure transform cannot read"
     },
     {
       "id": "xykell.combat.combat_settings",
@@ -7748,8 +7748,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a settings aggregate, not a packet transform; there are no bytes to rewrite"
     },
     {
       "id": "xykell.combat.double_click",
@@ -7804,8 +7804,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the second click has to be timed against the first and re-sent as an attack, and the  attack action lives in InventoryTransaction 0x1e's Transaction \u2014 a nested type the  vendored proto never expands \u2014 so the relay cannot even recognise an attack packet to  repeat, let alone time it against ctx.tick."
     },
     {
       "id": "xykell.combat.auto_log",
@@ -7860,8 +7860,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "needs a timer plus a session-level logout decision the transform cannot make; ctx.tick  is a logical counter with no wall-clock mapping."
     },
     {
       "id": "xykell.combat.mob_aura",
@@ -7916,8 +7916,8 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the mob scan is available from ctx.entities, but attacking a chosen mob needs the same  unexpanded InventoryTransaction action layout that blocks kill_aura."
     },
     {
       "id": "xykell.world.scaffold",
@@ -7959,8 +7959,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "scaffold must place blocks under itself, so it has to *originate* placement  actions; a relay can rewrite or drop the packets the client sends but cannot  author a well-formed InventoryTransaction 0x1E, whose Transaction layout is not  decoded here, and it has no block data to know what to fill."
     },
     {
       "id": "xykell.world.nuker",
@@ -8001,8 +8001,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "nuker breaks every block in reach by injecting a destroy action per block; the  relay holds no block array to pick targets from, and PlayerAction 0x24 carries  only the position the client aimed at, one action at a time."
     },
     {
       "id": "xykell.world.fast_break",
@@ -8043,8 +8043,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "break progress is accumulated server-side and only the client's own break timer  shortens it; PlayerAction 0x24's action field selects start/stop/destroy, and  rewriting it does not shorten the server's accumulated progress, so the rewrite  would desync rather than speed anything up."
     },
     {
       "id": "xykell.world.fast_place",
@@ -8085,8 +8085,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "the use-tick cooldown before the next placement is client input state, not a  field of any decoded packet; the relay sees the action after the client already  decided to send it."
     },
     {
       "id": "xykell.world.spawner_protect",
@@ -8127,15 +8127,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "protecting a spawner means identifying it from the block at the action's  position, and UpdateBlock 0x15 carries a numeric block_runtime_id with no  runtime-id-to-name palette anywhere in this repo, so no spawner is ever  recognisable here; dropping every destroy action would be a different module."
     },
     {
       "id": "xykell.world.block_esp",
       "name": "Block Esp",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8170,15 +8170,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.world.block_tracer",
       "name": "Block Tracer",
       "category": "WORLD",
       "description": "needs world+render sources",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8213,8 +8213,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.world.xray",
@@ -8257,8 +8257,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "xray is a renderer state change (culling non-target blocks) applied inside the  client; decoding that a block changed (UpdateBlock 0x15) is possible, changing  whether the renderer draws it is not reachable from a relay."
     },
     {
       "id": "xykell.world.ore_esp",
@@ -8300,15 +8300,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "ore ESP needs to tell an ore block from stone, and the only ore signal on the  wire is a numeric block_runtime_id; the palette that would name it lives inside  LevelChunk 0x3A's opaque payload and StartGame 0x0B's undecodable block_properties."
     },
     {
       "id": "xykell.world.chunk_borders",
       "name": "Chunk Borders",
       "category": "WORLD",
       "description": "needs world source",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8344,15 +8344,15 @@
         "Lunar Proxy",
         "BedrockTools"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.world.chunk_finder",
       "name": "Chunk Finder",
       "category": "WORLD",
       "description": "needs chunk data",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8387,15 +8387,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.world.new_chunks",
       "name": "New Chunks",
       "category": "WORLD",
       "description": "needs chunk data",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8430,8 +8430,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.world.hole_esp",
@@ -8473,8 +8473,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "a hole is an air pocket inside the decoded sub-chunk block array; chunk data  reaches this repo only as LevelChunk 0x3A's opaque payload, and UpdateSubchunkBlocks  0xAC's BlockUpdate entry layout is not defined in the vendored proto, so there is  no block scan to run."
     },
     {
       "id": "xykell.world.schematic",
@@ -8516,8 +8516,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "schematic reads chunk block data and replays it as placement actions; both halves  are missing \u2014 the chunk block decode (see hole_esp) and the action encode (see  scaffold)."
     },
     {
       "id": "xykell.world.waypoints",
@@ -8609,7 +8609,7 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Position now exists (ObservedState.motion from PlayerTravelled), but there is no terrain, chunk or block source, so a minimap would have nothing to draw. Needs a Stage-20 world source first."
     },
     {
@@ -8617,7 +8617,7 @@
       "name": "World Markers",
       "category": "WORLD",
       "description": "needs position source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "WORLD"
@@ -8653,15 +8653,15 @@
         "Atlas",
         "Flarial"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Position now exists (ObservedState.motion from PlayerTravelled) and the distance/bearing arithmetic is ordinary app-side code, but there is no overlay surface: the app draws no window over the game, and in-game markers would need the native render path, which cannot be verified without a live session. Waypoints already store the same coordinates in-app."
+      "evidence": "Batch 6d: Waypoint rows show distance/bearing from observed PlayerTravelled motion; host MarkerMathTest (11 tests); CI-compiled",
+      "notes": "Waypoint rows now carry a live marker readout: distance/bearing from the observed PlayerTravelled position (host MarkerMathTest, CI-compiled). Boundary: list-surface only \u2014 observation carries no dimension, so readings are raw coordinate geometry; a world-anchored in-game marker needs the native render path and a live session."
     },
     {
       "id": "xykell.automation.auto_eat",
       "name": "Auto Eat",
       "category": "AUTOMATION",
       "description": "interruptible; cooldowns required",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8701,15 +8701,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.automation.auto_fish",
       "name": "Auto Fish",
       "category": "AUTOMATION",
       "description": "interruptible",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -8750,8 +8750,8 @@
         "Lunar Proxy",
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.automation.auto_refill",
@@ -8798,8 +8798,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Refilling means deciding what to move from where, which is inventory  contents the relay never holds, and then originating ItemStackRequest  0x93 clicks \u2014 a packet the client never sent."
     },
     {
       "id": "xykell.automation.auto_steal",
@@ -8846,8 +8846,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The chest's contents arrive in a container payload this repo does not  decode, and taking them is a spawned ItemStackRequest 0x93, so both  halves \u2014 what to take and the act of taking \u2014 are unavailable."
     },
     {
       "id": "xykell.automation.auto_tool",
@@ -8894,8 +8894,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Picking a tool needs the targeted block's type. The relay sees only  where \u2014 PlayerAction 0x24 carries a BlockCoordinates, not a block id \u2014  and block ids arrive in LevelChunk/UpdateBlock, which this repo does  not decode. Tapping a slot on a timer would be a blind macro."
     },
     {
       "id": "xykell.automation.auto_equip",
@@ -8942,8 +8942,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "It must know what is in hand and what is worn. The held item is an  ItemV4 inside MobEquipment 0x1f, a variable-length network item with  no fixed offsets, so `selected_slot`/`window_id` cannot be located;  and equipping is a spawned ItemStackRequest 0x93."
     },
     {
       "id": "xykell.automation.auto_armor",
@@ -8990,8 +8990,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Same as auto_equip: the worn set is server-confirmed through  MobEquipment 0x1f, whose trailing slot/window fields sit behind a  variable-length item, so the relay cannot read which armour is on."
     },
     {
       "id": "xykell.automation.auto_sign",
@@ -9038,8 +9038,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The text goes into the game's own sign screen, and the tap surface  cannot type it; the relay may not originate the input that writes it."
     },
     {
       "id": "xykell.automation.auto_sell",
@@ -9086,8 +9086,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "A server shop's prices and contents live in container/request data the  relay does not decode, and the sale is a spawned ItemStackRequest 0x93  into a window the relay cannot see."
     },
     {
       "id": "xykell.automation.auto_mine",
@@ -9134,8 +9134,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "A mining loop is the Action ordinal of PlayerAction 0x24, and the  vendored proto.yml names those constants as 'the constants above'  without ever listing them, so the relay cannot even read the action  byte to know a break started."
     },
     {
       "id": "xykell.automation.auto_dig",
@@ -9182,8 +9182,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "auto_mine's unreadable Action ordinal plus the block-type filter auto_ tool already lacks: block ids never arrive in a packet this repo decodes."
     },
     {
       "id": "xykell.automation.inventory_cleaner",
@@ -9230,15 +9230,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Dropping the unwanted stack means originating an InventoryTransaction  0x1e, and knowing which stacks are protected is inventory state the  relay does not hold. Cancelling drops is not cleaning them."
     },
     {
       "id": "xykell.automation.no_break_delay",
       "name": "No Break Delay",
       "category": "AUTOMATION",
       "description": "mechanism TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9278,15 +9278,15 @@
       "sourceReferences": [
         "Apollon"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.automation.ghost",
       "name": "Ghost",
       "category": "AUTOMATION",
       "description": "Lunar Ghost hides commands/chat for recording \u2014 NOT phase-through",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -9326,8 +9326,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: drops Text 0x09 type 1/7 chat on the server->game leg only, so the player's own outbound chat is untouched; host test_automationmodules (18 tests)",
+      "notes": "Drops Text 0x09 chat and whisper (type 1/7) on the server -> game leg so the game never draws them over a recording; system chatter and command echoes survive, and the player's own outbound chat is the other direction and untouched. Hides chat from a screen capture only: server-side logs and other players are unaffected. Not run on a device."
     },
     {
       "id": "xykell.automation.auto_tool_swap",
@@ -9374,8 +9374,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Same missing input as auto_tool (the block type behind the position),  and the swap itself would have to be an InventoryTransaction 0x1e hotbar  write the game did not send."
     },
     {
       "id": "xykell.automation.auto_gg",
@@ -9422,8 +9422,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The win message is server-specific text (Hive/Zeqa/CubeCraft/ Lifeboat/Galaxite) that exists in no packet, and sending it means  either typing it into the game or originating a Text 0x09 the client  never sent."
     },
     {
       "id": "xykell.automation.command_hotkey",
@@ -9471,8 +9471,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The payload is a command string the relay never sees, and the tap  surface injects taps only \u2014 it cannot type into the chat box, and  sending the Text 0x09 itself would be outbound injection."
     },
     {
       "id": "xykell.automation.text_hotkey",
@@ -9520,8 +9520,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Same missing text payload and same typing limit as command_hotkey: a  tap cannot enter a character, and the relay will not forge the chat."
     },
     {
       "id": "xykell.automation.death_logger",
@@ -9569,7 +9569,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "No death observation exists. The JNI offer surface is PlayerMessage, PlayerTravelled and Unknown only: nothing observes the local player's death, health or respawn, so there are no death coordinates to log. Needs a Stage-20 death/health source first."
     },
     {
@@ -9617,8 +9617,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "Deciding whether a drop touches a locked slot means reading the  InventoryTransaction 0x1e Transaction payload or the ItemStackRequest  0x93 list \u2014 both nested, varint-prefixed structures with no fixed  offsets, so the slot fields cannot be located and a partial rewrite  would desync the client's predicted inventory."
     },
     {
       "id": "xykell.automation.item_tracker",
@@ -9666,7 +9666,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "No inventory observation exists. Nothing observes picked-up or dropped items, and chat does not carry inventory events, so a tracker would have nothing to count. Needs a Stage-20 inventory source first."
     },
     {
@@ -9715,7 +9715,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "No entity observation exists. Nothing observes a primed TNT entity, so the countdown has no start event. Needs a Stage-20 entity source first."
     },
     {
@@ -9763,7 +9763,7 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "No player-list observation exists. Nothing observes joins, leaves or the current roster; matching a watched name in chat cannot tell whether a player is on the server. Needs a Stage-20 player-list source first."
     },
     {
@@ -9940,7 +9940,7 @@
       "name": "Packet Monitor",
       "category": "NETWORK",
       "description": "no verified packet API",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -9975,15 +9975,15 @@
         "WClient",
         "Nova"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: reader, not a transform: decode SetTime/SetHealth bodies into Observation.Clock/Health, else Observation.Identified, null on truncation; host test_networkmodules (17 tests)",
+      "notes": "Reader, not a transform: decodes SetTime/SetHealth bodies into structured observations and reports other packets as Identified, returning null on truncated input. It observes and never alters bytes. MovePlayer is reported as Identified only because its varulong runtime id is not decoded here."
     },
     {
       "id": "xykell.network.packet_logger",
       "name": "Packet Logger",
       "category": "NETWORK",
       "description": "dev only; no verified packet API",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -10017,15 +10017,15 @@
       "sourceReferences": [
         "WClient"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: reader, not a transform: one text line per packet (set_time ticks=N, set_health health=N, packet id=0xNN bytes=N); host test_networkmodules (17 tests)",
+      "notes": "Reader, not a transform: one text line per forwarded packet (set_time ticks=N, set_health health=N, packet id=0xNN bytes=N). It observes and never alters bytes. Nothing is written to disk."
     },
     {
       "id": "xykell.proxy.mode",
       "name": "Mode",
       "category": "PROXY",
       "description": "design only; separate subsystem",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -10050,15 +10050,15 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b: RelayService foreground owner + RelaySessionDriver (terminating session, SERVER toward the game / CLIENT upstream) + ModuleRuntime listener; host test_relaysession (4), test_relaysessiondriver (4); device E2E pending",
+      "notes": "Relay mode selection: RelayService foreground owner + RelayPipe UDP forward, and from P2b RelaySession terminates both Bedrock legs (game leg as server, upstream leg as client) so the client's identity is re-signed for the relay. Started only from the Relay screen with explicit upstream settings; no receiver, no boot path."
     },
     {
       "id": "xykell.proxy.relay",
       "name": "Relay",
       "category": "PROXY",
       "description": "console/remote concept; protocol work required",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "PACKET"
       ],
@@ -10085,8 +10085,8 @@
         "Nova",
         "WClient"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b: RakNetEndpoint per leg + BedrockBatch/Handshake + BedrockIdentity + RelayListener, driven over UDP by RelaySessionDriver; host test_relaysession, test_relaysessiondriver, test_bedrockbatch, test_bedrockhandshake",
+      "notes": "The relay pipe and termination session themselves: RakNetEndpoint per leg, BedrockBatch framing, BedrockHandshake key exchange, BedrockIdentity, RelayListener packet hook. Host suites: RakNetEndpointTest, BedrockBatchTest, BedrockHandshakeTest, RelaySessionTest (4 tests: device handshake, upstream login rewrite, bidirectional forward through the listener, queue-then-flush). On-device E2E still needs a real server run."
     },
     {
       "id": "xykell.scripting.script_runtime",
@@ -10226,9 +10226,9 @@
       "name": "Browser",
       "category": "SERVER",
       "description": "user-supplied servers only",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
-        "PACKET"
+        "LIFECYCLE"
       ],
       "settings": [
         {
@@ -10251,17 +10251,17 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Batch final: ServersFragment list/search/probe of the user-supplied server book; host test_serverstore + test_serverstore_probe; not run on a device",
+      "notes": "Browsing and search of the user-supplied server book (list, search, per-row reachability probe via test_serverstore_probe). No public server directory and no network fetch of server listings. Not run on a device."
     },
     {
       "id": "xykell.server.saved",
       "name": "Saved",
       "category": "SERVER",
       "description": "address/port/notes/favorites",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
-        "PACKET"
+        "LIFECYCLE"
       ],
       "settings": [
         {
@@ -10284,8 +10284,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Batch final: ServersFragment/ServerStore address/port/notes/favorites CRUD, search, SAF import/export; host test_serverstore; native ServerManager store host-tested via test_local_systems; not run on a device",
+      "notes": "Address/port/notes/favorites book in ServersFragment over ServerStore, with search and SAF import/export (host test_serverstore). User-supplied servers only: no discovery, no directory fetch, and this surface does not start a connection. Not run on a device."
     },
     {
       "id": "xykell.server.profile",
@@ -10317,8 +10317,8 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "app-level APIs available; feature not written",
+      "notes": "Native ServerManager already stores per-server module/HUD profile names and is host-tested (test_local_systems), but there is no UI, no JNI bridge and no apply-on-connection consumer: the association cannot be set or used from the app yet."
     },
     {
       "id": "xykell.misc.streamer_mode",
@@ -10549,8 +10549,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "camera path: the third-person flag is renderer state and rides on no  packet. Camera 0x49 is the Education Edition camera bind (two entity  ids) and is client-bound, so it is not a perspective toggle either;  nothing the relay forwards decides which shoulder the client draws."
     },
     {
       "id": "xykell.misc.quick_drop",
@@ -10582,8 +10582,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "A drop is PlayerAction 0x24 with the DROP_ITEM action, which the  relay must not originate \u2014 forging a client action is the forgery  this client does not do. On a touch layout it is also a long press  on a hotbar slot, and the accessibility surface injects fixed taps,  not holds."
     },
     {
       "id": "xykell.misc.hide_hud",
@@ -10623,7 +10623,7 @@
       "name": "Toggle Sprint",
       "category": "MISC",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10648,15 +10648,15 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.misc.toggle_sneak",
       "name": "Toggle Sneak",
       "category": "MISC",
       "description": "locality TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10681,8 +10681,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.misc.screenshot_tools",
@@ -10747,8 +10747,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "server-authoritative: operator status is granted by the server, a  relayed packet edit cannot claim it, and the op level the HUD shows  comes from server messages the relay has no way to satisfy."
     },
     {
       "id": "xykell.misc.shulker_tooltip",
@@ -10780,7 +10780,7 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -10814,7 +10814,7 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "no read path; Stage-20 observation source absent",
+      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
       "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
     },
     {
@@ -10847,8 +10847,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "unreachable on this surface by construction: the protocol version is  carried in LoginPacket 0x01, and RelaySession documents that the  handshake packets (0xc1, 0x8f, 0x01, 0x03, 0x04) never reach the  module hook at all. Post-login no packet repeats the version, so  there is nothing left to read or rewrite."
     },
     {
       "id": "xykell.misc.timer",
@@ -10888,7 +10888,7 @@
       "name": "Disabler",
       "category": "MISC",
       "description": "no verified packet API; server rules risk",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10913,8 +10913,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "P2b/T: drops SetHealth 0x2A on the server->game leg only; other disabler arms need packet layouts this repo does not decode; host test_miscmodules (14 tests)",
+      "notes": "One honest arm: drops the server's SetHealth 0x2A on the server -> game leg so the client stops applying health and damage updates. The movement and combat arms need packet field layouts this repo does not decode, so they are not claimed. Not run on a device."
     },
     {
       "id": "xykell.misc.skin_stealer",
@@ -10946,15 +10946,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "server-authoritative: the worn skin is server-side inventory state,  no client-bound packet decides what the server renders, and taking  another player's skin means account data the client must never touch."
     },
     {
       "id": "xykell.misc.anti_weather",
       "name": "Anti Weather",
       "category": "MISC",
       "description": "hide rain/storms client-side; needs weather path",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10979,8 +10979,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.misc.fast_throw",
@@ -11012,15 +11012,15 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "policy: no cheat/ESP/automation/packet/MITM surface",
-      "notes": "Out of product scope by policy: cheat/ESP/automation, anti-cheat or ban evasion, packet access, or MITM/relay. Not scheduled, not partial."
+      "evidence": "assessed: not deliverable by a packet relay",
+      "notes": "The charge is client-local elapsed time: no packet field carries a  charge level, and PlayerAuthInput 0x90's only use-item ordinals (34  item_interact, 53 start_using_item) mark press and release, not how  long the item was held. The release is the game's own transaction,  so the relay cannot move it earlier without forging it."
     },
     {
       "id": "xykell.misc.friends",
       "name": "Friends",
       "category": "MISC",
       "description": "local list; never inferred from private data",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -11045,8 +11045,41 @@
       "sourceReferences": [
         "Xykell"
       ],
-      "evidence": "app-level APIs available; feature not written",
-      "notes": "Reachable with ordinary Android/app APIs and no game internals. Not written yet: this is remaining build work, not an external blocker."
+      "evidence": "FriendStore + FriendsFragment (Client sub-screen); host FriendStoreTest 14 tests; not run on a device",
+      "notes": "Local friends book: FriendStore (name 1-32, exact-match unique, #RRGGBB color, notes, optional server; schema-versioned JSON, refuses malformed documents wholesale) plus FriendsFragment add/remove UI wired into the Client screen with colored rows. Host FriendStoreTest covers add/remove/rename/setColor/round-trip (14 tests). Entries are typed by the user: nothing is read out of the game, nothing leaves the device, presence is not shown. Not run on a device."
+    },
+    {
+      "id": "xykell.misc.localization",
+      "name": "Localization",
+      "category": "MISC",
+      "description": "7 locale resource sets; system locale follow",
+      "status": "PARTIAL",
+      "requires": [
+        "OVERLAY_DELIVERY"
+      ],
+      "settings": [
+        {
+          "key": "enabled",
+          "type": "bool",
+          "default": false,
+          "description": "master switch (gated by capability)"
+        }
+      ],
+      "risk_level": "LOW",
+      "platforms": [
+        "android"
+      ],
+      "version_constraints": [],
+      "implementation": "native",
+      "capabilities": [
+        "UI"
+      ],
+      "versions": [],
+      "sourceReferences": [
+        "Atlas"
+      ],
+      "evidence": "Batch i18n: values-{es,fr,de,tr,ru,pl,pt-rBR} complete 530-string translations (Atlas Supported Languages) + Settings language picker (AppCompat in-app locales, system default, endonyms, autoStoreLocales for API<=32); host check-i18n.py gate (key parity, placeholder parity, apostrophe escaping); R-stub typecheck",
+      "notes": "Complete 530-string translations for the seven Atlas-supported languages (es, fr, de, tr, ru, pl, pt-BR) as Android locale resources, plus a Settings language picker (AppCompat in-app locales: system default or one of eight languages, endonyms, autoStoreLocales persisted on API<=32). Host check-i18n.py validates key parity, placeholder parity and apostrophe escaping on every locale; R-stub typecheck covers the picker. Not run on a device."
     },
     {
       "id": "xykell.launcher.play",

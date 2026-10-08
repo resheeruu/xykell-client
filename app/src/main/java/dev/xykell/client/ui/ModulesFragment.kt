@@ -19,10 +19,11 @@ import org.json.JSONObject
  * Real registry browser (Batch 12): parses the same packaged
  * registry/features.json as native (build-time copy — never a second
  * catalog), groups by category, expands per-entry detail, and searches
- * across id/name/description/category. Profile-preference switches are
- * offered ONLY for SUPPORTED/PARTIAL entries (something exists to gate)
- * and are labeled as in-game profile preferences — this app runs no
- * modules. Statuses render verbatim; nothing is implied beyond them.
+ * across id/name/description/category. Switches are offered ONLY for
+ * SUPPORTED/PARTIAL entries (something exists to gate) and write the active
+ * profile's module flags, which `RelayService` reads when it builds its
+ * `ModuleRuntime` — so enabling a module here is what makes it apply to live
+ * traffic. Statuses render verbatim; nothing is implied beyond them.
  */
 class ModulesFragment : Fragment(R.layout.fragment_modules) {
 
@@ -209,7 +210,8 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
         modulesJson?.optBoolean(entry.id, false) ?: false
 
     /** Writes the flag into the ACTIVE profile through the validated HUD
-     *  bridge. Returns false (with an honest status message) on failure. */
+     *  bridge — the same map the relay reads at Start. Returns false (with an
+     *  honest status message) on failure. */
     private fun persistPreference(entry: ModuleEntry, enabled: Boolean): Boolean {
         val root = try {
             NativeProfiles.root(requireContext())

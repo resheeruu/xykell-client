@@ -514,6 +514,73 @@ Java_dev_xykell_client_runtime_observation_Observations_nativeOfferUnknown(
     }
 }
 
+// Observed vitals (SetHealth 0x2A / SetTime 0x0A). jint -1 means "this field
+// was not part of this observation" and maps to std::nullopt, NOT to zero: the
+// two packets arrive on different cadences, and conflating "not seen" with
+// "zero" would empty the health readout on the first clock tick.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferVitals(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jint health, jint timeTicks) {
+    try {
+        std::optional<int> h;
+        if (health >= 0) {
+            h = static_cast<int>(health);
+        }
+        std::optional<int> t;
+        if (timeTicks >= 0) {
+            t = static_cast<int>(timeTicks);
+        }
+        auto o = xykell::runtime::makeVitals(toStd(env, eventId),
+                                             static_cast<std::uint64_t>(observedAtMs), h, t);
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::VitalsObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+// Observed entity population from the relay's entity table. Counts come from
+// what the relay has been told about, never a claim about unseen entities.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferPopulation(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jint entityCount,
+    jint playerCount) {
+    try {
+        auto o = xykell::runtime::makeEntityPopulation(
+            toStd(env, eventId), static_cast<std::uint64_t>(observedAtMs),
+            static_cast<std::uint64_t>(entityCount), static_cast<std::uint64_t>(playerCount));
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::EntityPopulationObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
+// Counters only: a bounded "msgs=N travels=N unknown=N lastMs=N" line for the
+// Diagnostics screen. Never message text, sender, position, or the unknown
+// reason string (reason is not length-capped by the factory).
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeObservationStats(
+    JNIEnv* env, jclass) {
+    try {
+        const auto& s = sharedObservationConsumer().snapshot();
+        std::string out = "msgs=" + std::to_string(s.messageCount) +
+                          " travels=" + std::to_string(s.travelCount) +
+                          " unknown=" + std::to_string(s.unknownCount) +
+                          " lastMs=" + std::to_string(s.lastObservedAtMs) +
+                          " lastUnknownLen=" + std::to_string(s.lastUnknownWireLength);
+        return env->NewStringUTF(out.c_str());
+    } catch (...) {
+        return env->NewStringUTF("");
+    }
+}
+
 // HUD editor bridge (Batch 8). Confined to profile HUD layouts and module
 // enable flags: layout JSON round-trips through validated deserialize,
 // element edits are bounds/finite/positive-scale checked, module ids are
