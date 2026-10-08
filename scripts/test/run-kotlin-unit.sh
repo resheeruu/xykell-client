@@ -54,6 +54,8 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/privacy/PrivacySettings.kt"
     "$SRC/dev/xykell/client/runtime/NativeBridgeStatus.kt"
     "$SRC/dev/xykell/client/runtime/world/WaypointStore.kt"
+    "$SRC/dev/xykell/client/runtime/world/MarkerMath.kt"
+    "$SRC/dev/xykell/client/runtime/social/FriendStore.kt"
     "$SRC/dev/xykell/client/runtime/ProfileManager.kt"
     "$SRC/dev/xykell/client/runtime/CrashGuard.kt"
     "$SRC/dev/xykell/client/runtime/Updater.kt"
@@ -65,6 +67,8 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/XykellInfo.kt"
     "$SRC/dev/xykell/client/runtime/observation/Observations.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationTranslator.kt"
+    "$SRC/dev/xykell/client/runtime/observation/ObservationFeedWire.kt"
+    "$SRC/dev/xykell/client/runtime/observation/ObservationFeedServer.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservationStateMachine.kt"
     "$SRC/dev/xykell/client/runtime/observation/ObservedState.kt"
     "$SRC/dev/xykell/client/runtime/observation/ChatFilter.kt"
@@ -73,6 +77,35 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/observation/LiveProducer.kt"
     "$SRC/dev/xykell/client/runtime/observation/LoopbackWebSocket.kt"
     "$SRC/dev/xykell/client/runtime/capture/PixelPacker.kt"
+    "$SRC/dev/xykell/client/runtime/cheat/ClickSchedule.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RakNetCodec.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RakNetConnected.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RakNetSession.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RakNetEndpoint.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RelayPipe.kt"
+    "$SRC/dev/xykell/client/runtime/relay/BedrockBatch.kt"
+    "$SRC/dev/xykell/client/runtime/relay/BedrockHandshake.kt"
+    "$SRC/dev/xykell/client/runtime/relay/BedrockPackets.kt"
+    "$SRC/dev/xykell/client/runtime/relay/TapTranslator.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RelaySession.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RelaySessionDriver.kt"
+    "$SRC/dev/xykell/client/runtime/relay/RelayObservation.kt"
+    "$SRC/dev/xykell/client/runtime/relay/BedrockPacketIds.kt"
+    "$SRC/dev/xykell/client/runtime/relay/EntityTable.kt"
+    "$SRC/dev/xykell/client/runtime/modules/ModuleWire.kt"
+    "$SRC/dev/xykell/client/runtime/modules/ModuleContext.kt"
+    "$SRC/dev/xykell/client/runtime/modules/CombatModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/VisualModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/MovementModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/WorldModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/AutomationModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/PlayerModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/MiscModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/NetworkModules.kt"
+    "$SRC/dev/xykell/client/runtime/modules/ModuleRuntime.kt"
+    "$SRC/dev/xykell/client/runtime/modules/ModuleFlags.kt"
+    "$SRC/dev/xykell/client/runtime/modules/ModuleTapRunner.kt"
+    "$SRC/dev/xykell/client/runtime/observation/ObservationExternal.kt"
 )
 SUITES=(
     dev.xykell.client.ui.SettingRowMapperTest
@@ -83,6 +116,7 @@ SUITES=(
     dev.xykell.client.ui.HomeStatusTest
     dev.xykell.client.runtime.servers.ServerStoreTest
     dev.xykell.client.runtime.worlds.WorldStoreTest
+    dev.xykell.client.runtime.worlds.NbtReaderTest
     dev.xykell.client.runtime.packs.PackStoreTest
     dev.xykell.client.runtime.performance.PerformanceStoreTest
     dev.xykell.client.runtime.CrashGuardTest
@@ -94,13 +128,41 @@ SUITES=(
     dev.xykell.client.runtime.accounts.SecretBoxTest
     dev.xykell.client.runtime.network.NetworkProbeTest
     dev.xykell.client.runtime.privacy.PrivacyAndWorldTest
+    dev.xykell.client.runtime.world.MarkerMathTest
+    dev.xykell.client.runtime.social.FriendStoreTest
     dev.xykell.client.runtime.NativeBridgeStatusTest
     dev.xykell.client.runtime.observation.ObservationPipelineTest
     dev.xykell.client.runtime.observation.ObservedChatTest
     dev.xykell.client.runtime.observation.ChatPolicyTest
     dev.xykell.client.runtime.capture.PixelPackerTest
+    dev.xykell.client.runtime.cheat.TouchAutomationTest
+    dev.xykell.client.runtime.relay.RakNetCodecTest
+    dev.xykell.client.runtime.relay.RakNetConnectedTest
+    dev.xykell.client.runtime.relay.RakNetSessionTest
+    dev.xykell.client.runtime.relay.RakNetEndpointTest
+    dev.xykell.client.runtime.relay.RelayPipeTest
+    dev.xykell.client.runtime.relay.BedrockBatchTest
+    dev.xykell.client.runtime.relay.BedrockHandshakeTest
+    dev.xykell.client.runtime.observation.ObservationFeedServerTest
+    dev.xykell.client.runtime.relay.BedrockPacketsTest
+    dev.xykell.client.runtime.relay.TapTranslatorTest
+    dev.xykell.client.runtime.relay.RelaySessionTest
+    dev.xykell.client.runtime.relay.RelaySessionDriverTest
+    dev.xykell.client.runtime.relay.RelayObservationTest
+    dev.xykell.client.runtime.relay.EntityTableTest
+    dev.xykell.client.runtime.modules.CombatModulesTest
+    dev.xykell.client.runtime.modules.VisualModulesTest
+    dev.xykell.client.runtime.modules.MovementModulesTest
+    dev.xykell.client.runtime.modules.WorldModulesTest
+    dev.xykell.client.runtime.modules.AutomationModulesTest
+    dev.xykell.client.runtime.modules.PlayerModulesTest
+    dev.xykell.client.runtime.modules.MiscModulesTest
+    dev.xykell.client.runtime.modules.NetworkModulesTest
+    dev.xykell.client.runtime.modules.ModuleRuntimeTest
+    dev.xykell.client.runtime.modules.ModuleFlagsTest
+    dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=24
+EXPECTED_SUITES=53
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -135,9 +197,11 @@ done
     "$TEST"/dev/xykell/client/runtime/observation/ObservationPipelineTest.kt \
     "$TEST"/dev/xykell/client/runtime/observation/ObservedChatTest.kt \
     "$TEST"/dev/xykell/client/runtime/observation/ChatPolicyTest.kt \
+    "$TEST"/dev/xykell/client/runtime/observation/ObservationFeedServerTest.kt \
     "$TEST"/dev/xykell/client/runtime/servers/ServerStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/UpdaterTest.kt \
     "$TEST"/dev/xykell/client/runtime/worlds/WorldStoreTest.kt \
+    "$TEST"/dev/xykell/client/runtime/worlds/NbtReaderTest.kt \
     "$TEST"/dev/xykell/client/runtime/scripting/ScriptTestSupport.kt \
     "$TEST"/dev/xykell/client/runtime/scripting/ScriptEngineTest.kt \
     "$TEST"/dev/xykell/client/runtime/scripting/ScriptSandboxTest.kt \
@@ -146,11 +210,38 @@ done
     "$TEST"/dev/xykell/client/runtime/accounts/SecretBoxTest.kt \
     "$TEST"/dev/xykell/client/runtime/network/NetworkProbeTest.kt \
     "$TEST"/dev/xykell/client/runtime/privacy/PrivacyAndWorldTest.kt \
+    "$TEST"/dev/xykell/client/runtime/world/MarkerMathTest.kt \
+    "$TEST"/dev/xykell/client/runtime/social/FriendStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/NativeBridgeStatusTest.kt \
     "$TEST"/dev/xykell/client/runtime/CrashGuardTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/performance/PerformanceStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/capture/PixelPackerTest.kt \
+    "$TEST"/dev/xykell/client/runtime/cheat/TouchAutomationTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RakNetCodecTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RakNetConnectedTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RakNetSessionTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RakNetEndpointTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RelayPipeTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/BedrockBatchTest.kt \
+        "$TEST"/dev/xykell/client/runtime/relay/BedrockHandshakeTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/BedrockPacketsTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/TapTranslatorTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RelaySessionTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RelaySessionDriverTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/RelayObservationTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/EntityTableTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/CombatModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/VisualModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/MovementModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/WorldModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/AutomationModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/PlayerModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/MiscModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/NetworkModulesTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/ModuleRuntimeTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/ModuleFlagsTest.kt \
+    "$TEST"/dev/xykell/client/runtime/modules/ModuleTapRunnerTest.kt \
     2> "$WORK/kotlinc.log" || {
         echo "KOTLIN-UNIT: FAIL — kotlinc compile error" >&2
         cat "$WORK/kotlinc.log" >&2

@@ -32,6 +32,14 @@ enum class ObservationKind : std::uint8_t {
     PlayerMessage = 0,
     PlayerTravel,
     Unknown,
+    // Vitals the relay actually reads off the wire: SetHealth 0x2A and SetTime
+    // 0x0A, both verified layouts (BedrockPackets). No armour, hunger or effect
+    // field exists here because none of those is decoded yet.
+    Vitals,
+    // How many entities the relay currently tracks. A COUNT of what the relay
+    // saw, never a claim about the world: an entity it has not been told about
+    // does not appear here.
+    EntityPopulation,
 };
 
 // Observed chat line. 9P bodies always carry non-empty sender + message;
@@ -72,12 +80,39 @@ struct UnknownObservation {
     std::string reason;  // e.g. "non-json-plaintext", "pre-establishment-binary"
 };
 
-using RuntimeObservation =
-    std::variant<PlayerMessageObservation, PlayerTravelObservation, UnknownObservation>;
+// Observed vitals. Both fields are OPTIONAL and that is the whole point: the
+// server sends SetHealth and SetTime on different cadences, so "health seen,
+// clock not yet" is a real state and must not be rendered as a zero.
+//
+// health is in Bedrock's half-heart units as they arrive on the wire (the
+// server sends 20 for a full bar). No unit conversion happens here: the HUD
+// shows what the server reported, and nothing infers a maximum it was not told.
+struct VitalsObservation {
+    std::string eventId;
+    std::uint64_t observedAtMs = 0;
+    std::optional<int> health;    // absent = never observed
+    std::optional<int> timeTicks; // absent = never observed
+};
+
+// Observed entity population, from the relay's bounded entity table.
+struct EntityPopulationObservation {
+    std::string eventId;
+    std::uint64_t observedAtMs = 0;
+    std::uint64_t entityCount = 0;  // every tracked runtime id
+    std::uint64_t playerCount = 0; // the subset flagged as a player
+};
+
+using RuntimeObservation = std::variant<PlayerMessageObservation, PlayerTravelObservation,
+                                        UnknownObservation, VitalsObservation,
+                                        EntityPopulationObservation>;
 
 inline ObservationKind kindOf(const RuntimeObservation& o) {
     if (std::holds_alternative<PlayerMessageObservation>(o)) return ObservationKind::PlayerMessage;
     if (std::holds_alternative<PlayerTravelObservation>(o)) return ObservationKind::PlayerTravel;
+    if (std::holds_alternative<VitalsObservation>(o)) return ObservationKind::Vitals;
+    if (std::holds_alternative<EntityPopulationObservation>(o)) {
+        return ObservationKind::EntityPopulation;
+    }
     return ObservationKind::Unknown;
 }
 
@@ -115,6 +150,30 @@ inline std::optional<UnknownObservation> makeUnknown(const std::string& eventId,
                                                      const std::string& reason) {
     if (!detail::validId(eventId) || reason.empty()) return std::nullopt;
     return UnknownObservation{eventId, observedAtMs, wireLength, reason};
+}
+
+// Rejects a Vitals observation that observed NEITHER value: that is an empty
+// event that would only ever overwrite a good snapshot with nothing. One field
+// alone is valid, because the two arrive on independent cadences.
+inline std::optional<VitalsObservation> makeVitals(const std::string& eventId,
+                                                   std::uint64_t observedAtMs,
+                                                   std::optional<int> health,
+                                                   std::optional<int> timeTicks) {
+    if (!detail::validId(eventId)) return std::nullopt;
+    if (!health.has_value() && !timeTicks.has_value()) return std::nullopt;
+    if (health.has_value() && *health < 0) return std::nullopt;
+    if (timeTicks.has_value() && *timeTicks < 0) return std::nullopt;
+    return VitalsObservation{eventId, observedAtMs, health, timeTicks};
+}
+
+// Rejects a population with players > entities: that can only be a caller bug,
+// and accepting it would let the HUD render an impossible pair.
+inline std::optional<EntityPopulationObservation> makeEntityPopulation(
+    const std::string& eventId, std::uint64_t observedAtMs, std::uint64_t entityCount,
+    std::uint64_t playerCount) {
+    if (!detail::validId(eventId)) return std::nullopt;
+    if (playerCount > entityCount) return std::nullopt;
+    return EntityPopulationObservation{eventId, observedAtMs, entityCount, playerCount};
 }
 
 // Read-only observation source boundary: poll() yields already-normalized

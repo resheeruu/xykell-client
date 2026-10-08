@@ -1,5 +1,13 @@
 # Xykell full-client gap analysis (2026-10-02, against HEAD `0a9688b`)
 
+> HISTORICAL SNAPSHOT. Much of this was written at Phase 0/1 and is now
+> superseded: current truth is `registry/features.json` (258 entries,
+> 52 PARTIAL) + `docs/MODULE-CATALOG.md` + `docs/REFERENCE-COVERAGE.md`.
+> Since then: 35 host unit suites + typecheck gate, scripting runtime,
+> launcher screens, HUD editor, launcher servers/probes, diagnostics,
+> relay stack, and local friends all exist. Sections below keep their
+> original wording as the record of that date.
+
 Method: tree + headers + CI logs inspected. Statuses: SUPPORTED / PARTIAL /
 UNSUPPORTED / BLOCKED / RESEARCH_REQUIRED / NOT_IMPLEMENTED.
 

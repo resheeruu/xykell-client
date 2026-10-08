@@ -16,7 +16,7 @@ class VersionsFragment : Fragment(R.layout.fragment_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.info_title).text = "Versions"
+        view.findViewById<TextView>(R.id.info_title).text = getString(R.string.nav_versions)
         view.findViewById<TextView>(R.id.info_body).text = describe()
     }
 

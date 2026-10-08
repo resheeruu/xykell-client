@@ -109,8 +109,8 @@ xykell::runtime::SessionManager& sessionMgr() {
 }
 
 xykell::runtime::ObservationConsumer& obsConsumer() {
-    static xykell::runtime::ObservationConsumer c;
-    return c;
+    // Process-wide instance: shared with the HUD bind path (observation_feed).
+    return xykell::runtime::sharedObservationConsumer();
 }
 
 } // namespace
@@ -330,6 +330,72 @@ Java_dev_xykell_client_runtime_observation_Observations_nativeOfferUnknown(
     }
     obsConsumer().consume(xykell::runtime::UnknownObservation{*obs});
     return JNI_TRUE;
+}
+
+// Observed vitals (SetHealth 0x2A / SetTime 0x0A). jint -1 means "not part of
+// this observation" and maps to std::nullopt, never to zero.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferVitals(
+    JNIEnv* env, jclass, jstring jeventId, jlong jatMs, jint jhealth, jint jtimeTicks) {
+    const std::string eventId = fromJ(env, jeventId);
+    if (!okName(eventId) || jatMs < 0) {
+        return JNI_FALSE;
+    }
+    std::optional<int> h;
+    if (jhealth >= 0) {
+        h = static_cast<int>(jhealth);
+    }
+    std::optional<int> t;
+    if (jtimeTicks >= 0) {
+        t = static_cast<int>(jtimeTicks);
+    }
+    // The factory rejects an observation carrying neither field, so an empty
+    // offer can never blank a snapshot that already holds good vitals.
+    const auto obs = xykell::runtime::makeVitals(eventId, static_cast<std::uint64_t>(jatMs), h, t);
+    if (!obs.has_value()) {
+        return JNI_FALSE;
+    }
+    obsConsumer().consume(xykell::runtime::VitalsObservation{*obs});
+    return JNI_TRUE;
+}
+
+// Observed entity population from the relay's entity table.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferPopulation(
+    JNIEnv* env, jclass, jstring jeventId, jlong jatMs, jint jentities, jint jplayers) {
+    const std::string eventId = fromJ(env, jeventId);
+    if (!okName(eventId) || jatMs < 0) {
+        return JNI_FALSE;
+    }
+    const auto obs = xykell::runtime::makeEntityPopulation(
+        eventId, static_cast<std::uint64_t>(jatMs), static_cast<std::uint64_t>(jentities),
+        static_cast<std::uint64_t>(jplayers));
+    if (!obs.has_value()) {
+        return JNI_FALSE;
+    }
+    obsConsumer().consume(xykell::runtime::EntityPopulationObservation{*obs});
+    return JNI_TRUE;
+}
+
+// Counters only: a bounded "msgs=N travels=N unknown=N lastMs=N" line for
+// the Diagnostics screen. Never message text, sender, position, or the
+// unknown reason string (reason is not length-capped by the factory).
+JNIEXPORT jstring JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeObservationStats(
+    JNIEnv* env, jclass) {
+    try {
+        const auto& s = obsConsumer().snapshot();
+        std::string out = "msgs=" + std::to_string(s.messageCount) +
+                          " travels=" + std::to_string(s.travelCount) +
+                          " unknown=" + std::to_string(s.unknownCount) +
+                          " vitals=" + std::to_string(s.vitalsCount) +
+                          " pop=" + std::to_string(s.populationCount) +
+                          " lastMs=" + std::to_string(s.lastObservedAtMs) +
+                          " lastUnknownLen=" + std::to_string(s.lastUnknownWireLength);
+        return env->NewStringUTF(out.c_str());
+    } catch (...) {
+        return env->NewStringUTF("");
+    }
 }
 
 } // extern "C"

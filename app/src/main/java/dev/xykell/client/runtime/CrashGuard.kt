@@ -53,6 +53,41 @@ object CrashGuard {
         return files?.firstOrNull()?.readText()
     }
 
+    /** One stored report, newest first. Metadata only; no content. */
+    data class ReportInfo(val name: String, val sizeBytes: Long, val modifiedAtMs: Long)
+
+    /** All stored reports, newest first. Bounded by MAX_REPORTS. */
+    fun listReports(context: Context): List<ReportInfo> {
+        val crashDir = File(context.filesDir, CRASH_DIR)
+        return crashDir.listFiles()
+            ?.filter { it.isFile && isReportFileName(it.name) }
+            ?.sortedByDescending { it.lastModified() }
+            ?.map { ReportInfo(it.name, it.length(), it.lastModified()) }
+            ?: emptyList()
+    }
+
+    /** Read one report by exact stored name. Null when the name is not a
+     *  stored report (rejects separators and traversal outright). */
+    fun readReport(context: Context, name: String): String? {
+        if (!isReportFileName(name)) return null
+        val file = File(File(context.filesDir, CRASH_DIR), name)
+        return if (file.isFile) file.readText() else null
+    }
+
+    /** Delete one report by exact stored name. */
+    fun deleteReport(context: Context, name: String): Boolean {
+        if (!isReportFileName(name)) return false
+        val file = File(File(context.filesDir, CRASH_DIR), name)
+        return file.isFile && file.delete()
+    }
+
+    /** Exact on-disk name shape from generateFileName(): no path separators,
+     *  so a crafted name cannot escape the crash directory. */
+    internal fun isReportFileName(name: String): Boolean =
+        NAME_PATTERN.matches(name)
+
+    private val NAME_PATTERN = Regex("""crash_\d{8}_\d{6}_\d{3}\.txt""")
+
     /** Clear all crash reports. */
     fun clearCrashReports(context: Context) {
         val crashDir = File(context.filesDir, CRASH_DIR)

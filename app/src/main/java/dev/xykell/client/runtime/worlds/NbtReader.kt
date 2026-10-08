@@ -116,6 +116,9 @@ object NbtReader {
             TAG_LIST -> {
                 val elementType = dis.readByte().toInt()
                 val length = dis.readInt()
+                if (length < 0 || (length > 0 && elementType == TAG_END)) {
+                    throw IOException("invalid TAG_LIST header: elementType=$elementType length=$length")
+                }
                 val list = mutableListOf<Any>()
                 repeat(length) {
                     val v = readTag(elementType, dis)
@@ -137,53 +140,11 @@ object NbtReader {
                 arr
             }
             else -> {
-                // Skip unknown tag
-                skipTag(tagType, dis)
-                null
+                // Every valid NBT type (0x00-0x0C) is handled above. Any other
+                // byte means the stream is corrupt: fail closed instead of
+                // desyncing into fabricated values.
+                throw IOException("unknown tag type $tagType")
             }
-        }
-    }
-
-    private fun skipTag(tagType: Int, dis: DataInputStream) {
-        when (tagType) {
-            TAG_BYTE -> dis.skipBytes(1)
-            TAG_SHORT -> dis.skipBytes(2)
-            TAG_INT -> dis.skipBytes(4)
-            TAG_LONG -> dis.skipBytes(8)
-            TAG_FLOAT -> dis.skipBytes(4)
-            TAG_DOUBLE -> dis.skipBytes(8)
-            TAG_BYTE_ARRAY -> {
-                val len = dis.readInt()
-                dis.skipBytes(len)
-            }
-            TAG_STRING -> {
-                val len = dis.readShort().toInt()
-                dis.skipBytes(len)
-            }
-            TAG_LIST -> {
-                val ignored = dis.readByte()
-                val len = dis.readInt()
-                // Cannot skip easily without knowing element type sizes
-                // For robustness, throw — but Bedrock level.dat has no nested lists in root
-                throw IOException("TAG_LIST skip not implemented")
-            }
-            TAG_COMPOUND -> {
-                while (true) {
-                    val t = dis.readByte().toInt()
-                    if (t == TAG_END) break
-                    val ignored = readString(dis) // name
-                    skipTag(t, dis)
-                }
-            }
-            TAG_INT_ARRAY -> {
-                val len = dis.readInt()
-                dis.skipBytes(len * 4)
-            }
-            TAG_LONG_ARRAY -> {
-                val len = dis.readInt()
-                dis.skipBytes(len * 8)
-            }
-            else -> {}
         }
     }
 }

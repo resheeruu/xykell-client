@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/diag_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/diag_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/xykell_muted" />
+
+    <TextView
+        android:id="@+id/diag_version_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/diag_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_text" />
+
+    <TextView
+        android:id="@+id/diag_bridge_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/diag_bridges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_text" />
+
+    <TextView
+        android:id="@+id/diag_observation_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/diag_observation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_text" />
+
+    <TextView
+        android:id="@+id/diag_crash_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/diag_crash_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/diag_crash_export"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            android:text="@string/diag_crash_export" />
+
+        <Button
+            android:id="@+id/diag_crash_delete_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:minHeight="48dp"
+            android:text="@string/diag_crash_delete_all" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/diag_crash_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted" />
+
+    <LinearLayout
+        android:id="@+id/diag_crash_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical" />
+
+</LinearLayout>

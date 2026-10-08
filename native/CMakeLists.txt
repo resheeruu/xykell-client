@@ -25,6 +25,7 @@ add_library(
     src/xykell_detection.cpp
     src/xykell_engines.cpp
     src/xykell_event_bus.cpp
+    src/xykell_feed_client.cpp
     src/xykell_file_util.cpp
     src/xykell_friends.cpp
     src/xykell_gui_controller.cpp
@@ -42,6 +43,7 @@ add_library(
     src/xykell_menu.cpp
     src/xykell_module_manager.cpp
     src/xykell_notifications.cpp
+    src/xykell_observation_feed.cpp
     src/xykell_planner.cpp
     src/xykell_portal.cpp
     src/xykell_portal_preloader.cpp

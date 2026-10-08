@@ -10,9 +10,9 @@
 
     <!-- Stage 20 (Phase 1, explicit user-driven observation only): loopback
          WebSocket observation needs INTERNET even for 127.0.0.1 (Android
-         gates all app sockets on it). No remote networking exists: the
-         endpoint is hardcoded in code (see ObservationService) and no
-         host/port is configurable. -->
+         gates all app sockets on it). Relay: user-configured upstream
+         forwarding only (RelayService) — endpoints chosen on the Relay
+         screen, never auto-started, no other remote networking. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Foreground-service declarations for the explicit observation owner.
          Type specialUse: persistent localhost observation relay fits no
@@ -31,6 +31,17 @@
         android:theme="@style/Theme.Xykell"
         android:allowBackup="true"
         android:supportsRtl="true">
+        <!-- AppCompat in-app locales (misc.localization): persists the
+             user-picked language on API <= 32 through the metadata holder;
+             on API 33+ the OS stores it. Declared here, never exported. -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -53,6 +64,14 @@
             android:name=".runtime.capture.CaptureService"
             android:foregroundServiceType="mediaProjection"
             android:exported="false" />
+        <!-- Transparent RakNet relay owner: started/stopped only from the
+             Relay screen with explicit upstream settings; never exported;
+             never auto-started. Plain UDP forwarding (specialUse — no other
+             FGS type fits a user-driven packet relay). -->
+        <service
+            android:name=".runtime.relay.RelayService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false" />
         <!-- Serves the captured PNG to the share sheet only (cache path,
              read grant handed out per Intent). No broad file access. -->
         <provider
@@ -64,6 +83,23 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <!-- Real input cheat: gesture dispatch only (canPerformGestures in
+             @xml/accessibility_service_config; canRetrieveWindowContent=false).
+             The user enables it in system accessibility settings — never
+             auto-started. BIND_ACCESSIBILITY_SERVICE blocks every caller
+             except the system. -->
+        <service
+            android:name=".runtime.cheat.TouchAutomationService"
+            android:label="Xykell Touch"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
     </application>
 
 </manifest>

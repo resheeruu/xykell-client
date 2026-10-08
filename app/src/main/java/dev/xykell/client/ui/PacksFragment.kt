@@ -264,7 +264,7 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
             0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
         )
         val typeBadge = TextView(context)
-        typeBadge.text = "  [${entry.type.name}]"
+        typeBadge.text = getString(R.string.packs_type_badge, entry.type.name)
         typeBadge.textSize = 14f
         typeBadge.setTextColor(
             androidx.core.content.ContextCompat.getColor(
@@ -314,7 +314,7 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
 
         if (entry.path.isNotBlank()) {
             val path = TextView(context)
-            path.text = "Path: " + entry.path.take(80)
+            path.text = getString(R.string.path_label, entry.path.take(80))
             path.textSize = 12f
             path.setTextColor(
                 androidx.core.content.ContextCompat.getColor(

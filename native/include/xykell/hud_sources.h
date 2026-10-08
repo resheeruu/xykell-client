@@ -11,12 +11,15 @@
 // Keystrokes is deliberately NOT registered: it needs a tap-position
 // stream that does not exist yet.
 #include <cstdint>
+#include <cstdio>
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "xykell/hud_model.h"
 #include "xykell/module_manager.h"
+#include "xykell/runtime_observation_consumer.h"
 
 namespace xykell::hud::sources {
 
@@ -210,6 +213,194 @@ inline void bindHardwareStatsProvider(HudLayout& layout, const HardwareStats& st
     for (auto& el : layout.elements) {
         if (el.type == ElementType::HardwareStats) {
             el.provider = [stats]() { return formatHardwareStats(stats); };
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Motion HUD (hud.coordinates, hud.direction, hud.speed_meter) — Stage 12
+// observation feed. Pure formatting over already-validated observation
+// objects; no clock, no platform, no fabrication.
+
+// Minecraft yaw convention: 0 = south (+Z), positive turns westward.
+// 8-point compass, half-step hysteresis (22.5° bucket edges).
+// NaN/out-of-range yaw degrades to kUnavailable, never a random heading.
+inline std::string formatDirection(double yawDegrees) {
+    if (!std::isfinite(yawDegrees)) {
+        return kUnavailable;
+    }
+    double a = std::fmod(yawDegrees, 360.0);
+    if (a < 0.0) {
+        a += 360.0;
+    }
+    static const char* kPoints[8] = {"S", "SW", "W", "NW", "N", "NE", "E", "SE"};
+    const int idx = static_cast<int>((a + 22.5) / 45.0) % 8;
+    return kPoints[idx];
+}
+
+// "x y z" at one decimal from an observed travel position.
+inline std::string formatCoordinates(const xykell::runtime::PlayerTravelObservation& t) {
+    char buf[96];
+    std::snprintf(buf, sizeof(buf), "%.1f %.1f %.1f", t.position.x, t.position.y, t.position.z);
+    return std::string(buf);
+}
+
+// "N.N m/s" from the consumer-derived delta; absent/invalid -> kUnavailable.
+inline std::string formatSpeed(const std::optional<double>& mps) {
+    if (!mps.has_value() || !std::isfinite(*mps) || *mps < 0.0) {
+        return kUnavailable;
+    }
+    char buf[32];
+    std::snprintf(buf, sizeof(buf), "%.1f m/s", *mps);
+    return std::string(buf);
+}
+
+// Installs providers for the motion elements from an observation snapshot.
+// The snapshot POINTER is captured: callers must keep it alive for the
+// layout's lifetime (refreshHud passes the process-wide consumer's snapshot,
+// a stable static). Null or empty snapshot renders kUnavailable via text().
+inline void bindMotionProviders(HudLayout& layout,
+                                const xykell::runtime::RuntimeObservationSnapshot* snap) {
+    for (auto& el : layout.elements) {
+        switch (el.type) {
+            case ElementType::Coordinates:
+                el.provider = [snap]() {
+                    if (snap == nullptr || !snap->latestTravel.has_value()) {
+                        return std::string(kUnavailable);
+                    }
+                    return formatCoordinates(*snap->latestTravel);
+                };
+                break;
+            case ElementType::Direction:
+                el.provider = [snap]() {
+                    if (snap == nullptr || !snap->latestTravel.has_value()) {
+                        return std::string(kUnavailable);
+                    }
+                    return formatDirection(snap->latestTravel->yawDegrees);
+                };
+                break;
+            case ElementType::SpeedMeter:
+                el.provider = [snap]() {
+                    if (snap == nullptr) {
+                        return std::string(kUnavailable);
+                    }
+                    return formatSpeed(snap->speedMps);
+                };
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Vitals HUD (hud.health, hud.low_health) — observed SetHealth 0x2A.
+//
+// The wire value is Bedrock's half-heart unit (a full bar arrives as 20), and
+// that is what gets rendered: the server never states a maximum, so inventing
+// "20/20" would print a denominator nobody reported. Absent health renders
+// kUnavailable, which is the honest state before the first SetHealth.
+
+// "20" from the observed value; absent -> kUnavailable.
+inline std::string formatHealth(const std::optional<int>& health) {
+    if (!health.has_value()) {
+        return kUnavailable;
+    }
+    return std::to_string(*health);
+}
+
+// "LOW" only while the observed value is at or under the threshold, and
+// kUnavailable when health has never been observed: an unknown value must not
+// read as a low-health alarm.
+inline std::string formatLowHealth(const std::optional<int>& health, int threshold) {
+    if (!health.has_value()) {
+        return kUnavailable;
+    }
+    return (*health <= threshold) ? "LOW" : std::string(kUnavailable);
+}
+
+// Installs the vitals providers from an observation snapshot. The snapshot
+// POINTER is captured (same lifetime rule as bindMotionProviders).
+inline void bindVitalsProviders(HudLayout& layout,
+                                const xykell::runtime::RuntimeObservationSnapshot* snap,
+                                int lowHealthThreshold = 6) {
+    for (auto& el : layout.elements) {
+        switch (el.type) {
+            case ElementType::Health:
+                el.provider = [snap]() {
+                    return snap == nullptr ? std::string(kUnavailable)
+                                           : formatHealth(snap->latestHealth);
+                };
+                break;
+            case ElementType::LowHealth:
+                el.provider = [snap, lowHealthThreshold]() {
+                    return snap == nullptr
+                               ? std::string(kUnavailable)
+                               : formatLowHealth(snap->latestHealth, lowHealthThreshold);
+                };
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Population HUD (hud.entity_counter) + clock rate (hud.tps).
+//
+// Both are observed counts/rates, never world truth: the entity number is what
+// the relay has been told about, and the rate is the server's own tick delta.
+
+// "3 (1p)" from observed counts; absent -> kUnavailable. The player subset is
+// omitted rather than guessed when it was never reported.
+inline std::string formatEntityCount(const std::optional<std::uint64_t>& entities,
+                                     const std::optional<std::uint64_t>& players) {
+    if (!entities.has_value()) {
+        return kUnavailable;
+    }
+    std::string out = std::to_string(*entities);
+    if (players.has_value()) {
+        out += " (" + std::to_string(*players) + "p)";
+    }
+    return out;
+}
+
+// "19.9 tps" from the derived tick rate; absent -> kUnavailable. A rate needs
+// two clock samples, so the first SetTime honestly renders as unknown rather
+// than as 0.
+inline std::string formatTps(const std::optional<double>& tps) {
+    if (!tps.has_value() || !std::isfinite(*tps) || *tps < 0.0) {
+        return kUnavailable;
+    }
+    char buf[32];
+    std::snprintf(buf, sizeof(buf), "%.1f tps", *tps);
+    return std::string(buf);
+}
+
+// Installs the population + clock-rate providers from an observation snapshot.
+// The snapshot POINTER is captured (same lifetime rule as bindMotionProviders).
+inline void bindPopulationProviders(
+    HudLayout& layout, const xykell::runtime::RuntimeObservationSnapshot* snap) {
+    for (auto& el : layout.elements) {
+        switch (el.type) {
+            case ElementType::EntityCounter:
+                el.provider = [snap]() {
+                    if (snap == nullptr) {
+                        return std::string(kUnavailable);
+                    }
+                    return formatEntityCount(snap->latestEntityCount, snap->latestPlayerCount);
+                };
+                break;
+            case ElementType::Tps:
+                el.provider = [snap]() {
+                    if (snap == nullptr) {
+                        return std::string(kUnavailable);
+                    }
+                    return formatTps(snap->ticksPerSecond);
+                };
+                break;
+            default:
+                break;
         }
     }
 }

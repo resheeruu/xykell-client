@@ -12,10 +12,15 @@ std::string typeName(ElementType t) {
         case ElementType::Notifications: return "notifications";
         case ElementType::Armor: return "armor";
         case ElementType::Health: return "health";
+        case ElementType::LowHealth: return "low_health";
+        case ElementType::EntityCounter: return "entity_counter";
+        case ElementType::Tps: return "tps";
         case ElementType::Hunger: return "hunger";
         case ElementType::Keystrokes: return "keystrokes";
         case ElementType::TargetHud: return "target_hud";
         case ElementType::HardwareStats: return "hardware_stats";
+        case ElementType::Direction: return "direction";
+        case ElementType::SpeedMeter: return "speed_meter";
     }
     return "watermark";
 }
@@ -25,8 +30,11 @@ bool typeFromName(const std::string& name, ElementType& out) {
                                ElementType::Coordinates,    ElementType::Cps,
                                ElementType::ModuleList,     ElementType::Notifications,
                                ElementType::Armor,          ElementType::Health,
-                               ElementType::Hunger,         ElementType::Keystrokes,
-                               ElementType::TargetHud,      ElementType::HardwareStats};
+                               ElementType::LowHealth,       ElementType::Hunger,
+                               ElementType::EntityCounter,   ElementType::Tps,
+                               ElementType::Keystrokes,
+                               ElementType::TargetHud,      ElementType::HardwareStats,
+                               ElementType::Direction,      ElementType::SpeedMeter};
     for (const auto t : all) {
         if (typeName(t) == name) {
             out = t;

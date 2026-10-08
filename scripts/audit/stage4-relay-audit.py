@@ -66,9 +66,12 @@ def main() -> int:
                 line = low.count("\n", 0, m.start()) + 1
                 failures.append(f"{path.name}:{line}: forbidden '{word}'")
         # Stage-4/5 provider code opens no sockets (in-memory only).
+        # Lookbehind skips method calls (`m.bind(`, `x->send(`) — those are
+        # domain APIs (e.g. KeybindManager::bind); `::bind(` and bare
+        # `bind(` still match. Substring `in` false-positived on `.bind(`.
         if "test_" not in path.name:
             for api in SOCKET_APIS:
-                if api in low:
+                if re.search(r"(?<![\w.])" + re.escape(api), low):
                     failures.append(f"{path.name}: socket API '{api}' present")
     for path in SCOPED_NET:
         if not path.is_file():

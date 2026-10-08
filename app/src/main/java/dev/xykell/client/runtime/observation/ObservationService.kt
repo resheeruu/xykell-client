@@ -18,7 +18,9 @@ import androidx.core.app.ServiceCompat
  * Started/stopped ONLY by the Activity (no receiver, no boot path, no
  * auto-start). Owns exactly one LoopbackWebSocket session, one
  * LiveProducer handoff, and forwards Translated items to the native
- * consumer via Observations offers. Session policy lives in
+ * consumer via Observations offers. Also attaches the local relay tap
+ * feed (ObservationExternal) for the session's lifetime — process-local
+ * only, no IPC surface. Session policy lives in
  * ObservationStateMachine (pure, unit-tested): no reconnect — any
  * close/failure ends the session and only another explicit Start begins
  * a new one. Process death leaves nothing behind (no persistence
@@ -27,11 +29,16 @@ import androidx.core.app.ServiceCompat
 class ObservationService : Service() {
 
     private var socket: LoopbackWebSocket? = null
+    private var feed: ObservationFeedServer? = null
     private val producer = LiveProducer()
     private val fsm = ObservationStateMachine()
     private var malformedDropped: Long = 0L
     private var chatCount = 0
     private var travelCount = 0
+    private var vitalsCount = 0
+    private var populationCount = 0
+    // Two writers share the handoff: ws callback thread + relay tap thread.
+    private val acceptLock = Any()
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -71,12 +78,33 @@ class ObservationService : Service() {
         }
         chatCount = 0
         travelCount = 0
+        vitalsCount = 0
+        populationCount = 0
         malformedDropped = 0
         producer.clear()
         Companion.observed.clear()
         syncCompanion()
+        startFeed()
+        // Relay tap feed (Phase P): joins the session only while observing;
+        // tearDown detaches, so offer() reports drop when observation is off.
+        ObservationExternal.attach(::accept)
         socket = LoopbackWebSocket(Handler(), LoopbackWebSocket::defaultClient)
         socket?.start()
+    }
+
+    // Bounded handoff, shared by both writers: offer, then synchronously
+    // drain on the calling thread (no extra thread, no backlog). One lock
+    // around the drain so ws + relay threads never interleave counters.
+    private fun accept(item: Translated) {
+        synchronized(acceptLock) {
+            producer.offer(item)
+            while (true) {
+                val next = producer.pollNext()
+                if (next.poll != LiveProducer.Poll.ITEM || next.item == null) break
+                forward(next.item)
+            }
+        }
+        refreshNotification()
     }
 
     private inner class Handler : LoopbackWebSocket.Events {
@@ -88,15 +116,7 @@ class ObservationService : Service() {
         }
 
         override fun onTranslated(item: Translated) {
-            // Bounded handoff stays in the path: offer, then synchronously
-            // drain on this callback thread (no extra thread, no backlog).
-            producer.offer(item)
-            while (true) {
-                val next = producer.pollNext()
-                if (next.poll != LiveProducer.Poll.ITEM || next.item == null) break
-                forward(next.item)
-            }
-            refreshNotification()
+            accept(item)
         }
 
         override fun onDroppedMalformed() {
@@ -125,6 +145,8 @@ class ObservationService : Service() {
         when (item) {
             is ChatMessage -> chatCount++
             is Travelled -> travelCount++
+            is dev.xykell.client.runtime.observation.Vitals -> vitalsCount++
+            is dev.xykell.client.runtime.observation.Population -> populationCount++
             is UnknownFrame -> Unit
         }
         // Kotlin-side state first: pure memory, always available even when the
@@ -139,6 +161,8 @@ class ObservationService : Service() {
                     item.x, item.y, item.z, item.yawDegrees,
                     item.metersTravelled, item.travelMethod,
                 )
+                is dev.xykell.client.runtime.observation.Vitals -> Unit
+                is dev.xykell.client.runtime.observation.Population -> Unit
                 is UnknownFrame -> Unit
             }
         } catch (_: Exception) {
@@ -155,6 +179,12 @@ class ObservationService : Service() {
                     item.x, item.y, item.z, item.yawDegrees,
                     item.metersTravelled, item.travelMethod,
                 )
+                is dev.xykell.client.runtime.observation.Population -> Observations.offerPopulation(
+                    item.eventId, item.observedAtMs, item.entityCount, item.playerCount,
+                )
+                is dev.xykell.client.runtime.observation.Vitals -> Observations.offerVitals(
+                    item.eventId, item.observedAtMs, item.health, item.timeTicks,
+                )
                 is UnknownFrame -> Observations.offerUnknown(
                     item.eventId, item.wireLength.toLong(), item.reason, item.observedAtMs,
                 )
@@ -162,9 +192,30 @@ class ObservationService : Service() {
         } catch (e: UnsatisfiedLinkError) {
             // Native bridge absent: observations stay local (counts still move).
         }
+        // Game-process feed (Phase F): publish outside every other path's
+        // way. Failure here never affects the session or the counters.
+        val wire = ObservationFeedWire.encode(item)
+        if (wire != null) {
+            try {
+                feed?.publish(wire.first, wire.second)
+            } catch (_: Exception) {
+                // Feed is an enhancement: on error the game HUD stays "--".
+            }
+        }
+    }
+
+    private fun startFeed() {
+        if (feed?.isOpen == true) return
+        try {
+            feed = ObservationFeedServer().also { it.start() }
+        } catch (_: Exception) {
+            // Bind failure (port taken): no feed; session must still run.
+            feed = null
+        }
     }
 
     private fun tearDown() {
+        ObservationExternal.detach()
         try {
             socket?.close()
         } catch (_: Exception) {
@@ -184,6 +235,11 @@ class ObservationService : Service() {
             fsm.stop("")
         }
         tearDown()
+        try {
+            feed?.close()
+        } catch (_: Exception) {
+        }
+        feed = null
         syncCompanion()
         super.onDestroy()
     }
@@ -192,7 +248,7 @@ class ObservationService : Service() {
         ensureChannel()
         // Counts/state only. NEVER message text, names, positions, keys,
         // ciphertext, or diagnostics payloads.
-        val text = "State: $state | chat: $chatCount travel: $travelCount" +
+        val text = "State: $state | chat: $chatCount travel: $travelCount vitals: $vitalsCount pop: $populationCount" +
             (if (fsm.detail.isNotEmpty()) " | ${fsm.detail}" else "")
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Xykell observation")

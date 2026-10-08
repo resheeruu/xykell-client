@@ -23,6 +23,15 @@ enum class ElementType {
     Notifications,
     Armor,
     Health,
+    // "LOW" alert while the observed health (SetHealth 0x2A) is at or under a
+    // threshold. Renders kUnavailable when health has never been observed, so
+    // an unknown value never reads as an alarm.
+    LowHealth,
+    // Observed entity count from the relay's entity table, and the server's
+    // own tick rate derived from two SetTime samples. Both render
+    // kUnavailable before enough has been observed.
+    EntityCounter,
+    Tps,
     Hunger,
     Keystrokes,
     TargetHud,
@@ -30,6 +39,11 @@ enum class ElementType {
     // provider that read real measurements; with no provider it renders
     // kUnavailable, so it never shows invented numbers.
     HardwareStats,
+    // Motion readouts fed from observed travel (Stage 12 snapshot):
+    // 8-point compass from yaw, meters-per-second between observations.
+    // Unbound/empty feed renders kUnavailable — never invented motion.
+    Direction,
+    SpeedMeter,
 };
 
 std::string typeName(ElementType t);

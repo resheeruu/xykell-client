@@ -36,6 +36,36 @@ data class Travelled(
     val travelMethod: Int,
 ) : Translated
 
+/**
+ * Observed vitals, straight off the wire.
+ *
+ * [health] and [timeTicks] are null when that packet was not part of *this*
+ * observation, never zero — SetHealth 0x2A and SetTime 0x0A arrive on
+ * independent cadences, so a clock-only observation must not blank the health
+ * the HUD is already showing. Units are the server's own (health arrives as 20
+ * for a full bar); no maximum is invented, because the server never states one.
+ */
+data class Vitals(
+    override val eventId: String,
+    override val observedAtMs: Long,
+    val health: Int?,
+    val timeTicks: Int?,
+) : Translated
+
+/**
+ * How many entities the relay currently tracks.
+ *
+ * A count of what the relay has been *told about*, never a claim about the
+ * world: an entity the server never announced is absent here, and that is the
+ * honest reading rather than a defect.
+ */
+data class Population(
+    override val eventId: String,
+    override val observedAtMs: Long,
+    val entityCount: Int,
+    val playerCount: Int,
+) : Translated
+
 data class UnknownFrame(
     override val eventId: String,
     override val observedAtMs: Long,

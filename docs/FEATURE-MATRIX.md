@@ -1,6 +1,6 @@
 # Xykell — Feature Matrix
 
-Machine truth moved to `registry/features.json` (225 entries, v2 ids
+Machine truth moved to `registry/features.json` (258 entries, v2 ids
 `xykell.<category>.<suffix>`, 15 categories) + generated
 `docs/MODULE-CATALOG.md`. The tables below are the Phase-0 baseline, kept
 for history; do not extend them — extend the registry.

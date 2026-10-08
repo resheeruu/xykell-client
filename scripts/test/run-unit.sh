@@ -25,7 +25,7 @@ run_case() { # name, sources...
     local name="$1"; shift
     local t0 t1
     t0=$(date +%s)
-    "$CXX_BIN" -std=c++20 -Wall -Wextra -Werror -I "$ROOT/native/include" "$@" \
+    "$CXX_BIN" -std=c++20 -Wall -Wextra -Werror -pthread -I "$ROOT/native/include" "$@" \
         -o "$WORK/$name"
     # A failing suite must still be reported with its own timing, and must not
     # abort the run before the remaining suites execute.
@@ -106,7 +106,8 @@ run_case test_portal "$ROOT/tests/unit/test_portal.cpp" \
     "$SRC/xykell_profile_manager.cpp" "$SRC/xykell_module_manager.cpp" \
     "$SRC/xykell_gui_controller.cpp" "$SRC/xykell_input_router.cpp" \
     "$SRC/xykell_clickgui_model.cpp" "$SRC/xykell_file_util.cpp" \
-    "$SRC/xykell_runtime_active.cpp" "$SRC/xykell_portal.cpp" "$SRC/xykell_runtime_probe.cpp"
+    "$SRC/xykell_runtime_active.cpp" "$SRC/xykell_portal.cpp" "$SRC/xykell_runtime_probe.cpp" \
+    "$SRC/xykell_observation_feed.cpp"
 run_case test_detection "$ROOT/tests/unit/test_detection.cpp" \
     "$SRC/xykell_detection.cpp"
 run_case test_planner "$ROOT/tests/unit/test_planner.cpp" \
@@ -126,8 +127,13 @@ run_case test_runtime_session "$ROOT/tests/unit/test_runtime_session.cpp" \
 run_case test_runtime_observation "$ROOT/tests/unit/test_runtime_observation.cpp"
 run_case test_observation_consumer "$ROOT/tests/unit/test_observation_consumer.cpp"
 run_case test_observation_source "$ROOT/tests/unit/test_observation_source.cpp"
+run_case test_motion_hud "$ROOT/tests/unit/test_motion_hud.cpp" \
+    "$SRC/xykell_json_min.cpp" "$SRC/xykell_hud_model.cpp" "$SRC/xykell_module_manager.cpp"
+run_case test_feed_client "$ROOT/tests/unit/test_feed_client.cpp" \
+    "$SRC/xykell_feed_client.cpp" "$SRC/xykell_json_min.cpp" \
+    "$SRC/xykell_observation_feed.cpp"
 # Count is enforced: a silently dropped suite is a coverage regression.
-EXPECTED_SUITES=35
+EXPECTED_SUITES=37
 if [ "$pass" -ne "$EXPECTED_SUITES" ]; then
     echo "UNIT: FAIL — ran $pass suites, expected $EXPECTED_SUITES" >&2
     exit 1

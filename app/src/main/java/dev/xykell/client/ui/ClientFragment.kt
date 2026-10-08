@@ -59,11 +59,23 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         container.addView(action(R.string.nav_waypoints, R.string.nav_waypoints_desc) {
             openSub(SubScreen.Waypoints)
         })
+        container.addView(action(R.string.nav_friends, R.string.nav_friends_desc) {
+            openSub(SubScreen.Friends)
+        })
         container.addView(action(R.string.nav_timer, R.string.nav_timer_desc) {
             openSub(SubScreen.Timer)
         })
         container.addView(action(R.string.nav_screenshot, R.string.nav_screenshot_desc) {
             openSub(SubScreen.Screenshot)
+        })
+        container.addView(action(R.string.nav_autoclicker, R.string.nav_autoclicker_desc) {
+            openSub(SubScreen.Autoclicker)
+        })
+        container.addView(action(R.string.nav_relay, R.string.nav_relay_desc) {
+            openSub(SubScreen.Relay)
+        })
+        container.addView(action(R.string.nav_diagnostics, R.string.nav_diagnostics_desc) {
+            openSub(SubScreen.Diagnostics)
         })
         container.addView(action(R.string.nav_about, R.string.nav_about_desc) {
             openSub(SubScreen.About)
@@ -80,7 +92,8 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
      */
     enum class SubScreen {
         Versions, Modules, Settings, Keybinds, Themes, Performance,
-        Chat, Network, Waypoints, Timer, Screenshot, About;
+        Chat, Network, Waypoints, Friends, Timer, Screenshot, Autoclicker,
+        Relay, Diagnostics, About;
 
         fun titleRes(): Int = when (this) {
             Versions -> R.string.nav_versions
@@ -92,8 +105,12 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
             Chat -> R.string.nav_chat
             Network -> R.string.nav_network
             Waypoints -> R.string.nav_waypoints
+            Friends -> R.string.nav_friends
             Timer -> R.string.nav_timer
             Screenshot -> R.string.nav_screenshot
+            Autoclicker -> R.string.nav_autoclicker
+            Relay -> R.string.nav_relay
+            Diagnostics -> R.string.nav_diagnostics
             About -> R.string.nav_about
         }
     }
@@ -108,8 +125,12 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         SubScreen.Chat -> ChatFragment()
         SubScreen.Network -> NetworkFragment()
         SubScreen.Waypoints -> WaypointsFragment()
+        SubScreen.Friends -> FriendsFragment()
         SubScreen.Timer -> TimerFragment()
         SubScreen.Screenshot -> ScreenshotFragment()
+        SubScreen.Autoclicker -> AutoclickerFragment()
+        SubScreen.Relay -> RelayFragment()
+        SubScreen.Diagnostics -> DiagnosticsFragment()
         SubScreen.About -> AboutFragment()
     }
 

@@ -243,6 +243,29 @@ class ObservationPipelineTest {
         assertEquals(listOf("PlayerMessage", "PlayerTravelled"), LoopbackWebSocket.SUBSCRIBED_EVENTS)
     }
 
+    @Test
+    fun observationExternal_attachOffersDetachDrops() {
+        val seen = mutableListOf<Translated>()
+        try {
+            // No sink: offer reports drop, never throws.
+            assertEquals(false, ObservationExternal.offer(
+                ChatMessage("relay-x", 1L, "a", "b"),
+            ))
+            ObservationExternal.attach { seen.add(it) }
+            assertEquals(true, ObservationExternal.offer(
+                ChatMessage("relay-1", 1L, "a", "b"),
+            ))
+            assertEquals(1, seen.size)
+            ObservationExternal.detach()
+            assertEquals(false, ObservationExternal.offer(
+                ChatMessage("relay-2", 2L, "c", "d"),
+            ))
+            assertEquals(1, seen.size)
+        } finally {
+            ObservationExternal.detach()
+        }
+    }
+
     private fun hex(s: String): ByteArray {
         require(s.length % 2 == 0)
         return ByteArray(s.length / 2) { i ->

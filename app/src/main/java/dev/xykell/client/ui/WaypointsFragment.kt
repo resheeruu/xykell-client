@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dev.xykell.client.R
 import dev.xykell.client.runtime.observation.ObservationService
+import dev.xykell.client.runtime.world.MarkerMath
 import dev.xykell.client.runtime.world.WaypointStore
 
 /**
@@ -97,12 +98,25 @@ class WaypointsFragment : Fragment(R.layout.fragment_waypoints) {
         renderList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        renderList() // refresh marker readouts against the latest observed position
+    }
+
     private fun renderList() {
         val list = listView ?: return
         list.removeAllViews()
         val points = store.sorted()
         emptyView?.visibility = if (points.isEmpty()) View.VISIBLE else View.GONE
         emptyView?.text = getString(R.string.waypoints_empty)
+
+        // Live marker readout: distance/bearing to each stored point from the
+        // observed PlayerTravelled position. Observation carries no dimension,
+        // so a reading is raw coordinate geometry, not a scaled world distance.
+        val motion = ObservationService.observedState().motion
+        val px = motion?.x
+        val pz = motion?.z
+        val my = motion?.y
 
         val pad = (16 * resources.displayMetrics.density).toInt()
         for (p in points) {
@@ -112,10 +126,13 @@ class WaypointsFragment : Fragment(R.layout.fragment_waypoints) {
                 setPadding(0, pad / 2, 0, pad / 2)
             }
             val label = TextView(requireContext()).apply {
-                text = getString(
+                val base = getString(
                     R.string.waypoint_row_format,
                     p.name, p.dimension, p.x, p.y, p.z,
                 )
+                val marker = markerReadout(px, pz, my, p)
+                text = if (marker == null) base
+                else base + getString(R.string.waypoint_row_distance, marker)
                 textSize = 13f
                 setTextColor(androidx.core.content.ContextCompat.getColor(
                     requireContext(), R.color.xykell_text))
@@ -137,6 +154,20 @@ class WaypointsFragment : Fragment(R.layout.fragment_waypoints) {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
             ))
         }
+    }
+
+    /** "123m NE" for this point against the observed position, else null. */
+    private fun markerReadout(
+        px: Double?,
+        pz: Double?,
+        my: Double?,
+        p: WaypointStore.Waypoint,
+    ): String? {
+        if (px == null || pz == null || !px.isFinite() || !pz.isFinite()) return null
+        val bothY = my != null && my.isFinite()
+        val d = if (bothY) MarkerMath.distance(px, my!!, pz, p.x, p.y, p.z)
+        else MarkerMath.distance(px, 0.0, pz, p.x, 0.0, p.z)
+        return MarkerMath.describe(d, MarkerMath.bearing(px, pz, p.x, p.z))
     }
 
     private fun formatCoord(value: Double): String =
