@@ -83,6 +83,25 @@ object ModuleWire {
 
     fun writeVarInt(value: Int): ByteArray = writeVarUInt((value shl 1) xor (value shr 31))
 
+    /**
+     * LEB128 64-bit varint -- the framing a runtime id uses on the wire.
+     * Matches how EntityTable reads one, so a module and the table agree on
+     * where the next field starts.
+     */
+    fun readVarLong(buf: ByteArray, offset: Int): Pair<Long, Int>? {
+        var result = 0L
+        var shift = 0
+        var i = offset
+        while (i < buf.size && shift < 64) {
+            val b = buf[i].toInt() and 0xff
+            result = result or ((b and 0x7f).toLong() shl shift)
+            i++
+            if (b and 0x80 == 0) return result to i
+            shift += 7
+        }
+        return null
+    }
+
     /** varuint32-length-prefixed UTF-8 string, as value + offset past it. */
     fun readVarString(buf: ByteArray, offset: Int): Pair<String, Int>? {
         val (len, next) = readVarUInt(buf, offset) ?: return null

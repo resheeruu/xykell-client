@@ -3,6 +3,20 @@
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [Unreleased]
+- **`combat.backtrack` delivered, and two capabilities added to unblock it.**
+  Its `IMPOSSIBLE` reason was specific: "ctx.entities holds each entity's latest
+  position and overwrites it on every move ... ModuleContext exposes no field in
+  which a lookback ring could be kept." Both halves were true, so both were
+  fixed rather than argued away. `EntityTable` now keeps a bounded 20-sample
+  position ring per entity, dropped with the entity on eviction so a long
+  session cannot grow it; `ModuleContext` gained an injected monotonic clock
+  (`System.nanoTime`, not a wall clock that can jump), because `ctx.tick` counts
+  packets and is not elapsed time. The transform rewrites clientbound
+  `MovePlayer 0x13` to the position the entity held N ticks ago, leaves the
+  outbound leg alone — the player's own movement must stay truthful or the
+  server corrects it — and **forwards untouched when the entity has no history
+  yet**, because silently freezing a first-seen target would look identical to a
+  working module.
 - **The HUD is now actually drawn over the game.** Until now `HudPreview` was
   structural text in the launcher and there was no overlay window at all, so no
   HUD value had ever been visible in a session. `HudOverlayService` paints a

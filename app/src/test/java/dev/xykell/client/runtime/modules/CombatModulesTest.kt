@@ -49,6 +49,27 @@ class CombatModulesTest {
             ModuleWire.writeVarUInt(42),
         )
 
+    /**
+     * Clientbound MovePlayer 0x13: varint runtime id, then x/y/z f32 LE and the
+     * three angles. The runtime id is a varint here to match the entity table's
+     * framing, which is what `ModuleWire.readVarLong` was written against.
+     */
+    private fun movePlayer(
+        x: Float,
+        y: Float,
+        z: Float,
+        runtimeId: Int = 1,
+    ): ByteArray = ModuleWire.build(
+        0x13,
+        ModuleWire.writeVarUInt(runtimeId),
+        ModuleWire.writeF32LE(x),
+        ModuleWire.writeF32LE(y),
+        ModuleWire.writeF32LE(z),
+        ModuleWire.writeF32LE(0f),
+        ModuleWire.writeF32LE(0f),
+        ModuleWire.writeF32LE(0f),
+    )
+
     /** EntityEvent 0x1B, the id the hand-written table used to call SetActorMotion. */
     private fun entityEvent(eventId: Int = 2): ByteArray = ModuleWire.build(0x1b, byteArrayOf(eventId.toByte()))
 
@@ -348,6 +369,115 @@ class CombatModulesTest {
         }
     }
 
+    // ------------------------------------------------------------- backtrack
+
+    private fun ctxWithHistory(vararg positions: Triple<Float, Float, Float>): ModuleContext {
+        // The window is pinned to 2 ticks so the lookback target is unambiguous
+        // no matter how many samples a case feeds.
+        val ctx = ModuleContext(
+            settings = mutableMapOf(CombatModules.SETTING_BACKTRACK_TICKS to "2"),
+        )
+        // Each move lands on its own tick, so the lookback window can be
+        // exercised without sleeping on a real clock.
+        for ((x, y, z) in positions) {
+            ctx.onTick()
+            ctx.entities.observe(movePlayer(x, y, z), 99L)
+        }
+        return ctx
+    }
+
+    private fun readXYZ(raw: ByteArray): Triple<Float, Float, Float> {
+        val body = ModuleWire.bodyStart(raw)!!
+        val (_, afterId) = ModuleWire.readVarLong(raw, body)!!
+        val (x, ax) = ModuleWire.readF32LE(raw, afterId)!!
+        val (y, ay) = ModuleWire.readF32LE(raw, ax)!!
+        val (z, _) = ModuleWire.readF32LE(raw, ay)!!
+        return Triple(x, y, z)
+    }
+
+    @Test
+    fun backtrackRewritesToTheOlderPosition() {
+        val ctx = ctxWithHistory(
+            Triple(10f, 64f, 10f),
+            Triple(20f, 64f, 20f),
+            Triple(30f, 64f, 30f),
+        )
+        // The newest recorded position is (30,64,30); looking back two ticks
+        // must land on (10,64,10), not on the position in the packet.
+        val out = CombatModules.transform(
+            "xykell.combat.backtrack",
+            RelayDirection.TO_CLIENT,
+            movePlayer(30f, 64f, 30f),
+            ctx,
+        )
+        assertEquals(1, out.size)
+        assertEquals(Triple(10f, 64f, 10f), readXYZ(out[0]))
+    }
+
+    @Test
+    fun backtrackForwardsUntouchedWhenThereIsNoHistory() {
+        // Only one position has ever been seen, so a one-tick lookback has
+        // nothing behind it. Freezing the entity here would look identical to a
+        // working module while pinning every first-seen target.
+        val ctx = ctxWithHistory(Triple(5f, 70f, 5f))
+        val raw = movePlayer(99f, 70f, 99f, runtimeId = 7)
+        val out = CombatModules.transform(
+            "xykell.combat.backtrack",
+            RelayDirection.TO_CLIENT,
+            raw,
+            ctx,
+        )
+        assertTrue(raw.contentEquals(out[0]))
+    }
+
+    @Test
+    fun backtrackNeverTouchesTheOutboundLeg() {
+        val ctx = ctxWithHistory(Triple(10f, 64f, 10f), Triple(20f, 64f, 20f))
+        val raw = movePlayer(20f, 64f, 20f)
+        val out = CombatModules.transform(
+            "xykell.combat.backtrack",
+            RelayDirection.TO_SERVER,
+            raw,
+            ctx,
+        )
+        assertTrue(
+            "rewriting the player's own outbound position would just be corrected",
+            raw.contentEquals(out[0]),
+        )
+    }
+
+    @Test
+    fun backtrackIsOffWhenTheWindowIsZeroOrNegative() {
+        val ctx = ModuleContext(
+            settings = mutableMapOf(CombatModules.SETTING_BACKTRACK_TICKS to "0"),
+        )
+        ctx.onTick()
+        ctx.entities.observe(movePlayer(1f, 2f, 3f), 99L)
+        ctx.onTick()
+        ctx.entities.observe(movePlayer(9f, 9f, 9f), 99L)
+        val raw = movePlayer(9f, 9f, 9f)
+        val out = CombatModules.transform(
+            "xykell.combat.backtrack",
+            RelayDirection.TO_CLIENT,
+            raw,
+            ctx,
+        )
+        assertTrue(raw.contentEquals(out[0]))
+    }
+
+    @Test
+    fun backtrackIgnoresPacketsThatCarryNoPosition() {
+        val ctx = ctxWithHistory(Triple(1f, 2f, 3f), Triple(4f, 5f, 6f))
+        val raw = setEntityMotion(1f, 2f, 3f)
+        val out = CombatModules.transform(
+            "xykell.combat.backtrack",
+            RelayDirection.TO_CLIENT,
+            raw,
+            ctx,
+        )
+        assertTrue(raw.contentEquals(out[0]))
+    }
+
     @Test
     fun implementedAndImpossibleAreDisjointAndNonEmpty() {
         assertFalse(CombatModules.IMPLEMENTED.isEmpty())
@@ -364,10 +494,24 @@ class CombatModulesTest {
         // the packet and the leg it actually acts on. The input-plan ids rewrite
         // no bytes at all, so they are checked separately below — asserting they
         // forward here would assert the opposite of correct.
+        // The fourth case carries its own context: backtrack correctly forwards
+        // when the entity has no history yet, so asserting on a bare context
+        // would demand the module misbehave.
         val cases = listOf(
-            Triple("xykell.combat.velocity", RelayDirection.TO_CLIENT, setEntityMotion(0.4f, 0.6f, 0f)),
-            Triple("xykell.combat.knockback", RelayDirection.TO_CLIENT, setEntityMotion(0.4f, 0.6f, 0f)),
-            Triple("xykell.combat.auto_crit", RelayDirection.TO_SERVER, playerAuthInput(pitch = 12f)),
+            Triple("xykell.combat.velocity", RelayDirection.TO_CLIENT, setEntityMotion(0.4f, 0.6f, 0f)) to
+                { ModuleContext() },
+            Triple("xykell.combat.knockback", RelayDirection.TO_CLIENT, setEntityMotion(0.4f, 0.6f, 0f)) to
+                { ModuleContext() },
+            Triple("xykell.combat.auto_crit", RelayDirection.TO_SERVER, playerAuthInput(pitch = 12f)) to
+                { ModuleContext() },
+            Triple("xykell.combat.backtrack", RelayDirection.TO_CLIENT, movePlayer(3f, 4f, 5f)) to
+                {
+                    ctxWithHistory(
+                        Triple(1f, 2f, 3f),
+                        Triple(9f, 9f, 9f),
+                        Triple(3f, 4f, 5f),
+                    )
+                },
         )
         val planIds = setOf(
             "xykell.combat.afk_clicker",
@@ -375,10 +519,11 @@ class CombatModulesTest {
         )
         assertEquals(
             CombatModules.IMPLEMENTED,
-            cases.map { it.first }.toSet() + planIds,
+            cases.map { it.first.first }.toSet() + planIds,
         )
-        for ((id, leg, packet) in cases) {
-            val out = CombatModules.transform(id, leg, packet, ModuleContext())
+        for ((case, makeCtx) in cases) {
+            val (id, leg, packet) = case
+            val out = CombatModules.transform(id, leg, packet, makeCtx())
             assertFalse(
                 "id $id forwards unchanged but is listed as implemented",
                 out.size == 1 && out[0].contentEquals(packet),
@@ -388,7 +533,7 @@ class CombatModulesTest {
 
     @Test
     fun everyImpossibleIdHasAReason() {
-        assertEquals(25, CombatModules.IMPOSSIBLE.size)
+        assertEquals(24, CombatModules.IMPOSSIBLE.size)
         for ((id, reason) in CombatModules.IMPOSSIBLE) {
             assertTrue("id $id has an empty reason", reason.isNotBlank())
             assertTrue("id $id reason is too short to be concrete", reason.length > 30)

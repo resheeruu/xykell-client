@@ -169,6 +169,7 @@ class ModuleRuntime(
             // motion filters
             "xykell.combat.velocity",
             "xykell.combat.knockback",
+            "xykell.combat.backtrack",
             "xykell.movement.movement_correction",
             // position rewrites
             "xykell.movement.levitate",

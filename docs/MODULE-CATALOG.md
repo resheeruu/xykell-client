@@ -7,7 +7,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 118
+- PARTIAL: 119
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 0
 - INCOMPATIBLE: 0
@@ -64,7 +64,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.combat.velocity` — Velocity: **PARTIAL** (requires FRAME,PLAYER; evidence: P2b/T: RelayListener transform drops SetEntityMotion 0x28 on the server->game leg only, so the player's own outbound motion survives (0x1B is EntityEvent, the jump/hurt animation); host test_combatmodules (25 tests))
 - `xykell.combat.knockback` — Knockback: **PARTIAL** (requires FRAME,PLAYER; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.combat.knockback_delay` — Knockback Delay: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
-- `xykell.combat.backtrack` — Backtrack: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
+- `xykell.combat.backtrack` — Backtrack: **PARTIAL** (requires FRAME,PLAYER; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.combat.auto_crit` — Auto Crit: **PARTIAL** (requires FRAME,PLAYER; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.combat.auto_totem` — Auto Totem: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.auto_potion` — Auto Potion: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)

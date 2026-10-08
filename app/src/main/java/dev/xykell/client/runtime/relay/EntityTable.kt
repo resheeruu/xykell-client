@@ -39,6 +39,16 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
 
     private val entities = LinkedHashMap<Long, Entity>()
 
+    /**
+     * Bounded position history per entity, oldest first.
+     *
+     * The table keeps only the latest position, so a module that needs to send
+     * an entity *back* to where it was (backtrack) has nothing to replay. This
+     * ring is that memory. It is bounded per entity and cleared on eviction so
+     * it cannot grow with session length.
+     */
+    private val history = LinkedHashMap<Long, ArrayDeque<Sample>>()
+
     var tick: Long = 0
         private set
 
@@ -48,8 +58,34 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
 
     fun get(runtimeId: Long): Entity? = entities[runtimeId]
 
+    /** One historical position. [tick] is the logical tick it was seen on. */
+    data class Sample(val tick: Long, val x: Float, val y: Float, val z: Float)
+
     fun clear() {
         entities.clear()
+        history.clear()
+    }
+
+    /**
+     * The position [ageTicks] ticks ago, or null when the entity is unknown or
+     * has not been around long enough. Null is the honest answer here: a
+     * lookback with nothing behind it must not silently mean "stay put".
+     */
+    fun positionAgo(runtimeId: Long, ageTicks: Long): Sample? {
+        if (ageTicks <= 0L) return null
+        val ring = history[runtimeId] ?: return null
+        val target = tick - ageTicks
+        // Newest first: the first sample at or before the target is the answer.
+        for (s in ring.asReversed()) {
+            if (s.tick <= target) return s
+        }
+        return null
+    }
+
+    private fun record(runtimeId: Long, x: Float, y: Float, z: Float) {
+        val ring = history.getOrPut(runtimeId) { ArrayDeque() }
+        ring.addLast(Sample(tick, x, y, z))
+        while (ring.size > HISTORY) ring.removeFirst()
     }
 
     /** Advance the logical clock used for last-seen eviction. */
@@ -144,15 +180,22 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
         entities[runtimeId] = existing.copy(
             x = x, y = y, z = z, pitch = pitch, yaw = yaw, headYaw = headYaw, lastSeenTick = tick,
         )
+        // A move is the only way a position changes, so this is where a
+        // lookback sample comes from -- put() covers spawns and late joins.
+        record(runtimeId, x, y, z)
         return true
     }
 
     private fun put(e: Entity) {
         entities.remove(e.runtimeId)
         entities[e.runtimeId] = e
+        record(e.runtimeId, e.x, e.y, e.z)
         while (entities.size > maxEntities) {
             val oldest = entities.entries.minByOrNull { it.value.lastSeenTick } ?: return
             entities.remove(oldest.key)
+            // History is dropped with its entity: a bounded table must not keep
+            // rings for entities it has already forgotten.
+            history.remove(oldest.key)
         }
     }
 
@@ -240,6 +283,9 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
     companion object {
         const val NO_SELF = Long.MIN_VALUE
         const val MAX_ENTITIES = 2048
+
+        /** Positions kept per entity for lookback (backtrack). */
+        const val HISTORY = 20
         const val TYPE_PLAYER = "player"
         const val TYPE_UNKNOWN = "unknown"
 

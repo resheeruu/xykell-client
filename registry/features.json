@@ -6801,7 +6801,7 @@
       "name": "Backtrack",
       "category": "COMBAT",
       "description": "Backtrack (COMBAT).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6850,8 +6850,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "needs a per-target position *history* window: ctx.entities holds each entity's latest  position and overwrites it on every move, so an old position cannot be replayed, and  ModuleContext exposes no field in which a lookback ring could be kept."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.combat.auto_crit",

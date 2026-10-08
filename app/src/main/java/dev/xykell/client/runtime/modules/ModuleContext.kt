@@ -23,7 +23,28 @@ import kotlin.random.Random
 class ModuleContext(
     val entities: EntityTable = EntityTable(),
     val settings: MutableMap<String, String> = HashMap(),
+    /**
+     * Monotonic millisecond clock, injected so tests can drive time exactly
+     * and no module reaches for a global.
+     *
+     * `ctx.tick` counts what the relay has processed, which is not elapsed
+     * time: a session that sits still still has packets arriving, and a busy
+     * one does not tick in real time. Anything that must reason about *seconds*
+     * (a session timer, a double-tap gap, a delayed release) needs this, and
+     * `System.nanoTime` is the right source because it is monotonic on both
+     * the phone and the host JVM, unlike a wall clock that can jump.
+     */
+    private val clock: () -> Long = { System.nanoTime() / 1_000_000L },
 ) {
+    /** When this session started, on the same clock as [nowMs]. */
+    var sessionStartMs: Long = clock()
+        private set
+
+    /** Monotonic milliseconds right now. */
+    fun nowMs(): Long = clock()
+
+    /** Milliseconds since this session started; never negative. */
+    fun elapsedMs(): Long = (nowMs() - sessionStartMs).coerceAtLeast(0L)
     /** The local player's last position as reported by its own outbound packets. */
     var selfX: Float = 0f
         private set
@@ -100,6 +121,7 @@ class ModuleContext(
         tick = 0
         itemCooldownTicks = 0
         lastBiteTick = null
+        sessionStartMs = clock()
     }
 
     fun flag(name: String, fallback: Boolean = false): Boolean = when (settings[name]?.lowercase()) {

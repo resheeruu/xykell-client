@@ -42,6 +42,7 @@ object CombatModules {
         "xykell.combat.auto_crit",
         "xykell.combat.afk_clicker",
         "xykell.combat.double_click",
+        "xykell.combat.backtrack",
     )
 
     /** Tap points for the two input plans. */
@@ -83,9 +84,14 @@ object CombatModules {
     /**
      * Ids a relay genuinely cannot deliver, with the reason.
      *
-     * backtrack and mace_damage are the near misses: both are real packet
-     * rewrites blocked by a specific missing fact rather than by the old "a
-     * transform has no state" argument.
+     * mace_damage is the remaining near miss: a real packet rewrite blocked by
+     * a specific missing fact (the server computes mace damage from its own fall
+     * distance) rather than by the old "a transform has no state" argument.
+     *
+     * backtrack used to sit here, blocked on "ctx.entities holds each entity's
+     * latest position and overwrites it on every move". That was true until
+     * EntityTable grew a bounded lookback ring; the transform now reads a real
+     * historical position, and forwards untouched when there is none.
      *
      * afk_clicker and double_click used to sit here too, blocked on "a packet
      * hook cannot synthesise touch input". That is no longer true: the tap
@@ -119,10 +125,6 @@ object CombatModules {
         "xykell.combat.knockback_delay" to
             "needs a timed queue between the two legs; a transform returns immediately and ctx has no " +
             "queue, only the last position and a logical tick.",
-        "xykell.combat.backtrack" to
-            "needs a per-target position *history* window: ctx.entities holds each entity's latest " +
-            "position and overwrites it on every move, so an old position cannot be replayed, and " +
-            "ModuleContext exposes no field in which a lookback ring could be kept.",
         "xykell.combat.auto_totem" to
             "needs the offhand totem read from the inventory; no container packet is decoded",
         "xykell.combat.auto_potion" to
@@ -173,6 +175,14 @@ object CombatModules {
      */
     val SET_ENTITY_MOTION: Int = BedrockPacketIds.infoOf("SetEntityMotion")!!.id
 
+    /**
+     * MovePlayer, the packet that places a clientbound entity.
+     *
+     * Its clientbound form carries a position; the serverbound form carries
+     * flags instead, which is why backtrack is scoped to one direction.
+     */
+    val MOVE_PLAYER: Int = BedrockPacketIds.infoOf("MovePlayer")!!.id
+
     /** PlayerAuthInput, `bound: server` — the client's own per-tick input report. */
     val PLAYER_AUTH_INPUT: Int = BedrockPacketIds.infoOf("PlayerAuthInput")!!.id
 
@@ -184,6 +194,10 @@ object CombatModules {
 
     const val SETTING_KNOCKBACK_SCALE = "knockback_scale"
     const val SETTING_CRIT_PITCH = "crit_pitch"
+    const val SETTING_BACKTRACK_TICKS = "backtrack_ticks"
+
+    /** Ticks of lookback: long enough to matter, short enough to stay honest. */
+    const val DEFAULT_BACKTRACK_TICKS = 3
 
     fun transform(
         id: String,
@@ -194,6 +208,7 @@ object CombatModules {
         "xykell.combat.velocity" -> velocity(direction, packet)
         "xykell.combat.knockback" -> knockback(direction, packet, ctx)
         "xykell.combat.auto_crit" -> autoCrit(direction, packet, ctx)
+        "xykell.combat.backtrack" -> backtrack(direction, packet, ctx)
         else -> listOf(packet) // not in IMPLEMENTED: forward untouched
     }
 
@@ -231,6 +246,33 @@ object CombatModules {
         var out = ModuleWire.put(packet, velocity, ModuleWire.writeF32LE(x * scale))
         out = ModuleWire.put(out, velocity + 4, ModuleWire.writeF32LE(y * scale))
         return listOf(ModuleWire.put(out, velocity + 8, ModuleWire.writeF32LE(z * scale)))
+    }
+
+    /**
+     * backtrack: hold a clientbound entity at the position it held N ticks ago.
+     *
+     * The rewrite lands on [MOVE_PLAYER], which is the packet the game uses to
+     * place a clientbound entity, and only on [RelayDirection.TO_CLIENT]: the
+     * outbound leg is the local player's own movement and must stay truthful or
+     * the server will simply correct it.
+     *
+     * The position comes from the entity table's bounded lookback ring. If that
+     * entity has no history yet, the packet is forwarded untouched -- an absent
+     * history must not silently mean "freeze it where it is now", which would
+     * look like a working module while freezing every first-seen entity.
+     */
+    private fun backtrack(direction: RelayDirection, packet: ByteArray, ctx: ModuleContext): List<ByteArray> {
+        if (direction != RelayDirection.TO_CLIENT) return listOf(packet)
+        if (ModuleWire.id(packet) != MOVE_PLAYER) return listOf(packet)
+        val age = ctx.int(SETTING_BACKTRACK_TICKS, DEFAULT_BACKTRACK_TICKS).toLong()
+        if (age <= 0L) return listOf(packet)
+        val body = ModuleWire.bodyStart(packet) ?: return listOf(packet)
+        val (runtimeId, afterId) = ModuleWire.readVarLong(packet, body) ?: return listOf(packet)
+        val sample = ctx.entities.positionAgo(runtimeId, age) ?: return listOf(packet)
+        var out = ModuleWire.put(packet, afterId, ModuleWire.writeF32LE(sample.x))
+        out = ModuleWire.put(out, afterId + 4, ModuleWire.writeF32LE(sample.y))
+        out = ModuleWire.put(out, afterId + 8, ModuleWire.writeF32LE(sample.z))
+        return listOf(out)
     }
 
     /**
