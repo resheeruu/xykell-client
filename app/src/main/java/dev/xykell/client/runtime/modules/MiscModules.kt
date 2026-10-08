@@ -1,5 +1,6 @@
 package dev.xykell.client.runtime.modules
 
+import dev.xykell.client.runtime.cheat.MacroStep
 import dev.xykell.client.runtime.relay.RelayDirection
 /**
  * MISC batch: transforms for the ten `xykell.misc.*` ids.
@@ -44,6 +45,7 @@ object MiscModules {
 
     /** Ids with a real transform. */
     val IMPLEMENTED: Set<String> = setOf(
+        "xykell.misc.quick_drop",
         "xykell.misc.disabler",
         "xykell.misc.anti_weather",
         "xykell.misc.toggle_sprint",
@@ -57,12 +59,6 @@ object MiscModules {
             "packet. Camera 0x49 is the Education Edition camera bind (two entity " +
             "ids) and is client-bound, so it is not a perspective toggle either; " +
             "nothing the relay forwards decides which shoulder the client draws.",
-        "xykell.misc.quick_drop" to
-            "A drop is PlayerAction 0x24 with the DROP_ITEM action, which the " +
-            "relay must not originate — forging a client action is the forgery " +
-            "this client does not do. On a touch layout it is also a long press " +
-            "on a hotbar slot, and the accessibility surface injects fixed taps, " +
-            "not holds.",
         "xykell.misc.fake_op" to
             "server-authoritative: operator status is granted by the server, a " +
             "relayed packet edit cannot claim it, and the op level the HUD shows " +
@@ -84,6 +80,20 @@ object MiscModules {
             "long the item was held. The release is the game's own transaction, " +
             "so the relay cannot move it earlier without forging it.",
     )
+
+    /** The hotbar slot to long-press. */
+    const val QUICK_DROP_POINT = "quick_drop.point"
+
+    /**
+     * quick_drop's plan: one long press at the configured hotbar slot.
+     *
+     * Previously IMPOSSIBLE with the reason "the accessibility surface injects
+     * fixed taps, not holds". A hold is one parameter away —
+     * `GestureDescription.StrokeDuration` — and [MacroStep.holdMs] now carries
+     * it, so the reason no longer holds. The relay still never originates the
+     * PlayerAction 0x24 drop itself: the game sends that, the tap only asks.
+     */
+    fun quickDropPlan(ctx: ModuleContext): List<MacroStep> = TapPlan.hold(ctx, QUICK_DROP_POINT)
 
     fun transform(
         id: String,

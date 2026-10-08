@@ -1,7 +1,9 @@
 package dev.xykell.client.runtime.modules
 
+import dev.xykell.client.runtime.cheat.MacroStep
 import dev.xykell.client.runtime.relay.BedrockPacketIds
 import dev.xykell.client.runtime.relay.RelayDirection
+import kotlin.random.Random
 /**
  * Combat module transforms for the relay hook: one packet in, packets out.
  *
@@ -38,22 +40,63 @@ object CombatModules {
         "xykell.combat.velocity",
         "xykell.combat.knockback",
         "xykell.combat.auto_crit",
+        "xykell.combat.afk_clicker",
+        "xykell.combat.double_click",
     )
+
+    /** Tap points for the two input plans. */
+    const val AFK_CLICKER_POINT = "afk_clicker.point"
+    const val DOUBLE_CLICK_POINT = "double_click.point"
+
+    /**
+     * afk_clicker's plan: one tap at the configured point every
+     * `intervalTicks` ticks.
+     *
+     * This was IMPOSSIBLE with the reason "a packet hook cannot synthesise
+     * touch input", which is no longer true — [ModuleTapRunner] drives the same
+     * gesture surface a finger uses. Nothing is forged: the game still sends
+     * every attack, it is just asked to send it on a cadence.
+     */
+    fun afkClickerPlan(ctx: ModuleContext, random: Random): List<MacroStep> =
+        TapPlan.everyTicks(
+            ctx,
+            random,
+            AFK_CLICKER_POINT,
+            ctx.int("intervalTicks", DEFAULT_AFK_INTERVAL_TICKS).toLong(),
+        )
+
+    /**
+     * double_click's plan: two taps at the configured point. On a touch layout
+     * that IS the double click; the packet-level objection (re-sending an
+     * InventoryTransaction attack) does not apply because the game sends it.
+     */
+    fun doubleClickPlan(ctx: ModuleContext, random: Random): List<MacroStep> {
+        // Only on the due ticks, so it is a cadence and not a machine-gun.
+        val interval = ctx.int("intervalTicks", DEFAULT_DOUBLE_CLICK_TICKS).toLong()
+        if (interval <= 0L || ctx.tick % interval != 0L) return emptyList()
+        return TapPlan.doubleTap(ctx, random, DOUBLE_CLICK_POINT)
+    }
+
+    private const val DEFAULT_AFK_INTERVAL_TICKS = 10
+    private const val DEFAULT_DOUBLE_CLICK_TICKS = 4
 
     /**
      * Ids a relay genuinely cannot deliver, with the reason.
      *
-     * backtrack, mace_damage and double_click are the near misses: all three are
-     * real packet rewrites, and each is blocked by a specific missing fact
-     * rather than by the old "a transform has no state" argument.
+     * backtrack and mace_damage are the near misses: both are real packet
+     * rewrites blocked by a specific missing fact rather than by the old "a
+     * transform has no state" argument.
+     *
+     * afk_clicker and double_click used to sit here too, blocked on "a packet
+     * hook cannot synthesise touch input". That is no longer true: the tap
+     * surface exists, so both are input plans over [TapPlan] rather than
+     * forbidden rewrites.
      */
     val IMPOSSIBLE: Map<String, String> = mapOf(
         "xykell.combat.aim_assist" to
             "the aim vector is the client's own rendered crosshair; ctx.entities does supply every " +
             "entity's position, but the view matrix and where the camera points exist only in the " +
             "renderer, so the angle to correct cannot be derived.",
-        "xykell.combat.afk_clicker" to
-            "needs held taps injected on a timer; a packet hook cannot synthesise touch input",
         "xykell.combat.trigger_bot" to
             "needs to know when the crosshair is over a target; that raycast runs locally in the " +
             "client before any attack packet is emitted, so there is nothing on the wire to react to.",
@@ -115,11 +158,6 @@ object CombatModules {
             "filters against the client's friend store, which a pure transform cannot read",
         "xykell.combat.combat_settings" to
             "a settings aggregate, not a packet transform; there are no bytes to rewrite",
-        "xykell.combat.double_click" to
-            "the second click has to be timed against the first and re-sent as an attack, and the " +
-            "attack action lives in InventoryTransaction 0x1e's Transaction — a nested type the " +
-            "vendored proto never expands — so the relay cannot even recognise an attack packet to " +
-            "repeat, let alone time it against ctx.tick.",
         "xykell.combat.auto_log" to
             "needs a timer plus a session-level logout decision the transform cannot make; ctx.tick " +
             "is a logical counter with no wall-clock mapping.",

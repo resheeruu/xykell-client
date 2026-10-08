@@ -7,7 +7,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 115
+- PARTIAL: 118
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 0
 - INCOMPATIBLE: 0
@@ -55,7 +55,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 
 - `xykell.combat.aim_assist` — Aim Assist: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.auto_clicker` — Auto Clicker: **PARTIAL** (requires FRAME,PLAYER; evidence: Batch autoclicker: TouchAutomationService dispatchGesture taps + ClickSchedule/MacroStore + AutoclickerFragment; host TouchAutomationTest (14), KOTLIN-TYPECHECK 84/28, aapt2 OK; live gesture dispatch not yet device-verified)
-- `xykell.combat.afk_clicker` — Afk Clicker: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
+- `xykell.combat.afk_clicker` — Afk Clicker: **PARTIAL** (requires FRAME,PLAYER; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.combat.trigger_bot` — Trigger Bot: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.kill_aura` — Kill Aura: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.tp_aura` — Tp Aura: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
@@ -81,7 +81,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.combat.target_selector` — Target Selector: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.friend_filter` — Friend Filter: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.combat_settings` — Combat Settings: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
-- `xykell.combat.double_click` — Double Click: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
+- `xykell.combat.double_click` — Double Click: **PARTIAL** (requires FRAME,PLAYER; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.combat.auto_log` — Auto Log: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.combat.mob_aura` — Mob Aura: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 
@@ -142,7 +142,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.misc.custom_nicknames` — Custom Nicknames: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Phase 7: ChatFragment nickname editor over NicknameMap (validation, cap, display-only); host ObservedChatTest + ChatPolicyTest; CI-compiled)
 - `xykell.misc.screenshot_share` — Screenshot Share: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch S: one-shot MediaProjection capture service (mediaProjection FGS) + cache PNG via androidx FileProvider + ACTION_SEND chooser; host PixelPackerTest)
 - `xykell.misc.quick_perspective` — Quick Perspective: **REFERENCE_ONLY** (requires OVERLAY_DELIVERY; evidence: assessed: not deliverable by a packet relay)
-- `xykell.misc.quick_drop` — Quick Drop: **REFERENCE_ONLY** (requires OVERLAY_DELIVERY; evidence: assessed: not deliverable by a packet relay)
+- `xykell.misc.quick_drop` — Quick Drop: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.misc.hide_hud` — Hide Hud: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch Z3: RenderContext.hudVisible returns no lines; SettingsFragment toggle; host test_hud_render hidden case)
 - `xykell.misc.toggle_sprint` — Toggle Sprint: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.misc.toggle_sneak` — Toggle Sneak: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)

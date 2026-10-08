@@ -244,7 +244,14 @@ class ModuleRuntimeTest {
     @Test
     fun `plans are ordered by the declared order`() {
         val rt = ModuleRuntime(
-            { true },
+            // Only the four original plans: the three gesture ids have no point
+            // configured here and contribute nothing.
+            { it in setOf(
+                "xykell.player.fast_eat",
+                "xykell.player.fast_interact",
+                "xykell.automation.auto_eat",
+                "xykell.automation.auto_fish",
+            ) },
             mapOf(
                 PlayerModules.FAST_EAT_POINT to "0.5,0.5",
                 PlayerModules.FAST_INTERACT_POINT to "0.5,0.4",
@@ -262,6 +269,78 @@ class ModuleRuntimeTest {
         // three due plans must come out 0.3, 0.5, 0.4 — declaration order, not
         // the alphabetical order a HashSet would give.
         assertEquals(listOf(0.3, 0.5, 0.4), points)
+    }
+
+    // ------------------------------------------------- input gesture shapes
+
+    /**
+     * The three ids that used to be IMPOSSIBLE on "no input surface". Each one
+     * must produce the gesture it claims — a cadence tap, a double tap, a HOLD —
+     * because a plan that silently produced a plain tap would look identical to
+     * a working one in the registry while dropping a stack.
+     */
+    @Test
+    fun `afk clicker taps on its cadence`() {
+        val rt = runtime(
+            "xykell.combat.afk_clicker",
+            settings = mapOf(CombatModules.AFK_CLICKER_POINT to "0.5,0.5", "intervalTicks" to "4"),
+        )
+        assertEquals(emptyList<MacroStep>(), rt.onTick()) // tick 1, not due
+        repeat(2) { rt.onTick() }
+        val due = rt.onTick() // tick 4
+        assertEquals(1, due.size)
+        assertEquals(0.5, due[0].nx, 0.0)
+        assertEquals("a cadence tap must not be a hold", 0L, due[0].holdMs)
+    }
+
+    @Test
+    fun `double click produces two taps at the same point`() {
+        val rt = runtime(
+            "xykell.combat.double_click",
+            settings = mapOf(CombatModules.DOUBLE_CLICK_POINT to "0.4,0.6", "intervalTicks" to "1"),
+        )
+        rt.onTick()
+        val steps = rt.onTick()
+        assertEquals(2, steps.size)
+        assertEquals(steps[0].nx, steps[1].nx, 0.0)
+        assertEquals(steps[0].ny, steps[1].ny, 0.0)
+        assertEquals(0.6, steps[0].ny, 0.0)
+    }
+
+    @Test
+    fun `quick drop produces a hold not a tap`() {
+        val rt = runtime(
+            "xykell.misc.quick_drop",
+            settings = mapOf(MiscModules.QUICK_DROP_POINT to "0.2,0.9"),
+        )
+        val steps = rt.onTick()
+        assertEquals(1, steps.size)
+        assertTrue("a drop must be a long press", steps[0].holdMs >= TapPlan.MIN_HOLD_MS)
+        assertEquals(0.9, steps[0].ny, 0.0)
+    }
+
+    @Test
+    fun `a gesture with no configured point taps nothing`() {
+        for (id in listOf(
+            "xykell.combat.afk_clicker",
+            "xykell.combat.double_click",
+            "xykell.misc.quick_drop",
+        )) {
+            val rt = runtime(id, settings = mapOf("intervalTicks" to "1"))
+            repeat(3) {
+                assertEquals("$id guessed a screen position", emptyList<MacroStep>(), rt.onTick())
+            }
+        }
+    }
+
+    @Test
+    fun `hold and double tap stay inside their bounds`() {
+        val ctx = ModuleContext(
+            settings = mutableMapOf("k" to "0.5,0.5", "holdMs" to "999999"),
+        )
+        assertTrue(TapPlan.hold(ctx, "k")[0].holdMs <= TapPlan.MAX_HOLD_MS.toLong())
+        val negative = ModuleContext(settings = mutableMapOf("k" to "0.5,0.5", "holdMs" to "-5"))
+        assertTrue(TapPlan.hold(negative, "k")[0].holdMs >= TapPlan.MIN_HOLD_MS.toLong())
     }
 
     @Test

@@ -361,13 +361,22 @@ class CombatModulesTest {
     @Test
     fun everyImplementedIdHasANonForwardingBehaviour() {
         // A pass-through in IMPLEMENTED would make the set a lie. Each id gets
-        // the packet and the leg it actually acts on.
+        // the packet and the leg it actually acts on. The input-plan ids rewrite
+        // no bytes at all, so they are checked separately below — asserting they
+        // forward here would assert the opposite of correct.
         val cases = listOf(
             Triple("xykell.combat.velocity", RelayDirection.TO_CLIENT, setEntityMotion(0.4f, 0.6f, 0f)),
             Triple("xykell.combat.knockback", RelayDirection.TO_CLIENT, setEntityMotion(0.4f, 0.6f, 0f)),
             Triple("xykell.combat.auto_crit", RelayDirection.TO_SERVER, playerAuthInput(pitch = 12f)),
         )
-        assertEquals(CombatModules.IMPLEMENTED, cases.map { it.first }.toSet())
+        val planIds = setOf(
+            "xykell.combat.afk_clicker",
+            "xykell.combat.double_click",
+        )
+        assertEquals(
+            CombatModules.IMPLEMENTED,
+            cases.map { it.first }.toSet() + planIds,
+        )
         for ((id, leg, packet) in cases) {
             val out = CombatModules.transform(id, leg, packet, ModuleContext())
             assertFalse(
@@ -379,7 +388,7 @@ class CombatModulesTest {
 
     @Test
     fun everyImpossibleIdHasAReason() {
-        assertEquals(27, CombatModules.IMPOSSIBLE.size)
+        assertEquals(25, CombatModules.IMPOSSIBLE.size)
         for ((id, reason) in CombatModules.IMPOSSIBLE) {
             assertTrue("id $id has an empty reason", reason.isNotBlank())
             assertTrue("id $id reason is too short to be concrete", reason.length > 30)

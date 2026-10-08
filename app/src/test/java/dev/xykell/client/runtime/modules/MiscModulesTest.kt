@@ -67,6 +67,7 @@ class MiscModulesTest {
     fun everyImplementedIdHasBehaviour() {
         assertEquals(
             setOf(
+                "xykell.misc.quick_drop",
                 "xykell.misc.anti_weather",
                 "xykell.misc.disabler",
                 "xykell.misc.toggle_sneak",

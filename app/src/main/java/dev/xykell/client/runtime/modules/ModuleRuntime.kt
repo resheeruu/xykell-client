@@ -90,7 +90,11 @@ class ModuleRuntime(
         for (id in candidates) {
             if (id !in PLANNED) continue
             if (!isEnabled(id)) continue
-            out.addAll(plan(id, ctx, random))
+            try {
+                out.addAll(plan(id, ctx, random))
+            } catch (e: Exception) {
+                // One plan throwing must not silence the others on this tick.
+            }
         }
         return out
     }
@@ -207,6 +211,10 @@ class ModuleRuntime(
             "xykell.automation.auto_fish",
             "xykell.player.fast_eat",
             "xykell.player.fast_interact",
+            // input plans (taps, holds, double taps)
+            "xykell.combat.afk_clicker",
+            "xykell.combat.double_click",
+            "xykell.misc.quick_drop",
             // readers
             "xykell.network.packet_monitor",
             "xykell.network.packet_logger",
@@ -229,6 +237,9 @@ class ModuleRuntime(
             "xykell.player.fast_interact",
             "xykell.automation.auto_eat",
             "xykell.automation.auto_fish",
+            "xykell.combat.afk_clicker",
+            "xykell.combat.double_click",
+            "xykell.misc.quick_drop",
         )
 
         private val BY_CATEGORY = mapOf(
@@ -252,6 +263,9 @@ class ModuleRuntime(
             "xykell.player.fast_interact" -> PlayerModules.fastInteractPlan(ctx, random)
             "xykell.automation.auto_eat" -> AutomationModules.autoEatPlan(ctx, random)
             "xykell.automation.auto_fish" -> AutomationModules.autoFishPlan(ctx, random)
+            "xykell.combat.afk_clicker" -> CombatModules.afkClickerPlan(ctx, random)
+            "xykell.combat.double_click" -> CombatModules.doubleClickPlan(ctx, random)
+            "xykell.misc.quick_drop" -> MiscModules.quickDropPlan(ctx)
             else -> emptyList()
         }
     }

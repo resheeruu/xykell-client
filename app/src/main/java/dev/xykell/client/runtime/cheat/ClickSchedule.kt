@@ -2,8 +2,21 @@ package dev.xykell.client.runtime.cheat
 
 import kotlin.random.Random
 
-/** One recorded tap: delay since the previous tap, normalized (0..1) point. */
-data class MacroStep(val delayMs: Long, val nx: Double, val ny: Double)
+/**
+ * One recorded gesture: delay since the previous one, normalized (0..1) point,
+ * and how long the stroke itself lasts.
+ *
+ * [holdMs] defaults to 0, which the service reads as a normal tap. It is an
+ * explicit field rather than an overload of [delayMs] because "wait 600 ms,
+ * then tap" and "press for 600 ms" are different instructions, and a signed
+ * delay would make them the same number.
+ */
+data class MacroStep(
+    val delayMs: Long,
+    val nx: Double,
+    val ny: Double,
+    val holdMs: Long = 0L,
+)
 
 /**
  * Click cadence for the accessibility autoclicker. Pure logic: host tests
@@ -28,6 +41,7 @@ object ClickSchedule {
 object MacroStore {
     const val MAX_STEPS = 200
     const val MAX_STEP_DELAY_MS = 10_000L
+    const val MAX_HOLD_MS = 5_000L
 
     fun append(steps: List<MacroStep>, step: MacroStep): List<MacroStep> {
         if (steps.size >= MAX_STEPS) return steps
@@ -35,11 +49,13 @@ object MacroStore {
             step.delayMs.coerceIn(0L, MAX_STEP_DELAY_MS),
             step.nx.coerceIn(0.0, 1.0),
             step.ny.coerceIn(0.0, 1.0),
+            step.holdMs.coerceIn(0L, MAX_HOLD_MS),
         )
     }
 
+    /** Four fields, the last being the hold; a 3-field step decodes as a tap. */
     fun encode(steps: List<MacroStep>): String =
-        steps.joinToString(";") { "${it.delayMs},${it.nx},${it.ny}" }
+        steps.joinToString(";") { "${it.delayMs},${it.nx},${it.ny},${it.holdMs}" }
 
     fun decode(raw: String?): List<MacroStep> {
         if (raw.isNullOrBlank()) return emptyList()
@@ -47,16 +63,19 @@ object MacroStore {
         for (entry in raw.split(';')) {
             if (out.size >= MAX_STEPS) break
             val parts = entry.split(',')
-            if (parts.size != 3) continue
+            if (parts.size < 3) continue
             val delay = parts[0].toLongOrNull() ?: continue
             val nx = parts[1].toDoubleOrNull() ?: continue
             val ny = parts[2].toDoubleOrNull() ?: continue
             if (nx.isNaN() || ny.isNaN()) continue
+            // A 3-field step predates holds and replays as a plain tap.
+            val hold = if (parts.size >= 4) parts[3].toLongOrNull() ?: continue else 0L
             out.add(
                 MacroStep(
                     delay.coerceIn(0L, MAX_STEP_DELAY_MS),
                     nx.coerceIn(0.0, 1.0),
                     ny.coerceIn(0.0, 1.0),
+                    hold.coerceIn(0L, MAX_HOLD_MS),
                 ),
             )
         }

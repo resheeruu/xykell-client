@@ -6284,7 +6284,7 @@
       "name": "Afk Clicker",
       "category": "COMBAT",
       "description": "Afk Clicker (COMBAT).",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -6332,8 +6332,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "needs held taps injected on a timer; a packet hook cannot synthesise touch input"
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.combat.trigger_bot",
@@ -7756,7 +7756,7 @@
       "name": "Double Click",
       "category": "COMBAT",
       "description": "attack timing source TBD",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -7804,8 +7804,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "the second click has to be timed against the first and re-sent as an attack, and the  attack action lives in InventoryTransaction 0x1e's Transaction \u2014 a nested type the  vendored proto never expands \u2014 so the relay cannot even recognise an attack packet to  repeat, let alone time it against ctx.tick."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.combat.auto_log",
@@ -10557,7 +10557,7 @@
       "name": "Quick Drop",
       "category": "MISC",
       "description": "needs input path; Levi inbuilt Quick Drop exists \u2014 integrate, do not duplicate",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -10582,8 +10582,8 @@
       "sourceReferences": [
         "Atlas"
       ],
-      "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "A drop is PlayerAction 0x24 with the DROP_ITEM action, which the  relay must not originate \u2014 forging a client action is the forgery  this client does not do. On a touch layout it is also a long press  on a hotbar slot, and the accessibility surface injects fixed taps,  not holds."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.misc.hide_hud",

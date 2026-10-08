@@ -162,6 +162,23 @@ object TapPlan {
     /** Cadence keys shared with the existing click/replay modes of the service. */
     const val DEFAULT_CPS = 10
 
+    /**
+     * How long a hold lasts, in milliseconds.
+     *
+     * A tap is a ~60 ms stroke; a long press on a hotbar slot is ~600 ms. The
+     * distinction is real on a touch layout — dropping a stack is a long press,
+     * not a tap — so the plan vocabulary carries it rather than pretending every
+     * input is the same gesture.
+     */
+    const val HOLD_MS = 600L
+
+    /** How long a double tap waits for its second tap. */
+    const val DOUBLE_TAP_GAP_MS = 120L
+
+    /** Bounds on a hold and on a double-tap gap, in milliseconds. */
+    const val MIN_HOLD_MS = 50
+    const val MAX_HOLD_MS = 5_000
+
     /** The normalised point in setting [key] as `"nx,ny"`, or null when unset. */
     fun point(ctx: ModuleContext, key: String): Pair<Double, Double>? {
         val raw = ctx.settings[key] ?: return null
@@ -183,6 +200,31 @@ object TapPlan {
                 ny,
             ),
         )
+    }
+
+    /**
+     * One LONG PRESS at [key] — the gesture a touch layout uses for "drop this
+     * stack", which a tap cannot express. Empty until the point is configured,
+     * so nothing is ever pressed at a guessed location.
+     */
+    fun hold(ctx: ModuleContext, key: String): List<MacroStep> {
+        val (nx, ny) = point(ctx, key) ?: return emptyList()
+        val hold = ctx.int("holdMs", HOLD_MS.toInt()).coerceIn(MIN_HOLD_MS, MAX_HOLD_MS)
+        return listOf(MacroStep(0L, nx, ny, hold.toLong()))
+    }
+
+    /**
+     * Two taps at [key] — the touch-layout equivalent of a double click.
+     *
+     * Two ordinary steps, so the service replays them in order exactly as it
+     * replays a recorded macro: one mechanism, no special case.
+     */
+    fun doubleTap(ctx: ModuleContext, random: Random, key: String): List<MacroStep> {
+        val (nx, ny) = point(ctx, key) ?: return emptyList()
+        val gap = ctx.int("doubleTapGapMs", DOUBLE_TAP_GAP_MS.toInt())
+            .coerceIn(MIN_HOLD_MS, MAX_HOLD_MS)
+        val first = ClickSchedule.nextDelayMs(ctx.int("cps", DEFAULT_CPS), ctx.int("jitterPct", 0), random)
+        return listOf(MacroStep(first, nx, ny), MacroStep(gap.toLong(), nx, ny))
     }
 
     /**

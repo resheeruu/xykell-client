@@ -39,6 +39,9 @@ class TouchAutomationService : AccessibilityService() {
     companion object {
         const val PREFS = "autoclicker"
 
+        /** Default stroke length for a plain tap. */
+        private const val TAP_STROKE_MS = 60L
+
         @Volatile
         var instance: TouchAutomationService? = null
             private set
@@ -181,7 +184,7 @@ class TouchAutomationService : AccessibilityService() {
                     playStep(next, steps[next].delayMs)
                 }
             }
-            val accepted = tapAt(x, y, advance)
+            val accepted = tapAt(x, y, s.holdMs, advance)
             if (accepted) {
                 tapFailures = 0
             } else {
@@ -300,7 +303,7 @@ class TouchAutomationService : AccessibilityService() {
         fun play() {
             val s = steps.getOrNull(index) ?: return
             val (x, y) = MacroStore.scaleToScreen(s.nx, s.ny, widthPx(), heightPx())
-            tapAt(x, y) {
+            tapAt(x, y, s.holdMs) {
                 index++
                 if (index < steps.size && !clicking && !replaying && !recording) play()
             }
@@ -310,10 +313,11 @@ class TouchAutomationService : AccessibilityService() {
 
     // --- tap --------------------------------------------------------------
 
-    private fun tapAt(x: Float, y: Float, done: () -> Unit): Boolean {
+    private fun tapAt(x: Float, y: Float, holdMs: Long = 0L, done: () -> Unit): Boolean {
         val path = Path().apply { moveTo(x, y) }
+        val duration = if (holdMs > 0) holdMs else TAP_STROKE_MS
         val gesture = GestureDescription.Builder()
-            .addStroke(GestureDescription.StrokeDescription(path, 0L, 60L))
+            .addStroke(GestureDescription.StrokeDescription(path, 0L, duration))
             .build()
         return dispatchGesture(gesture, object : AccessibilityService.GestureResultCallback() {
             override fun onCompleted(gestureDescription: GestureDescription?) {
