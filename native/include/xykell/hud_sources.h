@@ -408,6 +408,25 @@ inline std::string formatTabList(const std::vector<std::string>& roster, bool re
 // How many names a tab list line prints before it says how many it left out.
 inline constexpr std::size_t kTabListNames = 6;
 
+// The upstream host and the protocol version the client's own login packet
+// announced. Both absent -> kUnavailable: a server_info line rendered before
+// the session connected would be a confident-looking claim about nothing.
+inline std::string formatServerInfo(const std::optional<runtime::SessionEndpointObservation>& conn) {
+    if (!conn.has_value() || conn->host.empty() || conn->protocolVersion <= 0) {
+        return kUnavailable;
+    }
+    return conn->host + " (proto " + std::to_string(conn->protocolVersion) + ")";
+}
+
+// host:port only. This is the address the relay is connected to, which is what
+// the user configured -- not a claim about anything the server reports.
+inline std::string formatIpDisplay(const std::optional<runtime::SessionEndpointObservation>& conn) {
+    if (!conn.has_value() || conn->host.empty() || conn->port == 0) {
+        return kUnavailable;
+    }
+    return conn->host + ":" + std::to_string(conn->port);
+}
+
 // Installs the population + clock-rate providers from an observation snapshot.
 // The snapshot POINTER is captured (same lifetime rule as bindMotionProviders).
 inline void bindPopulationProviders(
@@ -428,6 +447,18 @@ inline void bindPopulationProviders(
                         return std::string(kUnavailable);
                     }
                     return formatTps(snap->ticksPerSecond);
+                };
+                break;
+            case ElementType::ServerInfo:
+                el.provider = [snap]() {
+                    if (snap == nullptr) return std::string(kUnavailable);
+                    return formatServerInfo(snap->latestConnection);
+                };
+                break;
+            case ElementType::IpDisplay:
+                el.provider = [snap]() {
+                    if (snap == nullptr) return std::string(kUnavailable);
+                    return formatIpDisplay(snap->latestConnection);
                 };
                 break;
             case ElementType::TabList:

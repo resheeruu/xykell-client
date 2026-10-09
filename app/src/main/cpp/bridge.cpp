@@ -558,6 +558,27 @@ Java_dev_xykell_client_runtime_observation_Observations_nativeOfferVitals(
     }
 }
 
+// Where this session is connected, and the protocol the client's login packet
+// announced. There is no latency field: nothing here measures a round trip.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferConnection(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jstring host,
+    jint port, jint protocolVersion) {
+    try {
+        auto o = xykell::runtime::makeConnection(
+            toStd(env, eventId), static_cast<std::uint64_t>(observedAtMs),
+            toStd(env, host), static_cast<std::uint16_t>(port),
+            static_cast<int>(protocolVersion));
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::SessionEndpointObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
 // One add/remove of an online player, decoded from PlayerList 0x3f.
 //
 // `present` is a jboolean rather than an inferred value: a removal carries no

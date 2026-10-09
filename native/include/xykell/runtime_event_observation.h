@@ -42,6 +42,8 @@ enum class ObservationKind : std::uint8_t {
     EntityPopulation,
     // One add/remove of an online player, from PlayerList 0x3f.
     PlayerList,
+    // Where this session is connected, and the protocol the client announced.
+    Connection,
 };
 
 // Observed chat line. 9P bodies always carry non-empty sender + message;
@@ -117,10 +119,25 @@ struct PlayerListObservation {
     std::string name; // empty when !present
 };
 
+// What the relay's own connection is to, and what the client's login packet
+// stated about itself.
+//
+// All three fields are facts already established by the handshake -- the
+// upstream the user typed, the protocol the client announced. There is no RTT
+// here on purpose: nothing in this repo measures a round trip, so a latency
+// readout would have to be invented, and it is not.
+struct SessionEndpointObservation {
+    std::string eventId;
+    std::uint64_t observedAtMs = 0;
+    std::string host; // upstream host, as configured
+    std::uint16_t port = 0;
+    int protocolVersion = 0; // from the client's own LoginPacket 0x01
+};
+
 using RuntimeObservation = std::variant<PlayerMessageObservation, PlayerTravelObservation,
                                         UnknownObservation, VitalsObservation,
                                         EntityPopulationObservation,
-                                        PlayerListObservation>;
+                                        PlayerListObservation, SessionEndpointObservation>;
 
 inline ObservationKind kindOf(const RuntimeObservation& o) {
     if (std::holds_alternative<PlayerMessageObservation>(o)) return ObservationKind::PlayerMessage;
@@ -131,6 +148,9 @@ inline ObservationKind kindOf(const RuntimeObservation& o) {
     }
     if (std::holds_alternative<PlayerListObservation>(o)) {
         return ObservationKind::PlayerList;
+    }
+    if (std::holds_alternative<SessionEndpointObservation>(o)) {
+        return ObservationKind::Connection;
     }
     return ObservationKind::Unknown;
 }
@@ -208,6 +228,18 @@ inline std::optional<PlayerListObservation> makePlayerList(const std::string& ev
     if (uuid.size() != 32) return std::nullopt;
     if (present && name.empty()) return std::nullopt;
     return PlayerListObservation{eventId, observedAtMs, present, uuid, present ? name : std::string()};
+}
+
+// A connection with no host is not a connection, and a port of 0 is not a
+// port -- both would render as a confident-looking line about nothing.
+inline std::optional<SessionEndpointObservation> makeConnection(
+    const std::string& eventId, std::uint64_t observedAtMs, const std::string& host,
+    std::uint16_t port, int protocolVersion) {
+    if (!detail::validId(eventId)) return std::nullopt;
+    if (host.empty()) return std::nullopt;
+    if (port == 0) return std::nullopt;
+    if (protocolVersion <= 0) return std::nullopt;
+    return SessionEndpointObservation{eventId, observedAtMs, host, port, protocolVersion};
 }
 
 // Read-only observation source boundary: poll() yields already-normalized

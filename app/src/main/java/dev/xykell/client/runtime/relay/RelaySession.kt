@@ -65,6 +65,16 @@ class RelaySession(
     private val upstreamEp: RakNetEndpoint,
     val identity: BedrockIdentity = BedrockIdentity.generate(),
     private val listener: RelayListener = RelayListener.PASS,
+    /**
+     * Called once, when the upstream reaches PLAY, with the protocol version
+     * the client's own login announced.
+     *
+     * Injected rather than called directly because the production sink crosses
+     * JNI into the native observation consumer, which a host JVM test cannot
+     * load. Failing to notify must never fail the session: the connection is
+     * real whether or not anything is watching.
+     */
+    private val onOnline: (protocolVersion: Int) -> Unit = {},
 ) {
     private enum class DevState { WAIT_SETTINGS, WAIT_LOGIN, WAIT_C2S, ONLINE, FAILED }
 
@@ -295,6 +305,11 @@ class RelaySession(
                     upC2s = BedrockCipher(key)
                     upS2c = BedrockCipher(key)
                     upState = UpState.ONLINE
+                    try {
+                        onOnline(loginInfo?.protocolVersion ?: 0)
+                    } catch (e: Exception) {
+                        // A notification failure is not a session failure.
+                    }
                     sendToUpstream(
                         BedrockBatch.buildFrame(
                             listOf(BedrockHandshake.buildClientToServerHandshake()),

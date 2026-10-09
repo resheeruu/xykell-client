@@ -124,6 +124,18 @@ class RelayService : Service() {
                 upstreamPort = upstreamPort,
                 listenPort = listenPort,
                 listener = observation,
+                // Once the upstream reaches PLAY the relay knows both facts the
+                // server_info and ip_display lines need. Offered there so the
+                // HUD shows a real address only while one is connected.
+                onOnline = { protocol ->
+                    Observations.offerConnection(
+                        "relay-online",
+                        System.currentTimeMillis(),
+                        host,
+                        upstreamPort,
+                        protocol,
+                    )
+                },
                 onStopped = { reason ->
                     // The session's own reason, not a generic "stopped": a
                     // refused upstream login and a closed game socket are

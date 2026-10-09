@@ -186,6 +186,14 @@ std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx) 
                 line.color = notes.empty() ? mutedCol : textCol;
                 break;
             }
+            case ElementType::ServerInfo:
+                line.text = std::string("Server: ") + v;
+                line.color = (v == kUnavailable) ? mutedCol : textCol;
+                break;
+            case ElementType::IpDisplay:
+                line.text = std::string("IP: ") + v;
+                line.color = (v == kUnavailable) ? mutedCol : textCol;
+                break;
             case ElementType::TabList:
                 // The provider already prints "N online" plus the names, so
                 // prefixing the type again would read "tab_list: 3 online".

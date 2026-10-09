@@ -442,7 +442,7 @@ DEVICE_LIMITED_NOTES = {
 # missing device: there is nothing to live-validate until the read path lands.
 RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
  coordinates ping tps armor health hunger position direction biome keystrokes
- target_info server_info inventory_hud ip_display
+ target_info inventory_hud
  potion_hud speed_meter subtitles totem_counter
 """.split()} | {PREFIX + "player." + s for s in """
  inventory_manager death_position friend_alerts nickname mod_alerts
@@ -838,6 +838,12 @@ CATEGORIES = {
 # (CATEGORY, suffix) -> forced status (default RR; these are the M1 proofs).
 PROVEN = {
     ("CLIENT", "core"): PARTIAL,
+    # Both read facts the relay's own handshake established: the upstream the
+    # user configured, and the protocol version from the client's LoginPacket.
+    # Rendered by the HUD overlay; "--" until a session actually reaches PLAY,
+    # so no address is ever shown for a connection that does not exist.
+    ("HUD", "server_info"): PARTIAL,
+    ("HUD", "ip_display"): PARTIAL,
     # PlayerList 0x3f -> PlayerListTable -> Observations -> ObservationConsumer
     # -> formatTabList -> ElementType::TabList -> the HUD overlay. Proven
     # end-to-end across both languages; no Kotlin module involved, so this has
@@ -950,6 +956,8 @@ PROVEN = {
 EVIDENCE = {
     ("PROXY", "mode"): "P2b: RelayService foreground owner + RelaySessionDriver (terminating session, SERVER toward the game / CLIENT upstream) + ModuleRuntime listener; host test_relaysession (4), test_relaysessiondriver (4); device E2E pending",
     ("PROXY", "relay"): "P2b: RakNetEndpoint per leg + BedrockBatch/Handshake + BedrockIdentity + RelayListener, driven over UDP by RelaySessionDriver; host test_relaysession, test_relaysessiondriver, test_bedrockbatch, test_bedrockhandshake",
+    ("HUD", "server_info"): "RelaySession reports to Observations the moment the upstream reaches PLAY, carrying the configured upstream host:port and the protocol version parsed out of the client's own LoginPacket 0x01; SessionEndpointObservation lands on the native snapshot and formatServerInfo renders host + protocol. Absent before a connection exists, and a host with no protocol yet still renders '--' because half a claim is not a claim. No latency field: nothing in this repo measures a round trip. Host test_observation_consumer + test_motion_hud; Kotlin typecheck",
+    ("HUD", "ip_display"): "Same SessionEndpointObservation as server_info, rendered by formatIpDisplay as host:port -- the address the relay is connected to, which is what the user configured, not a claim about anything the server reports. '--' when no session is connected. Host test_motion_hud",
     ("HUD", "tab_list"): "Clientbound PlayerList 0x3f decoded by PlayerListTable (uuid-keyed, so a rename replaces rather than duplicates; trailing entry fields deliberately unread); ModuleRuntime offers each change through Observations to the native ObservationConsumer, which holds a bounded 128-entry join-ordered roster; formatTabList renders it and ElementType::TabList carries it to the HUD overlay. An unreported roster renders '--', never '0 players'. Host PlayerListTableTest + ModuleRuntimeTest; native test_observation_consumer + test_motion_hud",
     ("COMBAT", "backtrack"): "Rewrites clientbound MovePlayer 0x13 to a position the entity held `backtrack_ticks` ago, read from a bounded per-entity lookback ring on EntityTable (20 samples, dropped with the entity on eviction). Outbound leg untouched: the local player's own movement must stay truthful or the server corrects it. Forwards untouched when the entity has no history yet, rather than freezing a first-seen target. Host CombatModulesTest + ModuleRuntimeTest",
     ("COMBAT", "afk_clicker"): "Input plan over TapPlan, not a packet rewrite: one tap at a configured point every intervalTicks, replayed by ModuleTapRunner through TouchAutomationService. Previously IMPOSSIBLE on 'a packet hook cannot synthesise touch input', which the tap surface made false. The game still sends every attack. Host ModuleRuntimeTest",

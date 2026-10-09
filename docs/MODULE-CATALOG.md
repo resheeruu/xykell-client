@@ -7,11 +7,11 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 120
+- PARTIAL: 122
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 0
 - INCOMPATIBLE: 0
-- NOT_IMPLEMENTED: 25
+- NOT_IMPLEMENTED: 23
 
 ## By category
 
@@ -106,11 +106,11 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.hud.watermark` — Watermark: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch Z2: native render case in xykell_hud_renderer.cpp with real version string; host test_hud_render)
 - `xykell.hud.notifications` — Notifications: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch Z3: NotificationCenter bound to a HUD line via peek(); bounded, severity-marked, non-draining; host test_hud_render)
 - `xykell.hud.session_stats` — Session Stats: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch 1: session elapsed provider; host test_hud_sources)
-- `xykell.hud.server_info` — Server Info: **NOT_IMPLEMENTED** (requires PACKET; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
+- `xykell.hud.server_info` — Server Info: **PARTIAL** (requires PACKET; evidence: RelaySession reports to Observations the moment the upstream reaches PLAY, carrying the configured upstream host:port and the protocol version parsed out of the client's own LoginPacket 0x01; SessionEndpointObservation lands on the native snapshot and formatServerInfo renders host + protocol. Absent before a connection exists, and a host with no protocol yet still renders '--' because half a claim is not a claim. No latency field: nothing in this repo measures a round trip. Host test_observation_consumer + test_motion_hud; Kotlin typecheck)
 - `xykell.hud.entity_counter` — Entity Counter: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Population observation: RelayObservation reports the live count from the runtime's entity table (AddEntity 0x0D / AddPlayer 0x0C / MovePlayer 0x13 / RemoveEntity 0x0E), throttled to one line per second because an unthrottled report would repeat identical numbers per packet. Renders kUnavailable until the first report and shows the player subset only when it was reported. Host tests ModuleRuntimeTest, RelayObservationTest, test_observation_consumer, test_motion_hud)
 - `xykell.hud.hardware_stats` — Hardware Stats: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Phase 5: native formatHardwareStats + provider install on every HardwareStats element; host test_hud_sources)
 - `xykell.hud.inventory_hud` — Inventory Hud: **NOT_IMPLEMENTED** (requires OVERLAY_DELIVERY; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
-- `xykell.hud.ip_display` — Ip Display: **NOT_IMPLEMENTED** (requires OVERLAY_DELIVERY; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
+- `xykell.hud.ip_display` — Ip Display: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Same SessionEndpointObservation as server_info, rendered by formatIpDisplay as host:port -- the address the relay is connected to, which is what the user configured, not a claim about anything the server reports. '--' when no session is connected. Host test_motion_hud)
 - `xykell.hud.low_health` — Low Health: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Vitals observation on the same path as hud.health: renders LOW only while observed health is at or under the threshold, and kUnavailable when health has never been observed, so an unknown value never reads as an alarm. Host test_motion_hud)
 - `xykell.hud.potion_hud` — Potion Hud: **NOT_IMPLEMENTED** (requires OVERLAY_DELIVERY; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 - `xykell.hud.speed_meter` — Speed Meter: **PARTIAL** (requires PLAYER; evidence: Batch final: ElementType::SpeedMeter + consumer 2-sample speed delta (bounded, dt<=0 keeps last) + provider binding; host test_motion_hud + test_observation_consumer)

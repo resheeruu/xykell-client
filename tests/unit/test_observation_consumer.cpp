@@ -317,6 +317,22 @@ int main() {
         assert(c.snapshot().rosterCount == 500);
     }
 
+    // --- connection facts: recorded once, absent before that ---
+    {
+        ObservationConsumer c;
+        assert(!c.snapshot().latestConnection.has_value());
+        // The factory refuses anything that would render as a real address.
+        assert(!makeConnection("x", 1, "", 19132, 800).has_value());
+        assert(!makeConnection("x", 1, "host", 0, 800).has_value());
+        assert(!makeConnection("x", 1, "host", 19132, 0).has_value());
+        c.consume(*makeConnection("y", 2, "mc.example.org", 19132, 800));
+        const auto& s = c.snapshot();
+        assert(s.latestConnection.has_value());
+        assert(s.latestConnection->host == "mc.example.org");
+        assert(s.latestConnection->port == 19132);
+        assert(s.latestConnection->protocolVersion == 800);
+    }
+
     std::cout << "test_observation_consumer: PASS\n";
     return 0;
 }

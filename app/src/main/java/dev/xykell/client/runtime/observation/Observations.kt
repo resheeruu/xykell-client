@@ -70,6 +70,21 @@ object Observations {
 
     /** Observed entity counts. Negative counts are rejected natively. */
     /**
+     * Where the session is connected, and the protocol the client announced.
+     *
+     * No latency field exists because nothing in this repo measures a round
+     * trip; inventing one here would put a made-up ping on the HUD.
+     */
+    @JvmStatic
+    external fun nativeOfferConnection(
+        eventId: String,
+        observedAtMs: Long,
+        host: String,
+        port: Int,
+        protocolVersion: Int,
+    ): Boolean
+
+    /**
      * One add/remove of an online player from PlayerList 0x3f.
      *
      * `present` is explicit rather than inferred from an empty name: a removal
@@ -125,6 +140,23 @@ object Observations {
         } catch (e: UnsatisfiedLinkError) {
             dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
                 "Observations", "nativeOfferVitals",
+            )
+        }
+    }
+
+    /** Offer the session's upstream and the client's announced protocol. */
+    fun offerConnection(
+        eventId: String,
+        observedAtMs: Long,
+        host: String,
+        port: Int,
+        protocolVersion: Int,
+    ) {
+        try {
+            nativeOfferConnection(eventId, observedAtMs, host, port, protocolVersion)
+        } catch (e: UnsatisfiedLinkError) {
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                "Observations", "nativeOfferConnection",
             )
         }
     }

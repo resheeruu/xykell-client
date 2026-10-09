@@ -33,6 +33,8 @@ class RelaySessionDriver(
     listenPort: Int = 0,
     listener: RelayListener = RelayListener.PASS,
     private val onStopped: (String?) -> Unit = {},
+    /** Forwarded to the session; see its onOnline for the shape. */
+    private val onOnline: (protocolVersion: Int) -> Unit = {},
 ) : AutoCloseable {
 
     private val upstreamAddr = InetSocketAddress(InetAddress.getByName(upstreamHost), upstreamPort)
@@ -82,6 +84,7 @@ class RelaySessionDriver(
             sessionTimeoutMs = SESSION_TIMEOUT_MS,
         ),
         listener = listener,
+        onOnline = onOnline,
     )
 
     fun start() {

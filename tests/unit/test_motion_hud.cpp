@@ -22,6 +22,8 @@ using xykell::hud::sources::bindPopulationProviders;
 using xykell::hud::sources::formatEntityCount;
 using xykell::hud::sources::formatTps;
 using xykell::hud::sources::formatTabList;
+using xykell::hud::sources::formatServerInfo;
+using xykell::hud::sources::formatIpDisplay;
 using xykell::hud::sources::formatCoordinates;
 using xykell::hud::sources::formatDirection;
 using xykell::hud::sources::formatSpeed;
@@ -218,6 +220,23 @@ int main() {
     assert(xykell::hud::typeName(ElementType::SpeedMeter) == "speed_meter");
     assert(xykell::hud::typeFromName("tab_list", t) && t == ElementType::TabList);
     assert(xykell::hud::typeName(ElementType::TabList) == "tab_list");
+    assert(xykell::hud::typeFromName("server_info", t) && t == ElementType::ServerInfo);
+    assert(xykell::hud::typeFromName("ip_display", t) && t == ElementType::IpDisplay);
+
+    // --- server facts: nothing renders before a session actually connects.
+    {
+        const std::optional<xykell::runtime::SessionEndpointObservation> none;
+        assert(formatServerInfo(none) == kUnavailable);
+        assert(formatIpDisplay(none) == kUnavailable);
+        // Host known but no protocol yet is still not a complete claim.
+        xykell::runtime::SessionEndpointObservation partial;
+        partial.host = "mc.example.org";
+        partial.port = 19132;
+        assert(formatServerInfo(partial) == kUnavailable);
+        assert(formatIpDisplay(partial) == "mc.example.org:19132");
+        partial.protocolVersion = 800;
+        assert(formatServerInfo(partial) == "mc.example.org (proto 800)");
+    }
 
     // --- tab list: an unreported roster and an empty one are different claims.
     {

@@ -36,6 +36,11 @@ enum class ElementType {
     // Renders kUnavailable until the server has actually sent a roster --
     // an empty list is not the same claim as "nobody is here".
     TabList,
+    // Where the session is connected. Both read the relay's own handshake, so
+    // they are facts rather than a guess about the world: the host the user
+    // configured and the protocol the client announced.
+    ServerInfo,
+    IpDisplay,
     Hunger,
     Keystrokes,
     TargetHud,

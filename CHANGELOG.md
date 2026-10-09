@@ -3,6 +3,17 @@
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [Unreleased]
+- **`hud.server_info` and `hud.ip_display` delivered** — the first two ids to
+  come out of W3, and the cheapest kind: they read facts the relay's own
+  handshake already establishes. `RelaySession` reports to `Observations` the
+  moment the upstream reaches PLAY, carrying the configured upstream host:port
+  and the protocol version parsed out of the client's own `LoginPacket 0x01`.
+  Both render `--` until a connection exists, and a host with no protocol yet
+  still renders `--`, because half a claim is not a claim. **No latency field
+  was added**: nothing in this repo measures a round trip, so a ping readout
+  would have to be invented. `hud.ping` stays NOT_IMPLEMENTED.
+  `SessionEndpointObservation` is the name rather than `ConnectionObservation`
+  because `runtime_provider.h` already owns a different struct by that name.
 - **`hud.tab_list` delivered end-to-end, across both languages.** The roster
   comes from clientbound `PlayerList 0x3f`, which this repo did not decode. The
   chain is now: `PlayerListTable` decodes add/remove/clear and keys entries on

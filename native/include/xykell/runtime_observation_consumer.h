@@ -67,6 +67,10 @@ struct RuntimeObservationSnapshot {
     // empty roster rather than guessing at one.
     std::vector<std::string> playerRoster;
     std::uint64_t rosterCount = 0; // entries ever added, for a join/leave tally
+    // Where this session is connected and what protocol the client announced.
+    // Absent until a session actually connects: a server_info line rendered
+    // before then would be a claim about a connection nobody has made.
+    std::optional<SessionEndpointObservation> latestConnection;
 };
 
 // Single-method consumer boundary. Copy-in/copy-out by value: stored
@@ -75,6 +79,10 @@ struct RuntimeObservationSnapshot {
 class ObservationConsumer {
   public:
     void consume(const RuntimeObservation& observation) {
+        if (const auto* c = std::get_if<SessionEndpointObservation>(&observation)) {
+            snapshot_.latestConnection = *c;
+            return;
+        }
         if (const auto* p = std::get_if<PlayerListObservation>(&observation)) {
             applyRoster(*p);
             ++snapshot_.rosterCount;
