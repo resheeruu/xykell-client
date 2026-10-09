@@ -5030,7 +5030,7 @@
       "name": "Spam",
       "category": "PLAYER",
       "description": "rate-limited; server rules risk",
-      "status": "REFERENCE_ONLY",
+      "status": "PARTIAL",
       "requires": [
         "FRAME",
         "PLAYER"
@@ -5064,8 +5064,8 @@
       "sourceReferences": [
         "Lunar Proxy"
       ],
-      "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "The payload is chat text that exists in no packet, and the tap surface  injects single taps \u2014 it cannot type into the game's chat box. Sending  the Text 0x09 itself would be originating a packet the client never  sent, which is exactly the forgery this relay does not do."
+      "evidence": "modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener",
+      "notes": "Implemented as a pure packet transform in app/src/main/java/dev/xykell/client/runtime/modules/, dispatched per packet by ModuleRuntime (the listener RelayService installs), and covered by the modules host suite. Scope is exactly what the transform does: the registry note does not claim more than the bytes show. Enabled per profile; never validated against a live server, so no anti-cheat behaviour is known and SUPPORTED is not claimed."
     },
     {
       "id": "xykell.player.mod_alerts",

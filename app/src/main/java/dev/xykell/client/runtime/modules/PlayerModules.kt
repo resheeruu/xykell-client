@@ -81,7 +81,43 @@ object PlayerModules {
         "xykell.player.no_fall",
         "xykell.player.fast_eat",
         "xykell.player.fast_interact",
+        "xykell.player.spam",
     )
+
+    /** The text spam sends, and the minimum gap between two sends. */
+    const val SETTING_SPAM_TEXT = "spam_text"
+
+    /** Never faster than this: a sub-second chat loop is a ban magnet, not a feature. */
+    const val MIN_SPAM_GAP_MS = 1_000L
+    const val DEFAULT_SPAM_GAP_MS = 3_000L
+
+    /**
+     * spam: send a configured line on a wall-clock cadence.
+     *
+     * This is the first id the relay *authors* rather than rewrites, and the
+     * scope is deliberate (see [BedrockText]): the user's own account says text
+     * the user configured, on a cadence that has a hard floor.
+     *
+     * It fires on the outbound leg rather than on a timer thread, so a message
+     * can only go out while the client is actually talking to the server. That
+     * is both safer and simpler than owning a scheduler: when the session is
+     * idle, nothing is sent, which is exactly when a chat loop would be
+     * detectable anyway.
+     */
+    fun spam(direction: RelayDirection, packet: ByteArray, ctx: ModuleContext): List<ByteArray> {
+        if (direction != RelayDirection.TO_SERVER) return listOf(packet)
+        val text = ctx.settings[SETTING_SPAM_TEXT] ?: return listOf(packet)
+        val now = ctx.nowMs()
+        val last = ctx.lastChatAtMs
+        val gap = ctx.number("spam_gap_ms", DEFAULT_SPAM_GAP_MS.toFloat())
+            .toLong().coerceAtLeast(MIN_SPAM_GAP_MS)
+        if (last != null && now - last < gap) return listOf(packet)
+        val chat = BedrockText.chat(text) ?: return listOf(packet)
+        ctx.markChatSent(now)
+        // The client's own packet still goes out first: dropping it would look
+        // like a broken session, and the injected line must not replace it.
+        return listOf(packet, chat)
+    }
 
     /** Ids a relay genuinely cannot deliver, with the reason. */
     val IMPOSSIBLE: Map<String, String> = mapOf(
@@ -111,11 +147,6 @@ object PlayerModules {
             "Registry: \"local display only\". The HUD renders values the server " +
             "broadcasts; there is no client-bound packet holding a display-only " +
             "counter to rewrite, and the relay has no render surface.",
-        "xykell.player.spam" to
-            "The payload is chat text that exists in no packet, and the tap surface " +
-            "injects single taps — it cannot type into the game's chat box. Sending " +
-            "the Text 0x09 itself would be originating a packet the client never " +
-            "sent, which is exactly the forgery this relay does not do.",
     )
 
     fun transform(
@@ -129,6 +160,7 @@ object PlayerModules {
         "xykell.player.haste" -> dropEffect(direction, packet, ctx.int("effect_id", EFFECT_MINING_FATIGUE))
         "xykell.player.no_fall" -> holdGroundHeight(direction, packet, ctx)
         "xykell.player.fast_eat" -> learnItemCooldown(direction, packet, ctx)
+        "xykell.player.spam" -> spam(direction, packet, ctx)
         else -> listOf(packet) // not in IMPLEMENTED: forward untouched
     }
 

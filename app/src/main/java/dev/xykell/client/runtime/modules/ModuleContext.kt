@@ -89,6 +89,20 @@ class ModuleContext(
     var itemCooldownTicks: Int = 0
         private set
 
+    /**
+     * When the relay last authored a chat packet, or null if it never has.
+     *
+     * Wall clock, not a tick: a chat cadence has to hold in real seconds while
+     * the session is quiet, and `tick` would drift with packet rate.
+     */
+    var lastChatAtMs: Long? = null
+        private set
+
+    /** Record that a chat packet was authored at [nowMs]. */
+    fun markChatSent(nowMs: Long) {
+        lastChatAtMs = nowMs
+    }
+
     /** Tick of the last fishing bobber bite the server announced; null if none. */
     var lastBiteTick: Long? = null
         private set
@@ -151,6 +165,7 @@ class ModuleContext(
         tick = 0
         itemCooldownTicks = 0
         lastBiteTick = null
+        lastChatAtMs = null
         sessionStartMs = clock()
     }
 

@@ -158,6 +158,9 @@ object ModuleWire {
     fun build(header: Int, vararg body: ByteArray): ByteArray =
         writeVarUInt(header) + body.fold(ByteArray(0)) { acc, b -> acc + b }
 
+    /** A single unsigned byte literal, for the fixed-width flag fields. */
+    fun byte(value: Int): ByteArray = byteArrayOf((value and 0xff).toByte())
+
     fun concat(parts: List<ByteArray>): ByteArray =
         parts.fold(ByteArray(0)) { acc, b -> acc + b }
 

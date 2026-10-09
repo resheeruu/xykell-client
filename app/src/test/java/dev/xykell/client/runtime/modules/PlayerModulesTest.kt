@@ -47,8 +47,112 @@ class PlayerModulesTest {
                 "xykell.player.no_blindness",
                 "xykell.player.no_fall",
                 "xykell.player.no_nausea",
+                "xykell.player.spam",
             ),
             PlayerModules.IMPLEMENTED,
+        )
+    }
+
+    // ------------------------------------------------------------------ spam
+
+    /** A clock the test drives, so the cadence is exact rather than timed. */
+    private fun newSpamCtx(text: String, gapMs: Int): ModuleContext {
+        var now = 1_000L
+        return ModuleContext(
+            settings = mutableMapOf(
+                PlayerModules.SETTING_SPAM_TEXT to text,
+                "spam_gap_ms" to gapMs.toString(),
+            ),
+            clock = { now },
+        )
+    }
+
+    private fun anyPacket(): ByteArray = ModuleWire.build(0x90, byteArrayOf(0))
+
+    @Test
+    fun spamSendsOnceThenWaits() {
+        val ctx = newSpamCtx("gg", 3_000)
+        val first = PlayerModules.transform(
+            "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+        )
+        // The client's own packet still goes out; the line is appended.
+        assertEquals(2, first.size)
+        assertEquals(0x09, first[1][0].toInt() and 0xff)
+        // Immediately after, nothing: the gap has not elapsed.
+        assertEquals(
+            1,
+            PlayerModules.transform(
+                "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+            ).size,
+        )
+    }
+
+    @Test
+    fun spamNeverTouchesTheInboundLeg() {
+        val ctx = newSpamCtx("gg", 3_000)
+        val raw = anyPacket()
+        val out = PlayerModules.transform(
+            "xykell.player.spam", RelayDirection.TO_CLIENT, raw, ctx,
+        )
+        assertEquals(1, out.size)
+        assertTrue(raw.contentEquals(out[0]))
+    }
+
+    @Test
+    fun spamWithoutConfiguredTextSendsNothing() {
+        val ctx = ModuleContext(clock = { 1_000L })
+        assertEquals(
+            1,
+            PlayerModules.transform(
+                "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+            ).size,
+        )
+    }
+
+    @Test
+    fun spamGapHasAHardFloor() {
+        // A sub-second chat loop is a ban magnet; the floor is not a setting.
+        val ctx = newSpamCtx("gg", gapMs = 1)
+        PlayerModules.transform(
+            "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+        )
+        assertEquals(
+            1,
+            PlayerModules.transform(
+                "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+            ).size,
+        )
+    }
+
+    @Test
+    fun aResetSessionSendsNothingUntilItIsConfiguredAgain() {
+        // reset() clears the session's settings as well as its state, so the
+        // honest assertion is that a fresh context is inert -- not that it
+        // silently keeps the old line. Both halves matter: sending nothing
+        // proves the state was cleared, and it is the behaviour a new session
+        // actually gets.
+        val ctx = newSpamCtx("gg", 3_000)
+        assertEquals(
+            2,
+            PlayerModules.transform(
+                "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+            ).size,
+        )
+        ctx.reset()
+        assertEquals(
+            1,
+            PlayerModules.transform(
+                "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+            ).size,
+        )
+        // Reconfigured for the new session, the cadence starts from zero rather
+        // than inheriting the previous session's timestamp.
+        ctx.settings[PlayerModules.SETTING_SPAM_TEXT] = "gg"
+        assertEquals(
+            2,
+            PlayerModules.transform(
+                "xykell.player.spam", RelayDirection.TO_SERVER, anyPacket(), ctx,
+            ).size,
         )
     }
 

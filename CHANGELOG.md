@@ -3,6 +3,19 @@
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [Unreleased]
+- **`player.spam` delivered — the first id the relay authors rather than
+  rewrites**, which is the decision you approved. `BedrockText.chat` builds a
+  serverbound `Text 0x09` in the exact layout `BedrockPackets.text()` already
+  decodes, and the two are pinned against each other by a round-trip test, so
+  the encoder cannot drift from the verified decoder. That test earned its keep
+  immediately: the encoder was missing the trailing filtered-message flag the
+  decoder reads unconditionally, and without the round trip the packet would
+  have been rejected wholesale by every server that reads it properly.
+  The scope stays narrow on purpose — the user's own account says text the user
+  configured, on a wall-clock cadence with a hard 1 s floor, fired on the
+  outbound leg so nothing is sent while the session is idle, and the client's
+  own packet still goes out first. Forging a UseItem, Interact or placement is
+  still out of scope and each keeps its reason.
 - **`hud.server_info` and `hud.ip_display` delivered** — the first two ids to
   come out of W3, and the cheapest kind: they read facts the relay's own
   handshake already establishes. `RelaySession` reports to `Observations` the

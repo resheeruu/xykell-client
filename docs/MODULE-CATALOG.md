@@ -7,7 +7,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 122
+- PARTIAL: 123
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 0
 - INCOMPATIBLE: 0
@@ -234,7 +234,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.player.friend_alerts` — Friend Alerts: **NOT_IMPLEMENTED** (requires FRAME,PLAYER; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 - `xykell.player.nickname` — Nickname: **NOT_IMPLEMENTED** (requires FRAME,PLAYER; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 - `xykell.player.fake_stats` — Fake Stats: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
-- `xykell.player.spam` — Spam: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
+- `xykell.player.spam` — Spam: **PARTIAL** (requires FRAME,PLAYER; evidence: modules suite: pure clientbound transform, direction-scoped, host-tested; wired through ModuleRuntime into RelaySession's listener)
 - `xykell.player.mod_alerts` — Mod Alerts: **NOT_IMPLEMENTED** (requires FRAME,PLAYER; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 
 ### PROXY (2)

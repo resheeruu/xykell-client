@@ -223,6 +223,7 @@ class ModuleRuntime(
             "xykell.automation.auto_fish",
             "xykell.player.fast_eat",
             "xykell.player.fast_interact",
+            "xykell.player.spam",
             // input plans (taps, holds, double taps)
             "xykell.combat.afk_clicker",
             "xykell.combat.double_click",
@@ -247,6 +248,7 @@ class ModuleRuntime(
         val PLANNED: Set<String> = setOf(
             "xykell.player.fast_eat",
             "xykell.player.fast_interact",
+            "xykell.player.spam",
             "xykell.automation.auto_eat",
             "xykell.automation.auto_fish",
             "xykell.combat.afk_clicker",
