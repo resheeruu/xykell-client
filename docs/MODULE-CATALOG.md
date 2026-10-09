@@ -7,11 +7,11 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 123
+- PARTIAL: 124
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 0
 - INCOMPATIBLE: 0
-- NOT_IMPLEMENTED: 23
+- NOT_IMPLEMENTED: 22
 
 ## By category
 
@@ -230,7 +230,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.player.no_fire` — No Fire: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.player.no_hurt_cam` — No Hurt Cam: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
 - `xykell.player.anti_immobile` — Anti Immobile: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)
-- `xykell.player.death_position` — Death Position: **NOT_IMPLEMENTED** (requires FRAME,PLAYER; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
+- `xykell.player.death_position` — Death Position: **PARTIAL** (requires FRAME,PLAYER; evidence: Clientbound DeathInfo 0xbd decoded by DeathTable (one cause string plus a string array -- no enum, no opaque field, nothing guessed; the id is read as a real LEB128 varint because 0xbd's high bit makes its header two bytes, and masking the first byte is the same one-byte assumption that once made the knockback id drift). The death position is the local player's OWN last reported outbound MovePlayer at the moment the notice arrived, never a server-supplied position. ModuleRuntime offers it through Observations; DeathObservation lands on the snapshot and formatDeathInfo renders cause + block-precision coordinates. Renders '--' until a death exists, because 'no death data' is not a death at 0,0,0. Bounded 16-death log. Host DeathTableTest + ModuleRuntimeTest; native test_observation_consumer + test_motion_hud)
 - `xykell.player.friend_alerts` — Friend Alerts: **NOT_IMPLEMENTED** (requires FRAME,PLAYER; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 - `xykell.player.nickname` — Nickname: **NOT_IMPLEMENTED** (requires FRAME,PLAYER; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 - `xykell.player.fake_stats` — Fake Stats: **REFERENCE_ONLY** (requires FRAME,PLAYER; evidence: assessed: not deliverable by a packet relay)

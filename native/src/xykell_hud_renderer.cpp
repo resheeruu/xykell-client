@@ -186,6 +186,10 @@ std::vector<HudLine> renderHud(const HudManager& mgr, const RenderContext& ctx) 
                 line.color = notes.empty() ? mutedCol : textCol;
                 break;
             }
+            case ElementType::DeathInfo:
+                line.text = std::string("Death: ") + v;
+                line.color = (v == kUnavailable) ? mutedCol : textCol;
+                break;
             case ElementType::ServerInfo:
                 line.text = std::string("Server: ") + v;
                 line.color = (v == kUnavailable) ? mutedCol : textCol;

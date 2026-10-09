@@ -70,6 +70,22 @@ object Observations {
 
     /** Observed entity counts. Negative counts are rejected natively. */
     /**
+     * One death, from DeathInfo 0xbd.
+     *
+     * The coordinates are the player's own last reported position, not anything
+     * the server said about where they were.
+     */
+    @JvmStatic
+    external fun nativeOfferDeath(
+        eventId: String,
+        observedAtMs: Long,
+        cause: String,
+        x: Double,
+        y: Double,
+        z: Double,
+    ): Boolean
+
+    /**
      * Where the session is connected, and the protocol the client announced.
      *
      * No latency field exists because nothing in this repo measures a round
@@ -140,6 +156,24 @@ object Observations {
         } catch (e: UnsatisfiedLinkError) {
             dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
                 "Observations", "nativeOfferVitals",
+            )
+        }
+    }
+
+    /** Offer one observed death. */
+    fun offerDeath(
+        eventId: String,
+        observedAtMs: Long,
+        cause: String,
+        x: Double,
+        y: Double,
+        z: Double,
+    ) {
+        try {
+            nativeOfferDeath(eventId, observedAtMs, cause, x, y, z)
+        } catch (e: UnsatisfiedLinkError) {
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                "Observations", "nativeOfferDeath",
             )
         }
     }

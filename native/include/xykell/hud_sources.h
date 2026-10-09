@@ -427,6 +427,18 @@ inline std::string formatIpDisplay(const std::optional<runtime::SessionEndpointO
     return conn->host + ":" + std::to_string(conn->port);
 }
 
+// The most recent death: cause, and the player's own last reported position.
+// Absent -> kUnavailable. Coordinates are rendered to two decimals, which is
+// block precision and matches what the server itself reports to players.
+inline std::string formatDeathInfo(const std::optional<runtime::DeathObservation>& death) {
+    if (!death.has_value() || death->cause.empty()) {
+        return kUnavailable;
+    }
+    char buf[64];
+    std::snprintf(buf, sizeof(buf), " %.2f %.2f %.2f", death->x, death->y, death->z);
+    return death->cause + buf;
+}
+
 // Installs the population + clock-rate providers from an observation snapshot.
 // The snapshot POINTER is captured (same lifetime rule as bindMotionProviders).
 inline void bindPopulationProviders(
@@ -447,6 +459,12 @@ inline void bindPopulationProviders(
                         return std::string(kUnavailable);
                     }
                     return formatTps(snap->ticksPerSecond);
+                };
+                break;
+            case ElementType::DeathInfo:
+                el.provider = [snap]() {
+                    if (snap == nullptr) return std::string(kUnavailable);
+                    return formatDeathInfo(snap->latestDeath);
                 };
                 break;
             case ElementType::ServerInfo:

@@ -259,8 +259,15 @@ int main() {
         assert(s.messageCount == 1000 && s.travelCount == 1000 && s.unknownCount == 1000);
         assert(s.vitalsCount == 1000 && s.populationCount == 1000);
         assert(c.totalConsumed() == 5000);
-        // Constant shape: optionals + scalars + one short string.
-        assert(sizeof(RuntimeObservationSnapshot) < 512);
+        // Constant shape: the snapshot's INLINE size must not grow with session
+        // length, so a long session cannot turn the HUD's read path into a
+        // growing object. Raised from 512 to 640 when DeathInfo (80 bytes) and
+        // the connection facts (64) were added -- both fixed-size, both bounded.
+        //
+        // This is NOT a memory-footprint number. The roster that actually grows
+        // with players is heap-bounded separately, and asserted at 128 entries
+        // above; 128 std::strings of heap do not change sizeof(this).
+        assert(sizeof(RuntimeObservationSnapshot) < 640);
     }
 
     // --- the online roster: order, rename, removal, boundedness ---
@@ -331,6 +338,25 @@ int main() {
         assert(s.latestConnection->host == "mc.example.org");
         assert(s.latestConnection->port == 19132);
         assert(s.latestConnection->protocolVersion == 800);
+    }
+
+    // --- deaths: absent until one is observed, then the latest wins ---
+    {
+        ObservationConsumer c;
+        assert(!c.snapshot().latestDeath.has_value());
+        assert(c.snapshot().deathCount == 0);
+        // A death with no cause is not renderable: the cause is the only thing
+        // telling two deaths apart.
+        assert(!makeDeath("x", 1, "", 1.0, 2.0, 3.0).has_value());
+        assert(!makeDeath("x", 1, "fell", 1.0, 2.0, std::nan("")).has_value());
+        c.consume(*makeDeath("a", 1, "fell from a high place", 10.0, 64.0, -3.5));
+        assert(c.snapshot().latestDeath.has_value());
+        assert(c.snapshot().latestDeath->cause == "fell from a high place");
+        assert(c.snapshot().latestDeath->z == -3.5);
+        c.consume(*makeDeath("b", 2, "hit", 1.0, 2.0, 3.0));
+        // The latest replaces, and the tally counts both.
+        assert(c.snapshot().latestDeath->cause == "hit");
+        assert(c.snapshot().deathCount == 2);
     }
 
     std::cout << "test_observation_consumer: PASS\n";

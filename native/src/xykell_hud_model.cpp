@@ -18,6 +18,7 @@ std::string typeName(ElementType t) {
         case ElementType::TabList: return "tab_list";
         case ElementType::ServerInfo: return "server_info";
         case ElementType::IpDisplay: return "ip_display";
+        case ElementType::DeathInfo: return "death_info";
         case ElementType::Hunger: return "hunger";
         case ElementType::Keystrokes: return "keystrokes";
         case ElementType::TargetHud: return "target_hud";
@@ -36,7 +37,8 @@ bool typeFromName(const std::string& name, ElementType& out) {
                                ElementType::LowHealth,       ElementType::Hunger,
                                ElementType::EntityCounter,   ElementType::Tps,
                                ElementType::TabList,         ElementType::ServerInfo,
-                               ElementType::IpDisplay,       ElementType::Keystrokes,
+                               ElementType::IpDisplay,       ElementType::DeathInfo,
+                               ElementType::Keystrokes,
                                ElementType::TargetHud,      ElementType::HardwareStats,
                                ElementType::Direction,      ElementType::SpeedMeter};
     for (const auto t : all) {

@@ -44,6 +44,8 @@ enum class ObservationKind : std::uint8_t {
     PlayerList,
     // Where this session is connected, and the protocol the client announced.
     Connection,
+    // One death, from DeathInfo 0xbd.
+    Death,
 };
 
 // Observed chat line. 9P bodies always carry non-empty sender + message;
@@ -134,10 +136,27 @@ struct SessionEndpointObservation {
     int protocolVersion = 0; // from the client's own LoginPacket 0x01
 };
 
+// A death, from clientbound DeathInfo 0xbd (a cause string and a string array
+// -- no enum and no opaque field in either).
+//
+// The position is the local player's OWN last reported position at the moment
+// the notice arrived, never a server-supplied one: "where was I" is the
+// player's own claim, and trusting the server for it is how a distance check
+// gets defeated.
+struct DeathObservation {
+    std::string eventId;
+    std::uint64_t observedAtMs = 0;
+    std::string cause;
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+};
+
 using RuntimeObservation = std::variant<PlayerMessageObservation, PlayerTravelObservation,
                                         UnknownObservation, VitalsObservation,
                                         EntityPopulationObservation,
-                                        PlayerListObservation, SessionEndpointObservation>;
+                                        PlayerListObservation, SessionEndpointObservation,
+                                        DeathObservation>;
 
 inline ObservationKind kindOf(const RuntimeObservation& o) {
     if (std::holds_alternative<PlayerMessageObservation>(o)) return ObservationKind::PlayerMessage;
@@ -151,6 +170,9 @@ inline ObservationKind kindOf(const RuntimeObservation& o) {
     }
     if (std::holds_alternative<SessionEndpointObservation>(o)) {
         return ObservationKind::Connection;
+    }
+    if (std::holds_alternative<DeathObservation>(o)) {
+        return ObservationKind::Death;
     }
     return ObservationKind::Unknown;
 }
@@ -240,6 +262,20 @@ inline std::optional<SessionEndpointObservation> makeConnection(
     if (port == 0) return std::nullopt;
     if (protocolVersion <= 0) return std::nullopt;
     return SessionEndpointObservation{eventId, observedAtMs, host, port, protocolVersion};
+}
+
+// A death with no cause, or with a non-finite coordinate, is not renderable:
+// the cause is the only thing that distinguishes one death from another.
+inline std::optional<DeathObservation> makeDeath(const std::string& eventId,
+                                                 std::uint64_t observedAtMs,
+                                                 const std::string& cause, double x,
+                                                 double y, double z) {
+    if (!detail::validId(eventId)) return std::nullopt;
+    if (cause.empty()) return std::nullopt;
+    if (!detail::validNumber(x) || !detail::validNumber(y) || !detail::validNumber(z)) {
+        return std::nullopt;
+    }
+    return DeathObservation{eventId, observedAtMs, cause, x, y, z};
 }
 
 // Read-only observation source boundary: poll() yields already-normalized

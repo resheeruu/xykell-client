@@ -2,6 +2,7 @@ package dev.xykell.client.runtime.modules
 
 import dev.xykell.client.runtime.cheat.ClickSchedule
 import dev.xykell.client.runtime.cheat.MacroStep
+import dev.xykell.client.runtime.relay.DeathTable
 import dev.xykell.client.runtime.relay.EntityTable
 import dev.xykell.client.runtime.relay.PlayerListTable
 import dev.xykell.client.runtime.relay.RelayDirection
@@ -45,6 +46,12 @@ class ModuleContext(
      * the phone and the host JVM, unlike a wall clock that can jump.
      */
     private val clock: () -> Long = { System.nanoTime() / 1_000_000L },
+    /**
+     * Where a decoded death is reported. Injected for the same reason as the
+     * roster hand-off: the production sink crosses JNI, which a host test
+     * cannot load.
+     */
+    val onDeath: (DeathTable.Death) -> Unit = {},
 ) {
     /** When this session started, on the same clock as [nowMs]. */
     var sessionStartMs: Long = clock()
@@ -78,6 +85,14 @@ class ModuleContext(
     /** The online roster, decoded from clientbound PlayerList 0x3f. */
     val playerList = PlayerListTable()
 
+    /** Deaths seen this session, decoded from clientbound DeathInfo 0xbd. */
+    val deaths = DeathTable()
+
+    /**
+     * Where a decoded death is reported. Injected for the same reason as the
+     * roster hand-off: the production sink crosses JNI, which a host test
+     * cannot load.
+     */
     /**
      * Duration of the last item cooldown the client itself reported, in ticks;
      * 0 until one has been seen.
@@ -126,6 +141,16 @@ class ModuleContext(
      * Clientbound only: the server is the only side that sends this, so an
      * outbound packet claiming to be one is not a roster entry and is ignored.
      */
+    fun observeDeath(direction: RelayDirection, packet: ByteArray) {
+        if (direction != RelayDirection.TO_CLIENT) return
+        val death = try {
+            deaths.observe(packet, selfX, selfY, selfZ, nowMs())
+        } catch (e: Exception) {
+            null
+        } ?: return
+        onDeath(death)
+    }
+
     fun observePlayerList(direction: RelayDirection, packet: ByteArray) {
         if (direction != RelayDirection.TO_CLIENT) return
         val change = try {
@@ -160,6 +185,7 @@ class ModuleContext(
     fun reset() {
         entities.clear()
         playerList.clear()
+        deaths.clear()
         settings.clear()
         hasGround = false
         tick = 0

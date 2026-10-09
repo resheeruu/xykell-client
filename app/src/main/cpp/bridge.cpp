@@ -558,6 +558,26 @@ Java_dev_xykell_client_runtime_observation_Observations_nativeOfferVitals(
     }
 }
 
+// One death, from DeathInfo 0xbd. Coordinates are the player's own last
+// reported position at the moment the notice arrived.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferDeath(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jstring cause,
+    jdouble x, jdouble y, jdouble z) {
+    try {
+        auto o = xykell::runtime::makeDeath(toStd(env, eventId),
+                                            static_cast<std::uint64_t>(observedAtMs),
+                                            toStd(env, cause), x, y, z);
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::DeathObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
 // Where this session is connected, and the protocol the client's login packet
 // announced. There is no latency field: nothing here measures a round trip.
 JNIEXPORT jboolean JNICALL

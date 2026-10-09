@@ -3,6 +3,24 @@
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [Unreleased]
+- **`player.death_position` delivered**, and with it an honest correction to the
+  plan I gave you. I claimed W5's sub-chunk palettes carry block *names* and
+  that W6's `input_data` was decodable. Both were wrong, and the registry's own
+  packet table says so: `LevelChunk.payload` is opaque `ByteArray`,
+  `UpdateBlock` carries a **numeric** `block_runtime_id` whose name mapping
+  lives in the game's resource pack rather than on the wire, and this build's
+  `PlayerAuthInput` has **no `input_data` field at all**. So W5's decoder alone
+  would have unlocked none of its 17 ESP ids, and W6's 10 were gated on an
+  `Action` enum the repo does not carry. That is a deliberate design stance in
+  this codebase, not an oversight.
+  `DeathInfo 0xbd` was picked instead because it is genuinely complete: one
+  cause string and a string array, no enum and no opaque field. `DeathTable`
+  decodes it and records where the player was — from their **own** outbound
+  `MovePlayer`, never a server-supplied position, for the same reason "where am
+  I" is never taken from the server. The packet id is read as a real LEB128
+  varint because `0xbd`'s high bit makes its header two bytes: masking the
+  first byte is the same one-byte assumption that once made the knockback id
+  drift, and the test caught exactly that.
 - **`player.spam` delivered — the first id the relay authors rather than
   rewrites**, which is the decision you approved. `BedrockText.chat` builds a
   serverbound `Text 0x09` in the exact layout `BedrockPackets.text()` already

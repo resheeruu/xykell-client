@@ -96,6 +96,16 @@ class RelayService : Service() {
         try {
             val runtime = ModuleRuntime(
                 isEnabled = ModuleFlags.predicate(activeProfileJson()),
+                onDeath = { death ->
+                    Observations.offerDeath(
+                        "death-${death.observedAtMs}",
+                        death.observedAtMs,
+                        death.cause,
+                        death.x.toDouble(),
+                        death.y.toDouble(),
+                        death.z.toDouble(),
+                    )
+                },
                 // Feed the roster the relay just decoded to the observation
                 // consumer, which is what the HUD renders. Without this the
                 // tab list would decode perfectly and never be seen.

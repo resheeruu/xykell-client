@@ -71,6 +71,11 @@ struct RuntimeObservationSnapshot {
     // Absent until a session actually connects: a server_info line rendered
     // before then would be a claim about a connection nobody has made.
     std::optional<SessionEndpointObservation> latestConnection;
+    // The most recent death, and how many have been seen this session.
+    // Absent until one is: a death readout before any death would be claiming
+    // something that has not happened.
+    std::optional<DeathObservation> latestDeath;
+    std::uint64_t deathCount = 0;
 };
 
 // Single-method consumer boundary. Copy-in/copy-out by value: stored
@@ -79,6 +84,11 @@ struct RuntimeObservationSnapshot {
 class ObservationConsumer {
   public:
     void consume(const RuntimeObservation& observation) {
+        if (const auto* d = std::get_if<DeathObservation>(&observation)) {
+            snapshot_.latestDeath = *d;
+            ++snapshot_.deathCount;
+            return;
+        }
         if (const auto* c = std::get_if<SessionEndpointObservation>(&observation)) {
             snapshot_.latestConnection = *c;
             return;

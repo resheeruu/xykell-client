@@ -445,7 +445,7 @@ RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
  target_info inventory_hud
  potion_hud speed_meter subtitles totem_counter
 """.split()} | {PREFIX + "player." + s for s in """
- inventory_manager death_position friend_alerts nickname mod_alerts
+ inventory_manager friend_alerts nickname mod_alerts
 """.split()} | {PREFIX + "misc." + s for s in """
  chat_timestamps chat_filter custom_nicknames shulker_tooltip death_lightning
 """.split()} | {PREFIX + "automation." + s for s in """
@@ -849,6 +849,9 @@ PROVEN = {
     # end-to-end across both languages; no Kotlin module involved, so this has
     # to be listed here rather than picked up by MODULE_IMPLEMENTED.
     ("HUD", "tab_list"): PARTIAL,
+    # DeathInfo 0xbd: one cause string and a string array, decoded end to end
+    # into a HUD element. No Kotlin module owns it, so it must be listed here.
+    ("PLAYER", "death_position"): PARTIAL,
     # Modules batch: pure RelayListener transforms in runtime/modules,
     # direction-scoped and stateless. host tests listed in EVIDENCE.
     ("COMBAT", "velocity"): PARTIAL,
@@ -956,6 +959,7 @@ PROVEN = {
 EVIDENCE = {
     ("PROXY", "mode"): "P2b: RelayService foreground owner + RelaySessionDriver (terminating session, SERVER toward the game / CLIENT upstream) + ModuleRuntime listener; host test_relaysession (4), test_relaysessiondriver (4); device E2E pending",
     ("PROXY", "relay"): "P2b: RakNetEndpoint per leg + BedrockBatch/Handshake + BedrockIdentity + RelayListener, driven over UDP by RelaySessionDriver; host test_relaysession, test_relaysessiondriver, test_bedrockbatch, test_bedrockhandshake",
+    ("PLAYER", "death_position"): "Clientbound DeathInfo 0xbd decoded by DeathTable (one cause string plus a string array -- no enum, no opaque field, nothing guessed; the id is read as a real LEB128 varint because 0xbd's high bit makes its header two bytes, and masking the first byte is the same one-byte assumption that once made the knockback id drift). The death position is the local player's OWN last reported outbound MovePlayer at the moment the notice arrived, never a server-supplied position. ModuleRuntime offers it through Observations; DeathObservation lands on the snapshot and formatDeathInfo renders cause + block-precision coordinates. Renders '--' until a death exists, because 'no death data' is not a death at 0,0,0. Bounded 16-death log. Host DeathTableTest + ModuleRuntimeTest; native test_observation_consumer + test_motion_hud",
     ("PLAYER", "spam"): "The first id the relay AUTHORS rather than rewrites. BedrockText.chat builds a serverbound Text 0x09 in the layout BedrockPackets.text() already decodes, and the two are pinned against each other by a round-trip test so the encoder cannot drift from the verified decoder. Scope is deliberately narrow: the user's own account says text the user configured, on a wall-clock cadence with a hard 1s floor, fired on the outbound leg so nothing is sent while the session is idle. The client's own packet still goes out first. Forging a UseItem, Interact or placement stays out of scope -- those remain in each category's IMPOSSIBLE map with that reason. Host BedrockTextTest + PlayerModulesTest",
     ("HUD", "server_info"): "RelaySession reports to Observations the moment the upstream reaches PLAY, carrying the configured upstream host:port and the protocol version parsed out of the client's own LoginPacket 0x01; SessionEndpointObservation lands on the native snapshot and formatServerInfo renders host + protocol. Absent before a connection exists, and a host with no protocol yet still renders '--' because half a claim is not a claim. No latency field: nothing in this repo measures a round trip. Host test_observation_consumer + test_motion_hud; Kotlin typecheck",
     ("HUD", "ip_display"): "Same SessionEndpointObservation as server_info, rendered by formatIpDisplay as host:port -- the address the relay is connected to, which is what the user configured, not a claim about anything the server reports. '--' when no session is connected. Host test_motion_hud",

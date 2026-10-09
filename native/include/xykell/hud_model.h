@@ -41,6 +41,10 @@ enum class ElementType {
     // configured and the protocol the client announced.
     ServerInfo,
     IpDisplay,
+    // The most recent death: its cause, and where the player was when the
+    // server said so. Renders kUnavailable until a death has actually been
+    // observed -- "no deaths yet" is not the same claim as "no death data".
+    DeathInfo,
     Hunger,
     Keystrokes,
     TargetHud,

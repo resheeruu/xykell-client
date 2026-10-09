@@ -23,6 +23,7 @@ using xykell::hud::sources::formatEntityCount;
 using xykell::hud::sources::formatTps;
 using xykell::hud::sources::formatTabList;
 using xykell::hud::sources::formatServerInfo;
+using xykell::hud::sources::formatDeathInfo;
 using xykell::hud::sources::formatIpDisplay;
 using xykell::hud::sources::formatCoordinates;
 using xykell::hud::sources::formatDirection;
@@ -222,6 +223,21 @@ int main() {
     assert(xykell::hud::typeName(ElementType::TabList) == "tab_list");
     assert(xykell::hud::typeFromName("server_info", t) && t == ElementType::ServerInfo);
     assert(xykell::hud::typeFromName("ip_display", t) && t == ElementType::IpDisplay);
+    assert(xykell::hud::typeFromName("death_info", t) && t == ElementType::DeathInfo);
+
+    // --- death readout: no death observed is not a death at 0,0,0 ---
+    {
+        const std::optional<xykell::runtime::DeathObservation> none;
+        assert(formatDeathInfo(none) == kUnavailable);
+        xykell::runtime::DeathObservation d;
+        d.cause = "fell from a high place";
+        d.x = 10.0; d.y = 64.0; d.z = -3.5;
+        assert(formatDeathInfo(d) == "fell from a high place 10.00 64.00 -3.50");
+        // A cause with no coordinates would read as a death at the origin.
+        xykell::runtime::DeathObservation blank;
+        blank.cause = "";
+        assert(formatDeathInfo(blank) == kUnavailable);
+    }
 
     // --- server facts: nothing renders before a session actually connects.
     {

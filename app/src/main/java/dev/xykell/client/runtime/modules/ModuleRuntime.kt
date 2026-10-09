@@ -1,6 +1,7 @@
 package dev.xykell.client.runtime.modules
 
 import dev.xykell.client.runtime.cheat.MacroStep
+import dev.xykell.client.runtime.relay.DeathTable
 import dev.xykell.client.runtime.relay.PlayerListTable
 import dev.xykell.client.runtime.relay.RelayDirection
 import dev.xykell.client.runtime.relay.RelayListener
@@ -44,12 +45,15 @@ class ModuleRuntime(
      * their own recorder.
      */
     private val onPlayerListChange: (PlayerListTable.Change) -> Unit = {},
+    /** Where a decoded death is reported; see ModuleContext.onDeath. */
+    private val onDeath: (DeathTable.Death) -> Unit = {},
 ) : RelayListener {
 
     /** Per-session state; dies with the session via [reset]. */
     val ctx = ModuleContext(
         settings = settings.toMutableMap(),
         onPlayerListChange = onPlayerListChange,
+        onDeath = onDeath,
     )
 
     /** Ids this runtime will consider, in application order. */
@@ -63,6 +67,7 @@ class ModuleRuntime(
         // own id never counts as a target.
         learnSelf(direction, packet)
         ctx.observePlayerList(direction, packet)
+        ctx.observeDeath(direction, packet)
         try {
             ctx.entities.observe(packet, ctx.selfRuntimeId)
         } catch (e: Exception) {
