@@ -45,6 +45,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/ui/HudPreview.kt"
     "$SRC/dev/xykell/client/ui/HudOverlayLines.kt"
     "$SRC/dev/xykell/client/runtime/relay/PlayerListTable.kt"
+    "$SRC/dev/xykell/client/runtime/relay/VpnPacket.kt"
     "$SRC/dev/xykell/client/runtime/relay/DeathTable.kt"
     "$SRC/dev/xykell/client/runtime/relay/BedrockPackets.kt"
     "$SRC/dev/xykell/client/runtime/modules/BedrockText.kt"
@@ -114,6 +115,7 @@ MAIN_SOURCES=(
 )
 SUITES=(
     dev.xykell.client.ui.SettingRowMapperTest
+    dev.xykell.client.runtime.relay.VpnPacketTest
     dev.xykell.client.ui.HudPreviewTest
     dev.xykell.client.ui.HudOverlayLinesTest
     dev.xykell.client.runtime.relay.PlayerListTableTest
@@ -171,7 +173,7 @@ SUITES=(
     dev.xykell.client.runtime.modules.ModuleFlagsTest
     dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=57
+EXPECTED_SUITES=58
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -228,6 +230,7 @@ done
     "$TEST"/dev/xykell/client/runtime/capture/PixelPackerTest.kt \
     "$TEST"/dev/xykell/client/runtime/cheat/TouchAutomationTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/DeathTableTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/VpnPacketTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/PlayerListTableTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/RakNetCodecTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/RakNetConnectedTest.kt \
