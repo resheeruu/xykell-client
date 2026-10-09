@@ -2,6 +2,14 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.6]
+**The app launches.** Builds moved from a hand-rolled packaging script
+to the canonical Android Gradle Plugin; the hand-rolled path shipped
+four consecutive fixes that each passed their own checks and none of
+which worked. Also fixes the HUD overlay reading the wrong profile
+directory, adds a visible switch to every registry entry, and adds a
+guided relay setup. Still no live Bedrock session.
+
 ## [0.2.3]
 **Fixes `ClassNotFoundException: MainActivity`.**
 

@@ -6,6 +6,33 @@ Status words mean what the registry says they mean — nothing here is
 `SUPPORTED`, because that word requires a live server round-trip and no session
 has run yet.
 
+## The app launches (0.2.6)
+
+Until this release, the build produced an APK that installed and then could not
+load its own `MainActivity`. Four consecutive fixes (0.2.2 - 0.2.5) each
+passed their own verification and did not work.
+
+The cause was the build system, not any one packaging detail: the APK was
+assembled by a hand-written script, and every check inspected that script's
+output rather than the assembly step itself. 0.2.6 builds through the Android
+Gradle Plugin and deletes the hand-rolled path.
+
+Also in this release:
+
+- **HUD overlay profile path fixed.** The overlay resolved its active profile
+  under `filesDir/profiles` while `NativeProfiles.root()` uses
+  `filesDir/xykell`, so every lookup missed and the overlay drew an empty
+  frame.
+- **Visible switch on every registry entry**, with the status label kept on
+  every row so a toggle never implies a feature is live when it is not.
+- **Guided relay setup** that checks the installed game package and shows the
+  port the relay actually bound, plus an honest ONLINE/RUNNING distinction.
+- **`VpnPacket`** IPv4/UDP codec with 11 host tests, groundwork for VPN
+  auto-connect.
+
+What did *not* change: no live Bedrock session has ever completed, so all 9
+delivered features remain `PARTIAL`.
+
 ## Registry at a glance
 
 | Status | Count | Meaning |

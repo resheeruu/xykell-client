@@ -1,5 +1,61 @@
 # Changelog
 
+## [0.2.6]
+**The app launches. Builds moved from a hand-rolled packaging script to the
+canonical Android Gradle Plugin.**
+
+Four releases (0.2.2 through 0.2.5) each shipped a "fix" for
+`ClassNotFoundException: MainActivity` that passed its own checks and did not
+work. Every check verified the APK looked right; none of them ran the
+assembler that actually produced it. This release deletes that variable.
+
+**What actually changed**
+
+- `app/build.gradle.kts` is now the only supported build path. AGP handles
+  resource merging, dexing, alignment and signing.
+- AGP emits a complete dex layout (the debug build produces `classes.dex` plus
+  `classes2..13.dex`; the release build merges into one 7.6 MB dex), which the
+  hand-rolled pipeline never did.
+- Release signing uses the same managed key as 0.2.x, so this build installs
+  over them in place instead of forcing an uninstall.
+- Native libs are prebuilt by `scripts/build-apk.sh` with clang++ and packaged
+  from `src/main/jniLibs/arm64-v8a`. The device NDK is not installed, and
+  pulling it in (~1.5 GB on a 2 GB disk) was never viable here.
+- `android.aapt2FromMavenOverride` points AGP at Termux's native aapt2; the
+  x86-64 binary AGP ships cannot execute on aarch64.
+
+**Correcting the record**
+
+The 0.2.3 entry below blames dex compression and the 0.2.5 entry blames Java 17
+bytecode. Neither was the cause. `dexdump` showed the compressed-dex build
+containing `MainActivity` as a real `class_def` with a resolvable superclass
+chain, and the Java 17 build shipped an app that never produced a single log
+line on the device — it did not crash, it never started. Both theories were
+built on structure that was never the thing that failed.
+
+**Also in this release**
+
+- HUD overlay read its active profile from `filesDir/profiles` while
+  `NativeProfiles.root()` uses `filesDir/xykell`. Every lookup missed and the
+  overlay rendered an empty frame. Now routed through `NativeProfiles.root()`.
+- Every registry entry gets a visible on/off switch, as requested. The status
+  label is still rendered on every row, and `supportsPreference` still records
+  whether a feature has an implementation — so a toggle cannot imply data is
+  flowing when it is not.
+- Guided relay setup: verifies the installed game package, shows the port the
+  relay *actually* bound rather than the one requested, and distinguishes
+  ONLINE (both legs handshaken, packets flowing) from RUNNING (socket bound).
+- `VpnPacket`, an IPv4/UDP codec for the future VPN auto-connect work, with 11
+  host tests. One of those tests caught a real offset bug during development.
+
+**Verification**
+
+- 58/58 host unit suites, typecheck 125 main + 60 test sources
+- i18n 7 locales x 543 keys
+- APK verifies (v2), signed with the 0.2.x key
+- **Not verified: the app has never completed a live Bedrock session.**
+  All 9 delivered features remain `PARTIAL` (host-verified only).
+
 ## [Unreleased]
 - Standalone migration: LEVI-REMOVAL-AUDIT, portal seams (menu/overlay/
   input/log) with labeled preloader backend, detection states, staged PLAY.
