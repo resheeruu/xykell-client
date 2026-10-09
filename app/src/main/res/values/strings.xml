@@ -567,4 +567,11 @@
     <string name="hud_overlay_stop">Stop</string>
     <string name="hud_overlay_grant">Grant permission</string>
     <string name="hud_overlay_needs_permission">Allow "display over other apps" to draw the HUD on top of the game.</string>
+    <string name="relay_step_mc">Step 1 · Game</string>
+    <string name="relay_mc_missing">Minecraft not detected — install it, then reopen this screen</string>
+    <string name="relay_mc_found">Minecraft %1$s detected</string>
+    <string name="relay_step_server">Step 2 · Add a server in Minecraft</string>
+    <string name="relay_addserver_fmt">Address 127.0.0.1 · Port %1$d · Any name. Join it like any other server.</string>
+    <string name="relay_step_play">Step 3 · Play</string>
+    <string name="relay_ready_fmt">Relay is live on 127.0.0.1:%1$d → %2$s. Join the server above now. Features only receive data while this reads ONLINE.</string>
 </resources>

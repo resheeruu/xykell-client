@@ -567,4 +567,11 @@
     <string name="hud_overlay_stop">Detener</string>
     <string name="hud_overlay_grant">Conceder permiso</string>
     <string name="hud_overlay_needs_permission">Permite «mostrar sobre otras aplicaciones» para dibujar el HUD sobre el juego.</string>
+    <string name="relay_step_mc">Paso 1 · Juego</string>
+    <string name="relay_mc_missing">No se detectó Minecraft: instálalo y vuelve a abrir esta pantalla</string>
+    <string name="relay_mc_found">Minecraft %1$s detectado</string>
+    <string name="relay_step_server">Paso 2 · Añadir un servidor en Minecraft</string>
+    <string name="relay_addserver_fmt">Dirección 127.0.0.1 · Puerto %1$d · Nombre el que quieras. Únete como a cualquier otro servidor.</string>
+    <string name="relay_step_play">Paso 3 · Jugar</string>
+    <string name="relay_ready_fmt">El relay está activo en 127.0.0.1:%1$d → %2$s. Únete ahora al servidor de arriba. Las funciones solo reciben datos mientras esto diga ONLINE.</string>
 </resources>

@@ -567,4 +567,11 @@
     <string name="hud_overlay_stop">Durdur</string>
     <string name="hud_overlay_grant">İzin ver</string>
     <string name="hud_overlay_needs_permission">HUD’yu oyunun üzerine çizmek için "diğer uygulamaların üzerinde göster" iznini verin.</string>
+    <string name="relay_step_mc">Adım 1 · Oyun</string>
+    <string name="relay_mc_missing">Minecraft bulunamadı — kurun ve bu ekranı yeniden açın</string>
+    <string name="relay_mc_found">Minecraft %1$s bulundu</string>
+    <string name="relay_step_server">Adım 2 · Minecraft\'a sunucu ekleyin</string>
+    <string name="relay_addserver_fmt">Adres 127.0.0.1 · Port %1$d · Ad herhangi bir şey. Herhangi bir sunucuya katılır gibi katılın.</string>
+    <string name="relay_step_play">Adım 3 · Oyna</string>
+    <string name="relay_ready_fmt">Relay 127.0.0.1:%1$d → %2$s üzerinde çalışıyor. Şimdi yukarıdaki sunucuya katılın. Özellikler yalnızca burada ONLINE yazarken veri alır.</string>
 </resources>

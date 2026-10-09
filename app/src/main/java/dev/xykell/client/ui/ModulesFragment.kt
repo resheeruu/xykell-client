@@ -178,7 +178,7 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
         row.addView(detail)
 
         var toggle: Switch? = null
-        if (entry.supportsPreference) {
+        if (entry.hasVisibleSwitch) {
             val switch = Switch(context)
             switch.text = getString(R.string.modules_hint_switch_label)
             switch.textSize = 12f

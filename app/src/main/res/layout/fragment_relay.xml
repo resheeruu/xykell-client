@@ -93,4 +93,62 @@
             android:textSize="13sp"
             android:textColor="@color/xykell_muted" />
     </LinearLayout>
+
+    <!-- Guided setup. Kept below the controls so the raw fields stay
+         available for anyone who wants them, but the steps are what most
+         players will actually follow. -->
+    <TextView
+        android:id="@+id/relay_step1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/relay_step_mc"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/relay_mc_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted" />
+
+    <TextView
+        android:id="@+id/relay_step2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/relay_step_server"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/relay_addserver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted" />
+
+    <TextView
+        android:id="@+id/relay_step3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/relay_step_play"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/relay_ready"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_muted" />
 </LinearLayout>

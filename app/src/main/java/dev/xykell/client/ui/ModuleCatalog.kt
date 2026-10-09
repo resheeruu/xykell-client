@@ -29,6 +29,19 @@ data class ModuleEntry(
     val supportsPreference: Boolean
         get() = status == "SUPPORTED" || status == "PARTIAL"
 
+    /**
+     * Whether the row shows an on/off switch at all.
+     *
+     * Every entry gets one, per the operator request for a visible switch on
+     * each feature. This is a UI affordance only and says nothing about
+     * whether the feature does anything: [supportsPreference] still records
+     * that, and the status label is rendered on every row. The switch stores a
+     * preference through the same path either way, so flipping it is harmless
+     * and reversible while it remains inert.
+     */
+    val hasVisibleSwitch: Boolean
+        get() = true
+
     companion object {
 
         /** Parse the registry document. Null on malformed JSON or a

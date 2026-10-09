@@ -70,9 +70,57 @@ class RelayFragment : Fragment(R.layout.fragment_relay) {
 
     private fun refresh() {
         statusView?.text = RelayService.statusText()
+        refreshGuide()
     }
 
+    /**
+     * Guided setup text.
+     *
+     * The port shown to the player is the one the relay *actually* bound, not
+     * the one requested. If 19133 is taken the service binds something else,
+     * and telling the player to enter 19133 would send them to a dead port
+     * with no idea why. Before the relay starts there is nothing real to
+     * report, so we show the requested value and say it is not live yet.
+     */
+    private fun refreshGuide() {
+        val mc = view ?: return
+
+        val installed = try {
+            requireContext().packageManager.getPackageInfo(GAME_PACKAGE, 0)
+            requireContext().packageManager.getApplicationLabel(
+                requireContext().packageManager.getApplicationInfo(GAME_PACKAGE, 0),
+            ).toString() + " " + android.os.Build.VERSION.SDK_INT
+        } catch (e: Exception) {
+            null
+        }
+
+        mc.findViewById<TextView>(R.id.relay_mc_status)?.text =
+            if (installed != null) getString(R.string.relay_mc_found, installed)
+            else getString(R.string.relay_mc_missing)
+
+        val port = if (RelayService.running && RelayService.localPort > 0) {
+            RelayService.localPort
+        } else {
+            listenPortFallback()
+        }
+        mc.findViewById<TextView>(R.id.relay_addserver)?.text =
+            getString(R.string.relay_addserver_fmt, port)
+
+        mc.findViewById<TextView>(R.id.relay_ready)?.text =
+            if (RelayService.online) {
+                getString(R.string.relay_ready_fmt, RelayService.localPort, RelayService.target)
+            } else {
+                RelayService.statusText()
+            }
+    }
+
+    private fun listenPortFallback(): Int =
+        view?.findViewById<EditText>(R.id.relay_listen_port)?.text?.toString()
+            ?.trim()?.toIntOrNull()?.takeIf { it in 1..65535 } ?: DEFAULT_LISTEN_PORT
+
     companion object {
+        private const val GAME_PACKAGE = "com.mojang.minecraftpe"
+        private const val DEFAULT_LISTEN_PORT = 19133
         private const val PREFS = "xykell_relay"
         private const val KEY_HOST = "host"
         private const val KEY_UPSTREAM_PORT = "upstream_port"

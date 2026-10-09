@@ -560,4 +560,11 @@
     <string name="hud_overlay_stop">Остановить</string>
     <string name="hud_overlay_grant">Выдать разрешение</string>
     <string name="hud_overlay_needs_permission">Разрешите «Отображение поверх других приложений», чтобы рисовать HUD поверх игры.</string>
+    <string name="relay_step_mc">Шаг 1 · Игра</string>
+    <string name="relay_mc_missing">Minecraft не обнаружен — установите его и снова откройте этот экран</string>
+    <string name="relay_mc_found">Обнаружен Minecraft %1$s</string>
+    <string name="relay_step_server">Шаг 2 · Добавьте сервер в Minecraft</string>
+    <string name="relay_addserver_fmt">Адрес 127.0.0.1 · Порт %1$d · Имя любое. Заходите как на обычный сервер.</string>
+    <string name="relay_step_play">Шаг 3 · Играть</string>
+    <string name="relay_ready_fmt">Релей работает на 127.0.0.1:%1$d → %2$s. Зайдите на сервер выше. Функции получают данные только когда указано ONLINE.</string>
 </resources>
