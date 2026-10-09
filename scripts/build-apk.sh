@@ -21,8 +21,8 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=6
-VNAME="0.2.4"
+VCODE=7
+VNAME="0.2.5"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }
@@ -148,8 +148,13 @@ aapt2 link "${link_args[@]}" -A "$WORK/assets" || fail "aapt2 link"
 
 # --- 5. R classes (real R from aapt2, not the typecheck stub) --------------
 step "javac R"
-find "$WORK/gen" -name 'R.java' -print0 | xargs -0 javac -nowarn -d "$WORK/rclasses" \
-    || fail "javac R"
+# --release 11, not the JDK's default. JDK 17 emits class file major 61; that
+# class file reaches the dex, and ART's verifier rejects the resulting bytecode
+# even though d8 accepts the input. The symptom is a bare
+# ClassNotFoundException for MainActivity against a dex that provably contains
+# it -- structurally perfect, unloadable.
+find "$WORK/gen" -name 'R.java' -print0 | xargs -0 javac -nowarn --release 11 \
+    -d "$WORK/rclasses" || fail "javac R"
 
 # --- 6. kotlinc: all main sources against real R + android.jar + deps ------
 step "kotlinc main sources"
@@ -162,7 +167,9 @@ for j in "$AX"/*.jar "$JVM"/*.jar; do
     [ -f "$j" ] && CLASSPATH="$CLASSPATH:$j"
 done
 find app/src/main/java -name '*.kt' > "$WORK/sources.list"
-"$KOTLINC" -J-Xmx1400m -nowarn -jvm-target 17 -cp "$CLASSPATH" \
+# -jvm-target 11 for the same reason as javac above. Do not raise this to 17:
+# the app will build, install, and then fail to load its own Activity.
+"$KOTLINC" -J-Xmx1400m -nowarn -jvm-target 11 -cp "$CLASSPATH" \
     -d "$WORK/classes" @"$WORK/sources.list" || fail "kotlinc"
 
 # --- 7. dex: app classes + R + runtime deps -------------------------------
@@ -340,6 +347,57 @@ mkdir -p "$(dirname "$OUT")"
 # and do not assert schemes the tool is correct to omit.
 grep -q "Verified using v3 scheme.*: true" "$WORK/verify.txt" \
     || fail "v3 signature did not verify; see $WORK/verify.txt"
+
+# Bytecode level guard.
+#
+# Class file major 61 (Java 17) shipped into this APK twice, and the result was
+# an app that installs and then cannot load its own Activity: d8 accepts the
+# input, the dex looks structurally perfect, and ART's verifier refuses it.
+# Nothing else in the build catches this -- the typecheck and the host unit
+# suites both run on the JVM and are perfectly happy.
+#
+# So read the real class file version back out of the dex and refuse to ship
+# anything above Java 11 (major 55).
+CLASS_MAJOR=$(python3 - "$OUT" "$WORK" <<'PYEOF'
+import sys, zipfile, struct
+
+apk, work = sys.argv[1], sys.argv[2]
+data = zipfile.ZipFile(apk).read("classes.dex")
+u32 = lambda o: struct.unpack_from("<I", data, o)[0]
+
+def uleb(o):
+    r = s = 0
+    while True:
+        x = data[o]; o += 1; r |= (x & 0x7f) << s
+        if not (x & 0x80):
+            return r, o
+        s += 7
+
+# The dex does not store class file versions, so read them from the class jars
+# that produced it. If neither jar exists the build already failed earlier.
+import os
+worst = 0
+for jar in ("app-classes.jar", "r-classes.jar"):
+    p = os.path.join(work, jar)
+    if not os.path.exists(p):
+        continue
+    z = zipfile.ZipFile(p)
+    for n in z.namelist():
+        if not n.endswith(".class"):
+            continue
+        # Class file layout: magic(4) minor(2) major(2). The major version is
+        # at offset 6 -- reading offset 4 gets the MINOR version, which is
+        # almost always 0, so a guard written that way passes no matter what
+        # bytecode was compiled in. That mistake was made here once already.
+        major = struct.unpack_from(">H", z.read(n), 6)[0]
+        if major > worst:
+            worst = major
+print(worst)
+PYEOF
+) || CLASS_MAJOR=99
+# `set -e` would kill the script on a non-zero probe exit before this could
+# explain itself, so the probe only prints; the decision is made here.
+[ "${CLASS_MAJOR:-99}" -le 55 ] || fail "dex carries class file major $CLASS_MAJOR (>55 = newer than Java 11); ART's verifier rejects it and the app will not load its own Activity"
 
 # Post-package assertions: both of these shipped broken once already.
 DEX_METHOD=$(unzip -v "$OUT" | awk '$NF == "classes.dex" {print $2; exit}')
