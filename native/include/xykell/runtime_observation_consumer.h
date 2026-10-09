@@ -22,6 +22,7 @@
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "xykell/runtime_event_observation.h"
 
@@ -57,6 +58,15 @@ struct RuntimeObservationSnapshot {
     // Latest observed entity counts. Absent = the relay has not reported yet.
     std::optional<std::uint64_t> latestEntityCount;
     std::optional<std::uint64_t> latestPlayerCount;
+    // The online roster as last reported by PlayerList 0x3f, in arrival order.
+    //
+    // Bounded and ordered by insertion, so a session that joins and leaves for
+    // hours cannot grow this without limit, and a tab list shows the same
+    // order every time. It is a COUNT of what the server told us: a player who
+    // joins while the relay is down is absent here, and the HUD renders an
+    // empty roster rather than guessing at one.
+    std::vector<std::string> playerRoster;
+    std::uint64_t rosterCount = 0; // entries ever added, for a join/leave tally
 };
 
 // Single-method consumer boundary. Copy-in/copy-out by value: stored
@@ -65,6 +75,11 @@ struct RuntimeObservationSnapshot {
 class ObservationConsumer {
   public:
     void consume(const RuntimeObservation& observation) {
+        if (const auto* p = std::get_if<PlayerListObservation>(&observation)) {
+            applyRoster(*p);
+            ++snapshot_.rosterCount;
+            return;
+        }
         if (const auto* m = std::get_if<PlayerMessageObservation>(&observation)) {
             snapshot_.latestMessage = *m;  // value copy
             ++snapshot_.messageCount;
@@ -130,7 +145,40 @@ class ObservationConsumer {
     }
 
   private:
+    // Add/remove one roster entry. Keyed on uuid so a rename replaces rather
+    // than duplicates, and bounded so a long session cannot grow it forever.
+    void applyRoster(const PlayerListObservation& o) {
+        for (std::size_t i = 0; i < roster_.size(); ++i) {
+            if (roster_[i].first != o.uuid) continue;
+            if (o.present) {
+                // A rename replaces in place: removing and re-adding would move
+                // the player to the end of the list for no reason.
+                roster_[i].second = o.name;
+            } else {
+                roster_.erase(roster_.begin() + static_cast<std::ptrdiff_t>(i));
+            }
+            publishRoster();
+            return;
+        }
+        if (!o.present) return; // removing someone we never had
+        roster_.emplace_back(o.uuid, o.name);
+        while (roster_.size() > kMaxRoster) roster_.erase(roster_.begin());
+        publishRoster();
+    }
+
+    void publishRoster() {
+        snapshot_.playerRoster.clear();
+        snapshot_.playerRoster.reserve(roster_.size());
+        for (const auto& kv : roster_) snapshot_.playerRoster.push_back(kv.second);
+    }
+
+    static constexpr std::size_t kMaxRoster = 128;
+
     RuntimeObservationSnapshot snapshot_;
+    // (uuid, name) in arrival order. A vector, not a map: the tab list shows
+    // join order, and a key-sorted container would reshuffle it every time a
+    // name happened to sort earlier than the rest.
+    std::vector<std::pair<std::string, std::string>> roster_;
     // Previous travel sample for the speed delta. Exactly one entry:
     // boundedness rule (no history list) still holds.
     std::optional<PlayerTravelObservation> prevTravel_;

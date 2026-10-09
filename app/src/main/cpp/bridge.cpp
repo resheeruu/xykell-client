@@ -558,6 +558,28 @@ Java_dev_xykell_client_runtime_observation_Observations_nativeOfferVitals(
     }
 }
 
+// One add/remove of an online player, decoded from PlayerList 0x3f.
+//
+// `present` is a jboolean rather than an inferred value: a removal carries no
+// name, and inventing one would put a blank row on the tab list.
+JNIEXPORT jboolean JNICALL
+Java_dev_xykell_client_runtime_observation_Observations_nativeOfferPlayerList(
+    JNIEnv* env, jclass, jstring eventId, jlong observedAtMs, jboolean present,
+    jstring uuid, jstring name) {
+    try {
+        auto o = xykell::runtime::makePlayerList(
+            toStd(env, eventId), static_cast<std::uint64_t>(observedAtMs),
+            present == JNI_TRUE, toStd(env, uuid), toStd(env, name));
+        if (!o.has_value()) {
+            return JNI_FALSE;
+        }
+        sharedObservationConsumer().consume(xykell::runtime::PlayerListObservation{*o});
+        return JNI_TRUE;
+    } catch (...) {
+        return JNI_FALSE;
+    }
+}
+
 // Observed entity population from the relay's entity table. Counts come from
 // what the relay has been told about, never a claim about unseen entities.
 JNIEXPORT jboolean JNICALL

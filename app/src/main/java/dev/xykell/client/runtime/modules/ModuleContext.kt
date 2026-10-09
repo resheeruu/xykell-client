@@ -3,6 +3,7 @@ package dev.xykell.client.runtime.modules
 import dev.xykell.client.runtime.cheat.ClickSchedule
 import dev.xykell.client.runtime.cheat.MacroStep
 import dev.xykell.client.runtime.relay.EntityTable
+import dev.xykell.client.runtime.relay.PlayerListTable
 import dev.xykell.client.runtime.relay.RelayDirection
 import kotlin.random.Random
 
@@ -23,6 +24,15 @@ import kotlin.random.Random
 class ModuleContext(
     val entities: EntityTable = EntityTable(),
     val settings: MutableMap<String, String> = HashMap(),
+    /**
+     * How a decoded roster change reaches the HUD.
+     *
+     * Injected rather than called directly: the production sink crosses JNI into
+     * the native observation consumer, which a host JVM test has no way to load.
+     * Tests pass a recorder and assert on what the relay observed, which is the
+     * part that actually has logic in it.
+     */
+    val onPlayerListChange: (PlayerListTable.Change) -> Unit = {},
     /**
      * Monotonic millisecond clock, injected so tests can drive time exactly
      * and no module reaches for a global.
@@ -65,6 +75,9 @@ class ModuleContext(
     var tick: Long = 0
         private set
 
+    /** The online roster, decoded from clientbound PlayerList 0x3f. */
+    val playerList = PlayerListTable()
+
     /**
      * Duration of the last item cooldown the client itself reported, in ticks;
      * 0 until one has been seen.
@@ -94,6 +107,22 @@ class ModuleContext(
     }
 
     /**
+     * Decode a clientbound PlayerList entry and pass on whatever it changed.
+     *
+     * Clientbound only: the server is the only side that sends this, so an
+     * outbound packet claiming to be one is not a roster entry and is ignored.
+     */
+    fun observePlayerList(direction: RelayDirection, packet: ByteArray) {
+        if (direction != RelayDirection.TO_CLIENT) return
+        val change = try {
+            playerList.observe(packet)
+        } catch (e: Exception) {
+            null
+        } ?: return
+        onPlayerListChange(change)
+    }
+
+    /**
      * Record the local player's own reported position. Only ever called with
      * the client's outbound MovePlayer — trusting a server-supplied position
      * for "where am I" would let a server place the player anywhere, which is
@@ -116,6 +145,7 @@ class ModuleContext(
     /** Drop the tracked state; call on disconnect so a new session starts clean. */
     fun reset() {
         entities.clear()
+        playerList.clear()
         settings.clear()
         hasGround = false
         tick = 0

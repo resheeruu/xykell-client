@@ -37,6 +37,13 @@ VitalsObservation vitals(const std::string& id, std::uint64_t at, std::optional<
     return *o;
 }
 
+PlayerListObservation playerList(const std::string& id, std::uint64_t at, bool present,
+                                 const std::string& uuid, const std::string& name) {
+    auto o = makePlayerList(id, at, present, uuid, name);
+    assert(o.has_value());
+    return *o;
+}
+
 EntityPopulationObservation population(const std::string& id, std::uint64_t at,
                                        std::uint64_t entities, std::uint64_t players) {
     auto o = makeEntityPopulation(id, at, entities, players);
@@ -254,6 +261,60 @@ int main() {
         assert(c.totalConsumed() == 5000);
         // Constant shape: optionals + scalars + one short string.
         assert(sizeof(RuntimeObservationSnapshot) < 512);
+    }
+
+    // --- the online roster: order, rename, removal, boundedness ---
+    {
+        ObservationConsumer c;
+        const std::string u1(32, '1');
+        const std::string u2(32, '2');
+        c.consume(playerList("a", 1, true, u1, "Steve"));
+        c.consume(playerList("b", 2, true, u2, "Alex"));
+        const auto& s = c.snapshot();
+        assert(s.playerRoster.size() == 2);
+        // Join order, not sorted order: a tab list that reshuffles itself is
+        // noise the player did not ask for.
+        assert(s.playerRoster[0] == "Steve" && s.playerRoster[1] == "Alex");
+        assert(s.rosterCount == 2);
+
+        // A rename replaces in place; it must not move the player to the end.
+        c.consume(playerList("c", 3, true, u1, "SteveRenamed"));
+        assert(c.snapshot().playerRoster.size() == 2);
+        assert(c.snapshot().playerRoster[0] == "SteveRenamed");
+        assert(c.snapshot().playerRoster[1] == "Alex");
+
+        // Removing someone who was never on the list changes nothing.
+        const std::string u3(32, '3');
+        c.consume(playerList("d", 4, false, u3, ""));
+        assert(c.snapshot().playerRoster.size() == 2);
+
+        c.consume(playerList("e", 5, false, u1, ""));
+        assert(c.snapshot().playerRoster.size() == 1);
+        assert(c.snapshot().playerRoster[0] == "Alex");
+
+        // Factories refuse what would put a blank or unkeyable row on screen.
+        assert(!makePlayerList("x", 6, true, "tooshort", "Steve").has_value());
+        assert(!makePlayerList("x", 6, true, std::string(32, '4'), "").has_value());
+        assert(!makePlayerList("", 6, true, u1, "Steve").has_value());
+        // A removal legitimately carries no name.
+        assert(makePlayerList("x", 6, false, u1, "").has_value());
+    }
+
+    // The roster is bounded: a session that joins and leaves all day must not
+    // grow the snapshot without limit.
+    {
+        ObservationConsumer c;
+        const char* hexDigits = "0123456789abcdef";
+        for (std::size_t i = 0; i < 500; ++i) {
+            // A distinct uuid per entry: reusing a handful of them would keep
+            // the roster small for a reason that has nothing to do with bounds.
+            std::string u(32, '0');
+            u[30] = hexDigits[i % 16];
+            u[31] = hexDigits[(i / 16) % 16];
+            c.consume(playerList("j" + std::to_string(i), i, true, u, "P" + std::to_string(i)));
+        }
+        assert(c.snapshot().playerRoster.size() == 128);
+        assert(c.snapshot().rosterCount == 500);
     }
 
     std::cout << "test_observation_consumer: PASS\n";

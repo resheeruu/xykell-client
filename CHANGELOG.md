@@ -3,6 +3,24 @@
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [Unreleased]
+- **`hud.tab_list` delivered end-to-end, across both languages.** The roster
+  comes from clientbound `PlayerList 0x3f`, which this repo did not decode. The
+  chain is now: `PlayerListTable` decodes add/remove/clear and keys entries on
+  UUID (a rename replaces rather than duplicates, and a name-keyed roster would
+  leak the old row forever) → `ModuleRuntime` offers each change through
+  `Observations` → the native `ObservationConsumer` keeps a bounded 128-entry
+  join-ordered roster → `formatTabList` renders it → `ElementType::TabList`
+  carries it to the overlay. An unreported roster renders `--`, never "0
+  players": nobody in the world and nobody observed yet are different claims.
+  `player_notifier`, `friend_alerts`, `nickname` and `mod_alerts` stay
+  NOT_IMPLEMENTED — each needs alert or UI wiring that does not exist yet, and
+  the roster alone does not deliver any of them.
+- **The relay's own decode now reaches the HUD.** Worth stating plainly, because
+  it was a real gap: the observation consumer was only ever fed by
+  `ObservationService` from the external localhost feed, so anything the *relay*
+  decoded stayed invisible no matter how correct it was. `ModuleRuntime` hands
+  roster changes to the sink through an injected callback — injected because the
+  production sink crosses JNI and a host JVM test cannot load it.
 - **`combat.backtrack` delivered, and two capabilities added to unblock it.**
   Its `IMPOSSIBLE` reason was specific: "ctx.entities holds each entity's latest
   position and overwrites it on every move ... ModuleContext exposes no field in

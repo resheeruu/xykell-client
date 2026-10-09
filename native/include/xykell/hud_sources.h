@@ -377,6 +377,37 @@ inline std::string formatTps(const std::optional<double>& tps) {
     return std::string(buf);
 }
 
+// The online roster as PlayerList 0x3f reported it, one name per line prefix.
+//
+// An empty roster and a roster that was never reported are different claims, so
+// the caller distinguishes them: `reported` is false until the server has sent
+// a single entry, and that case renders kUnavailable rather than "0 players".
+// The count is a count of what the server told us, never of who is really in
+// the world -- a player who joined while the relay was down is simply absent.
+inline std::string formatTabList(const std::vector<std::string>& roster, bool reported,
+                                 std::size_t limit) {
+    if (!reported || roster.empty()) {
+        return kUnavailable;
+    }
+    // The label lives here rather than in the renderer: the TabList case prints
+    // the provider's line verbatim, so a renderer-side prefix would double it.
+    std::string out = std::to_string(roster.size()) + " online: ";
+    std::size_t shown = 0;
+    for (const auto& name : roster) {
+        if (shown >= limit) break;
+        if (shown > 0) out += ", ";
+        out += name;
+        ++shown;
+    }
+    if (roster.size() > limit) {
+        out += ", +" + std::to_string(roster.size() - limit);
+    }
+    return out;
+}
+
+// How many names a tab list line prints before it says how many it left out.
+inline constexpr std::size_t kTabListNames = 6;
+
 // Installs the population + clock-rate providers from an observation snapshot.
 // The snapshot POINTER is captured (same lifetime rule as bindMotionProviders).
 inline void bindPopulationProviders(
@@ -397,6 +428,14 @@ inline void bindPopulationProviders(
                         return std::string(kUnavailable);
                     }
                     return formatTps(snap->ticksPerSecond);
+                };
+                break;
+            case ElementType::TabList:
+                el.provider = [snap]() {
+                    if (snap == nullptr || snap->rosterCount == 0) {
+                        return std::string(kUnavailable);
+                    }
+                    return formatTabList(snap->playerRoster, true, kTabListNames);
                 };
                 break;
             default:

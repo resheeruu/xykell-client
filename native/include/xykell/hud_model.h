@@ -32,6 +32,10 @@ enum class ElementType {
     // kUnavailable before enough has been observed.
     EntityCounter,
     Tps,
+    // Who is online, from the PlayerList 0x3f entries the relay has observed.
+    // Renders kUnavailable until the server has actually sent a roster --
+    // an empty list is not the same claim as "nobody is here".
+    TabList,
     Hunger,
     Keystrokes,
     TargetHud,

@@ -21,6 +21,7 @@ using xykell::hud::sources::formatLowHealth;
 using xykell::hud::sources::bindPopulationProviders;
 using xykell::hud::sources::formatEntityCount;
 using xykell::hud::sources::formatTps;
+using xykell::hud::sources::formatTabList;
 using xykell::hud::sources::formatCoordinates;
 using xykell::hud::sources::formatDirection;
 using xykell::hud::sources::formatSpeed;
@@ -215,6 +216,19 @@ int main() {
     assert(xykell::hud::typeFromName("speed_meter", t) && t == ElementType::SpeedMeter);
     assert(xykell::hud::typeName(ElementType::Direction) == "direction");
     assert(xykell::hud::typeName(ElementType::SpeedMeter) == "speed_meter");
+    assert(xykell::hud::typeFromName("tab_list", t) && t == ElementType::TabList);
+    assert(xykell::hud::typeName(ElementType::TabList) == "tab_list");
+
+    // --- tab list: an unreported roster and an empty one are different claims.
+    {
+        assert(formatTabList({}, false, 6) == kUnavailable);
+        assert(formatTabList({}, true, 6) == kUnavailable);
+        const std::vector<std::string> two{"Steve", "Alex"};
+        assert(formatTabList(two, true, 6) == "2 online: Steve, Alex");
+        // The limit says how many were left out rather than silently truncating.
+        const std::vector<std::string> many{"A", "B", "C"};
+        assert(formatTabList(many, true, 2) == "3 online: A, B, +1");
+    }
 
     std::cout << "test_motion_hud: PASS\n";
     return 0;

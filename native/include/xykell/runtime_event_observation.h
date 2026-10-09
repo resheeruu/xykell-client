@@ -40,6 +40,8 @@ enum class ObservationKind : std::uint8_t {
     // saw, never a claim about the world: an entity it has not been told about
     // does not appear here.
     EntityPopulation,
+    // One add/remove of an online player, from PlayerList 0x3f.
+    PlayerList,
 };
 
 // Observed chat line. 9P bodies always carry non-empty sender + message;
@@ -102,9 +104,23 @@ struct EntityPopulationObservation {
     std::uint64_t playerCount = 0; // the subset flagged as a player
 };
 
+// One entry of the online roster, from PlayerList 0x3f.
+//
+// Only the UUID and the name are retained: the rest of a real entry (skin data,
+// device flags, the title blob) is version-specific and is not read. `present`
+// is false for a removal, and the uuid is then all that is meaningful.
+struct PlayerListObservation {
+    std::string eventId;
+    std::uint64_t observedAtMs = 0;
+    bool present = false;
+    std::string uuid; // 32 lowercase hex characters
+    std::string name; // empty when !present
+};
+
 using RuntimeObservation = std::variant<PlayerMessageObservation, PlayerTravelObservation,
                                         UnknownObservation, VitalsObservation,
-                                        EntityPopulationObservation>;
+                                        EntityPopulationObservation,
+                                        PlayerListObservation>;
 
 inline ObservationKind kindOf(const RuntimeObservation& o) {
     if (std::holds_alternative<PlayerMessageObservation>(o)) return ObservationKind::PlayerMessage;
@@ -112,6 +128,9 @@ inline ObservationKind kindOf(const RuntimeObservation& o) {
     if (std::holds_alternative<VitalsObservation>(o)) return ObservationKind::Vitals;
     if (std::holds_alternative<EntityPopulationObservation>(o)) {
         return ObservationKind::EntityPopulation;
+    }
+    if (std::holds_alternative<PlayerListObservation>(o)) {
+        return ObservationKind::PlayerList;
     }
     return ObservationKind::Unknown;
 }
@@ -174,6 +193,21 @@ inline std::optional<EntityPopulationObservation> makeEntityPopulation(
     if (!detail::validId(eventId)) return std::nullopt;
     if (playerCount > entityCount) return std::nullopt;
     return EntityPopulationObservation{eventId, observedAtMs, entityCount, playerCount};
+}
+
+// A removal needs only a uuid; an add needs a name as well, because a roster
+// entry with no name would render a blank row that looks like a real player.
+// The uuid is length-checked (32 hex chars) rather than merely non-empty, since
+// it is the roster's key.
+inline std::optional<PlayerListObservation> makePlayerList(const std::string& eventId,
+                                                           std::uint64_t observedAtMs,
+                                                           bool present,
+                                                           const std::string& uuid,
+                                                           const std::string& name) {
+    if (!detail::validId(eventId)) return std::nullopt;
+    if (uuid.size() != 32) return std::nullopt;
+    if (present && name.empty()) return std::nullopt;
+    return PlayerListObservation{eventId, observedAtMs, present, uuid, present ? name : std::string()};
 }
 
 // Read-only observation source boundary: poll() yields already-normalized

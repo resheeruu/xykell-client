@@ -17,6 +17,7 @@ import dev.xykell.client.NativeProfiles
 import dev.xykell.client.runtime.cheat.TouchAutomationService
 import dev.xykell.client.runtime.modules.ModuleFlags
 import dev.xykell.client.runtime.modules.ModuleRuntime
+import dev.xykell.client.runtime.observation.Observations
 import dev.xykell.client.runtime.modules.ModuleTapRunner
 
 /**
@@ -95,6 +96,25 @@ class RelayService : Service() {
         try {
             val runtime = ModuleRuntime(
                 isEnabled = ModuleFlags.predicate(activeProfileJson()),
+                // Feed the roster the relay just decoded to the observation
+                // consumer, which is what the HUD renders. Without this the
+                // tab list would decode perfectly and never be seen.
+                onPlayerListChange = { change ->
+                    val now = System.currentTimeMillis()
+                    when (change) {
+                        is PlayerListTable.Change.Added ->
+                            Observations.offerPlayerList(
+                                "playerlist-add-${change.uuid}", now, true,
+                                change.uuid, change.name,
+                            )
+                        is PlayerListTable.Change.Removed ->
+                            Observations.offerPlayerList(
+                                "playerlist-remove-${change.uuid}", now, false,
+                                change.uuid, "",
+                            )
+                        PlayerListTable.Change.Cleared -> Unit
+                    }
+                },
             )
             // Shares the runtime's entity table, so the population observation
             // counts the same live entities the ESP modules read.

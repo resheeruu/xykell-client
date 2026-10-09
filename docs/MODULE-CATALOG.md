@@ -7,11 +7,11 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 ## Totals
 
 - SUPPORTED: 0
-- PARTIAL: 119
+- PARTIAL: 120
 - BLOCKED: 0
 - RESEARCH_REQUIRED: 0
 - INCOMPATIBLE: 0
-- NOT_IMPLEMENTED: 26
+- NOT_IMPLEMENTED: 25
 
 ## By category
 
@@ -116,7 +116,7 @@ implies function. See `docs/RUNTIME-CAPABILITIES.md` for the gate.
 - `xykell.hud.speed_meter` — Speed Meter: **PARTIAL** (requires PLAYER; evidence: Batch final: ElementType::SpeedMeter + consumer 2-sample speed delta (bounded, dt<=0 keeps last) + provider binding; host test_motion_hud + test_observation_consumer)
 - `xykell.hud.stop_watch` — Stop Watch: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch 1: elapsed formatter; host test_hud_sources)
 - `xykell.hud.subtitles` — Subtitles: **NOT_IMPLEMENTED** (requires OVERLAY_DELIVERY; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
-- `xykell.hud.tab_list` — Tab List: **NOT_IMPLEMENTED** (requires OVERLAY_DELIVERY; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
+- `xykell.hud.tab_list` — Tab List: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Clientbound PlayerList 0x3f decoded by PlayerListTable (uuid-keyed, so a rename replaces rather than duplicates; trailing entry fields deliberately unread); ModuleRuntime offers each change through Observations to the native ObservationConsumer, which holds a bounded 128-entry join-ordered roster; formatTabList renders it and ElementType::TabList carries it to the HUD overlay. An unreported roster renders '--', never '0 players'. Host PlayerListTableTest + ModuleRuntimeTest; native test_observation_consumer + test_motion_hud)
 - `xykell.hud.totem_counter` — Totem Counter: **NOT_IMPLEMENTED** (requires OVERLAY_DELIVERY; evidence: read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09)
 - `xykell.hud.movable_hud` — Movable Hud: **PARTIAL** (requires OVERLAY_DELIVERY; evidence: Batch Z2: per-profile layouts, hud_editor, setHudElement, clampToViewport; host test_hud_editor)
 

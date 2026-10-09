@@ -443,7 +443,7 @@ DEVICE_LIMITED_NOTES = {
 RUNTIME_GATED_IDS = {PREFIX + "hud." + s for s in """
  coordinates ping tps armor health hunger position direction biome keystrokes
  target_info server_info inventory_hud ip_display
- potion_hud speed_meter subtitles tab_list totem_counter
+ potion_hud speed_meter subtitles totem_counter
 """.split()} | {PREFIX + "player." + s for s in """
  inventory_manager death_position friend_alerts nickname mod_alerts
 """.split()} | {PREFIX + "misc." + s for s in """
@@ -838,6 +838,11 @@ CATEGORIES = {
 # (CATEGORY, suffix) -> forced status (default RR; these are the M1 proofs).
 PROVEN = {
     ("CLIENT", "core"): PARTIAL,
+    # PlayerList 0x3f -> PlayerListTable -> Observations -> ObservationConsumer
+    # -> formatTabList -> ElementType::TabList -> the HUD overlay. Proven
+    # end-to-end across both languages; no Kotlin module involved, so this has
+    # to be listed here rather than picked up by MODULE_IMPLEMENTED.
+    ("HUD", "tab_list"): PARTIAL,
     # Modules batch: pure RelayListener transforms in runtime/modules,
     # direction-scoped and stateless. host tests listed in EVIDENCE.
     ("COMBAT", "velocity"): PARTIAL,
@@ -945,6 +950,7 @@ PROVEN = {
 EVIDENCE = {
     ("PROXY", "mode"): "P2b: RelayService foreground owner + RelaySessionDriver (terminating session, SERVER toward the game / CLIENT upstream) + ModuleRuntime listener; host test_relaysession (4), test_relaysessiondriver (4); device E2E pending",
     ("PROXY", "relay"): "P2b: RakNetEndpoint per leg + BedrockBatch/Handshake + BedrockIdentity + RelayListener, driven over UDP by RelaySessionDriver; host test_relaysession, test_relaysessiondriver, test_bedrockbatch, test_bedrockhandshake",
+    ("HUD", "tab_list"): "Clientbound PlayerList 0x3f decoded by PlayerListTable (uuid-keyed, so a rename replaces rather than duplicates; trailing entry fields deliberately unread); ModuleRuntime offers each change through Observations to the native ObservationConsumer, which holds a bounded 128-entry join-ordered roster; formatTabList renders it and ElementType::TabList carries it to the HUD overlay. An unreported roster renders '--', never '0 players'. Host PlayerListTableTest + ModuleRuntimeTest; native test_observation_consumer + test_motion_hud",
     ("COMBAT", "backtrack"): "Rewrites clientbound MovePlayer 0x13 to a position the entity held `backtrack_ticks` ago, read from a bounded per-entity lookback ring on EntityTable (20 samples, dropped with the entity on eviction). Outbound leg untouched: the local player's own movement must stay truthful or the server corrects it. Forwards untouched when the entity has no history yet, rather than freezing a first-seen target. Host CombatModulesTest + ModuleRuntimeTest",
     ("COMBAT", "afk_clicker"): "Input plan over TapPlan, not a packet rewrite: one tap at a configured point every intervalTicks, replayed by ModuleTapRunner through TouchAutomationService. Previously IMPOSSIBLE on 'a packet hook cannot synthesise touch input', which the tap surface made false. The game still sends every attack. Host ModuleRuntimeTest",
     ("COMBAT", "double_click"): "Input plan: two taps at a configured point on its cadence, replayed through the same gesture surface. Previously IMPOSSIBLE because the attack action lives in an unexpanded InventoryTransaction 0x1e type - but the game sends that packet, so the relay never needs to rebuild it. Host ModuleRuntimeTest",

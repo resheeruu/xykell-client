@@ -69,6 +69,22 @@ object Observations {
     ): Boolean
 
     /** Observed entity counts. Negative counts are rejected natively. */
+    /**
+     * One add/remove of an online player from PlayerList 0x3f.
+     *
+     * `present` is explicit rather than inferred from an empty name: a removal
+     * carries no name, and treating "no name" as "a join with a blank name"
+     * would put an empty row on the tab list.
+     */
+    @JvmStatic
+    external fun nativeOfferPlayerList(
+        eventId: String,
+        observedAtMs: Long,
+        present: Boolean,
+        uuid: String,
+        name: String,
+    ): Boolean
+
     @JvmStatic
     external fun nativeOfferPopulation(
         eventId: String,
@@ -109,6 +125,23 @@ object Observations {
         } catch (e: UnsatisfiedLinkError) {
             dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
                 "Observations", "nativeOfferVitals",
+            )
+        }
+    }
+
+    /** Offer a PlayerList add/remove. [name] is ignored when [present] is false. */
+    fun offerPlayerList(
+        eventId: String,
+        observedAtMs: Long,
+        present: Boolean,
+        uuid: String,
+        name: String,
+    ) {
+        try {
+            nativeOfferPlayerList(eventId, observedAtMs, present, uuid, if (present) name else "")
+        } catch (e: UnsatisfiedLinkError) {
+            dev.xykell.client.runtime.NativeBridgeStatus.recordFailure(
+                "Observations", "nativeOfferPlayerList",
             )
         }
     }

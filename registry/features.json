@@ -1687,7 +1687,7 @@
       "name": "Tab List",
       "category": "HUD",
       "description": "needs player-list source",
-      "status": "NOT_IMPLEMENTED",
+      "status": "PARTIAL",
       "requires": [
         "OVERLAY_DELIVERY"
       ],
@@ -1728,8 +1728,8 @@
       "sourceReferences": [
         "Flarial"
       ],
-      "evidence": "read path absent for this field; the relay now observes SetHealth 0x2A / SetTime 0x0A / MovePlayer 0x13 / Text 0x09",
-      "notes": "Value lives in the Bedrock client. No read path written yet, so there is nothing to live-validate; needs a Stage-20 observation source first."
+      "evidence": "Clientbound PlayerList 0x3f decoded by PlayerListTable (uuid-keyed, so a rename replaces rather than duplicates; trailing entry fields deliberately unread); ModuleRuntime offers each change through Observations to the native ObservationConsumer, which holds a bounded 128-entry join-ordered roster; formatTabList renders it and ElementType::TabList carries it to the HUD overlay. An unreported roster renders '--', never '0 players'. Host PlayerListTableTest + ModuleRuntimeTest; native test_observation_consumer + test_motion_hud",
+      "notes": "needs player-list source"
     },
     {
       "id": "xykell.hud.totem_counter",

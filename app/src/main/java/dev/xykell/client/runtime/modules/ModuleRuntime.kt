@@ -1,6 +1,7 @@
 package dev.xykell.client.runtime.modules
 
 import dev.xykell.client.runtime.cheat.MacroStep
+import dev.xykell.client.runtime.relay.PlayerListTable
 import dev.xykell.client.runtime.relay.RelayDirection
 import dev.xykell.client.runtime.relay.RelayListener
 import kotlin.random.Random
@@ -37,10 +38,19 @@ class ModuleRuntime(
     private val isEnabled: (String) -> Boolean,
     settings: Map<String, String> = emptyMap(),
     private val random: Random = Random.Default,
+    /**
+     * Where a decoded roster change goes. Defaults to the real observation sink
+     * so the relay feeds the HUD without every caller wiring it; host tests pass
+     * their own recorder.
+     */
+    private val onPlayerListChange: (PlayerListTable.Change) -> Unit = {},
 ) : RelayListener {
 
     /** Per-session state; dies with the session via [reset]. */
-    val ctx = ModuleContext(settings = settings.toMutableMap())
+    val ctx = ModuleContext(
+        settings = settings.toMutableMap(),
+        onPlayerListChange = onPlayerListChange,
+    )
 
     /** Ids this runtime will consider, in application order. */
     private val candidates: List<String> = ORDER.filter { it in ALL_IMPLEMENTED }
@@ -52,6 +62,7 @@ class ModuleRuntime(
         // modules would be correct and useless. Self is excluded so the player's
         // own id never counts as a target.
         learnSelf(direction, packet)
+        ctx.observePlayerList(direction, packet)
         try {
             ctx.entities.observe(packet, ctx.selfRuntimeId)
         } catch (e: Exception) {

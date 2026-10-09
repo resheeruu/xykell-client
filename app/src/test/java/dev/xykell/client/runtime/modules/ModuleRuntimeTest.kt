@@ -1,6 +1,7 @@
 package dev.xykell.client.runtime.modules
 
 import dev.xykell.client.runtime.cheat.MacroStep
+import dev.xykell.client.runtime.relay.PlayerListTable
 import dev.xykell.client.runtime.relay.RelayDirection
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -269,6 +270,55 @@ class ModuleRuntimeTest {
         // three due plans must come out 0.3, 0.5, 0.4 — declaration order, not
         // the alphabetical order a HashSet would give.
         assertEquals(listOf(0.3, 0.5, 0.4), points)
+    }
+
+    // ------------------------------------------------------ the online roster
+
+    private fun playerList(type: Int, fill: Int, name: String?): ByteArray {
+        val out = ArrayList<Byte>()
+        out.add(0x3f)
+        out.add(type.toByte())
+        for (i in 0 until 16) out.add(fill.toByte())
+        if (name != null) {
+            val bytes = name.toByteArray(Charsets.UTF_8)
+            out.add(bytes.size.toByte())
+            for (b in bytes) out.add(b)
+        }
+        out.add(0)
+        return out.toByteArray()
+    }
+
+    /**
+     * The relay decodes PlayerList but the HUD reads the observation consumer,
+     * so without this hand-off a perfectly decoded roster would never be seen.
+     */
+    @Test
+    fun `roster changes reach the observation sink`() {
+        val seen = ArrayList<PlayerListTable.Change>()
+        val rt = ModuleRuntime({ true }, onPlayerListChange = { seen.add(it) })
+        rt.transform(RelayDirection.TO_CLIENT, playerList(0, 1, "Steve"))
+        rt.transform(RelayDirection.TO_CLIENT, playerList(1, 1, null))
+        assertEquals(2, seen.size)
+        assertTrue(seen[0] is PlayerListTable.Change.Added)
+        assertEquals("Steve", (seen[0] as PlayerListTable.Change.Added).name)
+        assertTrue(seen[1] is PlayerListTable.Change.Removed)
+    }
+
+    @Test
+    fun `outbound player list is ignored`() {
+        val seen = ArrayList<PlayerListTable.Change>()
+        val rt = ModuleRuntime({ true }, onPlayerListChange = { seen.add(it) })
+        rt.transform(RelayDirection.TO_SERVER, playerList(0, 1, "Spoofed"))
+        assertTrue("the server is the only side that sends this", seen.isEmpty())
+    }
+
+    @Test
+    fun `the roster is per session and dies with it`() {
+        val rt = ModuleRuntime({ true })
+        rt.transform(RelayDirection.TO_CLIENT, playerList(0, 1, "Steve"))
+        assertEquals(1, rt.ctx.playerList.size)
+        rt.reset()
+        assertEquals(0, rt.ctx.playerList.size)
     }
 
     // ------------------------------------------------- input gesture shapes

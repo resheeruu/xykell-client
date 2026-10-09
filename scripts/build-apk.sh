@@ -66,7 +66,7 @@ JNI_EXPORTS=$(nm -D --defined-only "$WORK/lib/arm64-v8a/libxykellcore.so" | grep
 # 42 before it: nativeOfferVitals (observed SetHealth 0x2A / SetTime 0x0A) and
 # nativeOfferPopulation (relay entity counts), both added with the observation
 # path that made hud.health / low_health / entity_counter / tps deliverable.
-[ "$JNI_EXPORTS" -eq 43 ] || fail "expected 43 Java_dev* exports, got $JNI_EXPORTS"
+[ "$JNI_EXPORTS" -eq 44 ] || fail "expected 44 Java_dev* exports, got $JNI_EXPORTS"
 
 # --- 2. assets: registry catalog (mirrors gradle copyRegistry) -------------
 step "assets registry"
