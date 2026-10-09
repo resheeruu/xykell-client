@@ -2,6 +2,27 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.2]
+**Fixes the startup crash.**
+
+`libxykellcore.so` was linked with `NEEDED libc++_shared.so`, but the APK
+packaged only `libxykellcore.so`. Android does not hand the NDK C++ runtime to
+third-party apps; it has to ship inside the APK. Without it,
+`System.loadLibrary("xykellcore")` fails at startup and the app dies on launch.
+This was never a permissions problem — it would have crashed on every version
+regardless of what Play Protect thought.
+
+Two faults, found and fixed together:
+1. The C++ runtime was never packaged.
+2. The first fix picked the **32-bit ARM** copy from the NDK sysroot, next to a
+   64-bit library. The build now takes the aarch64 one and *asserts* that the
+   runtime and the library share a class, so this cannot regress silently.
+
+Verified by dlopen-ing the packaged library the way the app does, and touching
+the symbols the startup path calls. Also a build-time guard: the build now reads
+every `NEEDED` entry and fails if the APK does not contain it, so a future
+dependency cannot reintroduce this.
+
 ## [0.2.1]
 Fixes the install problem reported against 0.2.0.
 

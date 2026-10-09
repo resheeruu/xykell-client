@@ -21,8 +21,8 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=3
-VNAME="0.2.1"
+VCODE=4
+VNAME="0.2.2"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }
@@ -59,6 +59,34 @@ clang++ -shared -fPIC -O2 -std=c++17 -Wl,-z,defs -L"$CLUNW" \
     native/src/xykell_lan_discovery.cpp \
     -o "$WORK/lib/arm64-v8a/libxykellcore.so" 2> "$WORK/native.log" \
     || { tail -5 "$WORK/native.log"; fail "native link (see $WORK/native.log)"; }
+# The C++ runtime must ship IN the APK.
+#
+# libxykellcore.so is linked with NEEDED libc++_shared.so. Android does not
+# provide that to third-party apps: it is an NDK library that has to be packaged
+# alongside. Without it, System.loadLibrary("xykellcore") fails at startup with
+# dlopen failed: libc++_shared.so not found, which kills the app on launch --
+# it is a load-time dependency, so no amount of try/catch in Kotlin helps.
+# aarch64 (ELF64), NOT arm-linux-androideabi: that path is the 32-bit build and
+# packaging it would swap this dlopen failure for a worse one -- a 32-bit runtime
+# next to a 64-bit library.
+STDLIB_SRC="$SYS/usr/lib/aarch64-linux-android/libc++_shared.so"
+[ -f "$STDLIB_SRC" ] || fail "missing C++ runtime at $STDLIB_SRC"
+STDLIB_CLASS=$(readelf -h "$STDLIB_SRC" 2>/dev/null | sed -n 's/.*Class: *\([A-Z0-9]*\).*/\1/p')
+CORE_CLASS=$(readelf -h "$WORK/lib/arm64-v8a/libxykellcore.so" 2>/dev/null | sed -n 's/.*Class: *\([A-Z0-9]*\).*/\1/p')
+[ "$STDLIB_CLASS" = "$CORE_CLASS" ] || fail "C++ runtime is $STDLIB_CLASS but libxykellcore.so is $CORE_CLASS"
+cp "$STDLIB_SRC" "$WORK/lib/arm64-v8a/libc++_shared.so"
+
+# Fail loudly rather than shipping an APK that cannot load its own library.
+for NEEDED in $(readelf -d "$WORK/lib/arm64-v8a/libxykellcore.so" 2>/dev/null \
+        | sed -n 's/.*Shared library: \[\(.*\)\]/\1/p'); do
+    case "$NEEDED" in
+        libc.so|libdl.so|libm.so|liblog.so) continue ;;  # provided by Android
+    esac
+    if [ ! -f "$WORK/lib/arm64-v8a/$NEEDED" ]; then
+        fail "libxykellcore.so needs $NEEDED but the APK does not package it"
+    fi
+done
+
 JNI_EXPORTS=$(nm -D --defined-only "$WORK/lib/arm64-v8a/libxykellcore.so" | grep -c "Java_dev" || true)
 # 43: NativeHud.renderHudLines, which renders the HUD through the same tested
 # C++ renderer the game-side overlay uses and hands the lines to the Android
