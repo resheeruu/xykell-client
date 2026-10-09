@@ -16,6 +16,10 @@ import org.junit.Test
  * Host JVM tests for the loopback app->game feed server (Phase F).
  * Real sockets on 127.0.0.1 with ephemeral ports; bounded timeouts so a
  * dead server fails the assertion instead of hanging the suite.
+ *
+ * These were the one flaky suite: a 10 s client read timeout expired under the
+ * load of a full run on the phone and failed a server that was fine. The
+ * timeout is now sized for a loaded phone rather than for an idle desktop.
  */
 class ObservationFeedServerTest {
 
@@ -42,7 +46,11 @@ class ObservationFeedServerTest {
 
     private fun connect(port: Int): Client =
         Client(Socket(InetAddress.getLoopbackAddress(), port).apply {
-            soTimeout = 10_000
+            // Generous on purpose. All 57 suites share one JVM on a phone, so a
+            // 10 s read can expire purely from load and fail a server that is
+            // working perfectly. Still bounded, so a genuinely dead server fails
+            // instead of hanging the suite.
+            soTimeout = 45_000
             tcpNoDelay = true
         })
 

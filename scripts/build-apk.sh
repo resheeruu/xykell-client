@@ -21,8 +21,8 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=1
-VNAME="0.1.0-m1.5"
+VCODE=2
+VNAME="0.2.0"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }

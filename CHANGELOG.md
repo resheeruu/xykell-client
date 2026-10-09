@@ -2,6 +2,25 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.0]
+Tagged. Nine ids delivered and the HUD made visible for the first time — see
+`docs/RELEASE-0.2.0.md` for the verification table, artifact hash, and the
+limitations stated plainly (`SUPPORTED` is still 0 because no session has run).
+Full narrative in `docs/WHATS-NEW.md`.
+
+Also in this release:
+- **Flaky gate fixed.** `RelayPipeTest` and `ObservationFeedServerTest` bound
+  their own deadlines too tightly for a phone running 57 suites in one JVM, so
+  working code failed under load. Reads are now 30 s with 60 s per-test limits.
+  Verified over three consecutive full runs. Note the first attempt at this
+  raised socket timeouts alone and made things *worse*, because the real limit
+  was JUnit's own `@Test(timeout = 8000)`.
+- **Repository consolidated to `main`.** `feature/batch1-hud-sources` and
+  `stage20-validation` are merged and deleted. The first produced 40 conflicts
+  (many `add/add`) because main's files were strictly newer, so it was merged
+  with the `ours` strategy: the branch is recorded as merged, main's content is
+  untouched, and the merge commit changes zero files.
+
 ## [Unreleased]
 - **`player.death_position` delivered**, and with it an honest correction to the
   plan I gave you. I claimed W5's sub-chunk palettes carry block *names* and

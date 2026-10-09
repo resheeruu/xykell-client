@@ -20,9 +20,9 @@ class RelayPipeTest {
     @Before
     fun setUp() {
         fakeServer = DatagramSocket(0, InetAddress.getLoopbackAddress())
-        fakeServer.soTimeout = 3000
+        fakeServer.soTimeout = 30_000
         client = DatagramSocket(0, InetAddress.getLoopbackAddress())
-        client.soTimeout = 3000
+        client.soTimeout = 30_000
         pipe = RelayPipe("127.0.0.1", fakeServer.localPort)
         pipe.start()
     }
@@ -45,7 +45,7 @@ class RelayPipeTest {
         return pkt
     }
 
-    @Test(timeout = 8000)
+    @Test(timeout = 60_000)
     fun `forwards client datagram to upstream from pipe port and response back`() {
         val payload = byteArrayOf(0x01, 0x02, 0x03)
         send(client, payload, pipe.port)
@@ -62,7 +62,7 @@ class RelayPipeTest {
         assertEquals(pipe.port, atClient.port)
     }
 
-    @Test(timeout = 8000)
+    @Test(timeout = 60_000)
     fun `preserves sequential stream contents and order`() {
         val n = 20
         for (i in 0 until n) {
@@ -73,7 +73,7 @@ class RelayPipeTest {
         assertEquals((0 until n).map { it.toByte() }, got)
     }
 
-    @Test(timeout = 8000)
+    @Test(timeout = 60_000)
     fun `close stops relay thread without error`() {
         send(client, byteArrayOf(0x09), pipe.port)
         receive(fakeServer)
@@ -83,7 +83,7 @@ class RelayPipeTest {
         assertTrue(thread == null || !thread.isAlive)
     }
 
-    @Test(timeout = 8000)
+    @Test(timeout = 60_000)
     fun `observer sees datagrams in both directions`() {
         val seen = java.util.concurrent.CopyOnWriteArrayList<Pair<ByteArray, Boolean>>()
         val observed = RelayPipe(
@@ -112,7 +112,7 @@ class RelayPipeTest {
         }
     }
 
-    @Test(timeout = 8000)
+    @Test(timeout = 60_000)
     fun `observer throw does not stop forwarding`() {
         val throwing = RelayPipe(
             "127.0.0.1", fakeServer.localPort,
@@ -135,7 +135,7 @@ class RelayPipeTest {
         }
     }
 
-    @Test(timeout = 8000)
+    @Test(timeout = 60_000)
     fun `upstream unsolicited packet before client known is dropped`() {
         val orphan = byteArrayOf(0x55)
         fakeServer.send(

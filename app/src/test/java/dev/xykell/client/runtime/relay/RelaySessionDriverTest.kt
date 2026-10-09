@@ -18,7 +18,10 @@ import java.net.InetAddress
 class RelaySessionDriverTest {
 
     private fun socket() = DatagramSocket(0, InetAddress.getLoopbackAddress()).apply {
-        soTimeout = 3000
+        // Under the JUnit limit for these tests, which was raised for the
+        // same reason as RelayPipeTest: an 8 s limit failed working code on a
+        // loaded phone.
+        soTimeout = 30_000
     }
 
     /** A well-formed offline ping: id, time, magic, client guid. */
