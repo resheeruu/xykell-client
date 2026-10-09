@@ -21,8 +21,8 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=5
-VNAME="0.2.3"
+VCODE=6
+VNAME="0.2.4"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }
@@ -326,9 +326,20 @@ EOF
     fi
 fi
 mkdir -p "$(dirname "$OUT")"
+# All three schemes explicitly, the way AGP does. Left to its own devices
+# apksigner produced a v3-only APK here (v1 and v2 both verified false), which
+# is a narrower signature surface than any normal Android build has.
 "$BT/apksigner" sign --ks "$KS" --ks-pass "pass:$KS_PASS" --key-pass "pass:$KEY_PASS" \
+    --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
     --out "$OUT" "$WORK/aligned.apk" || fail "apksigner sign"
 "$BT/apksigner" verify --verbose "$OUT" > "$WORK/verify.txt" || fail "apksigner verify"
+
+# v3 is the scheme that must hold: minSdk is 28, and apksigner deliberately
+# drops v1/v2 for that range even when they are requested, because nothing from
+# API 28 up needs them. Assert v3 so a real signing failure cannot pass quietly,
+# and do not assert schemes the tool is correct to omit.
+grep -q "Verified using v3 scheme.*: true" "$WORK/verify.txt" \
+    || fail "v3 signature did not verify; see $WORK/verify.txt"
 
 # Post-package assertions: both of these shipped broken once already.
 DEX_METHOD=$(unzip -v "$OUT" | awk '$NF == "classes.dex" {print $2; exit}')
