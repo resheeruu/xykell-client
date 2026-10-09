@@ -13,5 +13,7 @@ Not affiliated with Mojang/Microsoft. Requires a legitimate Play copy of Minecra
 ## Status
 Architecture + honest registry (255 entries, zero fake SUPPORTED) + CI green.
 Runtime/device verification pending — see `docs/DEVICE-TESTING.md`.
+For what changed recently and what is actually delivered, see
+`docs/WHATS-NEW.md`.
 Key docs: ARCHITECTURE, RUNTIME-CAPABILITIES, FEATURE-MATRIX (pointer),
 MODULE-CATALOG (generated), LEVI-REMOVAL-AUDIT.

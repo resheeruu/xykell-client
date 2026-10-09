@@ -15,7 +15,22 @@
 - [x] Registry v2 + catalog + coverage docs (this batch).
 - [x] Full universe: 255 registry entries, settings, local systems, coverage.
 - [x] Standalone migration: removal audit, portal seams, detection states, staged PLAY, AI kernel.
-- [ ] **Next: human device run → signature derivation → first live data.**
+- [x] **HUD made visible**: overlay window (SYSTEM_ALERT_WINDOW) painting the same
+      tested C++ renderer the game-side overlay uses, plus the relay→HUD
+      observation hand-off that had been missing. 9 ids delivered this batch
+      (`combat.backtrack`, `combat.afk_clicker`, `combat.double_click`,
+      `misc.quick_drop`, `hud.tab_list`, `hud.server_info`, `hud.ip_display`,
+      `player.death_position`, `player.spam`). Registry now 124 PARTIAL.
+      See `docs/WHATS-NEW.md`.
+- [ ] **Next: human device run → overlay visible in a live session.** Until a
+      session runs, `SUPPORTED` stays at 0 by design.
+- [ ] Table generation from authoritative sources, IF wanted: block palette
+      (compiled into the game binary, not the APK), item format, `Action`
+      ordinals. This gates ~45 ids. Not started — it is reverse engineering,
+      not a build step.
+- [ ] Injection track (user-approved, not started): repackaged game APK with an
+      embedded loader. Unlocks ~24 renderer/camera/raycast ids. Carries real
+      ToS and ban risk — see `docs/WHATS-NEW.md`.
 - [ ] M3 — profiles (all 11), touchbind/gesture system, settings sync.
 - [ ] M4 — visual QoL batch (Zoom/Fullbright/FOV/crosshair), each version-gated.
 - [ ] M5 — network engine (diagnostics set) + packet-event monitoring.
