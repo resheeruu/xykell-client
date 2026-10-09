@@ -21,8 +21,8 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=4
-VNAME="0.2.2"
+VCODE=5
+VNAME="0.2.3"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }
@@ -229,7 +229,15 @@ d8 --release --min-api 28 --lib "$ANDROID_JAR" --output "$WORK/dex" \
 # --- 8. package: base.apk + classes.dex + lib + assets ---------------------
 step "package"
 cp "$WORK/base.apk" "$WORK/unsigned.apk"
-(cd "$WORK" && zip -q -j unsigned.apk dex/classes.dex) || fail "zip dex"
+# classes.dex must be STORED, not deflated.
+#
+# Gradle has always packaged dex uncompressed so ART can memory-map it straight
+# out of the APK. A hand-rolled zip defaults to deflate, and on Android 14+ the
+# loader then cannot find classes that are plainly in the dex -- the symptom is
+# a bare ClassNotFoundException for MainActivity with no other clue. It looks
+# exactly like a packaging mistake that dropped the class, and nothing is
+# missing. Verified on Android 16 / API 36.
+(cd "$WORK" && zip -q -0 -j unsigned.apk dex/classes.dex) || fail "zip dex"
 (cd "$WORK" && zip -qr unsigned.apk lib assets) || fail "zip lib/assets"
 
 # --- 9. align + sign (debug key, mirrors AGP debug signing) ---------------
@@ -321,6 +329,22 @@ mkdir -p "$(dirname "$OUT")"
 "$BT/apksigner" sign --ks "$KS" --ks-pass "pass:$KS_PASS" --key-pass "pass:$KEY_PASS" \
     --out "$OUT" "$WORK/aligned.apk" || fail "apksigner sign"
 "$BT/apksigner" verify --verbose "$OUT" > "$WORK/verify.txt" || fail "apksigner verify"
+
+# Post-package assertions: both of these shipped broken once already.
+DEX_METHOD=$(unzip -v "$OUT" | awk '$NF == "classes.dex" {print $2; exit}')
+case "$DEX_METHOD" in
+    Store|Stored) ;;
+    *) fail "classes.dex is '$DEX_METHOD', must be stored uncompressed" ;;
+esac
+# Only the NDK runtime is ours to ship; libc/libdl/libm/liblog come from Android.
+for NEEDED in $(readelf -d "$WORK/lib/arm64-v8a/libxykellcore.so" 2>/dev/null \
+        | sed -n 's/.*Shared library: \[\(.*\)\]/\1/p'); do
+    case "$NEEDED" in
+        libc.so|libdl.so|libm.so|liblog.so) continue ;;
+    esac
+    unzip -l "$OUT" | grep -q "lib/arm64-v8a/$NEEDED" \
+        || fail "APK is missing $NEEDED, which libxykellcore.so needs"
+done
 
 step "done"
 echo "BUILD-APK: PASS"

@@ -2,6 +2,24 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.3]
+**Fixes `ClassNotFoundException: MainActivity`.**
+
+`classes.dex` was being deflated by the packaging step. Gradle has always
+stored dex uncompressed so ART can memory-map it straight out of the APK; a
+hand-rolled `zip` defaults to deflate, and on Android 16 the loader then cannot
+find classes that are plainly present.
+
+The failure looks like a packaging mistake that dropped the class, which is why
+it is worth writing down what it was not: the dex is well-formed
+(`dex\n039`, header_size 112, endian tag valid, file_size matching), contains
+`Ldev/xykell/client/MainActivity;` as a real `class_def`, and holds 48,403
+method ids against a 65,536 limit. Nothing was missing. The dex was just
+compressed.
+
+`zip -0` now stores it, and the build asserts the method afterwards so this
+cannot regress silently.
+
 ## [0.2.2]
 **Fixes the startup crash.**
 
