@@ -11,8 +11,26 @@ android {
         applicationId = "dev.xykell.client"
         minSdk = 28
         targetSdk = 35
-        versionCode = 7
-        versionName = "0.2.5"
+        versionCode = 8
+        versionName = "0.2.6"
+    }
+
+    // Same key the 0.2.x releases were published with, so this build installs
+    // over them in place instead of forcing an uninstall. The key lives
+    // outside the repository; nothing here is a secret that gets committed.
+    signingConfigs {
+        create("managed") {
+            val ks = file(
+                System.getenv("XYKELL_KEYSTORE")
+                    ?: "${System.getProperty("user.home")}/.config/xykell/managed.keystore",
+            )
+            if (ks.exists()) {
+                storeFile = ks
+                storePassword = System.getenv("XYKELL_KEYSTORE_PASS") ?: "android"
+                keyAlias = System.getenv("XYKELL_KEY_ALIAS") ?: "xykell"
+                keyPassword = System.getenv("XYKELL_KEY_PASSWORD") ?: "android"
+            }
+        }
     }
 
     buildTypes {
@@ -23,6 +41,10 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = false
+            val managed = signingConfigs.getByName("managed")
+            if (managed.storeFile != null) {
+                signingConfig = managed
+            }
         }
     }
 
@@ -35,17 +57,13 @@ android {
     }
 
     // Shared native core (same ProfileManager sources as the game module).
-    // Built by CI's NDK. Local on-device builds use scripts/build-apk.sh
-    // (termux aapt2/d8 are aarch64; the SDK's own aapt2 is x86-64).
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
-        }
-    }
-    defaultConfig {
-        ndk {
-            abiFilters += "arm64-v8a"
+    // The device NDK is not installed, so AGP packages the libs that
+    // scripts/build-apk.sh already builds with clang++ into src/main/jniLibs.
+    // scripts/build-apk.sh still builds them from src/main/cpp/CMakeLists.txt;
+    // this only stops AGP from trying to run CMake itself.
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
 
