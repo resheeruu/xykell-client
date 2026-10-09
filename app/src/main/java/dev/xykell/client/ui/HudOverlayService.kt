@@ -18,7 +18,6 @@ import android.view.View
 import android.view.WindowManager
 import dev.xykell.client.NativeHud
 import dev.xykell.client.NativeProfiles
-import java.io.File
 
 /**
  * Draws the HUD over the game using an ordinary Android overlay window.
@@ -70,7 +69,11 @@ class HudOverlayService : Service() {
         }
     }
 
-    private fun storeRoot(): String = File(filesDir, "profiles").absolutePath
+    // Must match NativeProfiles.root(): the overlay asks the native profile
+    // manager for the active profile under this directory. Pointing it at any
+    // other directory makes every profile lookup miss, so the overlay renders
+    // an empty frame instead of HUD lines.
+    private fun storeRoot(): String = NativeProfiles.root(this)
 
     private fun activeProfile(): String = try {
         NativeProfiles.getActive(storeRoot())
