@@ -2,6 +2,38 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.1]
+Fixes the install problem reported against 0.2.0.
+
+- **The app now has an icon.** The manifest pointed at
+  `@android:drawable/sym_def_app_icon` -- Android's placeholder -- so the app
+  had never had launcher art. Now an adaptive icon (`mipmap-anydpi-v26`, which
+  covers everything at minSdk 28), drawn as vectors so there is no rasterisation
+  to drift: two teal `#4FD8C7` chevron bars crossing, a light diamond at the
+  crossing, on a dark slate gradient. Colours are the app's own theme tokens. A
+  monochrome layer is included for Android 13+ themed icons.
+- **Signing is stable.** The keystore was generated per build inside the work
+  directory, so every rebuild produced a *different* signature and Android saw
+  a different app each time. Three modes now: `release` (persistent key,
+  password from env, never committed), `managed` (one persistent key, no
+  password to manage, never committed, not for Play distribution), and `debug`
+  (per-build scratch key for CI). Default is `managed`.
+- **The script refuses to invent a keystore password.** My first attempt
+  auto-generated one and printed it to stderr; I lost it, and the key was
+  unusable afterwards -- a key you cannot reuse is a key that recreates the
+  original problem. It now fails with instructions instead.
+- **`docs/PERMISSIONS.md`**, because the app asks for the overlay +
+  accessibility + screen-capture combination that scanners treat as a banking
+  trojan. It documents each permission's single purpose and the commands to
+  verify it against source. `FOREGROUND_SERVICE_MEDIA_PROJECTION` is *not*
+  removable: Android 14+ requires it for a MediaProjection foreground service,
+  and manifest permissions are static. Dropping it would break
+  `misc.screenshot_share` and `misc.screenshot_tools`, so the reason it stays is
+  documented rather than left looking like an oversight.
+
+Gates: kotlin-unit 57/57, native 37/37, typecheck 124/58, i18n 7x536,
+registry 258, jni 46 exports, audit no-fake, APK PASS.
+
 ## [0.2.0]
 Tagged. Nine ids delivered and the HUD made visible for the first time — see
 `docs/RELEASE-0.2.0.md` for the verification table, artifact hash, and the

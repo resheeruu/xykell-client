@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Xykell mark: two teal chevron bars crossing (the "X"), with a light diamond at
+  the crossing.
+
+  The bars read as an X at launcher size and as a bidirectional relay once you
+  look closer, which is what the app actually is: a pipe between the game and
+  the server. The diamond is the crossing point: the packet, in transit.
+
+  Geometry lives inside the 72x72 safe zone of the 108x108 adaptive canvas
+  (18..90), so no launcher mask can clip it. Colours are the app's own theme
+  tokens (accent #4FD8C7, text #E8EEF7) so the icon cannot drift from the UI.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Diagonal bar, top-left to bottom-right. Round caps so the ends read as
+         chevrons rather than as a cut-off cross. -->
+    <path
+        android:pathData="M34,34 L74,74"
+        android:strokeColor="#4FD8C7"
+        android:strokeWidth="12"
+        android:strokeLineCap="round" />
+
+    <!-- Diagonal bar, top-right to bottom-left. -->
+    <path
+        android:pathData="M74,34 L34,74"
+        android:strokeColor="#4FD8C7"
+        android:strokeWidth="12"
+        android:strokeLineCap="round" />
+
+    <!-- The crossing point. Drawn over the bars so the two do not simply
+         cancel each other into a blob at small sizes. -->
+    <path
+        android:pathData="M54,43 L65,54 L54,65 L43,54 Z"
+        android:fillColor="#E8EEF7" />
+</vector>

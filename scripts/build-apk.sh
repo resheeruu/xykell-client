@@ -21,8 +21,8 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=2
-VNAME="0.2.0"
+VCODE=3
+VNAME="0.2.1"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }
@@ -207,14 +207,90 @@ cp "$WORK/base.apk" "$WORK/unsigned.apk"
 # --- 9. align + sign (debug key, mirrors AGP debug signing) ---------------
 step "zipalign + sign"
 zipalign -f -p 4 "$WORK/unsigned.apk" "$WORK/aligned.apk" || fail "zipalign"
-KS="$WORK/debug.keystore"
-if [ ! -f "$KS" ]; then
-    keytool -genkeypair -keystore "$KS" -storepass android -keypass android \
-        -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
-        -dname "CN=Android Debug,O=Android,C=US" || fail "keytool"
+# Signing key. Two modes, and the difference matters:
+#
+#   release (default) - a persistent keystore OUTSIDE the repo, created once.
+#       Every build after the first keeps the same signature. A debug key that
+#       is regenerated per build makes each APK look like a different app to
+#       Android and to Play Protect, which is one reason a sideloaded app gets
+#       treated as new and suspicious on every reinstall.
+#   debug  - the throwaway per-build key, for CI scratch builds only.
+#
+# The keystore is never committed (.gitignore covers *.keystore) and the
+# passwords come from the environment, never from this file.
+KS_DIR="${XYKELL_KEYSTORE_DIR:-$HOME/.config/xykell}"
+KS="$KS_DIR/release.keystore"
+KS_PASS="${XYKELL_KEYSTORE_PASS:-}"
+KEY_PASS="${XYKELL_KEY_PASSWORD:-}"
+KS_ALIAS="${XYKELL_KEY_ALIAS:-xykell}"
+# release  - proper key, password required from env (see docs/RELEASE.md)
+# managed  - ONE persistent key, fixed password, out of the repo. Zero setup.
+#            The password is the well-known Android debug one, which is exactly
+#            why this key must never be used for Play distribution -- it is for
+#            stable local installs only.
+# debug    - throwaway per-build key, for CI scratch.
+SIGN_MODE="${XYKELL_SIGN_MODE:-managed}"
+
+if [ "$SIGN_MODE" = "managed" ]; then
+    KS_DIR="${XYKELL_KEYSTORE_DIR:-$HOME/.config/xykell}"
+    mkdir -p "$KS_DIR"
+    KS="$KS_DIR/managed.keystore"
+    KS_PASS=android
+    KEY_PASS=android
+    KS_ALIAS="${XYKELL_KEY_ALIAS:-xykell}"
+    if [ ! -f "$KS" ]; then
+        keytool -genkeypair -keystore "$KS" -storepass android -keypass android \
+            -alias "$KS_ALIAS" -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Xykell Managed,O=Xykell,C=US" >/dev/null 2>&1 || fail "keytool"
+        chmod 600 "$KS"
+    fi
+elif [ "$SIGN_MODE" = "debug" ]; then
+    KS="$WORK/debug.keystore"
+    KS_PASS=android
+    KEY_PASS=android
+    KS_ALIAS=androiddebugkey
+    if [ ! -f "$KS" ]; then
+        keytool -genkeypair -keystore "$KS" -storepass android -keypass android \
+            -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US" || fail "keytool"
+    fi
+else
+    mkdir -p "$KS_DIR"
+    if [ ! -f "$KS" ]; then
+        # One-time setup. The password comes from the environment; if the caller
+        # has not set one, generate a strong one and tell them where it went,
+        # rather than silently signing with a well-known default.
+        if [ -z "$KS_PASS" ] || [ -z "$KEY_PASS" ]; then
+            # Refusing rather than generating: a key created with a password the
+            # builder prints into a log the operator then loses is a key that
+            # cannot be reused, and a key that cannot be reused forces a new app
+            # identity on every install -- the exact problem a stable release key
+            # exists to solve.
+            cat >&2 <<'EOF'
+BUILD-APK: FAIL - release signing needs an explicit password.
+
+  export XYKELL_KEYSTORE_PASS='...'   # store password
+  export XYKELL_KEY_PASSWORD='...'    # key password (may match)
+  export XYKELL_KEY_ALIAS=xykell      # optional, this is the default
+
+The keystore is created once at ~/.config/xykell/release.keystore (override with
+XYKELL_KEYSTORE_DIR) and is never committed. Keep it and its passwords: without
+them Android sees every later build as a different app and refuses to upgrade
+over an installed one.
+
+For a throwaway CI scratch build with no lasting identity, use:
+  XYKELL_SIGN_MODE=debug bash scripts/build-apk.sh
+EOF
+            fail "release signing needs an explicit password (set XYKELL_KEYSTORE_PASS and XYKELL_KEY_PASSWORD)"
+        fi
+        keytool -genkeypair -keystore "$KS" -storepass "$KS_PASS" -keypass "$KEY_PASS" \
+            -alias "$KS_ALIAS" -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Xykell Client,O=Xykell,C=US" || fail "keytool"
+        chmod 600 "$KS"
+    fi
 fi
 mkdir -p "$(dirname "$OUT")"
-"$BT/apksigner" sign --ks "$KS" --ks-pass pass:android --key-pass pass:android \
+"$BT/apksigner" sign --ks "$KS" --ks-pass "pass:$KS_PASS" --key-pass "pass:$KEY_PASS" \
     --out "$OUT" "$WORK/aligned.apk" || fail "apksigner sign"
 "$BT/apksigner" verify --verbose "$OUT" > "$WORK/verify.txt" || fail "apksigner verify"
 

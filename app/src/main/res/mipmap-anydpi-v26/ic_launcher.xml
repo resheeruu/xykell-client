@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Adaptive icon. minSdk is 28, so this adaptive form is the whole story: there
+  is no legacy bitmap fallback to ship, and no rasterisation to drift from the
+  vector. The launcher supplies the mask; the layers supply the art.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+    <!-- Themed icons (Android 13+): the system tints this, so it must be a
+         single flat shape with no baked-in colour. The bars only. -->
+    <monochrome android:drawable="@drawable/ic_launcher_monochrome" />
+</adaptive-icon>

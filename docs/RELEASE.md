@@ -17,11 +17,36 @@
    upload artifact `XykellClient-debug`.
 
 ## Signing
-- Development: standard debug signing (auto-generated debug key). No keys in repo.
-- Release (future): create a dedicated workflow using GitHub Secrets
-  (`XYKELL_KEYSTORE_BASE64`, `XYKELL_KEY_ALIAS`, `XYKELL_KEY_PASSWORD`,
-  `XYKELL_STORE_PASSWORD`). Documented here so no secret is ever committed.
-  Release signing is NOT configured yet — no keys exist.
+
+**Release (0.2.1+): persistent local keystore.** `scripts/build-apk.sh` defaults
+to `XYKELL_SIGN_MODE=release`, which signs with
+`~/.config/xykell/release.keystore` (override with `XYKELL_KEYSTORE_DIR`).
+
+The password is **required, never auto-generated**, and comes from the
+environment:
+
+```bash
+export XYKELL_KEYSTORE_PASS='...'   # store password
+export XYKELL_KEY_PASSWORD='...'    # key password (may be the same)
+export XYKELL_KEY_ALIAS=xykell      # optional; this is the default
+bash scripts/build-apk.sh
+```
+
+The keystore is created once, `chmod 600`, and is never committed — `.gitignore`
+covers `*.keystore` and `*.jks`.
+
+**Keep the keystore and its passwords.** Without them Android treats every later
+build as a different app: it will refuse to upgrade over an installed copy and
+force a reinstall that discards app data. This is exactly why the script refuses
+to invent a password — a key whose password lands in a log the operator then
+loses is a key that cannot be reused, which recreates the original problem.
+
+**Debug mode** (`XYKELL_SIGN_MODE=debug`) keeps the old throwaway per-build key
+for CI scratch builds that need no lasting identity.
+
+For CI, use GitHub Secrets instead of a local key:
+`XYKELL_KEYSTORE_BASE64`, `XYKELL_KEY_ALIAS`, `XYKELL_KEY_PASSWORD`,
+`XYKELL_STORE_PASSWORD`. Documented here so no secret is ever committed.
 
 ## Artifact
 - Name: `XykellClient-debug` → `app-debug.apk`. Size/sha256 recorded in
