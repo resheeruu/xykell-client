@@ -1,5 +1,8 @@
 package dev.xykell.client
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -8,6 +11,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -112,6 +117,38 @@ class MainActivity : AppCompatActivity() {
             pager.currentItem = currentPage
         }
         updateTitleAndIndicator(currentPage)
+        requestNotificationPermissionOnce()
+    }
+
+    /**
+     * Ask for notification permission once the splash has handed over.
+     *
+     * Android 13+ withholds notifications until this is granted, and the relay
+     * runs as a foreground service whose notification is the only signal that
+     * it is live. Requesting it from showPage rather than onCreate means the
+     * prompt appears over real content instead of while the splash is still up.
+     */
+    private fun requestNotificationPermissionOnce() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        val granted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
+        if (granted) return
+        // Only prompt once per install: a denial is remembered here so the
+        // system does not keep interrupting the user on every launch.
+        if (getSharedPreferences(PREFS_PERMS, MODE_PRIVATE)
+                .getBoolean(KEY_NOTIF_ASKED, false)
+        ) {
+            return
+        }
+        getSharedPreferences(PREFS_PERMS, MODE_PRIVATE)
+            .edit().putBoolean(KEY_NOTIF_ASKED, true).apply()
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            REQ_POST_NOTIFICATIONS,
+        )
     }
 
     private fun updateTitleAndIndicator(position: Int) {
@@ -211,5 +248,11 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             // Bridge unavailable: default palette stays.
         }
+    }
+
+    companion object {
+        private const val PREFS_PERMS = "xykell_perms"
+        private const val KEY_NOTIF_ASKED = "notif_asked"
+        private const val REQ_POST_NOTIFICATIONS = 4201
     }
 }
