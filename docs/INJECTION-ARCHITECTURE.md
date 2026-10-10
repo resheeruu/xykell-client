@@ -7,7 +7,56 @@ Bedrock clients achieve in-game modification, and why the relay this project
 built cannot deliver those features. It exists because four releases shipped
 fixes to a subsystem that was architecturally incapable of doing the job.
 
-## The finding
+## WClient — the counter-example that corrects this document
+
+Earlier drafts of this document claimed the relay architecture could not
+deliver the combat, motion and visual features. **That was too strong, and
+WClient disproves it.**
+
+WClient's own description:
+
+> "WClient does not modify game memory directly and is engineered for
+> compatibility across multiple Bedrock environments." — working "at the packet
+> level instead".
+
+> "primarily developed and tested for Android, but can interface with other
+> platforms using **MITM-style packet interception** depending on setup".
+
+Its archived GPLv3 repository has this top-level layout:
+
+```
+app/
+gradle/
+relay/
+```
+
+There is a `relay/` directory. And it ships, per its distribution pages:
+Kill Aura (auto-attack to 50 blocks at 25+ CPS), Motion Fly, Player TP, server
+bypasses, CPS counters, and an ArrayList overlay — **all without touching game
+memory.**
+
+So the architecture this project already built is validated by a shipping
+client. The relay is not the wrong idea.
+
+### What the correction actually is
+
+| Claim | Verdict |
+|---|---|
+| The relay cannot deliver combat/motion features | **Wrong.** WClient does exactly this. |
+| A packet hook cannot be an ESP or an autoclicker | **Partly right, and narrower than stated.** Packet-originated actions (auto-attack, motion, inventory) work. What a relay genuinely cannot produce is anything requiring a **render pass into the game's framebuffer** — a world-space ESP box, an in-game ClickGUI — because those are drawn by the game, not carried in packets. |
+
+This agrees with what `docs/PROXY-DESIGN.md` concluded before the fact: 11 ids
+are "genuinely deliverable from a relay", and the remainder "need input
+injection, a render/overlay pass, inventory or world state the relay never
+decodes".
+
+The real reason nothing works is therefore narrower and less flattering than
+"wrong architecture": **the relay has never completed a single live Bedrock
+session.** Every failure to date is upstream of that — packaging bugs, a stuck
+splash overlay, and a design that was never exercised against a real server.
+No amount of reading architecture docs substitutes for that run.
+
+
 
 Every reference client works by running **native code inside the Minecraft
 game process**. None of them modify gameplay by inspecting network traffic.
