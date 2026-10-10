@@ -2,6 +2,12 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.9]
+**Fixes Client sub-screens being slow and intermittently not appearing.** The
+module registry was read, parsed and inflated into ~1,550 views on the UI
+thread, which blocked it long enough that the caller's async fragment
+transaction looked like a dropped tap.
+
 ## [0.2.8]
 **Fixes the splash never being dismissed; locks the UI to landscape.** The
 splash was added into the FrameLayout that wraps the pager and never removed,

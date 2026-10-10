@@ -44,9 +44,8 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadRegistry()
         loadProfileState(view)
-        build(view)
+        loadRegistryAsync(view)
         view.findViewById<EditText>(R.id.modules_search)
             .addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
@@ -57,19 +56,44 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
             })
     }
 
-    private fun loadRegistry() {
-        try {
-            val text = requireContext().assets.open("features.json")
-                .bufferedReader().use { it.readText() }
-            val parsed = ModuleEntry.parseAll(text)
-            if (parsed == null) {
-                loadError = getString(R.string.modules_unavailable)
-            } else {
-                entries = parsed
+    /**
+     * Read and parse the registry off the UI thread.
+     *
+     * features.json is ~1 MB and parsing it, then inflating a row per entry,
+     * blocked the main thread long enough that the caller's async fragment
+     * transaction looked like a dropped tap: the sub-screen appeared to do
+     * nothing for a beat, then showed late — "slow, and sometimes shows".
+     *
+     * The Context is captured on the calling thread because `requireContext()`
+     * must not be read from a background thread. Rendering still happens on the
+     * UI thread; only the file read and JSON parse move.
+     */
+    private fun loadRegistryAsync(view: View) {
+        val ctx = requireContext()
+        Thread({
+            var parsed: List<ModuleEntry>? = null
+            var failure: String? = null
+            try {
+                val text = ctx.assets.open("features.json")
+                    .bufferedReader().use { it.readText() }
+                parsed = ModuleEntry.parseAll(text)
+                if (parsed == null) failure = ""
+            } catch (e: Exception) {
+                failure = e.message
             }
-        } catch (e: Exception) {
-            loadError = getString(R.string.modules_unavailable) + " (${e.message})"
-        }
+            val loaded = parsed
+            val error = failure
+            view.post {
+                if (loaded != null) {
+                    entries = loaded
+                    loadError = null
+                } else {
+                    loadError = getString(R.string.modules_unavailable) +
+                        if (error.isNullOrEmpty()) "" else " ($error)"
+                }
+                build(view)
+            }
+        }, "modules-registry-load").apply { isDaemon = true }.start()
     }
 
     /** Snapshot of the active profile's module flags (for switch state).

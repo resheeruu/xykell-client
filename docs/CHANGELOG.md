@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.9]
+**Fixes Client sub-screens being slow and intermittently not appearing.**
+
+`ModulesFragment` read and parsed the whole `features.json` registry on the UI
+thread, then inflated a row per entry. At 258 entries that is ~1 MB of JSON
+plus roughly 1,550 view constructions, all before the screen could draw.
+
+That blocked the main thread long enough to distort everything around it.
+`ClientFragment.openSub` commits its fragment transaction asynchronously, so a
+blocked main thread made the tap look like it did nothing at all — the
+sub-screen appeared to ignore the click, then turned up a beat later. That is
+the "slow to load, not showing, sometimes it shows" symptom.
+
+The file read and JSON parse now run on a background thread; rendering still
+happens on the UI thread, which is the only place it is legal. The Context is
+captured before the thread starts because `requireContext()` must not be read
+off the main thread.
+
+Not fixed: the per-row view inflation is still eager. A RecyclerView would fix
+that properly, which is a larger change than this fix.
+
 ## [0.2.8]
 **Fixes the splash never being dismissed, and locks the UI to landscape.**
 
