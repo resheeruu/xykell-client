@@ -135,7 +135,11 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
     }
 
     fun openSub(screen: SubScreen) {
-        view?.findViewById<FrameLayout>(R.id.client_sub_container) ?: return
+        // closeSub() hides this container. If it is not restored here the
+        // fragment is replaced into an invisible container and the sub-screen
+        // never appears — which looks like a dead button on every visit after
+        // the first, and only a fresh app start would clear it.
+        view?.findViewById<FrameLayout>(R.id.client_sub_container)?.visibility = View.VISIBLE
         val bar = view?.findViewById<LinearLayout>(R.id.client_sub_bar)
         val actions = view?.findViewById<LinearLayout>(R.id.client_actions)
 
@@ -145,8 +149,6 @@ class ClientFragment : Fragment(R.layout.fragment_client) {
         actions?.visibility = View.GONE
         bar?.visibility = View.VISIBLE
         bar?.removeAllViews()
-        // findViewById returned non-null a moment ago via ?: return, so this
-        // is the same view; the elvis above proves it exists.
         val barView = bar ?: return
 
         val density = requireContext().resources.displayMetrics.density

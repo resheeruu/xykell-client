@@ -164,6 +164,55 @@ but should be treated as unsupported." Every Minecraft update invalidates the
 signature dictionary. This is the dominant ongoing cost of this architecture,
 not a one-time build.
 
+## Findings on the target device (measured, not assumed)
+
+Checked against the installed `com.mojang.minecraftpe` on the test device
+(Android 16 / API 36, arm64-v8a):
+
+- **Minecraft ships as an Android App Bundle.** `base.apk` is 24 MB and
+  contains **no `lib/` entries at all**. The native libraries live in
+  `split_config.arm64_v8a.apk` alongside `split_config.en.apk`,
+  `split_config.xxhdpi.apk` and `split_install_pack.apk`.
+  Any approach that copies or repackages a single APK has to handle splits.
+- **`libminecraftpe.so` is present** in the ABI split, **328,419,680 bytes**.
+  It is stripped, so byte signatures are the only way to locate anything in
+  it. At that size, any approach that rewrites or repacks it is expensive.
+- **No Vulkan or GLES loader is bundled** (0 matches). Both come from the
+  device driver under `/vendor` and are `dlopen`ed at runtime, so which one
+  the game binds is decided at runtime, not by its APK contents.
+- **The manifest declares `glEsVersion=0x00020000`** (GLES 2.0), so an
+  OpenGL ES path is at least a supported target for the `eglSwapBuffers` hook.
+
+Unresolved: whether this Bedrock build actually selects Vulkan at runtime.
+Bedrock exposes a graphics-API toggle in-game and newer builds lean toward
+Vulkan on Android. If it selects Vulkan, the `eglSwapBuffers` hook never fires
+and the render pass must hook `vkQueuePresentKHR` from the driver's
+`libvulkan.so` instead. **This must be confirmed on a live session before
+building the render pass** — it determines which hook the whole overlay
+depends on.
+
+## The in-game toolbox (ClickGUI) specifically
+
+Reference implementations: Horion and Skid (Bedrock), Flarial, and the
+Android-ImGui-Mod-Menu projects. The shape is consistent:
+
+1. **Render** — hook `eglSwapBuffers` in `libEGL.so`, get surface size with
+   `eglQuerySurface`, initialise an ImGui context with those dimensions, draw
+   the module list with a toggle per entry, then call the original.
+   One project warns explicitly that this only works for OpenGL ES games and
+   is a no-op if the game renders with Vulkan.
+2. **Open/close** — a keybind (commonly Insert) toggles the GUI.
+3. **Input — the hard half.** ImGui is not given touch for free. Touch has to
+   be captured from Android's input subsystem and pushed into ImGui's Android
+   backend (`imgui_impl_android.cpp`, which consumes `AInputEvent`/`AInputQueue`).
+   The older route hooked `libinput.so` directly, or used `nativeInjectEvent`;
+   both are stale. A dedicated research project exists specifically because
+   Android 15+ changed that path — and this device is API 36, so the old
+   symbol is likely gone.
+
+So the render hook is well-trodden; **touch capture on Android 16 is the real
+risk**, and it is the part with the least public working reference.
+
 ## What this means for Xykell
 
 The native core (`xykellcore`) already compiles for arm64-v8a and the C++ HUD
