@@ -2,6 +2,11 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.7]
+**Fixes a permanent splash overlay covering the whole UI.** A `splash_screen`
+view was the last child of the root FrameLayout, opaque and never hidden by
+any code, so the app opened to a static screen with no reachable content.
+
 ## [0.2.6]
 **The app launches.** Builds moved from a hand-rolled packaging script
 to the canonical Android Gradle Plugin; the hand-rolled path shipped

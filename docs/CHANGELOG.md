@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.7]
+**Fixes a permanent splash overlay covering the whole UI.**
+
+`activity_main.xml` declared a `splash_screen` LinearLayout as the last child
+of the root `FrameLayout`, opaque, with no `visibility` attribute. In a
+FrameLayout the last child draws on top of everything before it, and no code
+ever referenced `R.id.splash_screen` to hide it. `SplashFragment` ran its
+animation and swapped itself for Home underneath, but this vestigial overlay
+stayed on top for the entire session.
+
+Effect: the app opened to a static screen reading "XYKELL / Minecraft Bedrock
+Client" with no way to reach any screen. The animated `SplashFragment` was
+already handling the startup sequence, so the overlay was redundant as well as
+unreachable.
+
+The dead overlay is removed. Startup is unchanged: an animated splash runs
+automatically and no tap is required.
+
 ## [0.2.6]
 **The app launches. Builds moved from a hand-rolled packaging script to the
 canonical Android Gradle Plugin.**

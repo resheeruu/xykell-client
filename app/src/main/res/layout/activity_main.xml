@@ -78,30 +78,4 @@
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/splash_screen"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/xykell_bg">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ui_xykell"
-            android:textColor="@color/xykell_accent"
-            android:textSize="42sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.12" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/ui_minecraft_bedrock_client"
-            android:textColor="@color/xykell_muted"
-            android:textSize="14sp" />
-    </LinearLayout>
 </FrameLayout>
