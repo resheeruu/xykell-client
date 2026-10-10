@@ -2,6 +2,11 @@
 
 Maintained in `docs/CHANGELOG.md`. Summary:
 
+## [0.2.8]
+**Fixes the splash never being dismissed; locks the UI to landscape.** The
+splash was added into the FrameLayout that wraps the pager and never removed,
+so it covered a working UI with a static "Ready" screen the whole session.
+
 ## [0.2.7]
 **Fixes a permanent splash overlay covering the whole UI.** A `splash_screen`
 view was the last child of the root FrameLayout, opaque and never hidden by

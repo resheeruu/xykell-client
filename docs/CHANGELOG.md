@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.2.8]
+**Fixes the splash never being dismissed, and locks the UI to landscape.**
+
+`MainActivity` added the splash with
+`replace(R.id.screen_container, SplashFragment())` — and `screen_container` is
+the very FrameLayout that wraps the ViewPager. The splash was therefore stacked
+*on top of* a fully-rendering pager. `advanceToHome()` only called
+`showPage(0)`, which sets `pager.currentItem` and updates the title; it never
+removed the fragment. The splash sat there for the entire session showing its
+final status line, "Ready", with the whole UI hidden underneath.
+
+This was the real cause of "the app opens but nothing is new" across several
+releases. It was not inert features and not a slow splash — it was a stuck
+fragment over a working UI. Reading the layout rather than inferring from the
+feature status is what surfaced it.
+
+`showPage()` now removes any SplashFragment from `screen_container` before
+switching pages.
+
+`MainActivity` is also locked to `sensorLandscape`, handling orientation
+changes itself via `configChanges` so rotation does not recreate the Activity
+and re-run the splash.
+
 ## [0.2.7]
 **Fixes a permanent splash overlay covering the whole UI.**
 

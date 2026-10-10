@@ -98,6 +98,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     internal fun showPage(page: Int) {
+        // SplashFragment is added into screen_container, which is the same
+        // FrameLayout that holds the pager. Setting pager.currentItem does not
+        // remove it, so without this the splash stays on top forever showing
+        // its last status line ("Ready") with the whole UI hidden underneath.
+        val existing = supportFragmentManager.findFragmentById(R.id.screen_container)
+        if (existing is SplashFragment) {
+            supportFragmentManager.beginTransaction().remove(existing).commitNow()
+        }
+
         currentPage = page.coerceIn(0, adapter.count - 1)
         if (usePager) {
             pager.currentItem = currentPage
