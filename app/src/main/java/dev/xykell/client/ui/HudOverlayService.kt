@@ -135,10 +135,16 @@ class HudOverlayService : Service() {
         h.postDelayed({
             val v = view ?: return@postDelayed
             try {
-                v.invalidate()
+                // postInvalidate(), not invalidate(): this runs on the overlay
+                // HandlerThread, and View.invalidate() is documented as not
+                // thread-safe. The view must be invalidated from the UI thread
+                // even when the tick driving it is not.
+                v.postInvalidate()
             } catch (e: Exception) {
-                // The view is going away; the next tick stops rescheduling.
-                return@postDelayed
+                // Keep ticking even if one frame fails. Bailing out here without
+                // rescheduling froze the overlay on a stale frame and only a
+                // service restart brought it back, which reads to the user as
+                // "the HUD died" rather than "one frame had a bad time".
             }
             schedule()
         }, REFRESH_MS)

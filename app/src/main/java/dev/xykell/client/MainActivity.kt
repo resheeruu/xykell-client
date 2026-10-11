@@ -165,12 +165,17 @@ class MainActivity : AppCompatActivity() {
     fun navigateToThemes() = showPage(1)
     fun navigateToAbout() = showPage(1)
 
-    private fun isReducedMotionEnabled(): Boolean {
-        val scale = resources.configuration.fontScale
-        // Use system reduced motion setting if available (API 29+)
-        // For now, check a simple heuristic
-        return resources.configuration.fontScale > 1.3f
-    }
+    /**
+     * Reduced motion, from the system animator scale.
+     *
+     * This used to test `fontScale > 1.3f`, which is a large-text check wearing
+     * a reduced-motion name. It disabled page swiping for users who had enlarged
+     * their fonts — the opposite of what they need. The two settings are
+     * unrelated, so the correct one is read here and the font scale is left
+     * to do what it actually indicates.
+     */
+    private fun isReducedMotionEnabled(): Boolean =
+        dev.xykell.client.ui.Motion.reduced(this)
 
     private fun setupChipNavigation() {
         val navRow = findViewById<LinearLayout>(R.id.nav_row)

@@ -72,6 +72,12 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         // Launch status
         view.findViewById<TextView>(R.id.session_status).text = LaunchExecutor.execute(requireContext()) + "\n\n" +
             LaunchExecutor.launchMinecraft(requireContext())
+
+        // A control that renders but has no listener is worse than no control.
+        view.findViewById<Button>(R.id.session_replay_start).setOnClickListener { startReplay() }
+        view.findViewById<Button>(R.id.session_replay_stop).setOnClickListener { stopReplay() }
+        renderOnboarding(view)
+        renderReplay(view)
     }
 
     // --- replay ------------------------------------------------------------
@@ -136,6 +142,7 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
         val files = (replayDir().listFiles { f -> f.name.endsWith(".json") } ?: emptyArray())
             .sortedByDescending { it.lastModified() }
 
+        list.staggerEntrance(requireContext())
         if (files.isEmpty()) {
             list.addView(TextView(context).apply {
                 text = getString(R.string.session_replay_none)

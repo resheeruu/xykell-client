@@ -299,7 +299,7 @@ class RakNetEndpoint(
             val id = f.splitId!!
             val idx = f.splitIndex!!
             if (count > maxSplitParts) throw RakNetFormatException("split count $count exceeds $maxSplitParts")
-            if (splits.size > MAX_CONCURRENT_SPLITS && id !in splits) {
+            if (splits.size >= MAX_CONCURRENT_SPLITS && id !in splits) {
                 throw RakNetFormatException("too many concurrent splits")
             }
             val cur = splits.getOrPut(id) { PendingSplit(count) }

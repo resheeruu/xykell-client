@@ -104,6 +104,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/relay/RelayObservation.kt"
     "$SRC/dev/xykell/client/runtime/relay/CodecDiagnostics.kt"
     "$SRC/dev/xykell/client/runtime/relay/BlockPalette.kt"
+    "$SRC/dev/xykell/client/runtime/relay/BlockPaletteReader.kt"
     "$SRC/dev/xykell/client/runtime/relay/DecodeLimits.kt"
     "$SRC/dev/xykell/client/runtime/replay/ReplayStore.kt"
     "$SRC/dev/xykell/client/runtime/replay/ReplayRecorder.kt"
@@ -183,6 +184,7 @@ SUITES=(
     dev.xykell.client.runtime.relay.RelayObservationTest
     dev.xykell.client.runtime.relay.CodecDiagnosticsTest
     dev.xykell.client.runtime.relay.BlockPaletteTest
+    dev.xykell.client.runtime.relay.BlockPaletteReaderTest
     dev.xykell.client.runtime.relay.DecodeLimitsTest
     dev.xykell.client.runtime.relay.EntityTableTest
     dev.xykell.client.runtime.modules.CombatModulesTest
@@ -197,7 +199,7 @@ SUITES=(
     dev.xykell.client.runtime.modules.ModuleFlagsTest
     dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=70
+EXPECTED_SUITES=71
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -279,6 +281,7 @@ done
     "$TEST"/dev/xykell/client/runtime/relay/RelayObservationTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/CodecDiagnosticsTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/BlockPaletteTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/BlockPaletteReaderTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/DecodeLimitsTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/EntityTableTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/BedrockTextTest.kt \

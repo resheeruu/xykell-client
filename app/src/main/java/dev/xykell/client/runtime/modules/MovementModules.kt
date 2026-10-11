@@ -246,6 +246,10 @@ object MovementModules {
      * history is needed.
      */
     private fun levitate(direction: RelayDirection, packet: ByteArray): List<ByteArray> {
+        // MovePlayer is `bound: both`. Without this guard the offset is applied
+        // to every clientbound MovePlayer too, which lifts every *other*
+        // player's position by LEVITATE_LIFT on this device — not just ours.
+        if (direction != RelayDirection.TO_SERVER) return listOf(packet)
         val rotation = rotationOffset(packet) ?: return listOf(packet)
         val (y, _) = ModuleWire.readF32LE(packet, rotation + Y_OFFSET) ?: return listOf(packet)
         return listOf(
@@ -263,6 +267,9 @@ object MovementModules {
      * distinction made from history.
      */
     private fun movementCorrection(direction: RelayDirection, packet: ByteArray): List<ByteArray> {
+        // Same hazard as levitate: dropping every clientbound reset swallows
+        // server teleports of other entities as well as corrections to us.
+        if (direction != RelayDirection.TO_SERVER) return listOf(packet)
         val rotation = rotationOffset(packet) ?: return listOf(packet)
         val (mode, _) = ModuleWire.readByte(packet, rotation + MODE_OFFSET) ?: return listOf(packet)
         // onGround follows mode; if it is missing the packet is truncated, and a

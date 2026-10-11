@@ -153,6 +153,10 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
         c.skipHeader()
         val runtimeId = c.varLong() ?: return false
         entities.remove(runtimeId)
+        // The history ring belongs to the entity. Dropping the entity while
+        // keeping its ring leaks one deque per despawn for the life of the
+        // session, and nothing else prunes it.
+        history.remove(runtimeId)
         return true
     }
 

@@ -16,7 +16,23 @@ import dev.xykell.client.runtime.performance.PerformanceStore
  *  reflect Minecraft runtime performance. */
 class PerformanceFragment : Fragment(R.layout.fragment_performance) {
 
-    private var startupTimeMs = System.currentTimeMillis() - SystemClock.elapsedRealtime()
+    /**
+     * Time since this process class first loaded, measured on one monotonic
+     * clock.
+     *
+     * This used to be `System.currentTimeMillis() - SystemClock.elapsedRealtime()`
+     * computed per fragment: that subtracts wall-clock epoch time from time
+     * since boot, which is a meaningless large negative number, and re-evaluating
+     * it on every construction meant the readout reset each time the pager
+     * recycled the page. It reported the time since the *fragment* was created
+     * while labelling it app startup.
+     *
+     * The companion initialiser runs once per process, so the number is stable
+     * and monotonic. It is not true process start — that would need a hook in
+     * Application — so the label stays "since process init" in meaning even
+     * though the string is unchanged.
+     */
+    private var startupTimeMs = SystemClock.elapsedRealtime() - PROCESS_START_REALTIME
     private var lastUpdate = 0L
     private val updateIntervalMs = 500L
 
@@ -150,5 +166,10 @@ class PerformanceFragment : Fragment(R.layout.fragment_performance) {
         callback?.let { android.view.Choreographer.getInstance().removeFrameCallback(it) }
         view?.removeCallbacks(updateRunnable)
         super.onDestroyView()
+    }
+
+    private companion object {
+        /** Captured once at class load; see [startupTimeMs]. */
+        val PROCESS_START_REALTIME: Long = SystemClock.elapsedRealtime()
     }
 }

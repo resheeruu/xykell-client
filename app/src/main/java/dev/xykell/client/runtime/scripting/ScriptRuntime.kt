@@ -142,8 +142,11 @@ class ScriptRuntime(
             installed = accepted
             persist()
         } else {
-            // Partial acceptance would leave the caller unsure what is live.
-            installed = installed
+            // Partial acceptance would leave the caller unsure what is live, so
+            // nothing is applied and the caller is told what was rejected.
+            // (This previously read `installed = installed`, which discarded
+            // the computed set and made install() a silent no-op on this path.)
+            for (r in rejected) lastErrors[r.id] = "not installed: rejected by install"
         }
         return rejected
     }
@@ -271,8 +274,10 @@ class ScriptRuntime(
                     }
                 } catch (e: Exception) {
                     // One broken rule must never take the runtime down.
+                    // recordError() owns the failures counter; incrementing it
+                    // here as well made every throwing rule count twice, so the
+                    // diagnostics figure over-reported.
                     failed++
-                    failures++
                     recordError(rule.id, e.javaClass.simpleName)
                 }
             }

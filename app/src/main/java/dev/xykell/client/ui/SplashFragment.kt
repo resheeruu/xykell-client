@@ -69,8 +69,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         // Step 1: Logo fade-in
         logo.animate()
             .alpha(1f)
-            .setDuration(400)
-            .setInterpolator(DecelerateInterpolator())
+            .setDuration(Motion.duration(requireContext(), Motion.DURATION_MEDIUM))
+            .setInterpolator(Motion.emphasized)
             .withEndAction { startSweepAnimation() }
             .start()
     }
@@ -80,18 +80,19 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         sweep.alpha = 1f
         val sweepWidth = resources.displayMetrics.widthPixels / 2
         sweep.animate()
-            .setStartDelay(100)
-            .setDuration(500)
+            .setStartDelay(60)
+            .setDuration(Motion.duration(requireContext(), Motion.DURATION_LONG))
             .scaleX(1f)
-            .setInterpolator(AccelerateDecelerateInterpolator())
+            .setInterpolator(Motion.standard)
             .withEndAction { startSubtitleAndStatus() }
             .start()
 
         // Subtitle fade-in during sweep
         subtitle.animate()
             .alpha(1f)
-            .setStartDelay(200)
-            .setDuration(300)
+            .setStartDelay(120)
+            .setDuration(Motion.duration(requireContext(), Motion.DURATION_MEDIUM))
+            .setInterpolator(Motion.emphasized)
             .start()
     }
 
@@ -164,9 +165,7 @@ private fun loadModules() {
         activity?.run { showPage(0) }
     }
 
-    private fun isReducedMotionEnabled(): Boolean {
-        return resources.configuration.fontScale > 1.3f
-    }
+    private fun isReducedMotionEnabled(): Boolean = Motion.reduced(requireContext())
 
     override fun onDestroyView() {
         handler.removeCallbacksAndMessages(null)

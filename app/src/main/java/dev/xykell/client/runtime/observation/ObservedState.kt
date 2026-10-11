@@ -69,8 +69,13 @@ class ObservedState(private val clock: () -> Long = System::currentTimeMillis) {
 
     private fun trimChat() {
         while (chatList.size > chatCap) {
-            chatList.removeFirst()
-            if (chatList.isNotEmpty()) chatIds.remove(chatList.first().eventId)
+            // Drop the id of the line that is actually leaving. Reading
+            // chatList.first() *after* removeFirst() evicts the id of the line
+            // still at the head: the dropped line's id leaks and grows without
+            // bound, while the retained head line can be admitted again and
+            // shown twice.
+            val dropped = chatList.removeFirst()
+            chatIds.remove(dropped.eventId)
         }
         if (chatList.isEmpty()) chatIds.clear()
     }

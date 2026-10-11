@@ -22,7 +22,6 @@ object PerformanceStore {
         val uptimeMs: Long,
     )
 
-    private var frameCount = 0L
     private var lastFrameTimeNanos = System.nanoTime()
     private var fpsAccumulator = 0.0
 
@@ -44,7 +43,6 @@ object PerformanceStore {
         val now = System.nanoTime()
         val dt = (now - lastFrameTimeNanos) / 1_000_000_000.0
         lastFrameTimeNanos = now
-        frameCount++
         if (dt > 0) {
             fpsAccumulator = (fpsAccumulator * 0.9) + (1.0 / dt * 0.1)
         }

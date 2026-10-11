@@ -26,14 +26,14 @@ package dev.xykell.client.runtime.relay
  * of throwing, and hashed lookups go through a map built once at registration
  * so registration is not quadratic in a server's own claims.
  *
- * [RESEARCH REQUIRED] -- no producer yet. Nothing in the relay currently reads
- * a block palette out of a start-game handshake, so there is no code path that
- * constructs a [BlockPalette] at runtime. The type and its tests exist because
- * the protocol's two addressing modes are a real thing to get right, and getting
- * them wrong is silent -- a hash read as an ordinal resolves every block to a
- * wrong definition with no error. Wiring it to a screen that would display
- * "none loaded" would be reporting a placeholder as a state, so it is left
- * unwired and marked here instead. See docs/REFERENCE-CLIENT-SURVEY.md.
+ * The producer is [BlockPaletteReader], which parses the start-game envelope
+ * and selects the addressing mode from the handshake. The per-entry encoding is
+ * version-specific and is deliberately *not* reimplemented here — see that
+ * class for why guessing it would be worse than refusing it.
+ *
+ * The type matters because the protocol's two addressing modes are easy to get
+ * wrong silently: read a hash as an ordinal and every block resolves to a wrong
+ * definition with no error at all.
  *
  * Pure Kotlin: no Android imports, host-testable.
  */

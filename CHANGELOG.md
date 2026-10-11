@@ -1,5 +1,69 @@
 # Changelog
 
+## 0.5.0 — 2026-10-11
+
+Motion system, and a full audit pass that found thirteen defects — including
+two in code this project added in the previous two releases.
+
+### Added
+- `ui/Motion.kt` — one source for durations, curves and the reduced-motion
+  rule. Before this, durations were literals scattered across fragments and
+  reduced motion was checked separately in two files, which is how a UI ends up
+  with six different fades and a setting only some screens honour.
+  Material emphasis curves expressed as cubic-bezier control points, so motion
+  composed from these sits next to platform transitions without a seam.
+  Staggered entrance for list content, capped at the first few rows so a long
+  list does not take longer to arrive than the user waits.
+
+### Fixed — found by audit
+- **Replay buttons did nothing.** `startReplay`, `stopReplay`, `renderReplay`
+  and `renderOnboarding` existed and were never called from `onViewCreated`.
+  The 0.4.0 release shipped controls that rendered and went nowhere. Found by
+  cross-checking every `R.id` reference against the fragment that inflates it.
+- **`levitate` and `movementCorrection` ignored packet direction.** Both take a
+  direction and neither checked it, while their own documentation says
+  "scoped to TO_SERVER". MovePlayer is `bound: both`, so `levitate` was raising
+  every *other* player's position by 1.5 blocks on this device, and
+  `movementCorrection` was swallowing other entities' server teleports. Their
+  tests asserted the buggy behaviour on the clientbound leg; corrected, plus a
+  regression test that the clientbound leg is byte-identical.
+- **HUD overlay froze permanently on one bad frame.** `View.invalidate()` was
+  called from the overlay `HandlerThread` — documented as not thread-safe — and
+  the surrounding catch returned without rescheduling, so any throw stopped the
+  refresh loop for good. Now uses `postInvalidate()` and always reschedules.
+- **`ObservedState.trimChat` evicted the wrong id.** It removed the head line's
+  id *after* `removeFirst()`, so every dropped line leaked its id and a
+  redelivery of the retained head line appeared twice.
+- **`EntityTable` leaked history.** `RemoveEntity` dropped the entity but kept
+  its 20-entry ring; nothing else pruned it, so a long session grew without
+  bound.
+- **`VisualModules` sized an array from an untrusted varint before checking
+  it.** A four-byte PlayerFog could request a multi-gigabyte allocation before
+  the loop that would reject it ran.
+- **`ScriptRuntime.install` was a no-op on the partial-acceptance path** —
+  `installed = installed` discarded the computed set. A throwing rule also
+  counted twice against `scriptFailures`.
+- **"App startup" showed a meaningless number.** It subtracted wall-clock epoch
+  time from uptime, on two different clocks, recomputed on every fragment
+  construction. Now one monotonic measurement taken once per process.
+- **`RakNetEndpoint`** let 17 concurrent splits exist against a constant
+  documented as 16.
+
+### Fixed — accessibility
+- **Reduced motion was inverted.** Both call sites tested
+  `fontScale > 1.3f` — a large-text check wearing a reduced-motion name — which
+  disabled page swiping for users who had enlarged their fonts, the opposite of
+  what they need. Now reads the system animator scale.
+
+### Removed
+- `PerformanceStore.frameCount` and `ReplayRecorder.startedAtMs`: written,
+  never read.
+
+### Verification
+- `run-kotlin-unit.sh` — 71/71 suites pass.
+- `run-kotlin-typecheck.sh` — 140 main and 73 test sources.
+- `check-i18n.py` — 7 locales x 558 keys.
+
 ## 0.4.1 — 2026-10-11
 
 The app was displaying a decode limit it was not enforcing.

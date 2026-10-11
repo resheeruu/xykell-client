@@ -222,7 +222,7 @@ class MovementModulesTest {
     @Test
     fun levitate_raisesYByTheLiftAndTouchesNothingElse() {
         val raw = move(y = 64f)
-        val out = MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, raw)
+        val out = MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, raw)
         assertEquals(1, out.size)
         val rewritten = out[0]
         assertEquals(raw.size, rewritten.size)
@@ -254,8 +254,8 @@ class MovementModulesTest {
         // Each MovePlayer carries an absolute y, so a second wire packet at the
         // same height gets the same lift — the module holds no offset of its own.
         assertArrayEquals(
-            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, first)[0],
-            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, second)[0],
+            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, first)[0],
+            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, second)[0],
         )
     }
 
@@ -264,7 +264,7 @@ class MovementModulesTest {
         val raw = move(runtimeId = 200000, y = 12f)
         val at = yOffset(raw)
         assertTrue("fixture must use a 3-byte runtime id", at > 3)
-        val out = MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, raw)[0]
+        val out = MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, raw)[0]
         assertEquals(
             12f + MovementModules.LEVITATE_LIFT,
             requireNotNull(ModuleWire.readF32LE(out, at)).first,
@@ -275,15 +275,15 @@ class MovementModulesTest {
     @Test
     fun levitate_ignoresNonMoveAndTruncatedPackets() {
         val hp = health()
-        assertArrayEquals(hp, MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, hp)[0])
+        assertArrayEquals(hp, MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, hp)[0])
         val truncated = move().copyOf(5)
         assertArrayEquals(
             truncated,
-            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, truncated)[0],
+            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, truncated)[0],
         )
         assertArrayEquals(
             ByteArray(0),
-            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, ByteArray(0))[0],
+            MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, ByteArray(0))[0],
         )
     }
 
@@ -292,7 +292,7 @@ class MovementModulesTest {
     @Test
     fun movementCorrection_dropsResetModes() {
         for (mode in listOf(1, 2, 3, 9)) {
-            val out = MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_CLIENT, move(mode = mode))
+            val out = MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_SERVER, move(mode = mode))
             assertTrue("mode $mode should be dropped", out.isEmpty())
         }
     }
@@ -300,13 +300,13 @@ class MovementModulesTest {
     @Test
     fun movementCorrection_keepsNormalUpdatesByteIdentical() {
         val raw = move(mode = 0, y = 70f, onGround = false)
-        assertEquals(strings(listOf(raw)), strings(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_CLIENT, raw)))
+        assertEquals(strings(listOf(raw)), strings(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_SERVER, raw)))
     }
 
     @Test
     fun movementCorrection_stillDropsATeleportModeWithItsCauseFields() {
         val raw = move(mode = 2, cause = 3, item = 1)
-        assertTrue(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_CLIENT, raw).isEmpty())
+        assertTrue(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_SERVER, raw).isEmpty())
     }
 
     @Test
@@ -317,7 +317,7 @@ class MovementModulesTest {
         val beforeOnGround = full.copyOfRange(0, body + 26)
         assertArrayEquals(
             beforeOnGround,
-            MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_CLIENT, beforeOnGround)[0],
+            MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_SERVER, beforeOnGround)[0],
         )
         val beforeMode = full.copyOfRange(0, body + 25)
         assertArrayEquals(
@@ -590,12 +590,34 @@ class MovementModulesTest {
         }
     }
 
+    /**
+     * MovePlayer is `bound: both`, so an outbound-only transform must leave the
+     * clientbound leg byte-identical. Without the direction guard these two
+     * lifted every *other* player's position on this device and swallowed their
+     * teleports.
+     */
+    @Test
+    fun outboundOnlyTransformsLeaveTheClientboundLegUntouched() {
+        val normal = move(mode = 0)
+        val reset = move(mode = 1)
+        assertEquals(
+            "levitate must not rewrite clientbound MovePlayer",
+            strings(listOf(normal)),
+            strings(MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, normal)),
+        )
+        assertEquals(
+            "movement correction must not drop clientbound MovePlayer",
+            strings(listOf(reset)),
+            strings(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_CLIENT, reset)),
+        )
+    }
+
     @Test
     fun bothImplementedIdsAreReachableAndNeitherIsAPassThrough() {
         val normal = move(mode = 0)
         val reset = move(mode = 1)
-        assertTrue(MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_CLIENT, normal)[0] != normal)
-        assertTrue(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_CLIENT, reset).isEmpty())
+        assertTrue(MovementModules.transform("xykell.movement.levitate", RelayDirection.TO_SERVER, normal)[0] != normal)
+        assertTrue(MovementModules.transform("xykell.movement.movement_correction", RelayDirection.TO_SERVER, reset).isEmpty())
         assertEquals(8, MovementModules.IMPLEMENTED.size)
     }
 }

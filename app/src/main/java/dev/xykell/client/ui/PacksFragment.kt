@@ -224,6 +224,7 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
         val visible = dev.xykell.client.runtime.packs.PackStore.sort(
             dev.xykell.client.runtime.packs.PackStore.filter(entries, query)
         )
+        rows.staggerEntrance(requireContext())
         if (visible.isEmpty()) {
             empty.text = if (query.trim().isEmpty()) {
                 getString(R.string.packs_empty)

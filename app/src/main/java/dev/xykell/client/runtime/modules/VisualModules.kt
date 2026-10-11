@@ -1,5 +1,6 @@
 package dev.xykell.client.runtime.modules
 
+import dev.xykell.client.runtime.relay.DecodeLimits
 import dev.xykell.client.runtime.relay.EntityTable
 import dev.xykell.client.runtime.relay.RelayDirection
 import kotlin.math.sqrt
@@ -722,9 +723,12 @@ object VisualModules {
         if (ModuleWire.header(packet)?.and(ModuleWire.ID_MASK) != ID_PLAYER_FOG) return null
         val body = ModuleWire.bodyStart(packet) ?: return null
         val (count, after) = ModuleWire.readVarUInt(packet, body) ?: return null
-        if (count < 0) return null
+        // Bound the count *before* sizing anything from it. Pre-allocating from
+        // a varint straight off the wire means a four-byte PlayerFog can ask for
+        // a multi-gigabyte array before the loop that would reject it runs.
+        if (count < 0 || count > DecodeLimits.MAX_LIST_SIZE) return null
         var at = after
-        val stack = ArrayList<String>(count)
+        val stack = ArrayList<String>(minOf(count, 1024))
         repeat(count) {
             val entry = ModuleWire.readVarString(packet, at) ?: return null
             stack.add(entry.first)

@@ -278,24 +278,30 @@ reachable from the UI.
 | Protocol diagnostics | Diagnostics | Observed values only |
 | Relay tuning | Diagnostics | Requested vs granted buffers |
 | Onboarding / launch mode | Session screen | Persisted atomically |
-| **Block palette** | **nothing** | **[RESEARCH REQUIRED]** — see below |
+| Block palette | relay handshake | Producer added; see below |
 
-### Block palette — RESEARCH REQUIRED
+### Block palette — producer added
 
-`runtime/relay/BlockPalette.kt` implements the protocol's two block
-network-id addressing modes (indexed and hashed) and is fully tested, but
-**nothing constructs one at runtime**: no code path currently reads a block
-palette out of a start-game handshake.
+`BlockPalette.kt` implements the protocol's two block network-id addressing
+modes (indexed and hashed). It previously had **no producer** and carried a
+`[RESEARCH REQUIRED]` marker: nothing constructed one at runtime.
 
-It is deliberately left unwired. Showing it on a screen as "none loaded" would
-present a placeholder as a state, and the repository's rule is that a capability
-is either reachable or explicitly marked — never displayed as though it were
-working. Wiring it needs a producer: parse the palette from `StartGame`, select
-the registry by the handshake's hashed/indexed flag, and hand it to the relay.
+`BlockPaletteReader.kt` is that producer. It parses the start-game envelope —
+varint palette version, varint entry count, entries — selects indexed or hashed
+from the handshake's flag, and bounds the count against `DecodeLimits`.
 
-The capability is worth having. A decoder that assumes the wrong addressing
-mode reads a hash as an ordinal and resolves every block to a wrong definition
-with no error — which is the failure mode this type exists to prevent.
+**What it deliberately does not do.** It does not parse the palette's
+per-entry encoding. That encoding is version-specific, and inventing one would
+produce palettes that parse cleanly and name the wrong blocks — a failure
+indistinguishable from a correct decode until a block renders as something else.
+Entries therefore arrive through a caller-supplied `DefinitionSource`, and a
+caller without a decoder for the version in front of it gets a refusal rather
+than a guess.
+
+Every refusal path is explicit: empty payload, unsupported version, truncated
+envelope, count out of range, too few entries, encoder failure. A short or
+oversized palette yields **no** palette rather than a partial one, because a
+partial palette resolves later ids to the wrong definition with no error.
 
 ### Decode limits — one source of truth (0.4.1)
 

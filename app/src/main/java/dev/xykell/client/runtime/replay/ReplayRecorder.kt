@@ -36,7 +36,6 @@ class ReplayRecorder(
 
     private val segments = ArrayList<List<ReplayStore.Frame>>()
     private var current = ArrayList<ReplayStore.Frame>()
-    private var startedAtMs = 0L
     private var lastAtMs = Long.MIN_VALUE
     private var closed = false
     private var lastReplay: ReplayStore.Replay? = null
@@ -92,7 +91,6 @@ class ReplayRecorder(
                 timestampMs = at,
             ),
         )
-        if (startedAtMs == 0L) startedAtMs = at
         lastAtMs = at
         true
     }
@@ -138,7 +136,7 @@ class ReplayRecorder(
                 // A recording that captured nothing records when it was stopped,
                 // not a start time that never existed.
                 recordedAtMs = first ?: clock(),
-                durationMs = if (frames.size >= 2) (last!! - first!!) else 0L,
+                durationMs = if (last != null && first != null) (last - first) else 0L,
             ),
             frames = frames,
         )
