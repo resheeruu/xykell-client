@@ -574,4 +574,13 @@
     <string name="relay_addserver_fmt">Adresse 127.0.0.1 · Port %1$d · Nom quelconque. Rejoignez-le comme n\'importe quel serveur.</string>
     <string name="relay_step_play">Étape 3 · Jouer</string>
     <string name="relay_ready_fmt">Le relais est actif sur 127.0.0.1:%1$d → %2$s. Rejoignez maintenant le serveur ci-dessus. Les fonctions ne reçoivent des données que si ONLINE est affiché.</string>
+    <string name="diag_limits_header">RELAIS ET LIMITES DE DÉCODAGE</string>
+    <string name="ui_replay">REJOUER</string>
+    <string name="session_replay_start">Démarrer l\'enregistrement</string>
+    <string name="session_replay_stop">Arrêter et enregistrer</string>
+    <string name="session_replay_none">Aucun enregistrement.</string>
+    <string name="session_replay_saved">%1$d images enregistrées.</string>
+    <string name="session_replay_deleted">%1$s supprimé.</string>
+    <string name="packs_scan_not_pack">Pas une archive .mcpack.</string>
+    <string name="packs_scan_summary">%1$d entrées, %2$d Ko au total%3$s</string>
 </resources>

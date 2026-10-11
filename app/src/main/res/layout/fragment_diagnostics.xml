@@ -82,6 +82,23 @@
         android:textColor="@color/xykell_accent" />
 
     <TextView
+        android:id="@+id/diag_limits_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/xykell_accent" />
+
+    <TextView
+        android:id="@+id/diag_limits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="13sp"
+        android:textColor="@color/xykell_text" />
+
+    <TextView
         android:id="@+id/diag_crash_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

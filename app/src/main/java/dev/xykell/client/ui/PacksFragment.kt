@@ -454,9 +454,15 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
                     view.post { status(view, getString(R.string.packs_import_failed, "no data")) }
                     return@Thread
                 }
-                // Try manifest.json first (for .mcpack/zip we'd need zip parsing;
-                // here we assume user picks manifest.json directly)
-                val meta = dev.xykell.client.runtime.packs.PackStore.extractFromManifest(bytes)
+                // A .mcpack is a zip; a bare manifest.json is not. Scan as an
+                // archive first and fall back to a direct manifest read, so one
+                // picker handles both without the user having to know which.
+                val scanned = dev.xykell.client.runtime.packs.PackArchive.scan(bytes)
+                val meta = if (scanned.readable) {
+                    scanned.manifest
+                } else {
+                    dev.xykell.client.runtime.packs.PackStore.extractFromManifest(bytes)
+                }
                 val name = meta["name"] as? String ?: ""
                 val version = meta["version"] as? String ?: ""
                 val author = meta["author"] as? String ?: ""
@@ -464,6 +470,14 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
                 val type = meta["packType"] as? dev.xykell.client.runtime.packs.PackType
                     ?: dev.xykell.client.runtime.packs.PackType.UNKNOWN
                 val packName = if (name.isNotBlank()) name else "Imported Pack"
+                // Neither a readable archive nor a readable manifest: say so
+                // plainly rather than importing an entry with no metadata.
+                if (!scanned.readable && meta.isEmpty()) {
+                    view.post {
+                        status(view, getString(R.string.packs_scan_not_pack))
+                    }
+                    return@Thread
+                }
                 view.post {
                     editingId = null
                     view.findViewById<EditText>(R.id.packs_name).setText(packName)
@@ -474,7 +488,21 @@ class PacksFragment : Fragment(R.layout.fragment_packs) {
                     view.findViewById<EditText>(R.id.packs_path).setText(uri.toString())
                     view.findViewById<Button>(R.id.packs_add).text =
                         getString(R.string.packs_add)
-                    status(view, getString(R.string.packs_imported, packName))
+                    // Report the archive's real shape, including the cases that
+                    // mean the file is not really a pack.
+                    val suffix = buildString {
+                        if (scanned.truncated) append(" (truncated at a size cap)")
+                        if (scanned.hasTraversal) append(" (contains a path-escaping entry)")
+                    }
+                    val kb = scanned.totalBytes / 1024
+                    status(
+                        view,
+                        if (scanned.readable) {
+                            getString(R.string.packs_scan_summary, scanned.entryCount, kb, suffix)
+                        } else {
+                            getString(R.string.packs_imported, packName)
+                        },
+                    )
                 }
             } catch (e: Exception) {
                 view.post {

@@ -138,6 +138,7 @@ class RelayService : Service() {
                 // server_info and ip_display lines need. Offered there so the
                 // HUD shows a real address only while one is connected.
                 onOnline = { protocol ->
+                    negotiatedProtocol = protocol
                     Observations.offerConnection(
                         "relay-online",
                         System.currentTimeMillis(),
@@ -159,6 +160,10 @@ class RelayService : Service() {
             started.start()
             tickCount = 0
             driver = started
+            // Report what the kernel granted, not what we asked for. A mismatch
+            // is exactly the thing a user reporting "the relay drops packets"
+            // needs to see, so it is published rather than swallowed.
+            publishBuffers(started.bufferSummary)
             modules = runtime
             tapRunner = ModuleTapRunner(
                 runtime = runtime,
@@ -288,12 +293,36 @@ class RelayService : Service() {
         var online: Boolean = false
             private set
 
+        /**
+         * Protocol number the upstream leg negotiated, or null when no session
+         * has reached that point. Null means "not observed yet", which the
+         * diagnostics screen reports as unknown rather than as a mismatch.
+         */
+        @Volatile
+        var negotiatedProtocol: Int? = null
+            private set
+
+        /**
+         * What the kernel actually granted for the relay sockets, or null when
+         * no session has opened them yet. Distinct from the requested value:
+         * see [RelayTuning.describeBuffers].
+         */
+        @Volatile
+        var socketBuffers: String? = null
+            private set
+
+        internal fun publishBuffers(summary: String?) {
+            socketBuffers = summary
+        }
+
         internal fun syncOnline(value: Boolean) {
             online = if (running) value else false
         }
 
         fun start(context: Context, host: String, upstreamPort: Int, listenPort: Int) {
             detail = ""
+            negotiatedProtocol = null
+            socketBuffers = null
             val intent = Intent(context, RelayService::class.java).apply {
                 action = ACTION_START
                 putExtra(EXTRA_HOST, host)

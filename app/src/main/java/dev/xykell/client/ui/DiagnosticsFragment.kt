@@ -14,7 +14,11 @@ import dev.xykell.client.runtime.NativeBridgeStatus
 import dev.xykell.client.runtime.RuntimeStatus
 import dev.xykell.client.runtime.XykellInfo
 import dev.xykell.client.runtime.observation.ObservationService
+import dev.xykell.client.runtime.network.RelayTuning
 import dev.xykell.client.runtime.observation.Observations
+import dev.xykell.client.runtime.relay.CodecDiagnostics
+import dev.xykell.client.runtime.relay.DecodeLimits
+import dev.xykell.client.runtime.relay.RelayService
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -45,6 +49,8 @@ class DiagnosticsFragment : Fragment(R.layout.fragment_diagnostics) {
             getString(R.string.diag_observation_header)
         view.findViewById<TextView>(R.id.diag_crash_header).text =
             getString(R.string.diag_crash_header)
+        view.findViewById<TextView>(R.id.diag_limits_header).text =
+            getString(R.string.diag_limits_header)
         statusView = view.findViewById(R.id.diag_crash_status)
 
         view.findViewById<Button>(R.id.diag_crash_export).setOnClickListener {
@@ -93,6 +99,39 @@ class DiagnosticsFragment : Fragment(R.layout.fragment_diagnostics) {
         }
 
         renderCrashList(view)
+        renderLimits(view)
+    }
+
+    /**
+     * The relay's real, current numbers rather than the constants they were
+     * configured from.
+     *
+     * Three things are deliberately not smoothed over. The protocol line says
+     * "device only" when only one leg has reported, because this build
+     * generates its packet table from a single vendored schema and cannot
+     * honestly claim a support matrix — see [CodecDiagnostics]. The socket line
+     * separates what was requested from what the kernel granted, because those
+     * differing is the usual explanation for dropped datagrams. And when no
+     * session has opened the sockets, the granted size reads "unknown" instead
+     * of a zero that would look like a real measurement.
+     */
+    private fun renderLimits(view: View) {
+        val protocol = RelayService.negotiatedProtocol
+        val buffers = RelayService.socketBuffers
+        view.findViewById<TextView>(R.id.diag_limits).text = buildString {
+            append(CodecDiagnostics.summary(protocol, protocol))
+            append('\n')
+            if (buffers == null) {
+                append(
+                    "mtu ${RelayTuning.MTU_BYTES}B, requested " +
+                        "${RelayTuning.bufferRequest() / 1024}KiB, granted unknown"
+                )
+            } else {
+                append(buffers)
+            }
+            append('\n')
+            append(DecodeLimits.DEFAULT.describe())
+        }
     }
 
     private fun renderCrashList(view: View) {

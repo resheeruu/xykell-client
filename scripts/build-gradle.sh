@@ -23,11 +23,14 @@ if [ -z "$GRADLE" ]; then
     fi
 fi
 
-# Native libs are build outputs and are gitignored. A fresh clone has to build
-# them before AGP can package them.
+# Native libs are build outputs and are gitignored, so a fresh clone has to
+# build them before AGP can package them. This used to invoke build-apk.sh,
+# which assembles a whole APK into a temp directory and never writes to
+# jniLibs -- so Gradle packaged no bridge at all and every JNI facade failed to
+# load. build-jni-bridge.sh does the one job that is actually needed here.
 if [ ! -f "$ROOT/app/src/main/jniLibs/arm64-v8a/libxykellcore.so" ]; then
-    echo "build-gradle: native libs missing; building them first"
-    "$ROOT/scripts/build-apk.sh" || {
+    echo "build-gradle: native bridge missing; building it first"
+    bash "$ROOT/scripts/build/build-jni-bridge.sh" || {
         echo "build-gradle: native build failed" >&2
         exit 1
     }

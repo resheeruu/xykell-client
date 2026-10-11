@@ -574,4 +574,13 @@
     <string name="relay_addserver_fmt">Adres 127.0.0.1 · Port %1$d · Dowolna nazwa. Dołącz jak do zwykłego serwera.</string>
     <string name="relay_step_play">Krok 3 · Graj</string>
     <string name="relay_ready_fmt">Relay działa na 127.0.0.1:%1$d → %2$s. Dołącz teraz do powyższego serwera. Funkcje odbierają dane tylko gdy widnieje ONLINE.</string>
+    <string name="diag_limits_header">RELAY I LIMITY DEKODOWANIA</string>
+    <string name="ui_replay">ODTWARZANIE</string>
+    <string name="session_replay_start">Rozpocznij nagrywanie</string>
+    <string name="session_replay_stop">Zatrzymaj i zapisz</string>
+    <string name="session_replay_none">Brak nagrań.</string>
+    <string name="session_replay_saved">Zapisano %1$d klatek.</string>
+    <string name="session_replay_deleted">Usunięto %1$s.</string>
+    <string name="packs_scan_not_pack">To nie archiwum .mcpack.</string>
+    <string name="packs_scan_summary">%1$d wpisów, łącznie %2$d KB%3$s</string>
 </resources>

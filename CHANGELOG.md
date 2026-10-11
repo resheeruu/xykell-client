@@ -1,5 +1,66 @@
 # Changelog
 
+## 0.3.0 — 2026-10-11
+
+Ports the reference-client analysis into this tree, and wires it into the app.
+Everything below was previously tested library code that nothing called.
+
+### Added
+- `runtime/replay/` — session replay. `ReplayStore` (versioned JSON model,
+  bounded on frames, inputs per frame, label length and document size),
+  `ReplayRecorder` (frames exist only for coordinates the observation layer
+  actually produced), `ReplayPlayback` (time-indexed; returns observation data
+  only and never emits input).
+- `runtime/command/CommandConsole.kt` — local command console over observed
+  state. Deliberately local: it cannot reach the game, because
+  `ObservedState` exposes no way to send anything.
+- `runtime/relay/DecodeLimits.kt` — explicit bounded decode limits per
+  untrusted length, plus a per-packet byte budget. Setting a decode limit to
+  "whatever fits in memory" reads as a decision rather than an omission, so
+  the bounds are named and justified.
+- `runtime/relay/CodecDiagnostics.kt` — protocol sanity and device-vs-upstream
+  leg comparison. Reports observed values; claims no support matrix, because
+  this build generates its packet table from a single vendored schema.
+- `runtime/relay/BlockPalette.kt` — indexed and hashed block network-id modes.
+- `runtime/observation/ComponentSanitizer.kt` — bounded text-component
+  rendering; interactive payloads are dropped, never rendered.
+- `runtime/network/RelayTuning.kt` — socket buffer/MTU policy, thread priority,
+  and a caching upstream resolver.
+- `runtime/packs/PackArchive.kt` — `.mcpack` scanning with entry-count,
+  total-size and per-entry caps; reports traversal names, never extracts.
+- `runtime/Onboarding.kt` — first-run state and launch-mode policy.
+- `ui/ThemeColors` HSV re-tint (`hsvToArgb`/`hsvToHex`/`withHsv`).
+- `docs/REFERENCE-CLIENT-ANALYSIS.md`, `docs/REFERENCE-CLIENT-SURVEY.md`.
+
+### Wired
+- Session screen records, stops, lists and describes replays.
+- Content screen imports `.mcpack` archives, not just a bare `manifest.json`,
+  closing a hole the original code documented in a comment.
+- Diagnostics shows live relay values: negotiated protocol, requested vs
+  granted socket buffers, active decode limits.
+
+### Fixed
+- `RelaySessionDriver` resolved its upstream host in its constructor, so
+  starting the relay performed a blocking DNS lookup on the caller's thread.
+- `RelaySessionDriver.loop` could die on a socket or resolution error while the
+  service still reported running; it now closes the session, matching the
+  class's own documented contract.
+- `build-gradle.sh` invoked `build-apk.sh` to "build the native libs first",
+  but that script assembles a whole APK into a temp directory and never writes
+  to `app/src/main/jniLibs`. Gradle packages only what is under `jniLibs`, so
+  every Gradle-built APK shipped with no `libxykellcore.so` and every
+  `System.loadLibrary("xykellcore")` failed. It stayed invisible because each
+  JNI facade catches `UnsatisfiedLinkError`. `scripts/build/build-jni-bridge.sh`
+  now does the one job that step was supposed to do, and fails loudly.
+- Launcher label reads `@string/app_name` so manifest and resource cannot drift.
+
+### Verification
+- `run-kotlin-unit.sh` — 69/69 suites pass (58 before).
+- `run-kotlin-typecheck.sh` — 136 main and 71 test sources.
+- `check-i18n.py` — 7 locales x 552 keys.
+- `build-gradle.sh assembleDebug` — BUILD SUCCESSFUL, with `libxykellcore.so`
+  (46 JNI exports) and `libc++_shared.so` packaged.
+
 Maintained in `docs/CHANGELOG.md`. Summary:
 
 ## [0.2.9]

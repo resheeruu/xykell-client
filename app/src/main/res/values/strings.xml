@@ -574,4 +574,13 @@
     <string name="relay_addserver_fmt">Address 127.0.0.1 · Port %1$d · Any name. Join it like any other server.</string>
     <string name="relay_step_play">Step 3 · Play</string>
     <string name="relay_ready_fmt">Relay is live on 127.0.0.1:%1$d → %2$s. Join the server above now. Features only receive data while this reads ONLINE.</string>
+    <string name="diag_limits_header">RELAY &amp; DECODE LIMITS</string>
+    <string name="ui_replay">REPLAY</string>
+    <string name="session_replay_start">Start recording</string>
+    <string name="session_replay_stop">Stop and save</string>
+    <string name="session_replay_none">No recordings yet.</string>
+    <string name="session_replay_saved">Saved %1$d frames.</string>
+    <string name="session_replay_deleted">Deleted %1$s.</string>
+    <string name="packs_scan_not_pack">Not a .mcpack archive.</string>
+    <string name="packs_scan_summary">Scanned %1$d entries, %2$d KB total%3$s</string>
 </resources>

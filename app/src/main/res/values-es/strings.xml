@@ -574,4 +574,13 @@
     <string name="relay_addserver_fmt">Dirección 127.0.0.1 · Puerto %1$d · Nombre el que quieras. Únete como a cualquier otro servidor.</string>
     <string name="relay_step_play">Paso 3 · Jugar</string>
     <string name="relay_ready_fmt">El relay está activo en 127.0.0.1:%1$d → %2$s. Únete ahora al servidor de arriba. Las funciones solo reciben datos mientras esto diga ONLINE.</string>
+    <string name="diag_limits_header">RELAY Y LÍMITES DE DECODIFICACIÓN</string>
+    <string name="ui_replay">REPETICIÓN</string>
+    <string name="session_replay_start">Iniciar grabación</string>
+    <string name="session_replay_stop">Detener y guardar</string>
+    <string name="session_replay_none">Aún no hay grabaciones.</string>
+    <string name="session_replay_saved">%1$d fotogramas guardados.</string>
+    <string name="session_replay_deleted">%1$s eliminado.</string>
+    <string name="packs_scan_not_pack">No es un archivo .mcpack.</string>
+    <string name="packs_scan_summary">%1$d entradas, %2$d KB en total%3$s</string>
 </resources>

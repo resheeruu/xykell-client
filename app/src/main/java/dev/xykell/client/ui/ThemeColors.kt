@@ -128,6 +128,58 @@ data class ThemeColors(
         }
 
         /**
+         * HSV -> ARGB, on the usual 0..1 / 0..360 / 0..360 / 0..1 scales.
+         *
+         * Themes are authored as hue/saturation/value triples because that is
+         * how a user reasons about "the same accent, a bit dimmer" — shifting
+         * one number instead of re-picking a hex. This is the standard
+         * conversion, implemented from the published definition, and it is pure
+         * arithmetic: no allocation, no Android, no native bridge, so it cannot
+         * fail in a way the caller has to handle.
+         *
+         * Out-of-range inputs are coerced rather than rejected, because a theme
+         * file with hue 400 should still render something sane. NaN coerces to
+         * 0 through the comparison chain, which is the documented behaviour.
+         */
+        fun hsvToArgb(
+            hueDegrees: Double,
+            saturation: Double,
+            value: Double,
+            alpha: Double = 1.0,
+        ): Int {
+            val h = ((hueDegrees % 360.0) + 360.0) % 360.0
+            val s = saturation.coerceIn(0.0, 1.0)
+            val v = value.coerceIn(0.0, 1.0)
+            val a = alpha.coerceIn(0.0, 1.0)
+
+            val c = v * s
+            val hp = h / 60.0
+            val x = c * (1.0 - Math.abs(hp % 2.0 - 1.0))
+            val m = v - c
+
+            val (r, g, b) = when {
+                hp < 1.0 -> Triple(c, x, 0.0)
+                hp < 2.0 -> Triple(x, c, 0.0)
+                hp < 3.0 -> Triple(0.0, c, x)
+                hp < 4.0 -> Triple(0.0, x, c)
+                hp < 5.0 -> Triple(x, 0.0, c)
+                else -> Triple(c, 0.0, x)
+            }
+            val ri = ((r + m) * 255.0).toInt().coerceIn(0, 255)
+            val gi = ((g + m) * 255.0).toInt().coerceIn(0, 255)
+            val bi = ((b + m) * 255.0).toInt().coerceIn(0, 255)
+            val ai = (a * 255.0).toInt().coerceIn(0, 255)
+            return (ai shl 24) or (ri shl 16) or (gi shl 8) or bi
+        }
+
+        /** [hsvToArgb] rendered as `#RRGGBB`, matching the token format. */
+        fun hsvToHex(
+            hueDegrees: Double,
+            saturation: Double,
+            value: Double,
+        ): String = "#%06X".format(hsvToArgb(hueDegrees, saturation, value) and 0xFFFFFF)
+
+        /**
          * Role resolution for re-theming an already-rendered view tree:
          * a color that matched a token under [from] moves to the same token
          * under [to]; anything else (user-applied, system, unknown) is left
@@ -137,5 +189,32 @@ data class ThemeColors(
             val fromArgb = parseHex(from.token(role)) ?: return null
             return if (current == fromArgb) parseHex(to.token(role)) else null
         }
+    }
+}
+
+/**
+ * This theme with [role] re-tinted from an HSV triple.
+ *
+ * Top level rather than a companion member so a caller in any package can write
+ * `theme.withHsv(...)` without importing a companion. Accent moves the HUD
+ * accent with it: a red accent beside a teal HUD is a bug that reads as a
+ * rendering fault and is actually a missing line of code.
+ */
+fun ThemeColors.withHsv(
+    role: ThemeColors.Role,
+    hue: Double,
+    saturation: Double,
+    brightness: Double,
+): ThemeColors {
+    val hex = ThemeColors.hsvToHex(hue, saturation, brightness)
+    return when (role) {
+        ThemeColors.Role.BACKGROUND -> copy(background = hex)
+        ThemeColors.Role.SURFACE -> copy(surface = hex)
+        ThemeColors.Role.ELEVATED -> copy(elevated = hex)
+        ThemeColors.Role.ACCENT -> copy(accent = hex, hudAccent = hex)
+        ThemeColors.Role.TEXT -> copy(text = hex)
+        ThemeColors.Role.MUTED -> copy(muted = hex)
+        ThemeColors.Role.BORDER -> copy(border = hex)
+        ThemeColors.Role.HUD_ACCENT -> copy(hudAccent = hex)
     }
 }

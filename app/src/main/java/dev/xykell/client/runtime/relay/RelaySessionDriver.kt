@@ -4,6 +4,7 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.net.InetSocketAddress
+import dev.xykell.client.runtime.network.RelayTuning
 
 /**
  * Socket driver for [RelaySession]: two loopback sockets, one receive loop, one
@@ -28,7 +29,7 @@ import java.net.InetSocketAddress
  *    sockets rather than spinning on a dead session.
  */
 class RelaySessionDriver(
-    upstreamHost: String,
+    private val upstreamHost: String,
     upstreamPort: Int,
     listenPort: Int = 0,
     listener: RelayListener = RelayListener.PASS,
@@ -37,11 +38,43 @@ class RelaySessionDriver(
     private val onOnline: (protocolVersion: Int) -> Unit = {},
 ) : AutoCloseable {
 
-    private val upstreamAddr = InetSocketAddress(InetAddress.getByName(upstreamHost), upstreamPort)
+    /**
+     * Upstream address, resolved on the relay loop rather than in this
+     * constructor. The caller is the service's main thread, and a cold DNS
+     * lookup there is a multi-second main-thread stall behind a black screen.
+     * Resolution is cached per host, so a reconnect costs nothing.
+     */
+    private val upstreamPortValue = upstreamPort
+
+    private val upstreamResolver = RelayTuning.UpstreamResolver(
+        lookup = { host: String -> InetAddress.getByName(host) },
+    )
+
+    private val upstreamAddr: InetSocketAddress by lazy {
+        val addr = upstreamResolver.resolve(upstreamHost)
+            ?: throw IllegalStateException("upstream host unresolved: $upstreamHost")
+        InetSocketAddress(addr, upstreamPortValue)
+    }
+
     private val gameSocket = DatagramSocket(listenPort, InetAddress.getLoopbackAddress()).apply {
         // Short poll timeout, never infinite: one loop drives both sockets and
         // the session tick, so a blocking receive on one would starve the other.
         soTimeout = POLL_TIMEOUT_MS
+        // A Bedrock relay carries RakNet datagrams both ways on one loop. The
+        // platform default buffer is small enough that a real server's burst
+        // overruns it, and a dropped datagram presents as a stalled connection.
+        // Request more; the kernel clamps, so ask for the granted value.
+        runCatching { receiveBufferSize = RelayTuning.bufferRequest() }
+        runCatching { sendBufferSize = RelayTuning.bufferRequest() }
+    }
+
+    /** What the kernel actually granted, for the relay screen. Null = unknown. */
+    val bufferSummary: String by lazy {
+        RelayTuning.describeBuffers(
+            RelayTuning.REQUESTED_BUFFER_BYTES,
+            runCatching { gameSocket.receiveBufferSize }.getOrDefault(0),
+            runCatching { gameSocket.sendBufferSize }.getOrDefault(0),
+        )
     }
 
     @Volatile
@@ -91,6 +124,10 @@ class RelaySessionDriver(
         check(thread == null) { "already started" }
         thread = Thread(::loop, "relay-session").apply {
             isDaemon = true
+            // Latency-sensitive loop, but the HUD and ClickGUI render on the
+            // main thread. One step above default is enough to win a busy-core
+            // slice without costing frame time.
+            priority = RelayTuning.threadPriority()
             start()
         }
     }
@@ -99,17 +136,25 @@ class RelaySessionDriver(
         val gameBuf = ByteArray(MAX_DATAGRAM)
         val upBuf = ByteArray(MAX_DATAGRAM)
         while (running) {
-            val acted = pollGame(gameBuf) || pollUpstream(upBuf)
-            val r = try {
-                session.onTick()
+            try {
+                val acted = pollGame(gameBuf) || pollUpstream(upBuf)
+                val r = session.onTick()
+                if (!route(r)) return
+                // Idle loop: keep the RakNet retry ladder and session timeout alive
+                // without burning the battery.
+                if (!acted) Thread.sleep(TICK_IDLE_MS)
+            } catch (e: InterruptedException) {
+                Thread.currentThread().interrupt()
+                stop("relay loop interrupted")
+                return
             } catch (e: Exception) {
-                stop("session tick failed: ${e.message}")
+                // The class contract says a failure closes the session rather
+                // than the thread throwing. Socket errors and a dead upstream
+                // DNS entry both arrive here, and an uncaught throw would kill
+                // the loop silently while the service kept reporting "running".
+                stop("relay loop failed: ${e.message}")
                 return
             }
-            if (!route(r)) return
-            // Idle loop: keep the RakNet retry ladder and session timeout alive
-            // without burning the battery.
-            if (!acted) Thread.sleep(TICK_IDLE_MS)
         }
     }
 

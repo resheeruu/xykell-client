@@ -574,4 +574,13 @@
     <string name="relay_addserver_fmt">Adresse 127.0.0.1 · Port %1$d · Name beliebig. Betrete ihn wie jeden anderen Server.</string>
     <string name="relay_step_play">Schritt 3 · Spielen</string>
     <string name="relay_ready_fmt">Relay läuft auf 127.0.0.1:%1$d → %2$s. Betrete jetzt den obigen Server. Funktionen erhalten nur Daten, solange hier ONLINE steht.</string>
+    <string name="diag_limits_header">RELAY &amp; DEKODIER-GRENZEN</string>
+    <string name="ui_replay">WIEDERHOLUNG</string>
+    <string name="session_replay_start">Aufnahme starten</string>
+    <string name="session_replay_stop">Stoppen und speichern</string>
+    <string name="session_replay_none">Noch keine Aufnahmen.</string>
+    <string name="session_replay_saved">%1$d Frames gespeichert.</string>
+    <string name="session_replay_deleted">%1$s gelöscht.</string>
+    <string name="packs_scan_not_pack">Kein .mcpack-Archiv.</string>
+    <string name="packs_scan_summary">%1$d Einträge, insgesamt %2$d KB%3$s</string>
 </resources>
