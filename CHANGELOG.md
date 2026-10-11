@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.4.1 — 2026-10-11
+
+The app was displaying a decode limit it was not enforcing.
+
+### Fixed
+`BedrockBatch.MAX_INFLATED` was a local `10 * 1024 * 1024`, while
+`DecodeLimits.MAX_PACKET_BYTES` was 16 MB — and the diagnostics screen and the
+`/limits` command both reported the `DecodeLimits` figure. So the UI showed a
+16 MB policy on a path that actually refused anything over 10 MB.
+
+That is the defect the two-constants situation causes: not a style complaint
+but a screen that cannot be trusted to describe the running system.
+
+The batch ceiling now lives in `DecodeLimits.MAX_INFLATED_BATCH_BYTES` and
+`BedrockBatch` reads it, so the displayed policy is the applied one. It is kept
+separate from `MAX_PACKET_BYTES` on purpose — a batch is a container of packets
+and decompresses to more than one packet's worth — and three tests now pin the
+relationship so the two cannot drift apart again unnoticed.
+
+### Verification
+- `run-kotlin-unit.sh` — 70/70 suites pass.
+- `run-kotlin-typecheck.sh` — 138 main and 72 test sources.
+- `check-i18n.py` — 7 locales x 558 keys.
+- `build-gradle.sh assembleDebug` — BUILD SUCCESSFUL.
+
 ## 0.4.0 — 2026-10-11
 
 Wires the remaining ported subsystems into the UI. In 0.3.0 four of them were

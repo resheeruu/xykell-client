@@ -146,8 +146,43 @@ class DecodeLimitsTest {
     @Test
     fun `describe names every bound it applies`() {
         val d = DecodeLimits.DEFAULT.describe()
-        for (k in listOf("list<=", "bytes<=", "nbt<=", "itemNbt<=", "str<=", "packet<=", "depth<=")) {
+        for (k in listOf("list<=", "bytes<=", "nbt<=", "itemNbt<=", "str<=", "packet<=", "depth<=", "batch<=")) {
             assertTrue("missing $k in $d", d.contains(k))
         }
+    }
+
+    @Test
+    fun `the displayed batch cap is the one the wire path enforces`() {
+        // If these ever diverge again the app is showing a policy it does not
+        // apply, which is the defect this constant was moved to fix.
+        assertEquals(DecodeLimits.MAX_INFLATED_BATCH_BYTES, BedrockBatch.MAX_INFLATED)
+        assertTrue(
+            "describe() must carry the enforced number",
+            DecodeLimits.DEFAULT.describe()
+                .contains("batch<=${DecodeLimits.MAX_INFLATED_BATCH_BYTES}"),
+        )
+    }
+
+    @Test
+    fun `the batch cap is its own bound, not the packet bound`() {
+        // A batch is a container of packets, so it legitimately decompresses to
+        // more than one packet's worth; collapsing the two would either weaken
+        // the wire cap or make the packet cap unreachable.
+        assertTrue(
+            "batch cap should stand on its own",
+            DecodeLimits.MAX_INFLATED_BATCH_BYTES != DecodeLimits.MAX_PACKET_BYTES,
+        )
+        assertTrue(DecodeLimits.MAX_INFLATED_BATCH_BYTES > 0)
+    }
+
+    @Test
+    fun `a non-positive batch cap is refused`() {
+        var threw = false
+        try {
+            DecodeLimits.of(maxInflatedBatchBytes = 0)
+        } catch (e: IllegalArgumentException) {
+            threw = true
+        }
+        assertTrue(threw)
     }
 }

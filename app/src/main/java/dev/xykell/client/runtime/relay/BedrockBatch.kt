@@ -98,7 +98,17 @@ object BedrockBatch {
     const val COMPRESSOR_DEFLATE = 0x00
     const val COMPRESSOR_SNAPPY = 0x01
     const val COMPRESSOR_NONE = 0xFF
-    const val MAX_INFLATED = 10 * 1024 * 1024
+    /**
+     * Ceiling on a single inflated batch, taken from [DecodeLimits] rather than
+     * declared here.
+     *
+     * It used to be a local `10 * 1024 * 1024` while the diagnostics screen and
+     * `/limits` both showed `DecodeLimits.MAX_PACKET_BYTES` (16 MB). Two sources
+     * of truth for one limit is not a style complaint: the app displayed a
+     * policy the wire path was not enforcing. Whatever is shown must be what is
+     * applied, so the constant lives in [DecodeLimits] and this reads it.
+     */
+    const val MAX_INFLATED = DecodeLimits.MAX_INFLATED_BATCH_BYTES
 
     fun isBatchFrame(frame: ByteArray): Boolean =
         frame.isNotEmpty() && (frame[0].toInt() and 0xff) == FRAME_ID

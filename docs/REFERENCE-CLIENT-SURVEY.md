@@ -274,7 +274,7 @@ reachable from the UI.
 | Command console | Chat screen | Local only; reads, cannot send |
 | Text-component sanitising | Chat screen, display path | Control bytes stripped before render |
 | `.mcpack` scanning | Content screen | Real shape reported, never extracted |
-| Decode limits | Diagnostics | Active policy shown |
+| Decode limits | Diagnostics, `/limits` | Active policy shown, and since 0.4.1 the same constant the wire path enforces |
 | Protocol diagnostics | Diagnostics | Observed values only |
 | Relay tuning | Diagnostics | Requested vs granted buffers |
 | Onboarding / launch mode | Session screen | Persisted atomically |
@@ -296,3 +296,23 @@ the registry by the handshake's hashed/indexed flag, and hand it to the relay.
 The capability is worth having. A decoder that assumes the wrong addressing
 mode reads a hash as an ordinal and resolves every block to a wrong definition
 with no error — which is the failure mode this type exists to prevent.
+
+### Decode limits — one source of truth (0.4.1)
+
+Worth recording because it was a live defect, not a tidy-up.
+
+`BedrockBatch.MAX_INFLATED` was its own `10 * 1024 * 1024`. `DecodeLimits`
+declared `MAX_PACKET_BYTES` as 16 MB, and both the diagnostics screen and the
+`/limits` command reported the DecodeLimits figure. The UI therefore showed a
+16 MB policy on a path that refused anything over 10 MB.
+
+The two constants answered the same question — how large may one decode get —
+and only one of them was visible. The batch ceiling now lives in
+`DecodeLimits.MAX_INFLATED_BATCH_BYTES` and `BedrockBatch` reads it. It is kept
+separate from the packet bound because a batch is a container of packets and
+decompresses to more than one packet's worth; collapsing them would either
+weaken the wire cap or make the packet cap unreachable.
+
+Three tests pin the relationship, including one that asserts `describe()`
+carries the enforced number, so a future divergence fails the build rather than
+quietly making the screen wrong again.

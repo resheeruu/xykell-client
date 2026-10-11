@@ -59,6 +59,21 @@ object DecodeLimits {
     /** Max container nesting (NBT compounds/lists, text-component trees). */
     const val MAX_DEPTH = 32
 
+    /**
+     * Max bytes one compressed batch may inflate to.
+     *
+     * Separate from [MAX_PACKET_BYTES] on purpose: a batch is a *container* of
+     * packets, so it decompresses to more than one packet's worth. It is also
+     * the number a hostile upstream attacks first, since compression is exactly
+     * how a small payload becomes a large allocation.
+     *
+     * This value used to live only in `BedrockBatch.MAX_INFLATED` while the
+     * diagnostics screen showed the [MAX_PACKET_BYTES] figure instead — so the
+     * app reported a policy the wire path was not enforcing. It is owned here
+     * so that what is displayed is what is applied.
+     */
+    const val MAX_INFLATED_BATCH_BYTES = 10 * 1024 * 1024
+
     /** The policy applied to relay packets. Every field explicitly bounded. */
     val DEFAULT = Limits(
         maxListSize = MAX_LIST_SIZE,
@@ -68,6 +83,7 @@ object DecodeLimits {
         maxStringChars = MAX_STRING_CHARS,
         maxPacketBytes = MAX_PACKET_BYTES,
         maxDepth = MAX_DEPTH,
+        maxInflatedBatchBytes = MAX_INFLATED_BATCH_BYTES,
     )
 
     /**
@@ -82,6 +98,8 @@ object DecodeLimits {
         val maxStringChars: Int,
         val maxPacketBytes: Int,
         val maxDepth: Int,
+        /** See [MAX_INFLATED_BATCH_BYTES]. */
+        val maxInflatedBatchBytes: Int = MAX_INFLATED_BATCH_BYTES,
     ) {
         init {
             require(maxListSize > 0 && maxByteArrayBytes > 0 && maxNetworkNbtBytes > 0) {
@@ -91,6 +109,7 @@ object DecodeLimits {
                 "decode limits must be positive"
             }
             require(maxPacketBytes > 0 && maxDepth > 0) { "decode limits must be positive" }
+            require(maxInflatedBatchBytes > 0) { "decode limits must be positive" }
             require(maxPacketBytes >= maxByteArrayBytes) {
                 "per-packet ceiling below per-field ceiling is unreachable policy"
             }
@@ -100,7 +119,7 @@ object DecodeLimits {
         fun describe(): String =
             "list<=$maxListSize bytes<=$maxByteArrayBytes nbt<=$maxNetworkNbtBytes " +
                 "itemNbt<=$maxItemNbtBytes str<=$maxStringChars " +
-                "packet<=$maxPacketBytes depth<=$maxDepth"
+                "packet<=$maxPacketBytes depth<=$maxDepth batch<=$maxInflatedBatchBytes"
     }
 
     /** Builds a validated [Limits]. Throws on an incoherent set, by design. */
@@ -112,9 +131,11 @@ object DecodeLimits {
         maxStringChars: Int = MAX_STRING_CHARS,
         maxPacketBytes: Int = MAX_PACKET_BYTES,
         maxDepth: Int = MAX_DEPTH,
+        maxInflatedBatchBytes: Int = MAX_INFLATED_BATCH_BYTES,
     ): Limits = Limits(
         maxListSize, maxByteArrayBytes, maxNetworkNbtBytes,
         maxItemNbtBytes, maxStringChars, maxPacketBytes, maxDepth,
+        maxInflatedBatchBytes,
     )
 
     /** Why a decode was refused. Distinct causes are distinct bugs. */
