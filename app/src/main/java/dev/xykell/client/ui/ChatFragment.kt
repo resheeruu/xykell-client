@@ -17,6 +17,9 @@ import dev.xykell.client.R
 import dev.xykell.client.runtime.observation.ApiResult
 import dev.xykell.client.runtime.observation.ChatFilter
 import dev.xykell.client.runtime.observation.ChatPolicy
+import dev.xykell.client.runtime.command.CommandConsole
+import dev.xykell.client.runtime.command.ObservedCommands
+import dev.xykell.client.runtime.observation.ComponentSanitizer
 import dev.xykell.client.runtime.observation.ObservationService
 
 /**
@@ -41,6 +44,20 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private var nickView: TextView? = null
     private var feedbackView: TextView? = null
 
+    /**
+     * Local console over observed state. It reads; it cannot send, because
+     * [dev.xykell.client.runtime.observation.ObservedState] exposes no way to
+     * write. Rebuilt against the live observation singleton so the commands see
+     * current data rather than a snapshot taken at fragment creation.
+     */
+    private val console: CommandConsole by lazy {
+        ObservedCommands.create(
+            state = ObservationService.observedState(),
+            relayRunning = dev.xykell.client.runtime.relay.RelayService.running,
+            negotiatedProtocol = dev.xykell.client.runtime.relay.RelayService.negotiatedProtocol,
+        )
+    }
+
     private val ticker = object : Runnable {
         override fun run() {
             if (!isResumed) return
@@ -52,6 +69,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadPolicy()
+
+        view.findViewById<Button>(R.id.chat_command_run).setOnClickListener { runCommand(view) }
+        view.findViewById<EditText>(R.id.chat_command_input)
+            .setOnEditorActionListener { _, _, _ -> runCommand(view); true }
 
         view.findViewById<TextView>(R.id.chat_title).text = getString(R.string.chat_title)
         view.findViewById<TextView>(R.id.chat_body).text = getString(R.string.chat_body)
@@ -141,7 +162,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 val line = buildString {
                     if (v.timestamp != null) append(v.timestamp).append(' ')
                     append('<').append(v.displaySender).append("> ")
-                    append(v.line.message)
+                    // Sanitised on the way to the screen: a text component can
+                    // carry a click payload whose value is a URL chosen by the
+                    // sender, and a display-only surface has no use for it.
+                    append(ComponentSanitizer.sanitizePlain(v.line.message))
                 }
                 val span = SpannableString(line)
                 if (v.highlighted) {
@@ -209,5 +233,23 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         const val REFRESH_MS = 1000L
         const val PREFS = "xykell_chat_policy"
         const val KEY = "policy"
+    }
+
+    /**
+     * Runs a typed console command and shows its reply in the feedback line.
+     *
+     * The reply goes to the local feedback area, never into the game: there is
+     * no send path here and adding one would require changing the observation
+     * type, which is deliberate.
+     */
+    private fun runCommand(view: View) {
+        val input = view.findViewById<EditText>(R.id.chat_command_input)
+        val reply = console.execute(input.text.toString())
+        feedbackView?.text = if (reply.text.isEmpty()) {
+            getString(R.string.chat_command_hint)
+        } else {
+            reply.text
+        }
+        input.text?.clear()
     }
 }

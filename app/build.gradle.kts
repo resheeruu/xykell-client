@@ -11,8 +11,8 @@ android {
         applicationId = "dev.xykell.client"
         minSdk = 28
         targetSdk = 35
-        versionCode = 14
-        versionName = "0.3.0"
+        versionCode = 15
+        versionName = "0.4.0"
     }
 
     // Same key the 0.2.x releases were published with, so this build installs

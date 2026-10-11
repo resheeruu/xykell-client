@@ -576,4 +576,10 @@
     <string name="session_replay_deleted">Удалено: %1$s.</string>
     <string name="packs_scan_not_pack">Это не архив .mcpack.</string>
     <string name="packs_scan_summary">Записей: %1$d, всего %2$d КБ%3$s</string>
+    <string name="chat_command_hint">Команда (только локально — никогда не попадёт в игру)</string>
+    <string name="chat_command_run">Выполнить</string>
+    <string name="ui_launch_mode">РЕЖИМ ЗАПУСКА</string>
+    <string name="session_onboarding_first">Первый запуск: показать введение.</string>
+    <string name="session_onboarding_done">Введение показано.</string>
+    <string name="session_launch_mode_none">Ещё не выбран.</string>
 </resources>

@@ -260,3 +260,39 @@ were examined with the local `jadx`, `apktool` and `aapt` binaries instead —
 same decompiler, but no per-class inspection tool, so those findings are
 structural (manifest, components, permissions, libraries, endpoints) rather than
 method-level. That difference in depth is reflected in the detail above.
+
+---
+
+## Status of each ported subsystem
+
+Recorded so a reader does not have to grep to find out what is actually
+reachable from the UI.
+
+| Subsystem | Reachable from | Notes |
+|---|---|---|
+| Replay (record/list/scrub) | Session screen | Fed by polling observed motion |
+| Command console | Chat screen | Local only; reads, cannot send |
+| Text-component sanitising | Chat screen, display path | Control bytes stripped before render |
+| `.mcpack` scanning | Content screen | Real shape reported, never extracted |
+| Decode limits | Diagnostics | Active policy shown |
+| Protocol diagnostics | Diagnostics | Observed values only |
+| Relay tuning | Diagnostics | Requested vs granted buffers |
+| Onboarding / launch mode | Session screen | Persisted atomically |
+| **Block palette** | **nothing** | **[RESEARCH REQUIRED]** — see below |
+
+### Block palette — RESEARCH REQUIRED
+
+`runtime/relay/BlockPalette.kt` implements the protocol's two block
+network-id addressing modes (indexed and hashed) and is fully tested, but
+**nothing constructs one at runtime**: no code path currently reads a block
+palette out of a start-game handshake.
+
+It is deliberately left unwired. Showing it on a screen as "none loaded" would
+present a placeholder as a state, and the repository's rule is that a capability
+is either reachable or explicitly marked — never displayed as though it were
+working. Wiring it needs a producer: parse the palette from `StartGame`, select
+the registry by the handshake's hashed/indexed flag, and hand it to the relay.
+
+The capability is worth having. A decoder that assumes the wrong addressing
+mode reads a hash as an ordinal and resolves every block to a wrong definition
+with no error — which is the failure mode this type exists to prevent.

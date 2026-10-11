@@ -583,4 +583,10 @@
     <string name="session_replay_deleted">Deleted %1$s.</string>
     <string name="packs_scan_not_pack">Not a .mcpack archive.</string>
     <string name="packs_scan_summary">Scanned %1$d entries, %2$d KB total%3$s</string>
+    <string name="chat_command_hint">Command (local only — never reaches the game)</string>
+    <string name="chat_command_run">Run</string>
+    <string name="ui_launch_mode">LAUNCH MODE</string>
+    <string name="session_onboarding_first">First run: show the introduction.</string>
+    <string name="session_onboarding_done">Introduction seen.</string>
+    <string name="session_launch_mode_none">Not chosen yet.</string>
 </resources>

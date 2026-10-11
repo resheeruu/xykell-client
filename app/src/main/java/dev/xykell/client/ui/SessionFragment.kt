@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dev.xykell.client.R
 import dev.xykell.client.runtime.LaunchExecutor
+import dev.xykell.client.runtime.Onboarding
+import dev.xykell.client.runtime.OnboardingStore
 import dev.xykell.client.runtime.ProfileManager
 import dev.xykell.client.runtime.XykellInfo
 import dev.xykell.client.runtime.observation.ObservationService
@@ -218,5 +220,51 @@ class SessionFragment : Fragment(R.layout.fragment_session) {
     private companion object {
         /** Bound on how many recordings the screen renders rows for. */
         const val MAX_LISTED = 50
+    }
+
+    // --- onboarding --------------------------------------------------------
+    // A preference, not a gate: "first run" means show the introduction once,
+    // and there is no licence check, redirect or time-limited token anywhere in
+    // this path. See docs/LEGAL-LICENSE.md sections 3 and 5.
+
+    private fun renderOnboarding(view: View) {
+        val onboarding = OnboardingStore.load(requireContext())
+        val context = requireContext()
+        val density = context.resources.displayMetrics.density
+
+        view.findViewById<TextView>(R.id.session_onboarding).text = buildString {
+            append(
+                if (onboarding.firstRun) {
+                    getString(R.string.session_onboarding_first)
+                } else {
+                    getString(R.string.session_onboarding_done)
+                },
+            )
+            append('\n')
+            append(
+                onboarding.launchMode?.id
+                    ?: getString(R.string.session_launch_mode_none),
+            )
+        }
+
+        val row = view.findViewById<LinearLayout>(R.id.session_launch_modes)
+        row.removeAllViews()
+        for (mode in Onboarding.LaunchMode.values()) {
+            row.addView(Button(context).apply {
+                text = mode.id
+                isAllCaps = false
+                minHeight = (48 * density).toInt()
+                minimumHeight = (48 * density).toInt()
+                layoutParams = LinearLayout.LayoutParams(
+                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f,
+                ).also { if (row.childCount > 0) it.marginStart = (8 * density).toInt() }
+                setOnClickListener {
+                    val current = OnboardingStore.load(context)
+                    current.completeOnboarding(mode)
+                    OnboardingStore.save(context, current)
+                    renderOnboarding(view)
+                }
+            })
+        }
     }
 }

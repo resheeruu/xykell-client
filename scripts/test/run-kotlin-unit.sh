@@ -67,6 +67,7 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/ProfileManager.kt"
     "$SRC/dev/xykell/client/runtime/Onboarding.kt"
     "$SRC/dev/xykell/client/runtime/command/CommandConsole.kt"
+    "$SRC/dev/xykell/client/runtime/command/ObservedCommands.kt"
     "$SRC/dev/xykell/client/runtime/CrashGuard.kt"
     "$SRC/dev/xykell/client/runtime/Updater.kt"
     "$SRC/dev/xykell/client/runtime/scripting/ScriptEngine.kt"
@@ -148,6 +149,7 @@ SUITES=(
     dev.xykell.client.runtime.replay.ReplayRecorderTest
     dev.xykell.client.runtime.replay.ReplayPlaybackTest
     dev.xykell.client.runtime.command.CommandConsoleTest
+    dev.xykell.client.runtime.command.ObservedCommandsTest
     dev.xykell.client.runtime.UpdaterTest
     dev.xykell.client.runtime.scripting.ScriptEngineTest
     dev.xykell.client.runtime.scripting.ScriptSandboxTest
@@ -195,7 +197,7 @@ SUITES=(
     dev.xykell.client.runtime.modules.ModuleFlagsTest
     dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=69
+EXPECTED_SUITES=70
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -254,6 +256,7 @@ done
     "$TEST"/dev/xykell/client/runtime/replay/ReplayRecorderTest.kt \
     "$TEST"/dev/xykell/client/runtime/replay/ReplayPlaybackTest.kt \
     "$TEST"/dev/xykell/client/runtime/command/CommandConsoleTest.kt \
+    "$TEST"/dev/xykell/client/runtime/command/ObservedCommandsTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackStoreTest.kt \
     "$TEST"/dev/xykell/client/runtime/packs/PackArchiveTest.kt \
     "$TEST"/dev/xykell/client/runtime/performance/PerformanceStoreTest.kt \

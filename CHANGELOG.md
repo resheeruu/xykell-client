@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.4.0 — 2026-10-11
+
+Wires the remaining ported subsystems into the UI. In 0.3.0 four of them were
+tested library code that nothing called; this release makes three reachable and
+marks the fourth honestly.
+
+### Wired
+- **Chat screen** gained a local command console with a command input row.
+  Built-ins: `/status`, `/pos`, `/speed`, `/chat`, `/limits`, `/help`. Every one
+  is a reader. Relay facts are injected as parameters rather than read from
+  `RelayService`, because that type is an Android `Service` and importing it
+  would drag the framework into a class meant to stay host-testable.
+- **Chat render path** now sanitises observed messages with
+  `ComponentSanitizer.sanitizePlain`, so control bytes never reach the HUD.
+- **Session screen** gained a launch-mode card backed by `Onboarding` and
+  `OnboardingStore`, written atomically so a half-written document cannot
+  restore as "first run" and re-show the introduction.
+
+### Marked, not hidden
+- `runtime/relay/BlockPalette.kt` is **[RESEARCH REQUIRED]**: nothing constructs
+  one at runtime, because no code path reads a block palette out of a start-game
+  handshake yet. It is left unwired on purpose. Showing it as "none loaded"
+  would present a placeholder as a state; the repository's rule is that a
+  capability is either reachable or explicitly marked.
+
+### Fixed
+- `ObservedCommands` importing `RelayService` would have made a host-JVM class
+  depend on the Android framework. Replaced with injected parameters.
+
+### Verification
+- `run-kotlin-unit.sh` — 70/70 suites pass (69 before).
+- `run-kotlin-typecheck.sh` — 138 main and 72 test sources.
+- `check-i18n.py` — 7 locales x 558 keys.
+
 ## 0.3.0 — 2026-10-11
 
 Ports the reference-client analysis into this tree, and wires it into the app.
