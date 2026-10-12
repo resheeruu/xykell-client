@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private var usePager = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // First statement: a launch crash must be captured before anything
+        // else can fail and mask it.
+        CrashReporter.install(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         applyStoredTheme()
