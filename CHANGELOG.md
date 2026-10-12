@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.6.0 — 2026-10-11
+
+Closes the concurrency defect from the last audit — the only HIGH finding still
+open.
+
+### Fixed
+`ModuleContext` is shared mutable state touched from two threads with no
+synchronisation anywhere: `ModuleRuntime.transform()` runs on the relay driver
+thread while decoding, and `ModuleRuntime.onTick()` runs on the main looper via
+`ModuleTapRunner`. Both reached into the same `EntityTable`, `DeathTable` and
+`PlayerListTable`, all of which used plain `LinkedHashMap` and `ArrayDeque`.
+Concurrent mutation there can corrupt the map or spin its resize loop — a failure
+that presents as a dropped entity or a hung relay rather than an exception, which
+is the hardest class of bug to diagnose later.
+
+Fixed at the source rather than by guarding every module read:
+
+- `EntityTable.entities` / `history`, `PlayerListTable.roster` are now
+  `ConcurrentHashMap`; `DeathTable.deaths` is a `ConcurrentLinkedDeque`.
+  Insertion order is not part of any contract on these — every lookup is by id —
+  so dropping `LinkedHashMap` costs nothing observable.
+- `EntityTable`'s position rings are individually `synchronized`. The deque, not
+  the map around it, is what needed protecting, and a concurrent writer during a
+  read throws on the fast path.
+- `EntityTable.tick` and `ModuleContext.tick` are `AtomicLong`. A lost increment
+  makes a lookback resolve to the wrong frame, which surfaces as "sometimes
+  wrong" and is close to undebuggable.
+- The remaining `ModuleContext` scalars written from both threads are `@Volatile`.
+
+### Also
+- `EntityTable` eviction no longer recomputes the minimum on every drop, which
+  made the bounded-eviction loop quadratic in `maxEntities`.
+
+### Added
+`TableConcurrencyTest` — feeds real packets through the same entry points the
+relay uses while a second thread ticks and reads. These are stress tests, not
+proofs: a race that needs 10^9 iterations to manifest will not show up here.
+What they buy is that a regression to a plain collection has somewhere to fail.
+
+### Verification
+- `run-kotlin-unit.sh` — 72/72 suites pass.
+- `run-kotlin-typecheck.sh` — 140 main and 74 test sources.
+- `check-i18n.py` — 7 locales x 558 keys.
+- `build-gradle.sh assembleDebug` — BUILD SUCCESSFUL.
+
 ## 0.5.0 — 2026-10-11
 
 Motion system, and a full audit pass that found thirteen defects — including

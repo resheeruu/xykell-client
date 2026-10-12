@@ -1,5 +1,7 @@
 package dev.xykell.client.runtime.relay
 
+import java.util.concurrent.ConcurrentHashMap
+
 /**
  * Live entity table built from the packets the relay already terminates.
  *
@@ -17,6 +19,13 @@ package dev.xykell.client.runtime.relay
  * malformed packet must never take the relay down. Bounded: [MAX_ENTITIES]
  * with least-recently-seen eviction, because a hostile or buggy server can
  * otherwise grow this without limit.
+ *
+ * Thread safety: this table is written from the relay driver thread (packet
+ * decoding) and from the main looper (`onTick` ages entities), so its
+ * collections are concurrent, its position rings are individually
+ * synchronized, and its clock is atomic. Insertion order is not part of any
+ * contract here -- lookups are by runtime id -- so dropping LinkedHashMap costs
+ * nothing observable.
  */
 class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
 
@@ -37,7 +46,7 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
         val lastSeenTick: Long,
     )
 
-    private val entities = LinkedHashMap<Long, Entity>()
+    private val entities = ConcurrentHashMap<Long, Entity>()
 
     /**
      * Bounded position history per entity, oldest first.
@@ -47,10 +56,16 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
      * ring is that memory. It is bounded per entity and cleared on eviction so
      * it cannot grow with session length.
      */
-    private val history = LinkedHashMap<Long, ArrayDeque<Sample>>()
+    private val history = ConcurrentHashMap<Long, ArrayDeque<Sample>>()
 
-    var tick: Long = 0
-        private set
+    /**
+     * Logical clock. Advanced from the main looper (`onTick`) while the driver
+     * thread stamps samples with it, so it is atomic rather than a plain var —
+     * a lost update here would make a lookback resolve to the wrong frame.
+     */
+    private val tickCounter = java.util.concurrent.atomic.AtomicLong(0)
+
+    val tick: Long get() = tickCounter.get()
 
     val size: Int get() = entities.size
 
@@ -75,22 +90,34 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
         if (ageTicks <= 0L) return null
         val ring = history[runtimeId] ?: return null
         val target = tick - ageTicks
-        // Newest first: the first sample at or before the target is the answer.
-        for (s in ring.asReversed()) {
-            if (s.tick <= target) return s
+        // The ring itself is an ArrayDeque and is not thread-safe, so the read
+        // is synchronized on it. A concurrent writer mutating while asReversed()
+        // walks it throws ConcurrentModificationException on the fast path.
+        synchronized(ring) {
+            // Newest first: the first sample at or before the target is the
+            // answer. Indexed rather than iterator-based so this needs nothing
+            // beyond the Deque's own API.
+            for (i in ring.indices.reversed()) {
+                val sample = ring[i]
+                if (sample.tick <= target) return sample
+            }
         }
         return null
     }
 
     private fun record(runtimeId: Long, x: Float, y: Float, z: Float) {
         val ring = history.getOrPut(runtimeId) { ArrayDeque() }
-        ring.addLast(Sample(tick, x, y, z))
-        while (ring.size > HISTORY) ring.removeFirst()
+        // Synchronized for the same reason as the read above: the deque, not the
+        // map around it, is what needs protecting.
+        synchronized(ring) {
+            ring.addLast(Sample(tick, x, y, z))
+            while (ring.size > HISTORY) ring.removeFirst()
+        }
     }
 
     /** Advance the logical clock used for last-seen eviction. */
     fun onTick() {
-        tick++
+        tickCounter.incrementAndGet()
     }
 
     /**
@@ -195,11 +222,26 @@ class EntityTable(private val maxEntities: Int = MAX_ENTITIES) {
         entities[e.runtimeId] = e
         record(e.runtimeId, e.x, e.y, e.z)
         while (entities.size > maxEntities) {
-            val oldest = entities.entries.minByOrNull { it.value.lastSeenTick } ?: return
-            entities.remove(oldest.key)
+            // One pass for the least-recently-seen key. Written as an explicit
+            // loop rather than minByOrNull over the entry set: that form did
+            // not resolve against the concurrent map, and recomputing the
+            // minimum on every eviction made the loop quadratic in maxEntities.
+            var oldestId = Long.MIN_VALUE
+            var oldestTick = Long.MAX_VALUE
+            var found = false
+            for (id in entities.keys) {
+                val e = entities[id] ?: continue
+                if (!found || e.lastSeenTick < oldestTick) {
+                    found = true
+                    oldestTick = e.lastSeenTick
+                    oldestId = id
+                }
+            }
+            if (!found) return
+            entities.remove(oldestId)
             // History is dropped with its entity: a bounded table must not keep
             // rings for entities it has already forgotten.
-            history.remove(oldest.key)
+            history.remove(oldestId)
         }
     }
 

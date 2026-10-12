@@ -24,7 +24,7 @@ class DeathTable(private val maxDeaths: Int = MAX_DEATHS) {
         val observedAtMs: Long,
     )
 
-    private val deaths = ArrayDeque<Death>()
+    private val deaths = java.util.concurrent.ConcurrentLinkedDeque<Death>()
 
     /** The most recent death, or null if none has been observed. */
     fun latest(): Death? = deaths.lastOrNull()

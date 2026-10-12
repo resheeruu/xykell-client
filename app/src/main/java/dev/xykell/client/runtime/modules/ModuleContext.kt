@@ -54,6 +54,7 @@ class ModuleContext(
     val onDeath: (DeathTable.Death) -> Unit = {},
 ) {
     /** When this session started, on the same clock as [nowMs]. */
+    @Volatile
     var sessionStartMs: Long = clock()
         private set
 
@@ -62,25 +63,47 @@ class ModuleContext(
 
     /** Milliseconds since this session started; never negative. */
     fun elapsedMs(): Long = (nowMs() - sessionStartMs).coerceAtLeast(0L)
-    /** The local player's last position as reported by its own outbound packets. */
+    /**
+     * The local player's last position as reported by its own outbound packets.
+     *
+     * Volatile because this context is written from the relay driver thread
+     * (decoding, `updateSelf`) and read from the main looper (`onTick`), and
+     * from the other way round. Without it a module transform can read a stale
+     * or half-published position while a tick is advancing.
+     */
+    @Volatile
     var selfX: Float = 0f
         private set
+
+    @Volatile
     var selfY: Float = 0f
         private set
+
+    @Volatile
     var selfZ: Float = 0f
         private set
+
+    @Volatile
     var selfRuntimeId: Long = Long.MIN_VALUE
         private set
+
+    @Volatile
     var selfOnGround: Boolean = false
         private set
 
     /** The last known on-ground height, for the fall-distance modules. */
+    @Volatile
     var lastGroundY: Float = 0f
         private set
+
+    @Volatile
     private var hasGround = false
 
-    var tick: Long = 0
-        private set
+    /** Atomic rather than a plain counter: `onTick` runs on the main looper
+     *  while transforms read it on the driver thread. */
+    private val tickCounter = java.util.concurrent.atomic.AtomicLong(0)
+
+    val tick: Long get() = tickCounter.get()
 
     /** The online roster, decoded from clientbound PlayerList 0x3f. */
     val playerList = PlayerListTable()
@@ -101,6 +124,7 @@ class ModuleContext(
      * just locked an item. That is the only honest source for how fast a repeat
      * use may be sent: the value is the client's own, not the relay's guess.
      */
+    @Volatile
     var itemCooldownTicks: Int = 0
         private set
 
@@ -110,6 +134,7 @@ class ModuleContext(
      * Wall clock, not a tick: a chat cadence has to hold in real seconds while
      * the session is quiet, and `tick` would drift with packet rate.
      */
+    @Volatile
     var lastChatAtMs: Long? = null
         private set
 
@@ -119,6 +144,7 @@ class ModuleContext(
     }
 
     /** Tick of the last fishing bobber bite the server announced; null if none. */
+    @Volatile
     var lastBiteTick: Long? = null
         private set
 
@@ -131,7 +157,7 @@ class ModuleContext(
     }
 
     fun onTick() {
-        tick++
+        tickCounter.incrementAndGet()
         entities.onTick()
     }
 
@@ -188,7 +214,7 @@ class ModuleContext(
         deaths.clear()
         settings.clear()
         hasGround = false
-        tick = 0
+        tickCounter.set(0)
         itemCooldownTicks = 0
         lastBiteTick = null
         lastChatAtMs = null

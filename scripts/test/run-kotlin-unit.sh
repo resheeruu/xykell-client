@@ -187,6 +187,7 @@ SUITES=(
     dev.xykell.client.runtime.relay.BlockPaletteReaderTest
     dev.xykell.client.runtime.relay.DecodeLimitsTest
     dev.xykell.client.runtime.relay.EntityTableTest
+    dev.xykell.client.runtime.relay.TableConcurrencyTest
     dev.xykell.client.runtime.modules.CombatModulesTest
     dev.xykell.client.runtime.modules.VisualModulesTest
     dev.xykell.client.runtime.modules.MovementModulesTest
@@ -199,7 +200,7 @@ SUITES=(
     dev.xykell.client.runtime.modules.ModuleFlagsTest
     dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=71
+EXPECTED_SUITES=72
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -284,6 +285,7 @@ done
     "$TEST"/dev/xykell/client/runtime/relay/BlockPaletteReaderTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/DecodeLimitsTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/EntityTableTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/TableConcurrencyTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/BedrockTextTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/CombatModulesTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/VisualModulesTest.kt \

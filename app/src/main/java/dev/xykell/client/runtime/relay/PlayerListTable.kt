@@ -1,5 +1,7 @@
 package dev.xykell.client.runtime.relay
 
+import java.util.concurrent.ConcurrentHashMap
+
 /**
  * The online roster, decoded from clientbound `PlayerList 0x3f`.
  *
@@ -30,7 +32,7 @@ class PlayerListTable(private val maxPlayers: Int = MAX_PLAYERS) {
         data object Cleared : Change
     }
 
-    private val roster = LinkedHashMap<String, Entry>()
+    private val roster = ConcurrentHashMap<String, Entry>()
 
     val size: Int get() = roster.size
 
