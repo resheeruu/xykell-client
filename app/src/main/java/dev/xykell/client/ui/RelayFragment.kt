@@ -126,4 +126,10 @@ class RelayFragment : Fragment(R.layout.fragment_relay) {
         private const val KEY_UPSTREAM_PORT = "upstream_port"
         private const val KEY_LISTEN_PORT = "listen_port"
     }
+    /** The pager keeps this fragment alive after its view is gone; without this
+     *  the overlay-free relay screen holds a destroyed TextView. */
+    override fun onDestroyView() {
+        statusView = null
+        super.onDestroyView()
+    }
 }

@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.6.1 — 2026-10-11
+
+Lifecycle leaks. The pager keeps fragments alive after their views are gone, so
+every fragment holding a view reference kept that whole tree reachable.
+
+### Fixed
+- **`ModulesFragment`** retained every `LinearLayout` and `Switch` it built from
+  the feature catalog — the largest retained tree in the app — because the rows
+  lived in fields that were never cleared. Cleared on `onDestroyView`.
+- **`HudEditorFragment`** held eight view fields with no `onDestroyView` at all.
+- **`ThemesFragment`, `SettingsFragment`, `ScriptsFragment`** held view fields
+  with no `onDestroyView`.
+- **`SplashFragment`** cleared its handler but not its four view fields.
+- **`KeybindsFragment`** released the capture sink but kept its rows.
+- **`RelayFragment`** kept a destroyed `TextView`.
+
+View fields are now nullable and nulled in `onDestroyView`, so a callback that
+lands after teardown is a no-op rather than a use-after-destroy.
+
+Two behavioural bugs from the same audit:
+
+- **`ServersFragment`'s probe button died permanently** if you left the page
+  mid-sweep. `view.post` on a detached view parks the Runnable in that view's
+  RunQueue and it never runs, so the `probing` flag stayed true for the life of
+  the fragment and every later probe returned immediately. Reset on destroy.
+- **`ModulesFragment`'s registry parse posted into a captured view.** Leaving
+  the page before the parse finished meant `build()` never ran and the thread
+  held both the view and the fragment until it completed. The pending view is
+  now tracked and cleared on destroy.
+
+### Verification
+- `run-kotlin-unit.sh` — 72/72 suites pass.
+- `run-kotlin-typecheck.sh` — 140 main and 74 test sources.
+- `check-i18n.py` — 7 locales x 558 keys.
+- `build-gradle.sh assembleDebug` — BUILD SUCCESSFUL.
+
 ## 0.6.0 — 2026-10-11
 
 Closes the concurrency defect from the last audit — the only HIGH finding still

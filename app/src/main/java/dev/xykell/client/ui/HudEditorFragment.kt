@@ -37,17 +37,17 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         "xykell.hud.stop_watch",
     )
 
-    private lateinit var elementsBox: LinearLayout
-    private lateinit var modulesBox: LinearLayout
-    private lateinit var preview: TextView
-    private lateinit var error: TextView
-    private lateinit var profileField: EditText
+    private var elementsBox: LinearLayout? = null
+    private var modulesBox: LinearLayout? = null
+    private var preview: TextView? = null
+    private var error: TextView? = null
+    private var profileField: EditText? = null
     private var overlayStatus: TextView? = null
     private var overlayToggle: Button? = null
     private var overlayGrant: Button? = null
 
     private fun root(): String = NativeProfiles.root(requireContext())
-    private fun profile(): String = profileField.text.toString().ifBlank { "Default" }
+    private fun profile(): String = profileField?.text.toString().ifBlank { "Default" }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,14 +57,14 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         error = view.findViewById(R.id.hud_error)
         profileField = view.findViewById(R.id.hud_profile)
         try {
-            profileField.setText(NativeProfiles.getActive(root()))
+            profileField?.setText(NativeProfiles.getActive(root()))
         } catch (e: Exception) {
         }
         view.findViewById<Button>(R.id.hud_load).setOnClickListener { reload() }
         wireOverlay(view)
         view.findViewById<Button>(R.id.hud_reset).setOnClickListener {
             if (NativeHud.reset(root(), profile())) reload()
-            else error.text = getString(R.string.hud_layout_reset_failed)
+            else error?.text = getString(R.string.hud_layout_reset_failed)
         }
         reload()
     }
@@ -97,13 +97,13 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
                     ),
                 )
             } catch (e: Exception) {
-                error.text = getString(R.string.hud_overlay_needs_permission)
+                error?.text = getString(R.string.hud_overlay_needs_permission)
             }
         }
         toggle.setOnClickListener {
             val ctx = requireContext()
             if (!HudOverlayService.canDraw(ctx)) {
-                error.text = getString(R.string.hud_overlay_needs_permission)
+                error?.text = getString(R.string.hud_overlay_needs_permission)
                 return@setOnClickListener
             }
             if (HudOverlayService.isRunning()) HudOverlayService.stop(ctx)
@@ -150,24 +150,24 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
     }
 
     private fun reload() {
-        error.text = ""
+        error?.text = ""
         val layout = layoutJson()
         val elements = layout.optJSONArray("elements") ?: JSONArray()
-        preview.text = HudPreview.renderText(HudPreview.preview(layout.toString()))
+        preview?.text = HudPreview.renderText(HudPreview.preview(layout.toString()))
         renderModules()
-        elementsBox.removeAllViews()
+        elementsBox?.removeAllViews()
         if (elements.length() == 0) {
             val empty = TextView(requireContext())
             empty.text = getString(R.string.hud_empty_layout)
-            elementsBox.addView(empty)
+            elementsBox?.addView(empty)
         }
         for (i in 0 until elements.length()) {
-            elementsBox.addView(elementRow(i, elements.optJSONObject(i) ?: JSONObject()))
+            elementsBox?.addView(elementRow(i, elements.optJSONObject(i) ?: JSONObject()))
         }
     }
 
     private fun renderModules() {
-        modulesBox.removeAllViews()
+        modulesBox?.removeAllViews()
         val mods = try {
             profileJson().optJSONObject("modules")
         } catch (e: Exception) {
@@ -182,14 +182,14 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
             sw.setOnCheckedChangeListener { _, checked ->
                 if (!NativeHud.toggleModule(root(), profile(), id, checked)) {
                     sw.isChecked = !checked
-                    error.text = getString(R.string.hud_module_toggle_failed, id)
+                    error?.text = getString(R.string.hud_module_toggle_failed, id)
                 } else {
-                    error.text = ""
+                    error?.text = ""
                     reload()
                 }
             }
             box.addView(sw)
-            modulesBox.addView(box)
+            modulesBox?.addView(box)
         }
     }
 
@@ -240,13 +240,29 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         commit.text = getString(R.string.hud_commit)
         commit.setOnClickListener {
             if (NativeHud.move(root(), profile(), index, x, y, scale, vis.isChecked)) {
-                error.text = ""
+                error?.text = ""
                 reload()
             } else {
-                error.text = getString(R.string.hud_commit_rejected, index)
+                error?.text = getString(R.string.hud_commit_rejected, index)
             }
         }
         box.addView(commit)
         return box
+    }
+    /**
+     * Release every view reference. The pager keeps this fragment alive after
+     * its view is destroyed, so each of these fields would otherwise keep that
+     * whole tree -- the editor's element and module lists included -- reachable.
+     */
+    override fun onDestroyView() {
+        elementsBox = null
+        modulesBox = null
+        preview = null
+        error = null
+        profileField = null
+        overlayStatus = null
+        overlayToggle = null
+        overlayGrant = null
+        super.onDestroyView()
     }
 }

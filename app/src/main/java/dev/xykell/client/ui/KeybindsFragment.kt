@@ -32,9 +32,9 @@ object KeybindCapture {
  */
 class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
 
-    private lateinit var rows: LinearLayout
-    private lateinit var status: TextView
-    private lateinit var cancel: Button
+    private var rows: LinearLayout? = null
+    private var status: TextView? = null
+    private var cancel: Button? = null
     private var root: String = ""
     private var captureAction: String? = null
     private var captureSlot: Int = 0
@@ -46,29 +46,37 @@ class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
         cancel = view.findViewById(R.id.keybind_cancel)
         root = NativeSettings.root(requireContext())
         view.findViewById<Button>(R.id.keybind_reset).setOnClickListener { resetAll() }
-        cancel.setOnClickListener {
+        cancel?.setOnClickListener {
             endCapture(getString(R.string.keybinds_capture_cancelled))
         }
         render()
     }
 
+    /**
+     * The pager keeps this fragment alive after its view is destroyed, so the
+     * view fields have to go here too -- releasing only the capture sink still
+     * leaves the whole row tree reachable.
+     */
     override fun onDestroyView() {
         KeybindCapture.sink = null
         captureAction = null
+        rows = null
+        status = null
+        cancel = null
         super.onDestroyView()
     }
 
     private fun render(statusText: String? = null) {
-        rows.removeAllViews()
+        rows?.removeAllViews()
         val bindings = NativeKeybinds.list(root)
         if (bindings == null) {
-            status.text = getString(R.string.keybinds_unavailable)
-            cancel.visibility = View.GONE
+            status?.text = getString(R.string.keybinds_unavailable)
+            cancel?.visibility = View.GONE
             return
         }
-        status.text = statusText ?: bindings.loadError
+        status?.text = statusText ?: bindings.loadError
         for (bind in bindings.binds) {
-            rows.addView(rowFor(bind))
+            rows?.addView(rowFor(bind))
         }
         ActiveTheme.bindFresh(requireView())
     }
@@ -129,12 +137,12 @@ class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
     private fun startCapture(action: String, slot: Int) {
         captureAction = action
         captureSlot = slot
-        cancel.visibility = View.VISIBLE
+        cancel?.visibility = View.VISIBLE
         val prompt = getString(
             if (slot == 0) R.string.keybinds_press_primary else R.string.keybinds_press_secondary,
             action,
         )
-        status.text = prompt
+        status?.text = prompt
         KeybindCapture.sink = { keyCode ->
             val act = captureAction
             if (act == null) {
@@ -149,15 +157,15 @@ class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
     private fun endCapture(message: String) {
         KeybindCapture.sink = null
         captureAction = null
-        cancel.visibility = View.GONE
-        status.text = message
+        cancel?.visibility = View.GONE
+        status?.text = message
     }
 
     private fun applyBind(action: String, slot: Int, code: Int) {
         val error = NativeKeybinds.set(root, action, slot, code)
         KeybindCapture.sink = null
         captureAction = null
-        cancel.visibility = View.GONE
+        cancel?.visibility = View.GONE
         val message = if (error.isEmpty()) {
             getString(R.string.keybinds_bound, action, KeyLabels.label(code))
         } else {

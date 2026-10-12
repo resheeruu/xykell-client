@@ -22,9 +22,9 @@ import org.json.JSONObject
  */
 class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
-    private lateinit var container: LinearLayout
-    private lateinit var status: TextView
-    private lateinit var activeLabel: TextView
+    private var container: LinearLayout? = null
+    private var status: TextView? = null
+    private var activeLabel: TextView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,19 +45,19 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     }
 
     private fun render() {
-        container.removeAllViews()
+        container?.removeAllViews()
         val names = NativeThemes.names()
         if (names.isEmpty()) {
-            status.text = getString(R.string.themes_unavailable)
-            activeLabel.text = ""
+            status?.text = getString(R.string.themes_unavailable)
+            activeLabel?.text = ""
             return
         }
         val active = activeName()
-        activeLabel.text = getString(R.string.themes_active_label) + ": " +
+        activeLabel?.text = getString(R.string.themes_active_label) + ": " +
             (active.ifEmpty { getString(R.string.themes_unknown) })
-        status.text = ""
+        status?.text = ""
         for (name in names) {
-            container.addView(row(name, name == active))
+            container?.addView(row(name, name == active))
         }
         // Entering the screen: fresh views were inflated with the compiled
         // palette, so re-map them to the active theme.
@@ -107,7 +107,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
 
     private fun select(name: String, tokens: ThemeColors?) {
         if (tokens == null) {
-            status.text = getString(R.string.themes_bad_tokens, name)
+            status?.text = getString(R.string.themes_bad_tokens, name)
             return
         }
         val ok = NativeSettings.set(
@@ -117,7 +117,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             JSONObject.quote(name),
         )
         if (!ok) {
-            status.text = getString(R.string.themes_rejected, name)
+            status?.text = getString(R.string.themes_rejected, name)
             return
         }
         ActiveTheme.apply(requireActivity().findViewById(android.R.id.content), tokens)
@@ -127,7 +127,7 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
     private fun reset() {
         val ok = NativeSettings.reset(NativeSettings.root(requireContext()), "client")
         if (!ok) {
-            status.text = getString(R.string.themes_reset_failed)
+            status?.text = getString(R.string.themes_reset_failed)
             return
         }
         ActiveTheme.apply(
@@ -135,5 +135,16 @@ class ThemesFragment : Fragment(R.layout.fragment_themes) {
             ThemeColors.DEFAULT,
         )
         render()
+    }
+    /**
+     * Release the view references. The pager keeps this fragment alive after
+     * its view is destroyed, so any field still holding a view keeps that whole
+     * tree reachable for as long as the fragment lives.
+     */
+    override fun onDestroyView() {
+        container = null
+        status = null
+        activeLabel = null
+        super.onDestroyView()
     }
 }

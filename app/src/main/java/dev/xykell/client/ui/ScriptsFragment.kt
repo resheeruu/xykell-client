@@ -36,8 +36,8 @@ class ScriptsFragment : Fragment() {
     }
 
     private var runtime: ScriptRuntime? = null
-    private lateinit var list: LinearLayout
-    private lateinit var statusText: TextView
+    private var list: LinearLayout? = null
+    private var statusText: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -70,7 +70,7 @@ class ScriptsFragment : Fragment() {
 
     private fun render() {
         val r = rt()
-        statusText.text = getString(
+        statusText?.text = getString(
             R.string.scripts_status_fmt,
             if (r.isRunning) getString(R.string.scripts_running) else getString(R.string.scripts_stopped),
             r.rules().size,
@@ -78,10 +78,10 @@ class ScriptsFragment : Fragment() {
             r.diagnostics().budgetRemaining,
             r.diagnostics().lastError ?: "-",
         )
-        list.removeAllViews()
+        list?.removeAllViews()
         val statuses = r.status()
         if (statuses.isEmpty()) {
-            list.addView(
+            list?.addView(
                 TextView(requireContext()).apply {
                     setText(R.string.scripts_empty)
                 },
@@ -89,7 +89,7 @@ class ScriptsFragment : Fragment() {
             return
         }
         for (s in statuses) {
-            list.addView(row(s))
+            list?.addView(row(s))
         }
     }
 
@@ -261,5 +261,15 @@ class ScriptsFragment : Fragment() {
         append(" · ")
         append(rule.actions.size)
         append(" action(s)")
+    }
+    /**
+     * Release the view references. The pager keeps this fragment alive after
+     * its view is destroyed, so any field still holding a view keeps that whole
+     * tree reachable for as long as the fragment lives.
+     */
+    override fun onDestroyView() {
+        list = null
+        statusText = null
+        super.onDestroyView()
     }
 }

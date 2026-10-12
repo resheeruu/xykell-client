@@ -25,10 +25,10 @@ import org.json.JSONObject
  */
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
-    private lateinit var logo: TextView
-    private lateinit var sweep: View
-    private lateinit var subtitle: TextView
-    private lateinit var status: TextView
+    private var logo: TextView? = null
+    private var sweep: View? = null
+    private var subtitle: TextView? = null
+    private var status: TextView? = null
 
     private val initSteps = listOf(
         "Loading theme…",
@@ -55,10 +55,10 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
         if (reducedMotion) {
             // Reduced motion: instant transition
-            logo.alpha = 1f
-            subtitle.alpha = 1f
-            status.text = getString(R.string.splash_ready)
-            status.alpha = 1f
+            logo?.alpha = 1f
+            subtitle?.alpha = 1f
+            status?.text = getString(R.string.splash_ready)
+            status?.alpha = 1f
             handler.postDelayed({ advanceToHome() }, 100)
         } else {
             startAnimationSequence()
@@ -67,38 +67,38 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private fun startAnimationSequence() {
         // Step 1: Logo fade-in
-        logo.animate()
-            .alpha(1f)
-            .setDuration(Motion.duration(requireContext(), Motion.DURATION_MEDIUM))
-            .setInterpolator(Motion.emphasized)
-            .withEndAction { startSweepAnimation() }
-            .start()
+        logo?.animate()
+            ?.alpha(1f)
+            ?.setDuration(Motion.duration(requireContext(), Motion.DURATION_MEDIUM))
+            ?.setInterpolator(Motion.emphasized)
+            ?.withEndAction { startSweepAnimation() }
+            ?.start()
     }
 
     private fun startSweepAnimation() {
         // Step 2: Accent sweep (width animation)
-        sweep.alpha = 1f
+        sweep?.alpha = 1f
         val sweepWidth = resources.displayMetrics.widthPixels / 2
-        sweep.animate()
-            .setStartDelay(60)
-            .setDuration(Motion.duration(requireContext(), Motion.DURATION_LONG))
-            .scaleX(1f)
-            .setInterpolator(Motion.standard)
-            .withEndAction { startSubtitleAndStatus() }
-            .start()
+        sweep?.animate()
+            ?.setStartDelay(60)
+            ?.setDuration(Motion.duration(requireContext(), Motion.DURATION_LONG))
+            ?.scaleX(1f)
+            ?.setInterpolator(Motion.standard)
+            ?.withEndAction { startSubtitleAndStatus() }
+            ?.start()
 
         // Subtitle fade-in during sweep
-        subtitle.animate()
-            .alpha(1f)
-            .setStartDelay(120)
-            .setDuration(Motion.duration(requireContext(), Motion.DURATION_MEDIUM))
-            .setInterpolator(Motion.emphasized)
-            .start()
+        subtitle?.animate()
+            ?.alpha(1f)
+            ?.setStartDelay(120)
+            ?.setDuration(Motion.duration(requireContext(), Motion.DURATION_MEDIUM))
+            ?.setInterpolator(Motion.emphasized)
+            ?.start()
     }
 
     private fun startSubtitleAndStatus() {
         // Step 3: Status text appears
-        status.alpha = 1f
+        status?.alpha = 1f
         runInitSteps()
     }
 
@@ -109,7 +109,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         }
 
         val step = initSteps[stepIndex]
-        status.text = step
+        status?.text = step
         stepIndex++
 
         // Real initialization work for each step
@@ -167,7 +167,16 @@ private fun loadModules() {
 
     private fun isReducedMotionEnabled(): Boolean = Motion.reduced(requireContext())
 
+    /**
+     * Release the view references. The pager keeps this fragment alive after
+     * its view is destroyed, so any field still holding a view keeps that whole
+     * tree reachable for as long as the fragment lives.
+     */
     override fun onDestroyView() {
+        logo = null
+        sweep = null
+        subtitle = null
+        status = null
         handler.removeCallbacksAndMessages(null)
         super.onDestroyView()
     }

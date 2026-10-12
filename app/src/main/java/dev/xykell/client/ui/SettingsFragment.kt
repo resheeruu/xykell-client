@@ -39,8 +39,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val description: String,
     )
 
-    private lateinit var container: LinearLayout
-    private lateinit var error: TextView
+    private var container: LinearLayout? = null
+    private var error: TextView? = null
 
     // Privacy toggles live in the native config store so they share the same
     // reset and export path as every other setting. The model is
@@ -56,7 +56,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             if (NativeSettings.reset(NativeSettings.root(requireContext()))) {
                 reload("")
             } else {
-                error.text = getString(R.string.settings_reset_failed_bridge)
+                error?.text = getString(R.string.settings_reset_failed_bridge)
             }
         }
         view.findViewById<SearchView>(R.id.settings_search)
@@ -116,7 +116,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             setText(R.string.settings_privacy_section)
             contentDescription = getString(R.string.settings_privacy_section)
         }
-        container.addView(header)
+        container?.addView(header)
 
         data class Toggle(
             val key: String,
@@ -171,7 +171,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
             row.addView(label, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
             row.addView(sw)
-            container.addView(row)
+            container?.addView(row)
         }
     }
 
@@ -196,7 +196,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             locales.firstOrNull { it.first == tag }?.second
                 ?: getString(R.string.settings_language_system)
 
-        container.addView(
+        container?.addView(
             TextView(requireContext()).apply {
                 setText(R.string.settings_language_section)
                 contentDescription = getString(R.string.settings_language_section)
@@ -239,7 +239,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 text = labelFor(currentTag)
             },
         )
-        container.addView(row)
+        container?.addView(row)
     }
 
     private fun loadRows(): List<Row> {
@@ -282,8 +282,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun reload(filter: String) {
-        container.removeAllViews()
-        error.text = ""
+        container?.removeAllViews()
+        error?.text = ""
         addPrivacySection()
         addLanguageSection()
         val allRows = loadRows()
@@ -300,7 +300,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             } else {
                 getString(R.string.settings_empty_search, filter)
             }
-            container.addView(empty)
+            container?.addView(empty)
             return
         }
         val values = currentValues()
@@ -309,15 +309,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             val display = SettingRowMapper.displaySection(row.section)
             if (display != lastSection) {
                 lastSection = display
-                container.addView(sectionHeader(display, row.section))
+                container?.addView(sectionHeader(display, row.section))
             }
-            container.addView(settingRow(row, values))
+            container?.addView(settingRow(row, values))
         }
         for (missing in listOf("Appearance", "Modules", "Controls", "Performance", "Advanced", "About")) {
             if (rows.none { SettingRowMapper.displaySection(it.section) == missing }) {
                 val note = TextView(requireContext())
                 note.text = getString(R.string.settings_section_not_wired, missing)
-                container.addView(note)
+                container?.addView(note)
             }
         }
     }
@@ -335,7 +335,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             if (NativeSettings.reset(NativeSettings.root(context), native)) {
                 reload("")
             } else {
-                error.text = getString(R.string.settings_section_reset_failed)
+                error?.text = getString(R.string.settings_section_reset_failed)
             }
         }
         box.addView(title)
@@ -363,9 +363,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         )
                     ) {
                         sw.isChecked = !checked
-                        error.text = getString(R.string.settings_rejected, row.section, row.key)
+                        error?.text = getString(R.string.settings_rejected, row.section, row.key)
                     } else {
-                        error.text = ""
+                        error?.text = ""
                     }
                 }
                 box.addView(sw)
@@ -394,9 +394,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                                 NativeSettings.root(context), row.section, row.key, json,
                             )
                         ) {
-                            error.text = getString(R.string.settings_rejected, row.section, row.key)
+                            error?.text = getString(R.string.settings_rejected, row.section, row.key)
                         } else {
-                            error.text = ""
+                            error?.text = ""
                         }
                     }
                 })
@@ -420,9 +420,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                             JSONObject.quote(chosen),
                         )
                     ) {
-                        error.text = getString(R.string.settings_rejected, row.section, row.key)
+                        error?.text = getString(R.string.settings_rejected, row.section, row.key)
                     } else {
-                        error.text = ""
+                        error?.text = ""
                     }
                 }
                 box.addView(apply)
@@ -439,9 +439,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                             JSONObject.quote(edit.text.toString()),
                         )
                     ) {
-                        error.text = getString(R.string.settings_rejected, row.section, row.key)
+                        error?.text = getString(R.string.settings_rejected, row.section, row.key)
                     } else {
-                        error.text = ""
+                        error?.text = ""
                     }
                 }
                 box.addView(apply)
@@ -453,7 +453,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             if (NativeSettings.reset(NativeSettings.root(context), row.section)) {
                 reload("")
             } else {
-                error.text = getString(R.string.settings_reset_failed)
+                error?.text = getString(R.string.settings_reset_failed)
             }
         }
         box.addView(resetOne)
@@ -474,5 +474,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         } catch (e: Exception) {
             false
         }
+    }
+    /**
+     * Release the view references. The pager keeps this fragment alive after
+     * its view is destroyed, so any field still holding a view keeps that whole
+     * tree reachable for as long as the fragment lives.
+     */
+    override fun onDestroyView() {
+        container = null
+        error = null
+        super.onDestroyView()
     }
 }

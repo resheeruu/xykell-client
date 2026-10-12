@@ -35,6 +35,10 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
     )
 
     private var entries: List<ModuleEntry> = emptyList()
+    /** The view a background registry parse is waiting to post into. */
+    @Volatile
+    private var pendingLoad: View? = null
+
     private var holders: List<Holder> = emptyList()
     private var headers: List<Pair<TextView, List<Holder>>> = emptyList()
     private var loadError: String? = null
@@ -69,6 +73,9 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
      * UI thread; only the file read and JSON parse move.
      */
     private fun loadRegistryAsync(view: View) {
+        // Held so onDestroyView can stop the hand-off: a parse that finishes
+        // after the page is gone must not post into a dead view.
+        pendingLoad = view
         val ctx = requireContext()
         Thread({
             var parsed: List<ModuleEntry>? = null
@@ -84,6 +91,7 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
             val loaded = parsed
             val error = failure
             view.post {
+                pendingLoad = null
                 if (loaded != null) {
                     entries = loaded
                     loadError = null
@@ -291,4 +299,16 @@ class ModulesFragment : Fragment(R.layout.fragment_modules) {
             statusView.text = ""
         }
     }
+    /**
+     * Drop the built rows. These hold every `LinearLayout` and `Switch` created
+     * from the feature catalog, and the pager keeps this fragment alive after
+     * its view is gone -- so without this the whole row tree stays reachable.
+     */
+    override fun onDestroyView() {
+        pendingLoad = null
+        holders = emptyList()
+        headers = emptyList()
+        super.onDestroyView()
+    }
+
 }

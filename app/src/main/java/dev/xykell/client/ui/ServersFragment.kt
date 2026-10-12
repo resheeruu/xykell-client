@@ -209,6 +209,17 @@ class ServersFragment : Fragment(R.layout.fragment_servers) {
         }.start()
     }
 
+    /**
+     * Cleared on the way out too. `view.post` on a detached view parks the
+     * Runnable in that view's RunQueue and it never runs, so without this the
+     * probe flag stayed true for the life of the fragment and the probe button
+     * was dead until the screen was recreated.
+     */
+    override fun onDestroyView() {
+        probing = false
+        super.onDestroyView()
+    }
+
     private fun toggleFavorite(entry: ServerEntry) {
         val idx = entries.indexOfFirst { it.id == entry.id }
         if (idx < 0) return
