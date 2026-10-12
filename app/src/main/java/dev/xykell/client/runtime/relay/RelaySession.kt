@@ -259,6 +259,32 @@ class RelaySession(
         return true
     }
 
+    /**
+     * Block palette observed from this session's handshake, for modules to read.
+     *
+     * Exposed as a property rather than a callback so a module can ask at any
+     * time without the relay having to know which modules exist.
+     */
+    val blockPalette = BlockPaletteTracker()
+
+    /** Protocol number negotiated at login; 0 when login has not happened yet. */
+    private fun negotiatedProtocol(): Int =
+        loginInfo?.protocolVersion ?: 0
+
+    /**
+     * Offers each server-to-client packet to the palette tracker.
+     *
+     * Only [BlockPaletteTracker.offer] returns true for a StartGame, so this is
+     * a filter over the batch rather than work done per packet.
+     */
+    private fun observeUpstream(packets: List<ByteArray>) {
+        val protocol = negotiatedProtocol()
+        if (protocol <= 0) return
+        for (p in packets) {
+            if (blockPalette.offer(protocol, p)) return
+        }
+    }
+
     private fun handleUpstream(payload: ByteArray): Boolean {
         if (payload.isEmpty()) return true
         val id = payload[0].toInt() and 0xff
@@ -322,7 +348,17 @@ class RelaySession(
                     if (id != BedrockBatch.FRAME_ID) {
                         return fail("upstream: bare payload while online, id 0x${id.toString(16)}")
                     }
-                    if (!emit(RelayDirection.TO_CLIENT, BedrockBatch.openFrame(payload, upS2c!!))) {
+                    val opened = BedrockBatch.openFrame(payload, upS2c!!)
+                    // Hand the decoded packets to the palette tracker before
+                    // forwarding, so a module asking "what is the block palette"
+                    // during this batch already has the answer. A throw here is
+                    // contained: observing a packet must never break the relay,
+                    // and the tracker's own refusals are already values.
+                    try {
+                        observeUpstream(opened)
+                    } catch (e: Exception) {
+                    }
+                    if (!emit(RelayDirection.TO_CLIENT, opened)) {
                         return false
                     }
                 }

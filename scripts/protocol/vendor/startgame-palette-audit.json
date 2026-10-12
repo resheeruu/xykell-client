@@ -1,0 +1,255 @@
+{
+ "_comment": "Which vendored schemas declare a decodable block palette in StartGame, and each schema's Bedrock protocol number. Generated from protocol.json and version.json at minecraft-data pinned commit dd01127, so the decoder is selected by the number the handshake actually carries.",
+ "versions": {
+  "1.16.201": {
+   "palette": true,
+   "protocol": 422,
+   "reason": "declares block_palette"
+  },
+  "1.16.210": {
+   "palette": true,
+   "protocol": 428,
+   "reason": "declares block_palette"
+  },
+  "1.16.220": {
+   "palette": false,
+   "protocol": 431,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.17.0": {
+   "palette": false,
+   "protocol": 440,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.17.10": {
+   "palette": false,
+   "protocol": 448,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.17.30": {
+   "palette": false,
+   "protocol": 465,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.17.40": {
+   "palette": false,
+   "protocol": 471,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.18.0": {
+   "palette": false,
+   "protocol": 475,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.18.11": {
+   "palette": false,
+   "protocol": 486,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.18.30": {
+   "palette": false,
+   "protocol": 503,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.1": {
+   "palette": false,
+   "protocol": 527,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.10": {
+   "palette": false,
+   "protocol": 534,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.20": {
+   "palette": false,
+   "protocol": 544,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.21": {
+   "palette": false,
+   "protocol": 545,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.30": {
+   "palette": false,
+   "protocol": 554,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.50": {
+   "palette": false,
+   "protocol": 560,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.60": {
+   "palette": false,
+   "protocol": 567,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.62": {
+   "palette": false,
+   "protocol": 567,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.70": {
+   "palette": false,
+   "protocol": 575,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.19.80": {
+   "palette": false,
+   "protocol": 582,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.0": {
+   "palette": false,
+   "protocol": 589,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.10": {
+   "palette": false,
+   "protocol": 594,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.30": {
+   "palette": false,
+   "protocol": 618,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.40": {
+   "palette": false,
+   "protocol": 622,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.50": {
+   "palette": false,
+   "protocol": 630,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.61": {
+   "palette": false,
+   "protocol": 649,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.71": {
+   "palette": false,
+   "protocol": 662,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.20.80": {
+   "palette": false,
+   "protocol": 671,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.0": {
+   "palette": false,
+   "protocol": 685,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.100": {
+   "palette": false,
+   "protocol": 827,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.111": {
+   "palette": false,
+   "protocol": 844,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.120": {
+   "palette": false,
+   "protocol": 859,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.124": {
+   "palette": false,
+   "protocol": 860,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.130": {
+   "palette": false,
+   "protocol": 898,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.2": {
+   "palette": false,
+   "protocol": 686,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.20": {
+   "palette": false,
+   "protocol": 712,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.30": {
+   "palette": false,
+   "protocol": 729,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.42": {
+   "palette": false,
+   "protocol": 748,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.50": {
+   "palette": false,
+   "protocol": 766,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.60": {
+   "palette": false,
+   "protocol": 776,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.70": {
+   "palette": false,
+   "protocol": 786,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.80": {
+   "palette": false,
+   "protocol": 800,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.90": {
+   "palette": false,
+   "protocol": 818,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.21.93": {
+   "palette": false,
+   "protocol": 819,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.26.0": {
+   "palette": false,
+   "protocol": 924,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.26.10": {
+   "palette": false,
+   "protocol": 944,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.26.20": {
+   "palette": false,
+   "protocol": 975,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.26.30": {
+   "palette": false,
+   "protocol": 1001,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.26.40": {
+   "palette": false,
+   "protocol": 2168,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  },
+  "1.26.45": {
+   "palette": false,
+   "protocol": 2169,
+   "reason": "StartGame carries block_properties (name -> NBT state), which holds no runtime ids; the palette is not transmitted in the handshake"
+  }
+ }
+}

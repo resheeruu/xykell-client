@@ -589,4 +589,8 @@
     <string name="session_onboarding_first">First run: show the introduction.</string>
     <string name="session_onboarding_done">Introduction seen.</string>
     <string name="session_launch_mode_none">Not chosen yet.</string>
+    <string name="toolbox_start">Start toolbox</string>
+    <string name="toolbox_stop">Stop toolbox</string>
+    <string name="toolbox_overlay_title">Toolbox overlay</string>
+    <string name="toolbox_overlay_needs_permission">Toolbox needs the display-over-other-apps permission.</string>
 </resources>

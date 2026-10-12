@@ -589,4 +589,8 @@
     <string name="session_onboarding_first">Pierwsze uruchomienie: pokaż wprowadzenie.</string>
     <string name="session_onboarding_done">Wprowadzenie wyświetlone.</string>
     <string name="session_launch_mode_none">Jeszcze nie wybrano.</string>
+    <string name="toolbox_start">Uruchom narzędzia</string>
+    <string name="toolbox_stop">Zatrzymaj narzędzia</string>
+    <string name="toolbox_overlay_title">Narzędzia na ekranie</string>
+    <string name="toolbox_overlay_needs_permission">Narzędzia potrzebują uprawnienia do wyświetlania nad innymi aplikacjami.</string>
 </resources>

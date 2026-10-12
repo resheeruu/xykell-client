@@ -44,6 +44,8 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
     private var profileField: EditText? = null
     private var overlayStatus: TextView? = null
     private var overlayToggle: Button? = null
+    private var toolboxStatus: TextView? = null
+    private var toolboxToggle: Button? = null
     private var overlayGrant: Button? = null
 
     private fun root(): String = NativeProfiles.root(requireContext())
@@ -82,6 +84,19 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
 
         overlayStatus = status
         overlayToggle = toggle
+        val toolboxStatusView = view.findViewById<TextView>(R.id.toolbox_overlay_status)
+        val toolboxToggleBtn = view.findViewById<Button>(R.id.toolbox_overlay_toggle)
+        toolboxStatus = toolboxStatusView
+        toolboxToggle = toolboxToggleBtn
+        toolboxToggleBtn.setOnClickListener {
+            val ctx = requireContext()
+            if (!ToolboxOverlayService.canDraw(ctx)) {
+                error?.text = getString(R.string.toolbox_overlay_needs_permission)
+                return@setOnClickListener
+            }
+            ToolboxOverlayService.toggle(ctx)
+            refreshOverlay()
+        }
         overlayGrant = grant
         refreshOverlay()
 
@@ -122,6 +137,16 @@ class HudEditorFragment : Fragment(R.layout.fragment_hud_editor) {
         )
         overlayToggle?.text = getString(
             if (running) R.string.hud_overlay_stop else R.string.hud_overlay_start,
+        )
+
+        // The toolbox shares the permission, so it reports live service state
+        // the same way rather than from a preference that could be stale.
+        val toolboxRunning = granted && ToolboxOverlayService.isRunning()
+        toolboxStatus?.text = getString(
+            if (toolboxRunning) R.string.hud_overlay_running else R.string.hud_overlay_stopped,
+        )
+        toolboxToggle?.text = getString(
+            if (toolboxRunning) R.string.toolbox_stop else R.string.toolbox_start,
         )
         overlayGrant?.visibility = if (granted) View.GONE else View.VISIBLE
     }

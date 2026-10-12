@@ -589,4 +589,8 @@
     <string name="session_onboarding_first">Primer inicio: mostrar la introducción.</string>
     <string name="session_onboarding_done">Introducción vista.</string>
     <string name="session_launch_mode_none">Aún no elegido.</string>
+    <string name="toolbox_start">Iniciar caja de herramientas</string>
+    <string name="toolbox_stop">Detener caja de herramientas</string>
+    <string name="toolbox_overlay_title">Superposición de la caja de herramientas</string>
+    <string name="toolbox_overlay_needs_permission">La caja de herramientas necesita el permiso para mostrarse sobre otras apps.</string>
 </resources>

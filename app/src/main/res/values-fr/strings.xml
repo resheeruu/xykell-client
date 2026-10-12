@@ -589,4 +589,8 @@
     <string name="session_onboarding_first">Premier lancement : afficher l\'introduction.</string>
     <string name="session_onboarding_done">Introduction vue.</string>
     <string name="session_launch_mode_none">Pas encore choisi.</string>
+    <string name="toolbox_start">Démarrer la boîte à outils</string>
+    <string name="toolbox_stop">Arrêter la boîte à outils</string>
+    <string name="toolbox_overlay_title">Superposition de la boîte à outils</string>
+    <string name="toolbox_overlay_needs_permission">La boîte à outils nécessite l\'autorisation d\'affichage sur les autres applications.</string>
 </resources>

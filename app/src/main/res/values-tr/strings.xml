@@ -589,4 +589,8 @@
     <string name="session_onboarding_first">İlk kullanım: tanıtımı göster.</string>
     <string name="session_onboarding_done">Tanıtım görüldü.</string>
     <string name="session_launch_mode_none">Henüz seçilmedi.</string>
+    <string name="toolbox_start">Araç kutusunu başlat</string>
+    <string name="toolbox_stop">Araç kutusunu durdur</string>
+    <string name="toolbox_overlay_title">Araç kutusu katmanı</string>
+    <string name="toolbox_overlay_needs_permission">Araç kutusu, diğer uygulamaların üzerinde gösterilme izni gerektirir.</string>
 </resources>

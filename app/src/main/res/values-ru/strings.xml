@@ -582,4 +582,8 @@
     <string name="session_onboarding_first">Первый запуск: показать введение.</string>
     <string name="session_onboarding_done">Введение показано.</string>
     <string name="session_launch_mode_none">Ещё не выбран.</string>
+    <string name="toolbox_start">Запустить панель</string>
+    <string name="toolbox_stop">Остановить панель</string>
+    <string name="toolbox_overlay_title">Наложение панели</string>
+    <string name="toolbox_overlay_needs_permission">Панели нужно разрешение на отображение поверх других приложений.</string>
 </resources>

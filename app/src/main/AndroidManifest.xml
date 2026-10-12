@@ -93,6 +93,11 @@
         <service
             android:name=".ui.HudOverlayService"
             android:exported="false" />
+        <!-- Draggable module toolbox over the game. Same overlay permission as
+             the HUD; it writes module flags only, no game-process access. -->
+        <service
+            android:name=".ui.ToolboxOverlayService"
+            android:exported="false" />
         <!-- Serves the captured PNG to the share sheet only (cache path,
              read grant handed out per Intent). No broad file access. -->
         <provider

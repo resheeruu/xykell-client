@@ -68,8 +68,11 @@ object WorldModules {
             "whether the renderer draws it is not reachable from a relay.",
         "xykell.world.ore_esp" to
             "ore ESP needs to tell an ore block from stone, and the only ore signal on the " +
-            "wire is a numeric block_runtime_id; the palette that would name it lives inside " +
-            "LevelChunk 0x3A's opaque payload and StartGame 0x0B's undecodable block_properties.",
+            "wire is a numeric block_runtime_id, and the palette that would name it is reachable " +
+            "only where the handshake transmits one -- 1.16.201 and 1.16.210, per " +
+            "BlockPaletteTracker. On the other 48 vendored schemas StartGame carries " +
+            "block_properties (names to NBT state, no runtime ids) or nothing but a hashes flag, " +
+            "and LevelChunk 0x3A's payload is still opaque here.",
         "xykell.world.hole_esp" to
             "a hole is an air pocket inside the decoded sub-chunk block array; chunk data " +
             "reaches this repo only as LevelChunk 0x3A's opaque payload, and UpdateSubchunkBlocks " +

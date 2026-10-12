@@ -160,11 +160,14 @@ object VisualModules {
         "xykell.visual.sus_chunk_finder" to
             "flagging a chunk means knowing when it was generated, and no clientbound packet " +
             "carries a generation time or the generator that produced a specific chunk; " +
-            "StartGame 0x0B names the generator once for the whole world and this repo decodes " +
-            "none of its payload",
+            "StartGame 0x0B names the generator once for the whole world; StartGamePaletteDecoder " +
+            "now walks its payload, but only for the 2 of 50 vendored schemas that put a block " +
+            "palette there, and neither carries a per-chunk generator",
         "xykell.visual.bed_esp" to
             "a bed is a block identified by name, so it hits the same wall as spawner_esp: " +
-            "0x15 gives a runtime id and no palette maps it to a bed",
+            "0x15 gives a runtime id; a palette maps it to a bed only on 1.16.201/1.16.210, " +
+            "where BlockPaletteTracker exposes one -- on every other vendored schema the " +
+            "handshake transmits no palette at all",
         "xykell.visual.minimap" to
             "a terrain minimap needs a rendered surface plus block sampling per column, and " +
             "block sampling needs the decoded sub-chunk array the relay does not hold; entity " +

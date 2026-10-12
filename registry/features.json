@@ -3456,7 +3456,7 @@
         "Lunar Proxy"
       ],
       "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "flagging a chunk means knowing when it was generated, and no clientbound packet  carries a generation time or the generator that produced a specific chunk;  StartGame 0x0B names the generator once for the whole world and this repo decodes  none of its payload"
+      "notes": "flagging a chunk means knowing when it was generated, and no clientbound packet  carries a generation time or the generator that produced a specific chunk;  StartGame 0x0B names the generator once for the whole world; StartGamePaletteDecoder  now walks its payload, but only for the 2 of 50 vendored schemas that put a block  palette there, and neither carries a per-chunk generator"
     },
     {
       "id": "xykell.visual.bed_esp",
@@ -3505,7 +3505,7 @@
         "Apollon"
       ],
       "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "a bed is a block identified by name, so it hits the same wall as spawner_esp:  0x15 gives a runtime id and no palette maps it to a bed"
+      "notes": "a bed is a block identified by name, so it hits the same wall as spawner_esp:  0x15 gives a runtime id; a palette maps it to a bed only on 1.16.201/1.16.210,  where BlockPaletteTracker exposes one -- on every other vendored schema the  handshake transmits no palette at all"
     },
     {
       "id": "xykell.visual.waypoints",
@@ -8301,7 +8301,7 @@
         "Lunar Proxy"
       ],
       "evidence": "assessed: not deliverable by a packet relay",
-      "notes": "ore ESP needs to tell an ore block from stone, and the only ore signal on the  wire is a numeric block_runtime_id; the palette that would name it lives inside  LevelChunk 0x3A's opaque payload and StartGame 0x0B's undecodable block_properties."
+      "notes": "ore ESP needs to tell an ore block from stone, and the only ore signal on the  wire is a numeric block_runtime_id, and the palette that would name it is reachable  only where the handshake transmits one -- 1.16.201 and 1.16.210, per  BlockPaletteTracker. On the other 48 vendored schemas StartGame carries  block_properties (names to NBT state, no runtime ids) or nothing but a hashes flag,  and LevelChunk 0x3A's payload is still opaque here."
     },
     {
       "id": "xykell.world.chunk_borders",

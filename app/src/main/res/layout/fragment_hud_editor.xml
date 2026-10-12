@@ -116,4 +116,27 @@
         android:id="@+id/hud_error"
         style="@style/XykellStatus" />
 
+    <!-- Toolbox overlay: the same display-over-other-apps permission and the
+         same lifecycle reporting as the HUD, so the two rows read alike. -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/toolbox_overlay_status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:gravity="center_vertical"
+            android:text="@string/hud_overlay_stopped" />
+
+        <Button
+            android:minHeight="48dp"
+            android:id="@+id/toolbox_overlay_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toolbox_start" />
+    </LinearLayout>
 </LinearLayout>

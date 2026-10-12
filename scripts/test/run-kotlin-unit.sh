@@ -105,6 +105,11 @@ MAIN_SOURCES=(
     "$SRC/dev/xykell/client/runtime/relay/CodecDiagnostics.kt"
     "$SRC/dev/xykell/client/runtime/relay/BlockPalette.kt"
     "$SRC/dev/xykell/client/runtime/relay/BlockPaletteReader.kt"
+    "$SRC/dev/xykell/client/runtime/relay/StartGamePalettePlan.kt"
+    "$SRC/dev/xykell/client/runtime/relay/StartGamePaletteDecoder.kt"
+    "$SRC/dev/xykell/client/runtime/relay/BlockPaletteTracker.kt"
+    "$SRC/dev/xykell/client/runtime/toolbox/ToolboxModel.kt"
+    "$SRC/dev/xykell/client/ui/ModuleCatalog.kt"
     "$SRC/dev/xykell/client/runtime/relay/DecodeLimits.kt"
     "$SRC/dev/xykell/client/runtime/replay/ReplayStore.kt"
     "$SRC/dev/xykell/client/runtime/replay/ReplayRecorder.kt"
@@ -189,6 +194,9 @@ SUITES=(
     dev.xykell.client.runtime.relay.EntityTableTest
     dev.xykell.client.runtime.relay.TableConcurrencyTest
     dev.xykell.client.runtime.relay.BedrockPacketIdsVersionTest
+    dev.xykell.client.runtime.relay.StartGamePaletteDecoderTest
+    dev.xykell.client.runtime.relay.BlockPaletteTrackerTest
+    dev.xykell.client.runtime.toolbox.ToolboxModelTest
     dev.xykell.client.runtime.modules.CombatModulesTest
     dev.xykell.client.runtime.modules.VisualModulesTest
     dev.xykell.client.runtime.modules.MovementModulesTest
@@ -201,7 +209,7 @@ SUITES=(
     dev.xykell.client.runtime.modules.ModuleFlagsTest
     dev.xykell.client.runtime.modules.ModuleTapRunnerTest
 )
-EXPECTED_SUITES=73
+EXPECTED_SUITES=76
 
 if [ "${#SUITES[@]}" -ne "$EXPECTED_SUITES" ]; then
     echo "KOTLIN-UNIT: FAIL — suite list has ${#SUITES[@]}, expected $EXPECTED_SUITES" >&2
@@ -288,6 +296,10 @@ done
     "$TEST"/dev/xykell/client/runtime/relay/EntityTableTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/TableConcurrencyTest.kt \
     "$TEST"/dev/xykell/client/runtime/relay/BedrockPacketIdsVersionTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/StartGameEncoder.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/StartGamePaletteDecoderTest.kt \
+    "$TEST"/dev/xykell/client/runtime/relay/BlockPaletteTrackerTest.kt \
+    "$TEST"/dev/xykell/client/runtime/toolbox/ToolboxModelTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/BedrockTextTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/CombatModulesTest.kt \
     "$TEST"/dev/xykell/client/runtime/modules/VisualModulesTest.kt \
