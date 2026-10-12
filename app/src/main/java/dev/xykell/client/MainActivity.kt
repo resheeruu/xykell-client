@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             pager.currentItem = currentPage
         }
         updateTitleAndIndicator(currentPage)
+        updateChipSelection(currentPage)
         requestNotificationPermissionOnce()
     }
 
@@ -215,17 +216,18 @@ class MainActivity : AppCompatActivity() {
             navRow.addView(btn)
         }
 
-        // Set initial selected state
-        navRow.getChildAt(currentPage)?.let {
-            it.isSelected = true
-        }
+        // Selection is driven from showPage, not set once here: a chip that was
+        // highlighted only at startup left no chip marked after any navigation,
+        // which in reduced-motion mode (where swiping is off) is the only cue the
+        // user has about where they are.
+        updateChipSelection(currentPage)
     }
 
-    /** Startup splash is now handled by SplashFragment with animated sequence.
-     *  This method is kept for compatibility but no longer used. */
-    @Deprecated("Use SplashFragment instead")
-    private fun playSplash() {
-        // Legacy splash kept for reference; SplashFragment handles animation now.
+    private fun updateChipSelection(page: Int) {
+        val navRow = findViewById<LinearLayout>(R.id.nav_row) ?: return
+        for (i in 0 until navRow.childCount) {
+            navRow.getChildAt(i).isSelected = (i == page)
+        }
     }
 
     /** Keybind capture bridge (Batch 13): while the keybind editor holds a

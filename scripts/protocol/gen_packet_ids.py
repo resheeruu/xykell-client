@@ -94,7 +94,32 @@ def resolve(packets):
     return out
 
 
-def emit_kotlin(table):
+def emit_kotlin(table, versions=None, overrides=None, absent=None, default_version=None):
+    """
+    Emits the default-version table plus, when several schemas are supplied,
+    a per-version index.
+
+    Each version is stored as two deltas against the default table rather than
+    a full copy, because Bedrock adds packets monotonically: 50 full tables
+    would be ~50 near-identical maps nobody could review.
+
+      - overrides: packets whose id or direction differs from the default.
+      - absent: packets the default knows that this version does not have yet.
+
+    Both are needed. Overrides alone are wrong: on 1.16.201, 88 of the default's
+    244 packets did not exist yet, so a table that merely overrode differences
+    would answer for all 88 with the default's id -- claiming a packet exists in
+    a protocol that has never heard of it. That is the exact failure this
+    generator exists to prevent, just along the version axis instead of the
+    name axis, so `forVersion` subtracts ABSENT before applying OVERRIDES and
+    returns a table equal to that version's own schema.
+    """
+    # `versions` is every vendored schema; `overrides` only the ones that
+    # actually differ from the default. Conflating them made a version with no
+    # deltas invisible, and lookups for it threw.
+    versions = list(versions or [])
+    overrides = overrides or {}
+    absent = absent or {}
     lines = [
         "package dev.xykell.client.runtime.relay",
         "",
@@ -108,10 +133,20 @@ def emit_kotlin(table):
         " * `toClient`/`toServer` are the authoritative direction flags. A packet",
         " * with toClient=false never travels toward the game, so a transform that",
         " * only makes sense on one leg can be scoped to it.",
+        " *",
+        " * Generated from %d vendored schema(s); the default is %s. Use" % (
+            len(versions), default_version or "",
+        ),
+        " * [forVersion] when the session has negotiated a specific protocol: ids",
+        " * moved between versions, and a module filtering a stale id silently does",
+        " * nothing -- the failure mode this generator exists to prevent.",
         " */",
         "object BedrockPacketIds {",
         "",
         "    data class Info(val id: Int, val toClient: Boolean, val toServer: Boolean)",
+        "",
+        "    /** Vendored schema this table was generated from. */",
+        '    const val DEFAULT_VERSION: String = "%s"' % (default_version or ""),
         "",
         "    private val TABLE: Map<String, Info> = mapOf(",
     ]
@@ -136,20 +171,155 @@ def emit_kotlin(table):
         "    fun infoOf(name: String): Info? = TABLE[name]",
         "",
         "    val allNames: Set<String> get() = TABLE.keys",
+        "",
+        "    /** Schema versions vendored under scripts/protocol/vendor. */",
+        "    val versions: List<String> = listOf(",
+    ]
+    for v in versions:
+        lines.append("        \"%s\"," % v)
+    lines += [
+        "    )",
+        "",
+        "    /**",
+        "     * Ids that differ from the default table, keyed by version.",
+        "     *",
+        "     * Deltas are only safe because [ABSENT] records what each version does",
+        "     * not have yet -- see the generator for the case that makes both",
+        "     * necessary.",
+        "     */",
+        "    private val OVERRIDES: Map<String, Map<String, Info>> = mapOf(",
+    ]
+    for v in sorted(overrides):
+        entries = overrides[v]
+        if not entries:
+            continue
+        lines.append("        \"%s\" to mapOf(" % v)
+        for name in sorted(entries):
+            e = entries[name]
+            lines.append(
+                '            "%s" to Info(0x%02x, toClient = %s, toServer = %s),'
+                % (name, e["id"], str(e["toClient"]).lower(), str(e["toServer"]).lower())
+            )
+        lines.append("        ),")
+    lines += [
+        "    )",
+        "",
+        "    /**",
+        "     * Packets the default table knows that a given version does not have.",
+        "     * Without this, a lookup for a packet introduced after that version",
+        "     * would answer with the default's id instead of refusing.",
+        "     */",
+        "    private val ABSENT: Map<String, Set<String>> = mapOf(",
+    ]
+    for v in sorted(absent):
+        names = absent[v]
+        if not names:
+            continue
+        lines.append("        \"%s\" to setOf(" % v)
+        for n in sorted(names):
+            lines.append("            \"%s\"," % n)
+        lines.append("        ),")
+    lines += [
+        "    )",
+        "",
+        "    /**",
+        "     * The table for a vendored schema version, equal to that version's own",
+        "     * schema: the default table, minus packets that did not exist yet,",
+        "     * plus this version's changed ids. Null when the version was never",
+        "     * vendored -- callers must treat that as unknown rather than as the",
+        "     * default, because the two are different claims.",
+        "     */",
+        "    fun forVersion(version: String): Map<String, Info>? = when (version) {",
+        "        DEFAULT_VERSION -> TABLE",
+        "        else -> if (version in versions) {",
+        "            val base = ABSENT[version]?.let { TABLE - it } ?: TABLE",
+        "            base + (OVERRIDES[version] ?: emptyMap())",
+        "        } else null",
+        "    }",
+        "",
+        "    /** True when [version] has a vendored schema we can answer from. */",
+        "    fun supportsVersion(version: String): Boolean = version == DEFAULT_VERSION || version in versions",
+        "",
+        "    /** Id for [name] on [version], or null when either is unknown. */",
+        "    fun idForVersion(version: String, name: String): Int? =",
+        "        forVersion(version)?.get(name)?.id",
         "}",
         "",
     ]
     return "\n".join(lines)
 
 
+def version_of(path):
+    m = re.match(r"bedrock-(.+)-proto\.yml$", path.name)
+    return m.group(1) if m else None
+
+
+def load_vendor_dir():
+    """Every vendored schema, keyed by game version."""
+    out = {}
+    for path in sorted((ROOT / "scripts/protocol/vendor").glob("bedrock-*-proto.yml")):
+        v = version_of(path)
+        if v:
+            out[v] = path
+    return out
+
+
+def diff_versions(base, other):
+    """Entries in [other] that differ from [base] (i.e. the version's overrides)."""
+    out = {}
+    for name, e in other.items():
+        b = base.get(name)
+        if b is None or (b["id"], b["toClient"], b["toServer"]) != (
+            e["id"], e["toClient"], e["toServer"]
+        ):
+            out[name] = e
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--proto", required=True, help="path to upstream bedrock proto.yml")
+    ap.add_argument("--proto", help="single upstream bedrock proto.yml")
+    ap.add_argument(
+        "--all-versions",
+        action="store_true",
+        help="use every vendored schema under scripts/protocol/vendor",
+    )
+    ap.add_argument("--default", help="version the unqualified accessors use")
     ap.add_argument("--check", action="store_true", help="verify only, write nothing")
     args = ap.parse_args()
 
-    table = resolve(parse(pathlib.Path(args.proto).read_text()))
-    print("parsed %d packets" % len(table), file=sys.stderr)
+    if args.all_versions:
+        paths = load_vendor_dir()
+        if not paths:
+            print("no vendored schemas found", file=sys.stderr)
+            return 1
+    else:
+        if not args.proto:
+            print("need --proto or --all-versions", file=sys.stderr)
+            return 1
+        paths = {"single": pathlib.Path(args.proto)}
+
+    parsed = {}
+    for version, path in paths.items():
+        parsed[version] = resolve(parse(path.read_text()))
+
+    default_version = args.default
+    if default_version is None:
+        # Highest vendored schema version: the newest one we can describe.
+        def key(v):
+            try:
+                return [int(x) for x in v.split(".")]
+            except ValueError:
+                return [0]
+
+        default_version = max(parsed, key=key)
+
+    table = parsed[default_version]
+    print(
+        "parsed %d schemas; default %s has %d packets"
+        % (len(parsed), default_version, len(table)),
+        file=sys.stderr,
+    )
 
     for name, want in KNOWN.items():
         got = table.get(name, {}).get("id")
@@ -165,12 +335,38 @@ def main():
     if args.check:
         return 0
 
+    overrides = {
+        v: diff_versions(table, t) for v, t in parsed.items() if v != default_version
+    }
+    absent = {
+        v: sorted(set(table) - set(t))
+        for v, t in parsed.items()
+        if v != default_version
+    }
+
     kt = ROOT / "app/src/main/java/dev/xykell/client/runtime/relay/BedrockPacketIds.kt"
-    kt.write_text(emit_kotlin(table))
+    kt.write_text(emit_kotlin(table, sorted(parsed), overrides, absent, default_version))
     print("wrote %s" % kt, file=sys.stderr)
 
     ref = ROOT / "registry/bedrock-packets.json"
-    ref.write_text(json.dumps(table, indent=1, sort_keys=True) + "\n")
+    payload = {
+        "meta": {
+            "generated_by": "scripts/protocol/gen_packet_ids.py --all-versions",
+            "source": "PrismarineJS/minecraft-data data/bedrock/<version>/proto.yml (MIT)",
+            "defaultVersion": default_version,
+            "schemaCount": len(parsed),
+        },
+        "versions": {
+            v: {
+                "packetCount": len(t),
+                "overrides": len(overrides.get(v, {})),
+                "absent": len(absent.get(v, [])),
+            }
+            for v, t in sorted(parsed.items())
+        },
+        "packets": table,
+    }
+    ref.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
     print("wrote %s" % ref, file=sys.stderr)
     return 0
 

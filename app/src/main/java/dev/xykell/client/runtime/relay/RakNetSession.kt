@@ -28,7 +28,16 @@ class RakNetSession(
     private val received = TreeSet<Int>()
     private val ackQueue = TreeSet<Int>()
     private val nackQueue = TreeSet<Int>()
+    /**
+     * Seqs whose retransmit budget ran out. Bounded: nothing in production
+     * drains this -- [drainDropped] is a diagnostic -- so without a cap every
+     * exhausted packet accumulates for the life of the session. Oldest are
+     * dropped, because the newest exhaustion is the one worth diagnosing.
+     */
     private val droppedQueue = ArrayDeque<Int>()
+
+    /** Cap on retained exhausted seqs; see [droppedQueue]. */
+    private val maxDropped = 512
 
     val pendingCount: Int get() = pending.size
 
@@ -99,7 +108,8 @@ class RakNetSession(
         val p = pending[seq] ?: return
         if (p.attempts >= maxAttempts) {
             pending.remove(seq)
-            droppedQueue.add(seq)
+            droppedQueue.addLast(seq)
+            while (droppedQueue.size > maxDropped) droppedQueue.removeFirst()
             return
         }
         p.attempts++

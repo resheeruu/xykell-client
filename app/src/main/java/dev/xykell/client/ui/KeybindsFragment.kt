@@ -109,7 +109,7 @@ class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
         clear.text = getString(R.string.keybinds_clear)
         clear.textSize = 12f
         clear.minWidth = 0
-        clear.minHeight = (40 * density).toInt()
+        clear.minHeight = TOUCH_TARGET_DP.times(density).toInt()
         clear.setPadding((6 * density).toInt(), 0, (6 * density).toInt(), 0)
         clear.contentDescription = getString(R.string.keybinds_clear_desc, bind.action)
         clear.setOnClickListener { clearBoth(bind.action) }
@@ -125,7 +125,7 @@ class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
         button.text = KeyLabels.label(code)
         button.textSize = 12f
         button.minWidth = 0
-        button.minHeight = (40 * density).toInt()
+        button.minHeight = TOUCH_TARGET_DP.times(density).toInt()
         button.setPadding((8 * density).toInt(), 0, (8 * density).toInt(), 0)
         val slotName = getString(if (slot == 0) R.string.keybinds_primary else R.string.keybinds_secondary)
         button.contentDescription =
@@ -195,5 +195,13 @@ class KeybindsFragment : Fragment(R.layout.fragment_keybinds) {
             error
         }
         render(message)
+    }
+
+    private companion object {
+        /**
+         * Android's minimum comfortable touch target. This screen's buttons were
+         * 40dp, which is below it and measurably harder to hit one-handed.
+         */
+        const val TOUCH_TARGET_DP = 48
     }
 }

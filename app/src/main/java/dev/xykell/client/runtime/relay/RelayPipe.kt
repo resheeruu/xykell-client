@@ -17,6 +17,13 @@ import java.net.SocketAddress
  * Byte-transparent: datagram seq spaces of client and server align through
  * the pipe, so ACK/NACK/retransmit/split/ordering need no rewriting.
  * Observation and injection (re-wrap with our own indices) come later.
+ *
+ * NOT USED AT RUNTIME. This is a host-testable reference
+ * implementation of the driver's shape; nothing in app/src/main
+ * constructs it. RelaySessionDriver is the real one. It is kept
+ * because the shape is worth testing on its own, and because a
+ * second implementation nobody calls is exactly the kind of thing
+ * that reads as production code until someone debugs it.
  */
 class RelayPipe(
     upstreamHost: String,

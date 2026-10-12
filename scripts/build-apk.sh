@@ -21,8 +21,24 @@ KOTLINC_LIB="$(dirname "$(dirname "$KOTLINC")")/lib"
 OUT="app/build/outputs/apk/debug/app-debug.apk"
 
 PKG="dev.xykell.client"
-VCODE=7
-VNAME="0.2.5"
+# Version comes from app/build.gradle.kts, the same file gradle reads. These used
+# to be hardcoded here and drifted to 0.2.5 while releases had shipped 0.6.1 --
+# so the on-device fast path silently produced an APK claiming to be far older
+# than it was, with a lower versionCode, which cannot upgrade an installed app.
+read_version() {
+    python3 - "$ROOT/app/build.gradle.kts" <<'PYEOF'
+import re, sys
+text = open(sys.argv[1], encoding="utf-8").read()
+code = re.search(r'\bversionCode\s*=\s*(\d+)', text)
+name = re.search(r'\bversionName\s*=\s*"([^"]+)"', text)
+if not code or not name:
+    sys.exit("no versionCode/versionName in app/build.gradle.kts")
+print(code.group(1))
+print(name.group(1))
+PYEOF
+}
+read -r VCODE VNAME <<<"$(read_version | tr '\n' ' ')"
+echo "version: $VNAME ($VCODE)"
 
 fail() { echo "BUILD-APK: FAIL — $*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null || fail "missing command: $1"; }

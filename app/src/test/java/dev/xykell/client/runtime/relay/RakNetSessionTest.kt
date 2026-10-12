@@ -89,6 +89,26 @@ class RakNetSessionTest {
     }
 
     @Test
+    fun `dropped seqs are capped, keeping the newest`() {
+        // Nothing in production drains droppedQueue, so an unbounded version
+        // grew for the whole life of a session. The newest exhaustion is the
+        // one worth diagnosing, so the cap drops from the front.
+        val s = RakNetSession(retransmitTimeoutMs = 1, maxAttempts = 1)
+        val total = 700
+        repeat(total) { i ->
+            s.outbound(listOf(frame(1)), nowMs = i.toLong())
+            s.pollRetransmit(nowMs = i.toLong() + 10) // attempts >= 1 -> drop
+        }
+        val dropped = s.drainDropped()
+        assertEquals(512, dropped.size)
+        // The surviving window is the tail of the sequence space.
+        assertEquals((total - 512).toInt(), dropped.first())
+        assertEquals((total - 1).toInt(), dropped.last())
+        // Draining still clears it, so the cap cannot compound across calls.
+        assertTrue(s.drainDropped().isEmpty())
+    }
+
+    @Test
     fun `nack retransmits listed seq immediately`() {
         val s = RakNetSession()
         s.outbound(listOf(frame(1)), nowMs = 0)
