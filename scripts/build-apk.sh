@@ -162,7 +162,15 @@ for z in ${AAR_RES_ZIPS[@]+"${AAR_RES_ZIPS[@]}"}; do link_args+=("$z"); done
 link_args+=("$WORK/app-res.zip")
 aapt2 link "${link_args[@]}" -A "$WORK/assets" || fail "aapt2 link"
 
+PKG_PATH="${PKG//./\/}"
+
 # --- 5. R classes (real R from aapt2, not the typecheck stub) --------------
+# aapt2 emits R.java for the application package only; the libraries need their
+# own before javac can satisfy them. Run before javac so these are compiled too.
+step "gen library R classes"
+python3 scripts/gen-library-r.py \
+    "$WORK/gen/$PKG_PATH/R.java" "$PKG" "$WORK/gen" "$AX" || fail "gen-library-r"
+
 step "javac R"
 # --release 11, not the JDK's default. JDK 17 emits class file major 61; that
 # class file reaches the dex, and ART's verifier rejects the resulting bytecode
@@ -211,9 +219,23 @@ DEX_JARS=(
     "$AX/customview-1.0.0.jar"
     "$AX/drawerlayout-1.0.0.jar"
     "$AX/emoji2-1.3.0.jar"
-    "$AX/emoji2-views-helper-1.2.0.jar"
+    # emoji2's AAR repackages the flatbuffer runtime into libs/repackaged.jar
+    # rather than classes.jar, so MetadataList/MetadataItem are absent from the
+    # ordinary artifact and emoji2 cannot be verified without this.
+    "$AX/emoji2-repackaged-1.3.0.jar"
+    # appcompat-resources holds AppCompatResources, ResourceManagerInternal and
+    # the Tint* family that AppCompatDelegateImpl resolves on startup.
+    "$AX/appcompat-resources-1.7.0.classes.jar"
+    "$AX/emoji2-views-helper-1.3.0.classes.jar"
     "$AX/interpolator-1.0.0.jar"
-    "$AX/lifecycle-common-2.8.4.jar"
+    # lifecycle-common 2.8.x is Kotlin-Multiplatform: the base artifact holds
+    # only commonMain/ linkdata and zero .class entries. The JVM classes live in
+    # lifecycle-common-jvm. Feeding the base artifact produced a dex where
+    # Lifecycle/LifecycleOwner/LifecycleObserver were referenced but undefined,
+    # so ART could not verify AppCompatActivity and surfaced it as a bare
+    # ClassNotFoundException on launch. Same trap as annotation 1.8.2, whose
+    # classes come from annotation-jvm.
+    "$AX/lifecycle-common-jvm-2.8.4.jar"
     "$AX/lifecycle-livedata-2.0.0.jar"
     "$AX/lifecycle-livedata-core-2.5.1.jar"
     "$AX/lifecycle-process-2.4.1.jar"
@@ -248,6 +270,13 @@ done
 mkdir -p "$WORK/dex"
 d8 --release --min-api 28 --lib "$ANDROID_JAR" --output "$WORK/dex" \
     "${DEX_INPUTS[@]}" || fail "d8"
+
+# Every jar we feed d8 can be present, named correctly, and still contribute no
+# classes -- an empty or metadata-only artifact yields no error. The result is a
+# dex that references a type it never defines, which ART reports only as
+# ClassNotFoundException at launch, long after the build went green. Check the
+# closure now so that failure lands here instead.
+python3 scripts/check-dex-closure.py "$WORK/dex/classes.dex" || fail "dex closure"
 
 # --- 8. package: base.apk + classes.dex + lib + assets ---------------------
 step "package"
