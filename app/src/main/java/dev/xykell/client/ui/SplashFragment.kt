@@ -113,6 +113,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         stepIndex++
 
         // Real initialization work for each step
+        dev.xykell.client.StartupTrace.mark("init.step$stepIndex.begin($step)")
         when (stepIndex - 1) {
             0 -> loadTheme()
             1 -> loadProfiles()
@@ -121,6 +122,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             4 -> loadHudLayout()
             else -> {}
         }
+
+        dev.xykell.client.StartupTrace.mark("init.step$stepIndex.done")
 
         // Delay before next step (variable for realism, but bounded)
         val delay = if (stepIndex == initSteps.size) 200 else 350
@@ -146,8 +149,12 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
     private fun loadSettings() {
-        // NativeSettings root is initialized on first access
+        // NativeSettings root is initialized on first access. This is the first
+        // unguarded native call on the main thread -- a bad .so or a null
+        // context here kills the process with no Java exception.
+        dev.xykell.client.StartupTrace.mark("loadSettings.native.call")
         dev.xykell.client.NativeSettings.root(requireContext())
+        dev.xykell.client.StartupTrace.mark("loadSettings.native.returned")
     }
 
 private fun loadModules() {
@@ -160,6 +167,7 @@ private fun loadModules() {
     }
 
     private fun advanceToHome() {
+        dev.xykell.client.StartupTrace.mark("splash.advanceToHome")
         handler.removeCallbacksAndMessages(null)
         val activity = activity as? MainActivity
         activity?.run { showPage(0) }

@@ -54,9 +54,13 @@ class MainActivity : AppCompatActivity() {
         // First statement: a launch crash must be captured before anything
         // else can fail and mask it.
         CrashReporter.install(this)
+        StartupTrace.mark("main.onCreate.enter")
         super.onCreate(savedInstanceState)
+        StartupTrace.mark("main.super.onCreate.done")
         setContentView(R.layout.activity_main)
+        StartupTrace.mark("main.setContentView.done")
         applyStoredTheme()
+        StartupTrace.mark("main.applyStoredTheme.done")
 
         pager = findViewById(R.id.pager)
         screenTitle = findViewById(R.id.screen_title)
@@ -68,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ScreenPagerAdapter(supportFragmentManager, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         pager.adapter = adapter
+        StartupTrace.mark("main.pager.adapter.done")
 
         if (usePager) {
             pager.setSwipeEnabled(true)
