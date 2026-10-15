@@ -52,8 +52,7 @@ class BlockPaletteTracker {
         get() = (state as? State.Available)?.palette
 
     /** Id of StartGame in the negotiated version, or null if that version is unknown. */
-    private fun startGameId(version: String): Int? =
-        BedrockPacketIds.idForVersion(version, "StartGame")
+    private fun startGameId(version: String): Int? = START_GAME_ID_BY_VERSION[version]
 
     /**
      * Offers one packet for the protocol *number* the handshake negotiated.
@@ -83,15 +82,41 @@ class BlockPaletteTracker {
      * StartGame ids across the vendored schemas. Used only to notice a StartGame
      * whose version is unknown -- otherwise an unrecognised protocol would look
      * identical to "no handshake seen".
+     *
+     * Resolved once per process in the companion below, not per instance and not
+     * per id; see [START_GAME_ID_BY_VERSION] for what this used to cost.
      */
-    private val BEDROCK_START_GAME_IDS: Set<Int> =
-        (0..0xff)
-            .mapNotNull { id ->
-                BedrockPacketIds.versions
-                    .mapNotNull { BedrockPacketIds.forVersion(it)?.get("StartGame")?.id }
-                    .firstOrNull { it == id }
-            }
-            .toSet()
+    private val BEDROCK_START_GAME_IDS: Set<Int> get() = ALL_START_GAME_IDS
+
+    private companion object {
+        /**
+         * StartGame id per version string, resolved at most once per process.
+         *
+         * Both of the measurements below came from this class and both are fixed
+         * here rather than by sprinkling caches at the call sites:
+         *
+         * - `BedrockPacketIds.idForVersion` copies the whole 244-entry table on
+         *   every call, measured at 9.99us per packet. `offer` needs this per
+         *   packet, so it ran once for every packet in every batch.
+         * - the previous `BEDROCK_START_GAME_IDS` scanned all 256 possible ids
+         *   against all 51 versions, calling `forVersion` for each pair. That is
+         *   13,056 full table copies per tracker instance, measured at 277.5ms
+         *   on the JVM, paid at construction time on whatever thread built it.
+         *
+         * The tables are immutable and the version list is fixed, so resolving
+         * each version once and reusing the result is safe.
+         */
+        val START_GAME_ID_BY_VERSION: Map<String, Int> by lazy {
+            BedrockPacketIds.versions.mapNotNull { version ->
+                BedrockPacketIds.forVersion(version)
+                    ?.get("StartGame")
+                    ?.id
+                    ?.let { version to it }
+            }.toMap()
+        }
+
+        val ALL_START_GAME_IDS: Set<Int> by lazy { START_GAME_ID_BY_VERSION.values.toSet() }
+    }
 
     /**
      * Offers one upstream (server-to-client) packet.

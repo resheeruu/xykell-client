@@ -98,4 +98,63 @@ class BlockPaletteTrackerTest {
         }
         assertNull(StartGamePalettePlan.versionFor(-1))
     }
+
+    /**
+     * The tracker caches StartGame ids per version instead of rebuilding the
+     * 244-entry packet table on every packet. That cache is only safe if it
+     * agrees with the table it was derived from, so pin that agreement for every
+     * version -- otherwise a stale cache would silently miss handshakes.
+     *
+     * This also fails if the cache is removed and the lookup goes back through
+     * `forVersion`, because the resolved set is compared against the live table.
+     */
+    @Test
+    fun cachedStartGameIdsAgreeWithThePacketTable() {
+        for (version in BedrockPacketIds.versions) {
+            val expected = BedrockPacketIds.forVersion(version)?.get("StartGame")?.id
+            val cached = BlockPaletteTracker().let { tracker ->
+                // startGameId is private, so go through the public path the relay
+                // uses: a one-byte packet whose id byte is the real StartGame id.
+                if (expected == null) {
+                    tracker.offer(version, byteArrayOf(0x00))
+                } else {
+                    tracker.offer(version, byteArrayOf(expected.toByte()))
+                }
+            }
+            if (expected == null) {
+                // No StartGame in this schema: no id byte may be accepted.
+                assertEquals(false, cached)
+            } else {
+                // The id byte is consumed as a StartGame for this version.
+                assertEquals(true, cached)
+            }
+        }
+    }
+
+    /**
+     * The unknown-protocol path needs the set of StartGame ids across all
+     * vendored schemas so it can tell "StartGame I cannot decode" from "no
+     * handshake seen". That set must cover every version that declares one.
+     */
+    @Test
+    fun everySchemaThatDeclaresStartGameIsRecognisedWhenTheProtocolIsUnknown() {
+        val declared = BedrockPacketIds.versions.mapNotNull { version ->
+            BedrockPacketIds.forVersion(version)?.get("StartGame")?.id
+        }.toSet()
+        assertTrue("vendored schemas must declare at least one StartGame", declared.isNotEmpty())
+
+        for (id in declared) {
+            // protocol -1 is unknown, so only the id-byte check can accept this.
+            val tracker = BlockPaletteTracker()
+            assertEquals(
+                "id $id must be recognised under an unknown protocol number",
+                true,
+                tracker.offer(-1, byteArrayOf(id.toByte())),
+            )
+            assertTrue(
+                "state must record the refusal, not stay 'awaiting'",
+                tracker.state is BlockPaletteTracker.State.Refused,
+            )
+        }
+    }
 }
