@@ -36,9 +36,30 @@ object ToolboxModel {
     data class State(
         val rows: List<Row>,
         val problem: String? = null,
-        val expanded: Boolean = false,
     ) {
         val enabledCount: Int get() = rows.count { it.enabled }
+    }
+
+    /**
+     * How far the row list can be scrolled with at most [maxRows] visible.
+     *
+     * Zero when everything fits, which is what makes "no scrolling needed" the
+     * same code path as "scrolled to the end" instead of two branches.
+     */
+    fun maxScroll(state: State, maxRows: Int): Int =
+        (state.rows.size - maxRows).coerceAtLeast(0)
+
+    /**
+     * The rows to draw at [scroll], clamped to what exists.
+     *
+     * Scrolling is not a nicety here. The catalog yields 124 rows and an
+     * overlay that can show a dozen of them leaves the rest unreachable -- not
+     * hidden behind a menu, simply absent, with no indication they exist.
+     */
+    fun visibleRows(state: State, scroll: Int, maxRows: Int): List<Row> {
+        if (maxRows <= 0) return emptyList()
+        val start = scroll.coerceIn(0, maxScroll(state, maxRows))
+        return state.rows.drop(start).take(maxRows)
     }
 
     /**

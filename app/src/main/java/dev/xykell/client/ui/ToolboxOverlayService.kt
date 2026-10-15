@@ -74,6 +74,24 @@ class ToolboxOverlayService : Service() {
         /** Whether the panel is expanded. Owned here: [state] rebuilds each draw. */
         private var expanded = false
 
+        /**
+         * First visible row.
+         *
+         * The catalog yields 124 rows and at most [MAX_ROWS] fit, so without this
+         * the rows past the fold were unreachable -- absent, with nothing on
+         * screen to say they existed.
+         */
+        private var scroll = 0
+
+        /**
+         * Last computed state.
+         *
+         * Held rather than recomputed because [onDraw] runs per frame and
+         * [ToolboxModel.build] parses the whole catalog document every call. It
+         * is rebuilt only when the documents actually change, via [rebuild].
+         */
+        private var cached: ToolboxModel.State? = null
+
         /** The params this view was added with; there is no public getter. */
         var params: WindowManager.LayoutParams? = null
 
@@ -84,13 +102,23 @@ class ToolboxOverlayService : Service() {
         private var dragging = false
         /** Set on the drag that exceeded the touch slop, so a tap is not also a drag. */
         private var moved = false
+        /** Whether this gesture began in the body, where it scrolls instead of moving. */
+        private var scrolling = false
 
-        private fun state(): ToolboxModel.State = ToolboxModel.build(catalogJson, profileJson)
+        private fun state(): ToolboxModel.State =
+            cached ?: ToolboxModel.State(emptyList(), "not loaded").also { cached = it }
+
+        /** Recomputes [cached]. Called only when catalog or profile changed. */
+        fun rebuild() {
+            cached = ToolboxModel.build(catalogJson, profileJson)
+            scroll = scroll.coerceIn(0, ToolboxModel.maxScroll(state(), MAX_ROWS))
+        }
 
         private fun collapsedH(): Float = (32 * density)
 
         private fun expandedH(s: ToolboxModel.State): Float =
-            collapsedH() + 24 * density + rowH * minOf(s.rows.size, MAX_ROWS)
+            collapsedH() + HEADER_H_DP * density +
+                rowH * minOf(s.rows.size, MAX_ROWS)
 
         @SuppressLint("ClickableViewAccessibility")
         override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -102,6 +130,11 @@ class ToolboxOverlayService : Service() {
                     startY = (params?.y ?: 0).toFloat()
                     dragging = true
                     moved = false
+                    // In the body a vertical drag scrolls rows; on the header, and
+                    // while collapsed, it moves the window. Without this split the
+                    // list could not be scrolled at all, because dragging always
+                    // moved the window away first.
+                    scrolling = expanded && event.y > bodyTop()
                     return true
                 }
                 MotionEvent.ACTION_MOVE -> {
@@ -112,6 +145,15 @@ class ToolboxOverlayService : Service() {
                     // still registers as a tap.
                     if (!moved && (dx * dx + dy * dy) < (8 * density) * (8 * density)) return true
                     moved = true
+                    if (scrolling) {
+                        val max = ToolboxModel.maxScroll(state(), MAX_ROWS)
+                        val before = scroll
+                        // Dragging down reveals earlier rows, the way every list
+                        // on the platform behaves.
+                        scroll = (scroll - (dy / rowH).toInt()).coerceIn(0, max)
+                        if (scroll != before) invalidate()
+                        return true
+                    }
                     val p = params ?: return true
                     p.x = (startX + dx).toInt()
                     p.y = (startY + dy).toInt()
@@ -133,20 +175,46 @@ class ToolboxOverlayService : Service() {
 
         private fun handleTap(x: Float, y: Float) {
             val s = state()
-            if (x >= width - collapsedW() && y < collapsedH()) {
-                // The pill toggles expansion; anywhere else in the header drags.
-                expanded = !expanded
-                invalidate()
+            if (!expanded) {
+                // Collapsed the window is exactly the pill, so the whole thing is
+                // the control. It used to test the far edge of the full-width
+                // window instead, which is the opposite side from the pill the
+                // user can see.
+                setExpanded(true)
                 return
             }
-            if (y > collapsedH() + 24 * density) {
-                val index = ((y - collapsedH() - 24 * density) / rowH).toInt()
-                val target = s.rows.getOrNull(index)
-                if (target != null) toggle(target.id)
+            if (y <= bodyTop()) {
+                setExpanded(false)
+                return
             }
+            val index = ((y - bodyTop()) / rowH).toInt()
+            val target = ToolboxModel.visibleRows(s, scroll, MAX_ROWS).getOrNull(index)
+            if (target != null) toggle(target.id)
         }
 
-        private fun collapsedW(): Float = (64 * density)
+        /**
+         * Expands or collapses, resizing the window to match.
+         *
+         * The window is touchable, so its size is also its touch-blocking size. A
+         * collapsed pill inside a full-width window silently swallowed taps meant
+         * for the game underneath across the difference.
+         */
+        private fun setExpanded(next: Boolean) {
+            if (expanded == next) return
+            expanded = next
+            val p = params ?: return
+            p.width = ((if (expanded) EXPANDED_W_DP else COLLAPSED_W_DP) * density).toInt()
+            try {
+                windowManager?.updateViewLayout(this, p)
+            } catch (e: Exception) {
+                // Nothing to recover; the service will be restarted if needed.
+            }
+            invalidate()
+        }
+
+        private fun collapsedW(): Float = (COLLAPSED_W_DP * density)
+
+        private fun bodyTop(): Float = collapsedH() + HEADER_H_DP * density
 
         private fun toggle(id: String) {
             val updated = ToolboxModel.withToggled(profileJson, id)
@@ -154,22 +222,28 @@ class ToolboxOverlayService : Service() {
             // whole point: writing back a profile we failed to read would discard
             // whatever else it held.
             if (updated == null) return
-            val name = activeProfile()
-            val ok = try {
-                NativeProfiles.importProfileJson(storeRoot(), name, updated)
-            } catch (e: Exception) {
-                false
-            }
-            if (ok) {
-                profileJson = updated
-                invalidate()
+            // The flip above is pure JSON and cheap. The bridge call is not, and
+            // it goes on the HandlerThread for the same reason the refresh does.
+            handler?.post {
+                val ok = try {
+                    NativeProfiles.importProfileJson(storeRoot(), activeProfile(), updated)
+                } catch (e: Exception) {
+                    false
+                }
+                view?.post {
+                    if (ok) {
+                        profileJson = updated
+                        rebuild()
+                        invalidate()
+                    }
+                }
             }
         }
 
         override fun onDraw(canvas: Canvas) {
             val s = state()
             val h = if (expanded) expandedH(s) else collapsedH()
-            val w = if (expanded) width.toFloat() else collapsedW()
+            val w = if (expanded) (EXPANDED_W_DP * density) else collapsedW()
             canvas.drawRoundRect(RectF(0f, 0f, w, h), corner, corner, bg)
 
             row.textSize = 15 * density
@@ -189,11 +263,20 @@ class ToolboxOverlayService : Service() {
             val header = "Toolbox  ${s.enabledCount}/${s.rows.size}"
             canvas.drawText(header, pad, 22 * density, row)
 
-            s.rows.take(MAX_ROWS).forEachIndexed { i, r ->
-                val top = collapsedH() + 24 * density + rowH * i
+            val rows = ToolboxModel.visibleRows(s, scroll, MAX_ROWS)
+            rows.forEachIndexed { i, r ->
+                val top = bodyTop() + rowH * i
                 canvas.drawCircle(pad + 4 * density, top + rowH / 2f, 5 * density, if (r.enabled) dotOn else dotOff)
                 canvas.drawText(r.name, pad + 16 * density, top + 18 * density, row)
                 canvas.drawText(r.category, pad + 16 * density, top + 33 * density, meta)
+            }
+
+            // Without this the list looks complete while 112 rows sit past the
+            // fold, which reads as "that is all of them".
+            val max = ToolboxModel.maxScroll(s, MAX_ROWS)
+            if (max > 0) {
+                val label = "${scroll + 1}-${scroll + rows.size} of ${s.rows.size}"
+                canvas.drawText(label, w - pad - meta.measureText(label), 22 * density, meta)
             }
 
             s.problem?.let {
@@ -210,20 +293,29 @@ class ToolboxOverlayService : Service() {
         "default"
     }
 
-    private fun loadDocuments() {
-        // The catalog comes from the same asset the Modules screen reads, and
-        // the profile from the same native store, so both refresh paths are the
-        // ones already in use.
+    private fun loadCatalog() {
+        // The catalog is a packaged asset and cannot change while the app runs,
+        // so it is read once. Re-reading and re-parsing it on every refresh tick
+        // is pure waste.
+        if (catalogJson != null) return
         catalogJson = try {
             assets.open("features.json").use { it.readBytes().toString(Charsets.UTF_8) }
         } catch (e: Exception) {
             null
         }
+    }
+
+    private fun loadDocuments() {
+        // The profile comes from the same native store the Modules screen reads,
+        // so both refresh paths are the ones already in use.
+        val previous = profileJson
         profileJson = try {
             NativeProfiles.getProfileJson(storeRoot(), activeProfile())
         } catch (e: Exception) {
             null
         }
+        // Rebuilding parses the whole catalog; only do it when something changed.
+        if (previous != profileJson) view?.rebuild()
     }
 
     override fun onCreate() {
@@ -232,6 +324,7 @@ class ToolboxOverlayService : Service() {
         windowManager = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
         thread = HandlerThread("toolbox-overlay").also { it.start() }
         handler = Handler(thread!!.looper)
+        loadCatalog()
         loadDocuments()
     }
 
@@ -267,7 +360,7 @@ class ToolboxOverlayService : Service() {
             // A fixed width rather than WRAP_CONTENT: the panel changes shape
             // when it expands, and a wrap-content window resizes under a finger
             // mid-drag.
-            (280 * resources.displayMetrics.density).toInt(),
+            (EXPANDED_W_DP * resources.displayMetrics.density).toInt(),
             WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -288,6 +381,10 @@ class ToolboxOverlayService : Service() {
         try {
             wm.addView(v, params)
             v.params = params
+            // The documents were loaded in onCreate, before this view existed,
+            // so the first draw would otherwise render the "not loaded"
+            // placeholder until the profile happened to change.
+            v.rebuild()
             view = v
         } catch (e: Exception) {
             view = null
@@ -307,6 +404,9 @@ class ToolboxOverlayService : Service() {
     companion object {
         private const val REFRESH_MS = 1000L
         private const val MAX_ROWS = 12
+        private const val COLLAPSED_W_DP = 64
+        private const val EXPANDED_W_DP = 280
+        private const val HEADER_H_DP = 24
 
         @Volatile
         private var running = false

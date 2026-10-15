@@ -146,4 +146,48 @@ class ToolboxModelTest {
         val entries = ModuleEntry.parseAll(catalogJson(supported("sprint")))!!
         assertEquals("sprint", entries.single().id)
     }
+
+    private fun stateWith(rows: Int, enabled: Int = 0) =
+        ToolboxModel.State(
+            (0 until rows).map {
+                ToolboxModel.Row("id$it", "Module $it", "CAT", it < enabled)
+            }
+        )
+
+    /**
+     * The catalog produces far more rows than the overlay can draw, so the rows
+     * past the fold must be reachable. This is the regression that left 112 of
+     * 124 modules unreachable with no scroll and no indication they existed.
+     */
+    @Test
+    fun rowsBeyondTheVisibleWindowAreReachableByScrolling() {
+        val s = stateWith(rows = 124, enabled = 3)
+        assertEquals(112, ToolboxModel.maxScroll(s, maxRows = 12))
+
+        val firstPage = ToolboxModel.visibleRows(s, scroll = 0, maxRows = 12)
+        val lastPage = ToolboxModel.visibleRows(s, scroll = 112, maxRows = 12)
+        assertEquals(12, firstPage.size)
+        assertEquals("id0", firstPage.first().id)
+        assertEquals("id123", lastPage.last().id)
+
+        // Every row is reachable exactly once across the scroll range.
+        val seen = (0..112).flatMap { ToolboxModel.visibleRows(s, it, 12).map { r -> r.id } }
+        assertEquals(124, seen.toSet().size)
+    }
+
+    @Test
+    fun scrollIsClampedSoOverscrollCannotShowRowsThatDoNotExist() {
+        val s = stateWith(rows = 20)
+        assertEquals("id0", ToolboxModel.visibleRows(s, -50, 12).first().id)
+        assertEquals("id19", ToolboxModel.visibleRows(s, 9_999, 12).last().id)
+        assertTrue(ToolboxModel.visibleRows(s, 0, 0).isEmpty())
+    }
+
+    @Test
+    fun noScrollOffsetIsNeededWhenEverythingFits() {
+        val s = stateWith(rows = 5)
+        assertEquals(0, ToolboxModel.maxScroll(s, maxRows = 12))
+        assertEquals(5, ToolboxModel.visibleRows(s, scroll = 3, maxRows = 12).size)
+    }
 }
+
