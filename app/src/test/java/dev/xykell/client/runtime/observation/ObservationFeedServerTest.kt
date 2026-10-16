@@ -63,9 +63,11 @@ class ObservationFeedServerTest {
         assertTrue(s.boundPort > 0)
         s.close()
         // Port released: a fresh bind on the same port must succeed.
-        java.net.ServerSocket(s.boundPort).use { rebound ->
-            assertEquals(s.boundPort, rebound.localPort)
+        val rebound = java.net.ServerSocket().apply {
+            setReuseAddress(true)
+            bind(java.net.InetSocketAddress(s.boundPort))
         }
+        rebound.use { assertEquals(s.boundPort, rebound.localPort) }
     }
 
     // --- replay: a client connecting after publish gets current state ---
