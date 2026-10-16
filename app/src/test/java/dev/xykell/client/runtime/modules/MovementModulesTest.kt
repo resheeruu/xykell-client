@@ -248,6 +248,28 @@ class MovementModulesTest {
     }
 
     @Test
+    fun levitate_liftsServerBoundAndForwardsClientboundUnchanged() {
+        // KDoc: Scoped to RelayDirection.TO_SERVER — the player's own
+        // outbound MovePlayer is lifted; clientbound stays authoritative.
+        val raw = move(y = 64f)
+        val at = yOffset(raw)
+        val out = MovementModules.transform(
+            "xykell.movement.levitate", RelayDirection.TO_SERVER, raw,
+        )
+        assertEquals(1, out.size)
+        assertEquals(
+            64f + MovementModules.LEVITATE_LIFT,
+            requireNotNull(ModuleWire.readF32LE(out[0], at)).first,
+            0.0001f,
+        )
+        val clientbound = MovementModules.transform(
+            "xykell.movement.levitate", RelayDirection.TO_CLIENT, raw,
+        )
+        assertEquals(1, clientbound.size)
+        assertArrayEquals("clientbound packet must not be rewritten", raw, clientbound[0])
+    }
+
+    @Test
     fun levitate_isAbsoluteSoRepeatedCallsDoNotAccumulate() {
         val first = move(y = 100f)
         val second = move(y = 100f)
