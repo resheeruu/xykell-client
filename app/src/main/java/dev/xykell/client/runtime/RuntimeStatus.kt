@@ -15,7 +15,7 @@ import org.json.JSONObject
  */
 object RuntimeStatus {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     @JvmStatic external fun nativeStart(): Boolean

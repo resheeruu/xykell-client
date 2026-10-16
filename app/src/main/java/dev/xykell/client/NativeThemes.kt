@@ -8,7 +8,7 @@ package dev.xykell.client
  */
 object NativeThemes {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     external fun listThemes(): Array<String>

@@ -9,7 +9,7 @@ import dev.xykell.client.ui.HudOverlayLines
 
 object NativeHud {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     external fun getHudLayout(root: String, profile: String): String?

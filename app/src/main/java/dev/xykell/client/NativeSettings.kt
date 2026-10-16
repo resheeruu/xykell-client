@@ -11,7 +11,7 @@ import java.io.File
  */
 object NativeSettings {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     fun root(context: Context): String =

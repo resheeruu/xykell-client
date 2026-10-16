@@ -8,7 +8,7 @@ import java.io.File
  *  is separate (see LAUNCHER-INTEGRATION.md) — sync travels via export files. */
 object NativeProfiles {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     fun root(context: Context): String =

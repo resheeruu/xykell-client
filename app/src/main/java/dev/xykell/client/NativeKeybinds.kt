@@ -9,7 +9,7 @@ import org.json.JSONObject
  *  fabricated message. */
 object NativeKeybinds {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     external fun keybindList(root: String): String?

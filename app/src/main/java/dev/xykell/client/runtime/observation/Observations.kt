@@ -9,7 +9,7 @@ package dev.xykell.client.runtime.observation
  */
 object Observations {
     init {
-        System.loadLibrary("xykellcore")
+        System.loadLibrary("xykell")
     }
 
     /** Sentinel for "this observation did not carry the field"; never a value. */
